@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace WebService.Infrastructure.Tests;
+namespace WebService.Core.Client.Tests;
 
 public class UnitTest1
 {
