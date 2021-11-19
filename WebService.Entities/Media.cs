@@ -1,8 +1,8 @@
 ﻿namespace WebService.Entities
 {
-    public class Tag
+    public class Media
     {
-        public Tag(string name)
+        public Media(string name)
         {
             Name = name;
         }

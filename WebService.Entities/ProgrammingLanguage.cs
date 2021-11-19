@@ -1,8 +1,8 @@
 ﻿namespace WebService.Entities
 {
-    public class Tag
+    public class ProgrammingLanguage
     {
-        public Tag(string name)
+        public ProgrammingLanguage(string name)
         {
             Name = name;
         }
