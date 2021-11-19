@@ -4,7 +4,7 @@
     {
         private readonly IContext _context;
 
-        public LevelRepository(IContext contex)
+        public LevelRepository(IContext context)
         {
             _context = context;
         }
