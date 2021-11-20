@@ -2,6 +2,21 @@
 {
     public class Material
     {
+        public Material(IList<Tag> tags, IList<Category> categories, IList<Rating> ratings, IList<Level> levels, IList<ProgrammingLanguage> programmingLanguages, IList<Media> medias, Language language, IPresentableMaterial content, string title, IList<string> authors, DateTime timeStamp)
+        {
+            Tags = tags;
+            Categories = categories;
+            Ratings = ratings;
+            Levels = levels;
+            ProgrammingLanguages = programmingLanguages;
+            Medias = medias;
+            Language = language;
+            Content = content;
+            Title = title;
+            Authors = authors;
+            TimeStamp = timeStamp;
+        }
+
         public int Id { get; set; }
         public IList<Tag> Tags { get; set; }
         public IList<Category> Categories { get; set; }
