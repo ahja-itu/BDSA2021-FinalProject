@@ -1,150 +1,152 @@
 ﻿@page "/"
 
 <PageTitle>Index</PageTitle>
+<style>
+    .btgInput{
+        background:transparent;
+        box-shadow: none !important;
+        border: none !important;
+        outline: none ;
+        padding:5px;
+    }
+    .btgInput::placeholder{
+       color: #fff;
+       opacity: 50%;
+    }
+    .btgIconButton{
+        background:transparent !important;
+        color:#7765E3;
+        width:auto;
+        box-shadow:none !important;
+        border: none !important;
+        outline: none ;
+    }
+    .btgIconButton:focus{
+        background:transparent !important;
+        color:#7765E3;
+        width:auto;
+        box-shadow:none !important;
+        border: none !important;
+        outline: none ;
+    }
+    .btgIconButton:hover{
+        color:#FF9F1C;
+        background:transparent !important;
+    }
+    .bigIcon.i * {
+        font-size:10em !important;
+    }
+    .mediumIcon{
 
+    }
+    .smallIcon{
+
+    }
+    
+</style>
 <h1 style="text-align: center; color:#ffffff" >Bridge The Gap!</h1>
-<div class="row">
+<div class="row" style="border-bottom:solid;border-color:#7765E3">
     <div class="col d-flex justify-content-center align-item-center" style="width:100%">
-            <RadzenTextBox @bind-Value=@SearchInput Placeholder="HelloWorld!" Style="width:100%"/>
-            <RadzenButton Click="Search" Icon="search" Style="background-color:transparent;color:#7765E3;"/>  
+            <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" Style="width:100%;font-size:2em"/>
+            <RadzenButton class="btgIconButton bigIcon" Click="Search" Icon="search"/>  
     </div>
 </div>
-<div id="filters" class="row" style="display: @displayValue;margin-left:20px;margin-right:20px;background:#4E4E4E;border-radius: 24px;margin-top:15px;padding:25px">
-    <div class="col" data-toggle="buttons">
-        <RadzenButton Click=@(args => ChangeFilter(filters.tags,"tags")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Tags"/>
-        <RadzenButton Click=@(args => ChangeFilter(filters.category,"categories")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Categories"/>
-        <RadzenButton Click=@(args => ChangeFilter(filters.rating,"ratings")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Ratings"/>
-        <RadzenButton Click=@(args => ChangeFilter(filters.level,"levels")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Levels"/>
-        <RadzenButton Click=@(args => ChangeFilter(filters.programlang,"programing languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Programing Lang"/>
-        <RadzenButton Click=@(args => ChangeFilter(filters.lang,"languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Language"/>
-        <RadzenButton Click=@(args => ChangeFilter(filters.media,"medias")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Media"/>
-    </div>
-    <div class="row" style="display:@displayFilterSearchValue">
-        <div class="col">
-            <RadzenTextBox Change="SearchFilters" @bind-Value=@FilterSearchInput Placeholder="@placeholder" Style="width:100px"/>
-            <RadzenButton Click="SearchFilters" Icon="search" Style="background-color:transparent;color:#7765E3;"/> 
+@if (AdvancedView)
+{
+    <div id="filters" class="row" style="margin-left:20px;margin-right:20px;background:#4E4E4E;border-radius: 24px;margin-top:15px;padding:25px">
+        <div class="row">
+            <div class="col" data-toggle="buttons">
+                <RadzenButton Click=@(args => ChangeFilter("Tags")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Tags"/>
+                <RadzenButton Click=@(args => ChangeFilter("Categories")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Categories"/>
+                <RadzenButton Click=@(args => ChangeFilter("Ratings")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Ratings"/>
+                <RadzenButton Click=@(args => ChangeFilter("Levels")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Levels"/>
+                <RadzenButton Click=@(args => ChangeFilter("Programing Language")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Programing Languages"/>
+                <RadzenButton Click=@(args => ChangeFilter("Languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Languages"/>
+                <RadzenButton Click=@(args => ChangeFilter("Medias")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Medias"/>
+            </div>
         </div>
-        
-    </div>
-    <div class="row" style="display:@displayRatingSliderValue">
-        <h3 style="margin-top: 2rem">Range Slider</h3>
-        <RadzenSlider Range="true" @bind-Value=@ratingValues TValue="IEnumerable<int>" Min="1" Max="10"/>
-    </div>
-    <div class="row" style="display:@displayFiltersValue">
-        <RadzenDataGrid AllowFiltering="false" AllowColumnResize="false" Data="@filtersToShow" TItem="string" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
-        <Columns>
-            <RadzenDataGridColumn TItem="string" Property="value" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center" />
-        </Columns>
-    </RadzenDataGrid>
-    </div>
-</div>
-<div class="row">
-    <RadzenButton Click="ShowFilters" Icon="@displayIcon" Style="background-color:transparent;color:#7765E3;width:25px;"/>
-</div>
-
-@code{
-    enum filters {
-        tags, category, rating, level, programlang, lang, media
-    }
-
-    private class filterObejct{
-        public string Name { get; set; }
-    }
-
-    string placeholder = "Search tags";
-    string SearchInput;
-    string displayValue = "none";
-    bool showingFilters = false;
-    string displayFilterSearchValue = "block";
-    string displayFiltersValue = "block";
-    string displayRatingSliderValue = "none";
-    string displayIcon = "expand_more";
-    IList<string> allFilters;
-    IList<string> filtersToShow = new List<string>();
-    IEnumerable<int> ratingValues;
-    string FilterSearchInput;
-
-    private void SearchFilters()
-    {
-        filtersToShow.Clear();
-        foreach (var str in allFilters)
+        @if (IsShowingFilterOptions)
         {
-            if (str.Contains(FilterSearchInput))
-            {
-                filtersToShow.Add(str);
-            }
-        }
-    }
-
-
-    private void Search()
-    {
-        System.Console.WriteLine(SearchInput);
-    }
-    private void ShowFilters()
-    {
-        if (!showingFilters) { 
-            displayValue = "block";
-            displayIcon = "expand_less";
-        }
-        else { 
-            displayValue = "none";
-            displayIcon = "expand_more";
-        }
-        showingFilters = !showingFilters;
-    }
-
-    private void ChangeFilter(filters type,string filterName)
-    {
-        placeholder = "Search " + filterName;
-        if (type != filters.rating)
-        {
-            displayRatingSliderValue = "none";
-            displayFiltersValue = "block";
-            switch (type)
-            {
-                case filters.tags:
-                    allFilters = new string[] {"tag 1", "tag 2","tag 3","tag 4","tag 5","tag 6","tag 7","tag 8","tag 9","tag 10", "tag 11"};
-                    break;
-                case filters.category:
-                    allFilters = new string[] {"category 1", "category 2","category 3","category 4","category 5","category 6","category 7","category 8","category 9"};
-                    break;
-                case filters.level:
-                    allFilters = new string[] {"level 1", "level 2","level 3","level 4","level 5","level 6","level 7","level 8","level 9"};
-                    break;
-                case filters.programlang:
-                    allFilters = new string[] {"programlang 1", "programlang 2","programlang 3","programlang 4","programlang 5","programlang 6","programlang 7","programlang 8","programlang 9"};
-                    break;
-                case filters.lang:
-                    allFilters = new string[] {"lang 1", "lang 2","lang 3","lang 4","lang 5","lang 6","lang 7","lang 8","lang 9"};
-                    break;
-                case filters.media:
-                    allFilters = new string[] {"media 1", "media 2","media 3","media 4","media 5","media 6","media 7","media 8","media 9"};
-                    break;
-            }
-            ShowFilterSearchField(allFilters.Count());
+            <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
+                <div class="col">
+                    <RadzenTextBox class="btgInput" Change="SearchFilters" @bind-Value=@FilterSearchInput Placeholder="@placeholder"/>
+                    <RadzenButton Click="SearchFilters" Icon="search" class="btgIconButton smallIcon"/> 
+                </div>
+            </div>
+            <div class="row">
+                
+            </div>
         }
         else
         {
-            displayFiltersValue = "none";
-            displayFilterSearchValue = "none";
-            displayRatingSliderValue = "block";
+            <div class="row">
+                <h3 style="margin-top: 2rem">Range Slider</h3>
+                <RadzenSlider Range="true" @bind-Value=@ratingValues TValue="IEnumerable<int>" Min="1" Max="10"/>
+            </div>
+        }  
+    </div>
+}
+<div class="row d-flex justify-content-center align-item-center">
+    <RadzenButton class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@displayIcon"/>
+</div>
 
+@code{
+    string SearchInput;
+    private void Search() => System.Console.WriteLine(SearchInput);
+
+    bool IsShowingFilterOptions = true;
+    string placeholder = "Search Tags";
+    IEnumerable<int> ratingValues;
+    private void ChangeFilter(string filterName)
+    {
+        placeholder = "Search " + filterName;
+        if (filterName != "Ratings")
+        {
+            IsShowingFilterOptions = true;
+            switch (filterName)
+            {
+                case "Tags":
+                    //fill TagsList
+                    break;
+                case "Categories":
+                    //fill CategoriesList
+                    break;
+                case "Levels":
+                    //fill LevelsList
+                    break;
+                case "Programing Language":
+                    //fill ProgramingLanguageList
+                    break;
+                case "Languages":
+                    //fill LanguagesList
+                    break;
+                case "Medias":
+                    //fill MediasList
+                    break;
+            }
         }
+        else
+        {
+            IsShowingFilterOptions = false;
+        }
+    }
 
+    string FilterSearchInput;
+    private void SearchFilters()
+    {
 
     }
-    private void ShowFilterSearchField(int length)
+
+    bool AdvancedView = false;
+    string displayIcon = "expand_more";
+    private void ShowFilters()
     {
-        if (length > 10) { 
-            displayFilterSearchValue = "block";
+        if (!AdvancedView) { 
+            displayIcon = "expand_less";
         }
         else { 
-            displayFilterSearchValue = "none";
-            filtersToShow.Clear();
-            filtersToShow = allFilters;
+            displayIcon = "expand_more";
         }
+        AdvancedView = !AdvancedView;
     }
-
-
 }
