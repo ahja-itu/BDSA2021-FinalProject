@@ -34,7 +34,7 @@
             throw new NotImplementedException();
         }
 
-        public Task<Status> UpdateAsync(int id, UpdateMaterialDTO materialId)
+        public Task<Status> UpdateAsync(UpdateMaterialDTO materialId)
         {
             throw new NotImplementedException();
         }

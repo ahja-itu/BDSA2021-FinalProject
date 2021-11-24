@@ -9,24 +9,74 @@
             _context = context;
         }
 
-        public Task<(Status, LanguageDTO)> CreateAsync(CreateLanguageDTO language)
+        public async Task<(Status, LanguageDTO)> CreateAsync(CreateLanguageDTO language)
         {
-            throw new NotImplementedException();
+            var existing = await (from l in _context.Languages
+                           where l.Name == language.Name
+                           select new LanguageDTO(l.Id, l.Name))
+                           .FirstOrDefaultAsync();
+
+            if(existing != null) return (Status.Conflict, existing);
+  
+            var entity = new Language(language.Name);
+
+            _context.Languages.Add(entity);
+
+            await _context.SaveChangesAsync();
+
+            return (Status.Created, new LanguageDTO(entity.Id, entity.Name));
         }
 
-        public Task<Status> DeleteAsync(int languageId)
+        public async Task<Status> DeleteAsync(int languageId)
         {
-            throw new NotImplementedException();
+            var language = await _context.Languages.FindAsync(languageId);
+
+            if (language == null) return Status.NotFound;
+
+            _context.Languages.Remove(language);
+
+            await _context.SaveChangesAsync();
+
+            return Status.Deleted;
         }
 
-        public Task<(Status, LanguageDTO)> ReadAsync(int languageId)
+        public async Task<(Status, LanguageDTO)> ReadAsync(int languageId)
         {
-            throw new NotImplementedException();
+            var query = from l in _context.Languages
+                        where l.Id == languageId
+                        select new LanguageDTO(l.Id, l.Name);
+
+            var category = await query.FirstOrDefaultAsync();
+
+            if(category == null) return (Status.NotFound, new LanguageDTO(-1, ""));
+
+            return (Status.Found, category);     
         }
 
-        public Task<IReadOnlyCollection<LanguageDTO>> ReadAsync()
+        public async Task<IReadOnlyCollection<LanguageDTO>> ReadAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Languages.Select(l => new LanguageDTO(l.Id, l.Name)).ToListAsync();
+        }
+
+        public async Task<Status> UpdateAsync(LanguageDTO languageDTO)
+        {
+            var existing = await (from l in _context.Languages
+                           where l.Id != languageDTO.Id
+                           where l.Name == languageDTO.Name
+                           select new LanguageDTO(l.Id, l.Name))
+                           .AnyAsync();
+
+            if (existing) return Status.Conflict;
+
+            var entity = await _context.Languages.FindAsync(languageDTO.Id);
+
+            if (entity == null) return Status.NotFound;
+
+            entity.Name = languageDTO.Name;
+
+            _context.SaveChanges();
+
+            return Status.Updated;
         }
     }
 }

@@ -27,5 +27,10 @@
         {
             throw new NotImplementedException();
         }
+
+        public Task<Status> UpdateAsync(RatingDTO ratingDTO)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

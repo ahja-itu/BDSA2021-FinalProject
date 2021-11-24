@@ -11,33 +11,33 @@
             var context = new Context(builder.Options);
             context.Database.EnsureCreated();
 
-            var language1 = new Language() { Name = "Danish" };
-            var language2 = new Language() { Name = "English" };
-            var language3 = new Language() { Name = "Indian" };
+            var language1 = new Language(1, "Danish");
+            var language2 = new Language(2, "English");
+            var language3 = new Language(3, "Swedish");
 
-            var level1 = new Level() { Name = "Bachelor" };
-            var level2 = new Level() { Name = "Master" };
-            var level3 = new Level() { Name = "PHD" };
+            var level1 = new Level(1, "Bachelor");
+            var level2 = new Level(2, "Master");
+            var level3 = new Level(3, "PHD");
 
-            var media1 = new Media() { Name = "Book" };
-            var media2 = new Media() { Name = "Video" };
-            var media3 = new Media() { Name = "Report" };
+            var media1 = new Media(1, "Book");
+            var media2 = new Media(2, "Report");
+            var media3 = new Media(3, "Video");        
 
-            var programmingLanguage1 = new ProgrammingLanguage() { Name = "C#" };
-            var programmingLanguage2 = new ProgrammingLanguage() { Name = "F#" };
-            var programmingLanguage3 = new ProgrammingLanguage() { Name = "C++" };
+            var programmingLanguage1 = new ProgrammingLanguage(1, "C#");
+            var programmingLanguage2 = new ProgrammingLanguage(2, "F#");
+            var programmingLanguage3 = new ProgrammingLanguage(3, "C++");
 
-            var rating1 = new Rating() { Value = 2 };
-            var rating2 = new Rating() { Value = 5 };
-            var rating3 = new Rating() { Value = 9 };
+            var rating1 = new Rating(1, 2);
+            var rating2 = new Rating(2, 5);
+            var rating3 = new Rating(3, 9);
 
-            var tag1 = new Tag() { Name = "SOLID", Weight = 10 };
-            var tag2 = new Tag() { Name = "RAD", Weight = 50 };
-            var tag3 = new Tag() { Name = "API", Weight = 90 };
+            var tag1 = new Tag(1, "SOLID", 10);
+            var tag2 = new Tag(2, "RAD", 50);
+            var tag3 = new Tag(3, "API", 90);
 
-            var author1 = new Author() { FirstName = "Ramsus", SurName = "Kristensen" };
-            var author2 = new Author() { FirstName = "Alex", SurName = "Su" };
-            var author3 = new Author() { FirstName = "Thor", SurName = "Lind" };
+            var author1 = new Author(1, "Ramsus", "Kristensen");
+            var author2 = new Author(2, "Alex", "Su");
+            var author3 = new Author(3, "Thor", "Lind");
 
             IPresentableMaterial? content1 = null;
             IPresentableMaterial? content2 = null;

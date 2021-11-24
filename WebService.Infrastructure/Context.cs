@@ -24,7 +24,7 @@
                 .IsUnique();
 
             modelBuilder.Entity<Level>()
-                .HasIndex(s => s.Name)
+                .HasIndex(s => s.EducationLevel)
                 .IsUnique();
 
             modelBuilder.Entity<Material>()
