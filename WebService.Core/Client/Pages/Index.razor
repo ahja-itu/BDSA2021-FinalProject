@@ -56,13 +56,13 @@
     <div id="filters" class="row" style="margin-left:20px;margin-right:20px;background:#4E4E4E;border-radius: 24px;margin-top:15px;padding:25px">
         <div class="row">
             <div class="col" data-toggle="buttons">
-                <RadzenButton Click=@(args => ChangeFilter("Tags")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Tags"/>
-                <RadzenButton Click=@(args => ChangeFilter("Categories")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Categories"/>
-                <RadzenButton Click=@(args => ChangeFilter("Ratings")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Ratings"/>
-                <RadzenButton Click=@(args => ChangeFilter("Levels")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Levels"/>
-                <RadzenButton Click=@(args => ChangeFilter("Programing Language")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Programing Languages"/>
-                <RadzenButton Click=@(args => ChangeFilter("Languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Languages"/>
-                <RadzenButton Click=@(args => ChangeFilter("Medias")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Medias"/>
+                <RadzenButton Click=@(_ => ChangeFilter("Tags")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Tags"/>
+                <RadzenButton Click=@(_ => ChangeFilter("Categories")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Categories"/>
+                <RadzenButton Click=@(_ => ChangeFilter("Ratings")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Ratings"/>
+                <RadzenButton Click=@(_ => ChangeFilter("Levels")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Levels"/>
+                <RadzenButton Click=@(_ => ChangeFilter("Programing Language")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Programing Languages"/>
+                <RadzenButton Click=@(_ => ChangeFilter("Languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Languages"/>
+                <RadzenButton Click=@(_ => ChangeFilter("Medias")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Medias"/>
             </div>
         </div>
         @if (IsShowingFilterOptions)
@@ -92,7 +92,7 @@
 
 @code{
     string SearchInput;
-    private void Search() => System.Console.WriteLine(SearchInput);
+    private void Search() => Console.WriteLine(SearchInput);
 
     bool IsShowingFilterOptions = true;
     string placeholder = "Search Tags";
@@ -134,19 +134,14 @@
     string FilterSearchInput;
     private void SearchFilters()
     {
-
+        
     }
 
     bool AdvancedView = false;
     string displayIcon = "expand_more";
     private void ShowFilters()
     {
-        if (!AdvancedView) { 
-            displayIcon = "expand_less";
-        }
-        else { 
-            displayIcon = "expand_more";
-        }
+        displayIcon = !AdvancedView ? "expand_less" : "expand_more";
         AdvancedView = !AdvancedView;
     }
 }
