@@ -2,8 +2,9 @@
 {
     public interface ICategoryRepository
     {
-        Task<CreateCategoryDTO> CreateAsync(CreateCategoryDTO category);
-        Task<CategoryDTO> ReadAsync(int categoryId);
+        Task<(Status,CategoryDTO)> CreateAsync(CreateCategoryDTO category);
+        Task<(Status,CategoryDTO)> ReadAsync(int categoryId);
+        Task<(Status, CategoryDTO)> ReadAsyncByName(string name);
         Task<IReadOnlyCollection<CategoryDTO>> ReadAsync();
         Task<Status> DeleteAsync(int categoryId);
     }

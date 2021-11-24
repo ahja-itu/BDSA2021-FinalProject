@@ -4,7 +4,7 @@ namespace WebService.Core.Shared
 {
     public record MaterialDTO : CreateMaterialDTO
     {
-        public MaterialDTO(int id, IList<TagDTO> tags, IList<CategoryDTO> categories, IList<RatingDTO> ratings, IList<LevelDTO> levels, IList<ProgrammingLanguageDTO> programmingLanguages, IList<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, IList<string> authors, DateTime timeStamp) : base(tags, categories, ratings, levels, programmingLanguages, medias, language, content, title, authors, timeStamp)
+        public MaterialDTO(int id, ICollection<TagDTO> tags, ICollection<CategoryDTO> categories, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<string> authors, DateTime timeStamp) : base(tags, categories, ratings, levels, programmingLanguages, medias, language, content, title, authors, timeStamp)
         {
             Id = id;
         }
@@ -13,7 +13,7 @@ namespace WebService.Core.Shared
     } 
     public record CreateMaterialDTO
     {
-        public CreateMaterialDTO(IList<TagDTO> tags, IList<CategoryDTO> categories, IList<RatingDTO> ratings, IList<LevelDTO> levels, IList<ProgrammingLanguageDTO> programmingLanguages, IList<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, IList<string> authors, DateTime timeStamp)
+        public CreateMaterialDTO(ICollection<TagDTO> tags, ICollection<CategoryDTO> categories, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<string> authors, DateTime timeStamp)
         {
             Tags = tags;
             Categories = categories;
@@ -28,23 +28,23 @@ namespace WebService.Core.Shared
             TimeStamp = timeStamp;
         }
 
-        public IList<TagDTO> Tags { get; init; }
-        public IList<CategoryDTO> Categories { get; init; }
-        public IList<RatingDTO> Ratings { get; init; }
-        public IList<LevelDTO> Levels  { get; init; }
-        public IList<ProgrammingLanguageDTO> ProgrammingLanguages { get; init; }
-        public IList<MediaDTO> Medias { get; init; }
+        public ICollection<TagDTO> Tags { get; init; }
+        public ICollection<CategoryDTO> Categories { get; init; }
+        public ICollection<RatingDTO> Ratings { get; init; }
+        public ICollection<LevelDTO> Levels  { get; init; }
+        public ICollection<ProgrammingLanguageDTO> ProgrammingLanguages { get; init; }
+        public ICollection<MediaDTO> Medias { get; init; }
         public LanguageDTO Language { get; init; }
         public IPresentableMaterial Content { get; init; }
         [StringLength(50)]
         public string Title { get; init; }
-        public IList<string> Authors { get; init; }
+        public ICollection<string> Authors { get; init; }
         public DateTime TimeStamp { get; init; }
     }
 
     public record UpdateMaterialDTO : CreateMaterialDTO
     {
-        public UpdateMaterialDTO(int id, IList<TagDTO> tags, IList<CategoryDTO> categories, IList<RatingDTO> ratings, IList<LevelDTO> levels, IList<ProgrammingLanguageDTO> programmingLanguages, IList<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, IList<string> authors, DateTime timeStamp) : base(tags, categories, ratings, levels, programmingLanguages, medias, language, content, title, authors, timeStamp)
+        public UpdateMaterialDTO(int id, ICollection<TagDTO> tags, ICollection<CategoryDTO> categories, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<string> authors, DateTime timeStamp) : base(tags, categories, ratings, levels, programmingLanguages, medias, language, content, title, authors, timeStamp)
         {
             Id = id;
         }

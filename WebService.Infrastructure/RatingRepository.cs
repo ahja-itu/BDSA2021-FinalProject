@@ -14,17 +14,17 @@ namespace WebService.Infrastructure
             _context = context;
         }
 
-        public Task<CreateRatingDTO> CreateAsync(CreateRatingDTO rating)
+        public Task<(Status, RatingDTO)> CreateAsync(CreateRatingDTO rating)
         {
             throw new NotImplementedException();
         }
 
-        public Task<RatingDTO> DeleteAsync(int ratingId)
+        public Task<Status> DeleteAsync(int ratingId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<RatingDTO> ReadAsync(int ratingId)
+        public Task<(Status, RatingDTO)> ReadAsync(int ratingId)
         {
             throw new NotImplementedException();
         }

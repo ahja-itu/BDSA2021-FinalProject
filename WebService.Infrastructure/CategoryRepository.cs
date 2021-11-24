@@ -9,24 +9,79 @@
             _context = context;
         }
 
-        public Task<CreateCategoryDTO> CreateAsync(CreateCategoryDTO category)
+        public async Task<(Status,CategoryDTO)> CreateAsync(CreateCategoryDTO category)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var entity = new Category()
+                {
+                    Name = category.Name
+                };
+
+                _context.Categories.Add(entity);
+
+                await _context.SaveChangesAsync();
+
+                return (Status.Created, new CategoryDTO(entity.Id, category.Name));
+            }
+            catch (Exception)
+            {
+                var entity = ReadAsyncByName(category.Name).Result.Item2;
+
+                return (Status.Conflict,entity);
+            }
+         
         }
 
-        public Task<Status> DeleteAsync(int categoryId)
+        public async Task<Status> DeleteAsync(int categoryId)
         {
-            throw new NotImplementedException();
+            var category = await _context.Categories.FindAsync(categoryId);
+
+            if (category == null) return Status.NotFound;
+
+            _context.Categories.Remove(category);
+
+            await _context.SaveChangesAsync();
+
+            return Status.Deleted;
         }
 
-        public Task<CategoryDTO> ReadAsync(int categoryId)
+        public async Task<(Status,CategoryDTO)> ReadAsync(int categoryId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var query = from c in _context.Categories
+                            where c.Id == categoryId
+                            select new CategoryDTO(c.Id, c.Name);
+                var category = await query.FirstAsync();
+                
+                return (Status.Found,category);
+            }
+            catch 
+            { 
+                return (Status.NotFound,new CategoryDTO(-1,""));
+            }
         }
 
-        public Task<IReadOnlyCollection<CategoryDTO>> ReadAsync()
+        public async Task<IReadOnlyCollection<CategoryDTO>> ReadAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Categories.Select(c => new CategoryDTO(c.Id, c.Name)).ToListAsync();
+        }
+
+        public async Task<(Status, CategoryDTO)> ReadAsyncByName(string name)
+        {
+            try
+            {
+                var query = from c in _context.Categories
+                            where c.Name == name
+                            select new CategoryDTO(c.Id, c.Name);
+                var category = await query.FirstAsync();
+                return (Status.Found, category);
+            }
+            catch
+            {
+                return (Status.NotFound, new CategoryDTO(-1, ""));
+            }
         }
     }
 }

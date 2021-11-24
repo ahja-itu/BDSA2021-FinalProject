@@ -9,7 +9,7 @@
             _context = context;
         }
 
-        public Task<CreateLevelDTO> CreateAsync(CreateLevelDTO level)
+        public Task<(Status,LevelDTO)> CreateAsync(CreateLevelDTO level)
         {
             throw new NotImplementedException();
         }
@@ -19,7 +19,7 @@
             throw new NotImplementedException();
         }
 
-        public Task<LevelDTO> ReadAsync(int levelId)
+        public Task<(Status,LevelDTO)> ReadAsync(int levelId)
         {
             throw new NotImplementedException();
         }

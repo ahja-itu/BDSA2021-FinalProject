@@ -7,6 +7,7 @@
         Deleted,
         NotFound,
         BadRequest,
-        Conflict
+        Conflict,
+        Found
     }
 }
