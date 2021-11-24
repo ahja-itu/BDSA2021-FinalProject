@@ -2,9 +2,9 @@
 {
     public interface IRatingRepository
     {
-        Task<CreateRatingDTO> CreateAsync(CreateRatingDTO rating);
-        Task<RatingDTO> ReadAsync(int ratingId);
+        Task<(Status,RatingDTO)> CreateAsync(CreateRatingDTO rating);
+        Task<(Status,RatingDTO)> ReadAsync(int ratingId);
         Task<IReadOnlyCollection<RatingDTO>> ReadAsync();
-        Task<RatingDTO> DeleteAsync(int ratingId);
+        Task<Status> DeleteAsync(int ratingId);
     }
 }

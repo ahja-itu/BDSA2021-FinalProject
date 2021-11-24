@@ -2,8 +2,8 @@
 {
     public interface IMediaRepository
     {
-        Task<CreateMediaDTO> CreateAsync(CreateMediaDTO media);
-        Task<MediaDTO> ReadAsync(int mediaId);
+        Task<(Status,MediaDTO)> CreateAsync(CreateMediaDTO media);
+        Task<(Status,MediaDTO)> ReadAsync(int mediaId);
         Task<IReadOnlyCollection<MediaDTO>> ReadAsync();
         Task<Status> DeleteAsync(int mediaId);
     }
