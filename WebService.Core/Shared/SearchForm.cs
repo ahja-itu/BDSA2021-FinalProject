@@ -1,6 +1,6 @@
 ﻿namespace WebService.Core.Shared
 {
-    public class SearchInput
+    public class SearchForm
     {
         public string? TextField { get; set; }
         public ICollection<TagDTO>? Tags { get; set; }

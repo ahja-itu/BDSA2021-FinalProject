@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WebService.Infrastructure
+﻿namespace WebService.Infrastructure
 {
     public class TagRepository : ITagRepository
     {
@@ -14,7 +8,7 @@ namespace WebService.Infrastructure
             _context = context;
         }
 
-        public Task<(Status,TagDTO)> CreateAsync(CreateTagDTO tag)
+        public Task<(Status, TagDTO)> CreateAsync(CreateTagDTO tag)
         {
             throw new NotImplementedException();
         }
@@ -24,7 +18,7 @@ namespace WebService.Infrastructure
             throw new NotImplementedException();
         }
 
-        public Task<(Status,TagDTO)> ReadAsync(int tagId)
+        public Task<(Status, TagDTO)> ReadAsync(int tagId)
         {
             throw new NotImplementedException();
         }

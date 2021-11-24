@@ -9,7 +9,7 @@
             _context = context;
         }
 
-        public Task<(Status,MaterialDTO)> CreateAsync(CreateMaterialDTO material)
+        public Task<(Status, MaterialDTO)> CreateAsync(CreateMaterialDTO material)
         {
             throw new NotImplementedException();
         }
@@ -19,7 +19,7 @@
             throw new NotImplementedException();
         }
 
-        public Task<(Status,MaterialDTO)> ReadAsync(int materialId)
+        public Task<(Status, MaterialDTO)> ReadAsync(int materialId)
         {
             throw new NotImplementedException();
         }
@@ -29,7 +29,7 @@
             throw new NotImplementedException();
         }
 
-        public Task<(Status, IReadOnlyCollection<MaterialDTO>)> ReadAsync(SearchInput searchInput)
+        public Task<(Status, IReadOnlyCollection<MaterialDTO>)> ReadAsync(SearchForm searchInput)
         {
             throw new NotImplementedException();
         }

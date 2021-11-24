@@ -10,7 +10,7 @@ namespace WebService.Core.Shared
         }
 
         public int Id { get; init; }
-    } 
+    }
     public record CreateMaterialDTO
     {
         public CreateMaterialDTO(ICollection<TagDTO> tags, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<string> authors, DateTime timeStamp)
@@ -29,7 +29,7 @@ namespace WebService.Core.Shared
 
         public ICollection<TagDTO> Tags { get; init; }
         public ICollection<RatingDTO> Ratings { get; init; }
-        public ICollection<LevelDTO> Levels  { get; init; }
+        public ICollection<LevelDTO> Levels { get; init; }
         public ICollection<ProgrammingLanguageDTO> ProgrammingLanguages { get; init; }
         public ICollection<MediaDTO> Medias { get; init; }
         public LanguageDTO Language { get; init; }

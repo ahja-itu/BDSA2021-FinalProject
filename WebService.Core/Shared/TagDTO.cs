@@ -10,7 +10,7 @@
 
         [StringLength(50)]
         public string Name { get; init; }
-        [Range(1,100)]
+        [Range(1, 100)]
         public int Weight { get; init; }
     }
 
