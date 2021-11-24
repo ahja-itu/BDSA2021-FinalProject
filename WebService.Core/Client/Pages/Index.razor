@@ -1,9 +1,147 @@
 ﻿@page "/"
 
 <PageTitle>Index</PageTitle>
+<style>
+    .btgInput{
+        background:transparent;
+        box-shadow: none !important;
+        border: none !important;
+        outline: none ;
+        padding:5px;
+    }
+    .btgInput::placeholder{
+       color: #fff;
+       opacity: 50%;
+    }
+    .btgIconButton{
+        background:transparent !important;
+        color:#7765E3;
+        width:auto;
+        box-shadow:none !important;
+        border: none !important;
+        outline: none ;
+    }
+    .btgIconButton:focus{
+        background:transparent !important;
+        color:#7765E3;
+        width:auto;
+        box-shadow:none !important;
+        border: none !important;
+        outline: none ;
+    }
+    .btgIconButton:hover{
+        color:#FF9F1C;
+        background:transparent !important;
+    }
+    .bigIcon.i * {
+        font-size:10em !important;
+    }
+    .mediumIcon{
 
-<h1>Hello, world!</h1>
+    }
+    .smallIcon{
 
-Welcome to your new app.
+    }
+    
+</style>
+<h1 style="text-align: center; color:#ffffff" >Bridge The Gap!</h1>
+<div class="row" style="border-bottom:solid;border-color:#7765E3">
+    <div class="col d-flex justify-content-center align-item-center" style="width:100%">
+            <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" Style="width:100%;font-size:2em"/>
+            <RadzenButton class="btgIconButton bigIcon" Click="Search" Icon="search"/>  
+    </div>
+</div>
+@if (AdvancedView)
+{
+    <div id="filters" class="row" style="margin-left:20px;margin-right:20px;background:#4E4E4E;border-radius: 24px;margin-top:15px;padding:25px">
+        <div class="row">
+            <div class="col" data-toggle="buttons">
+                <RadzenButton Click=@(_ => ChangeFilter("Tags")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Tags"/>
+                <RadzenButton Click=@(_ => ChangeFilter("Categories")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Categories"/>
+                <RadzenButton Click=@(_ => ChangeFilter("Ratings")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Ratings"/>
+                <RadzenButton Click=@(_ => ChangeFilter("Levels")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Levels"/>
+                <RadzenButton Click=@(_ => ChangeFilter("Programing Language")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Programing Languages"/>
+                <RadzenButton Click=@(_ => ChangeFilter("Languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Languages"/>
+                <RadzenButton Click=@(_ => ChangeFilter("Medias")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Medias"/>
+            </div>
+        </div>
+        @if (IsShowingFilterOptions)
+        {
+            <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
+                <div class="col">
+                    <RadzenTextBox class="btgInput" Change="SearchFilters" @bind-Value=@FilterSearchInput Placeholder="@placeholder"/>
+                    <RadzenButton Click="SearchFilters" Icon="search" class="btgIconButton smallIcon"/> 
+                </div>
+            </div>
+            <div class="row">
+                
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <h3 style="margin-top: 2rem">Range Slider</h3>
+                <RadzenSlider Range="true" @bind-Value=@ratingValues TValue="IEnumerable<int>" Min="1" Max="10"/>
+            </div>
+        }  
+    </div>
+}
+<div class="row d-flex justify-content-center align-item-center">
+    <RadzenButton class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@displayIcon"/>
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code{
+    string SearchInput;
+    private void Search() => Console.WriteLine(SearchInput);
+
+    bool IsShowingFilterOptions = true;
+    string placeholder = "Search Tags";
+    IEnumerable<int> ratingValues;
+    private void ChangeFilter(string filterName)
+    {
+        placeholder = "Search " + filterName;
+        if (filterName != "Ratings")
+        {
+            IsShowingFilterOptions = true;
+            switch (filterName)
+            {
+                case "Tags":
+                    //fill TagsList
+                    break;
+                case "Categories":
+                    //fill CategoriesList
+                    break;
+                case "Levels":
+                    //fill LevelsList
+                    break;
+                case "Programing Language":
+                    //fill ProgramingLanguageList
+                    break;
+                case "Languages":
+                    //fill LanguagesList
+                    break;
+                case "Medias":
+                    //fill MediasList
+                    break;
+            }
+        }
+        else
+        {
+            IsShowingFilterOptions = false;
+        }
+    }
+
+    string FilterSearchInput;
+    private void SearchFilters()
+    {
+        
+    }
+
+    bool AdvancedView = false;
+    string displayIcon = "expand_more";
+    private void ShowFilters()
+    {
+        displayIcon = !AdvancedView ? "expand_less" : "expand_more";
+        AdvancedView = !AdvancedView;
+    }
+}
