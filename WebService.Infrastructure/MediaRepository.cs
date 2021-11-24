@@ -14,7 +14,7 @@ namespace WebService.Infrastructure
             _context = context;
         }
 
-        public Task<CreateMediaDTO> CreateAsync(CreateMediaDTO media)
+        public Task<(Status,MediaDTO)> CreateAsync(CreateMediaDTO media)
         {
             throw new NotImplementedException();
         }
@@ -24,7 +24,7 @@ namespace WebService.Infrastructure
             throw new NotImplementedException();
         }
 
-        public Task<MediaDTO> ReadAsync(int mediaId)
+        public Task<(Status,MediaDTO)> ReadAsync(int mediaId)
         {
             throw new NotImplementedException();
         }

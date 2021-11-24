@@ -2,8 +2,8 @@
 {
     public interface IProgrammingLanguageRespository
     {
-        Task<CreateProgrammingLanguageDTO> CreateAsync(CreateProgrammingLanguageDTO programmingLanguage);
-        Task<ProgrammingLanguageDTO> ReadAsync(int programmingLanguageId);
+        Task<(Status,ProgrammingLanguageDTO)> CreateAsync(CreateProgrammingLanguageDTO programmingLanguage);
+        Task<(Status,ProgrammingLanguageDTO)> ReadAsync(int programmingLanguageId);
         Task<IReadOnlyCollection<ProgrammingLanguageDTO>> ReadAsync();
         Task<Status> DeleteAsync(int programmingLanguageId);
     }

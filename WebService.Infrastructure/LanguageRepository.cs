@@ -9,7 +9,7 @@
             _context = context;
         }
 
-        public Task<CreateLanguageDTO> CreateAsync(CreateLanguageDTO language)
+        public Task<(Status,LanguageDTO)> CreateAsync(CreateLanguageDTO language)
         {
             throw new NotImplementedException();
         }
@@ -19,7 +19,7 @@
             throw new NotImplementedException();
         }
 
-        public Task<LanguageDTO> ReadAsync(int languageId)
+        public Task<(Status,LanguageDTO)> ReadAsync(int languageId)
         {
             throw new NotImplementedException();
         }

@@ -14,7 +14,7 @@ namespace WebService.Infrastructure
             _context = context;
         }
 
-        public Task<CreateProgrammingLanguageDTO> CreateAsync(CreateProgrammingLanguageDTO programmingLanguage)
+        public Task<(Status,ProgrammingLanguageDTO)> CreateAsync(CreateProgrammingLanguageDTO programmingLanguage)
         {
             throw new NotImplementedException();
         }
@@ -24,7 +24,7 @@ namespace WebService.Infrastructure
             throw new NotImplementedException();
         }
 
-        public Task<ProgrammingLanguageDTO> ReadAsync(int programmingLanguageId)
+        public Task<(Status,ProgrammingLanguageDTO)> ReadAsync(int programmingLanguageId)
         {
             throw new NotImplementedException();
         }

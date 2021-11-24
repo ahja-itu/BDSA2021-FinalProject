@@ -2,8 +2,9 @@
 {
     public interface IMaterialRepository
     {
-        Task<CreateMaterialDTO> CreateAsync(CreateMaterialDTO material);
-        Task<MaterialDTO> ReadAsync(int materialId);
+        Task<(Status,MaterialDTO)> CreateAsync(CreateMaterialDTO material);
+        Task<(Status,MaterialDTO)> ReadAsync(int materialId);
+        Task<(Status, IReadOnlyCollection<MaterialDTO>)> ReadAsync(SearchInput searchInput);
         Task<IReadOnlyCollection<MaterialDTO>> ReadAsync();
         Task<Status> UpdateAsync(int id, UpdateMaterialDTO materialId);
         Task<Status> DeleteAsync(int materialId);

@@ -2,8 +2,8 @@
 {
     public interface ILevelRespository
     {
-        Task<CreateLevelDTO> CreateAsync(CreateLevelDTO level);
-        Task<LevelDTO> ReadAsync(int levelId);
+        Task<(Status,LevelDTO)> CreateAsync(CreateLevelDTO level);
+        Task<(Status,LevelDTO)> ReadAsync(int levelId);
         Task<IReadOnlyCollection<LevelDTO>> ReadAsync();
         Task<Status> DeleteAsync(int levelId);
     }

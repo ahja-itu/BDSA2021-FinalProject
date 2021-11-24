@@ -14,7 +14,7 @@ namespace WebService.Infrastructure
             _context = context;
         }
 
-        public Task<CreateTagDTO> CreateAsync(CreateTagDTO tag)
+        public Task<(Status,TagDTO)> CreateAsync(CreateTagDTO tag)
         {
             throw new NotImplementedException();
         }
@@ -24,7 +24,7 @@ namespace WebService.Infrastructure
             throw new NotImplementedException();
         }
 
-        public Task<TagDTO> ReadAsync(int tagId)
+        public Task<(Status,TagDTO)> ReadAsync(int tagId)
         {
             throw new NotImplementedException();
         }

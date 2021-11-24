@@ -2,14 +2,11 @@
 {
     public class Tag
     {
-        public Tag(string name)
-        {
-            Name = name;
-        }
-
         public int Id { get; set; }
 
         [StringLength(50)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
+        [Range(1, 100)]
+        public int? Weight { get; set; }
     }
 }
