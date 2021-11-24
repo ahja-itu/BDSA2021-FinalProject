@@ -2,7 +2,7 @@
 {
     public class SearchAlgorithm
     {
-        public List<int> Search(List<string> inputWords, List<int> tagIDs, List<List<int>> filterIDs)
+        public List<Material> Search(List<string> inputWords, List<int> tagIDs, List<List<int>> filterIDs)
         {
             throw new NotImplementedException();
 
