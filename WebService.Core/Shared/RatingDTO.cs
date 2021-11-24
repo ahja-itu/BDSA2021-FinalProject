@@ -7,7 +7,7 @@
             Value = value;
         }
 
-        [Range(1,10)]
+        [Range(1, 10)]
         public int Value { get; init; }
     }
 

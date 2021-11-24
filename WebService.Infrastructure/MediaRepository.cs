@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WebService.Infrastructure
+﻿namespace WebService.Infrastructure
 {
     public class MediaRepository : IMediaRepository
     {
@@ -14,7 +8,7 @@ namespace WebService.Infrastructure
             _context = context;
         }
 
-        public Task<(Status,MediaDTO)> CreateAsync(CreateMediaDTO media)
+        public Task<(Status, MediaDTO)> CreateAsync(CreateMediaDTO media)
         {
             throw new NotImplementedException();
         }
@@ -24,7 +18,7 @@ namespace WebService.Infrastructure
             throw new NotImplementedException();
         }
 
-        public Task<(Status,MediaDTO)> ReadAsync(int mediaId)
+        public Task<(Status, MediaDTO)> ReadAsync(int mediaId)
         {
             throw new NotImplementedException();
         }

@@ -48,7 +48,7 @@
                 .IsUnique();
 
             modelBuilder.Entity<Author>()
-                .HasIndex(s => new { s.FirstName,s.SurName})
+                .HasIndex(s => new { s.FirstName, s.SurName })
                 .IsUnique();
         }
     }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WebService.Infrastructure
+﻿namespace WebService.Infrastructure
 {
     public class ProgrammingLanguageRepository : IProgrammingLanguageRespository
     {
@@ -14,7 +8,7 @@ namespace WebService.Infrastructure
             _context = context;
         }
 
-        public Task<(Status,ProgrammingLanguageDTO)> CreateAsync(CreateProgrammingLanguageDTO programmingLanguage)
+        public Task<(Status, ProgrammingLanguageDTO)> CreateAsync(CreateProgrammingLanguageDTO programmingLanguage)
         {
             throw new NotImplementedException();
         }
@@ -24,7 +18,7 @@ namespace WebService.Infrastructure
             throw new NotImplementedException();
         }
 
-        public Task<(Status,ProgrammingLanguageDTO)> ReadAsync(int programmingLanguageId)
+        public Task<(Status, ProgrammingLanguageDTO)> ReadAsync(int programmingLanguageId)
         {
             throw new NotImplementedException();
         }
