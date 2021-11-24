@@ -31,9 +31,9 @@
             var rating2 = new Rating() { Value = 5};
             var rating3 = new Rating() { Value = 9};
 
-            var tag1 = new Tag() { Name = "SOLID" };
-            var tag2 = new Tag() { Name = "RAD" };
-            var tag3 = new Tag() { Name = "API" };
+            var tag1 = new Tag() { Name = "SOLID", Weight = 10 };
+            var tag2 = new Tag() { Name = "RAD", Weight = 50 };
+            var tag3 = new Tag() { Name = "API", Weight = 90 };
 
             var author1 = new Author() { FirstName = "Ramsus", SurName = "Kristensen" };
             var author2 = new Author() { FirstName = "Alex", SurName = "Su" };
