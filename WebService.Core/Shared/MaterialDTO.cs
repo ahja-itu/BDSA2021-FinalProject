@@ -4,7 +4,7 @@ namespace WebService.Core.Shared
 {
     public record MaterialDTO : CreateMaterialDTO
     {
-        public MaterialDTO(int id, ICollection<TagDTO> tags, ICollection<CategoryDTO> categories, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<string> authors, DateTime timeStamp) : base(tags, categories, ratings, levels, programmingLanguages, medias, language, content, title, authors, timeStamp)
+        public MaterialDTO(int id, ICollection<TagDTO> tags, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<string> authors, DateTime timeStamp) : base(tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, timeStamp)
         {
             Id = id;
         }
@@ -13,10 +13,9 @@ namespace WebService.Core.Shared
     } 
     public record CreateMaterialDTO
     {
-        public CreateMaterialDTO(ICollection<TagDTO> tags, ICollection<CategoryDTO> categories, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<string> authors, DateTime timeStamp)
+        public CreateMaterialDTO(ICollection<TagDTO> tags, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<string> authors, DateTime timeStamp)
         {
             Tags = tags;
-            Categories = categories;
             Ratings = ratings;
             Levels = levels;
             ProgrammingLanguages = programmingLanguages;
@@ -29,7 +28,6 @@ namespace WebService.Core.Shared
         }
 
         public ICollection<TagDTO> Tags { get; init; }
-        public ICollection<CategoryDTO> Categories { get; init; }
         public ICollection<RatingDTO> Ratings { get; init; }
         public ICollection<LevelDTO> Levels  { get; init; }
         public ICollection<ProgrammingLanguageDTO> ProgrammingLanguages { get; init; }
@@ -44,7 +42,7 @@ namespace WebService.Core.Shared
 
     public record UpdateMaterialDTO : CreateMaterialDTO
     {
-        public UpdateMaterialDTO(int id, ICollection<TagDTO> tags, ICollection<CategoryDTO> categories, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<string> authors, DateTime timeStamp) : base(tags, categories, ratings, levels, programmingLanguages, medias, language, content, title, authors, timeStamp)
+        public UpdateMaterialDTO(int id, ICollection<TagDTO> tags, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<string> authors, DateTime timeStamp) : base(tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, timeStamp)
         {
             Id = id;
         }

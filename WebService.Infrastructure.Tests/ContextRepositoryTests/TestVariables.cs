@@ -11,10 +11,6 @@
             var context = new Context(builder.Options);
             context.Database.EnsureCreated();
 
-            var category1 = new Category() { Name = "Algorithms" };
-            var category2 = new Category() { Name = "Database" };
-            var category3 = new Category() { Name = "UML" };
-
             var language1 = new Language() { Name = "Danish" };
             var language2 = new Language() { Name = "English" };
             var language3 = new Language() { Name = "Indian" };
@@ -50,7 +46,6 @@
             var material1 = new Material()
             {
                 Tags = new List<Tag> { tag1 }, 
-                Categories = new List<Category> { category1 }, 
                 Ratings = new List<Rating> { rating1 }, 
                 Levels = new List<Level> { level1 }, 
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage1 }, 
@@ -64,7 +59,6 @@
             var material2 = new Material()
             {
                 Tags = new List<Tag> { tag2 },
-                Categories = new List<Category> { category2 },
                 Ratings = new List<Rating> { rating2 },
                 Levels = new List<Level> { level2 },
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage2 },
@@ -78,7 +72,6 @@
             var material3 = new Material()
             {
                 Tags = new List<Tag> { tag3 },
-                Categories = new List<Category> { category3 },
                 Ratings = new List<Rating> { rating3 },
                 Levels = new List<Level> { level3 },
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage3 },
@@ -92,7 +85,6 @@
             var material4 = new Material()
             {
                 Tags = new List<Tag> { tag1, tag2 }, 
-                Categories = new List<Category> { category1, category2 }, 
                 Ratings = new List<Rating> { rating1, rating2 }, 
                 Levels = new List<Level> { level1, level2 }, 
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage1, programmingLanguage2 }, 
@@ -106,7 +98,6 @@
             var material5 = new Material()
             {
                 Tags = new List<Tag> { tag2, tag3 }, 
-                Categories = new List<Category> { category2, category3 }, 
                 Ratings = new List<Rating> { rating2, rating3 }, 
                 Levels = new List<Level> { level2, level3 }, 
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage2, programmingLanguage3 }, 
@@ -120,7 +111,6 @@
             var material6 = new Material()
             {
                 Tags = new List<Tag> { tag3, tag1}, 
-                Categories = new List<Category> { category3, category1 }, 
                 Ratings = new List<Rating> { rating3, rating1 }, 
                 Levels = new List<Level> { level3, level1 }, 
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage3, programmingLanguage1 }, 
@@ -134,7 +124,6 @@
             var material7 = new Material()
             {
                 Tags = new List<Tag> { tag1, tag3 }, 
-                Categories = new List<Category> { category1, category3 }, 
                 Ratings = new List<Rating> { rating1, rating3 }, 
                 Levels = new List<Level> { level1, level3 }, 
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage1, programmingLanguage3 }, 
@@ -148,7 +137,6 @@
             var material8 = new Material()
             {
                 Tags = new List<Tag> { tag2, tag1 }, 
-                Categories = new List<Category> { category2, category1 }, 
                 Ratings = new List<Rating> { rating2, rating1 }, 
                 Levels = new List<Level> { level2, level1 }, 
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage2, programmingLanguage1 }, 
@@ -162,7 +150,6 @@
             var material9 = new Material()
             {
                 Tags = new List<Tag> { tag3, tag2 }, 
-                Categories = new List<Category> { category3, category2 }, 
                 Ratings = new List<Rating> { rating3, rating2 }, 
                 Levels = new List<Level> { level3, level2 }, 
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage3, programmingLanguage2 },
@@ -176,7 +163,6 @@
             var material10 = new Material()
             {
                 Tags = new List<Tag> { tag3, tag2 , tag1}, 
-                Categories = new List<Category> { category3, category2, category1 }, 
                 Ratings = new List<Rating> { rating3, rating2, rating1 }, 
                 Levels = new List<Level> { level3, level2, level1 }, 
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage3, programmingLanguage2, programmingLanguage1 }, 
@@ -188,13 +174,12 @@
                 TimeStamp = System.DateTime.UtcNow
             };
 
-            context.AddRange(category1,category2, category3,language1, language2, language3,level1,level2,level3,media1,media2,media3,programmingLanguage1,programmingLanguage2,programmingLanguage3,rating1,rating2,rating3,tag1,tag2,tag3,material1,material2,material3,material4,material5,material6,material7,material8,material9,material10);
+            context.AddRange(language1, language2, language3,level1,level2,level3,media1,media2,media3,programmingLanguage1,programmingLanguage2,programmingLanguage3,rating1,rating2,rating3,tag1,tag2,tag3,material1,material2,material3,material4,material5,material6,material7,material8,material9,material10);
 
             context.SaveChanges();
 
             Context = context;
 
-            CategoryRepository = new CategoryRepository(context);
             LanguageRepository = new LanguageRepository(context);
             LevelRepository = new LevelRepository(context);
             MaterialRepository = new MaterialRepository(context);
@@ -204,7 +189,6 @@
             TagRepository = new TagRepository(context);
         }
         public IContext Context { get; }
-        public CategoryRepository CategoryRepository { get; }
         public LanguageRepository LanguageRepository { get; }
         public LevelRepository LevelRepository { get; }
         public MaterialRepository MaterialRepository { get; }

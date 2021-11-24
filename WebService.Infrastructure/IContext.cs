@@ -2,7 +2,6 @@
 {
     public interface IContext : IDisposable
     {
-        DbSet<Category> Categories { get; }
         DbSet<Language> Languages { get; }
         DbSet<Level> Levels { get; }
         DbSet<Material> Materials { get; }
