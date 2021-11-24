@@ -1,8 +1,10 @@
-﻿namespace WebService.Core.Server
+﻿using WebService.Entities;
+
+namespace WebService.Core.Server
 {
     public class SearchAlgorithm
     {
-        public List<Material> Search(List<string> inputWords, List<int> tagIDs, List<List<int>> filterIDs)
+        public List<int> Search(List<string> inputWords, List<int> tagIDs, List<List<int>> filterIDs)
         {
             throw new NotImplementedException();
 
