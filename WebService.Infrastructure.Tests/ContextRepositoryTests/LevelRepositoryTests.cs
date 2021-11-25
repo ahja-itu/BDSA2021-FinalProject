@@ -71,7 +71,7 @@
         }
 
         [Fact]
-        public async Task ReadAllAsync_returns_all_tags()
+        public async Task ReadAllAsync_returns_all_levels()
         {
             var actuals = await _v.LevelRepository.ReadAsync();
 

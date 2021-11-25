@@ -15,8 +15,8 @@
         public DbSet<ProgrammingLanguage> ProgrammingLanguages => Set<ProgrammingLanguage>();
 
         public DbSet<Rating> Ratings => Set<Rating>();
-
         public DbSet<Tag> Tags => Set<Tag>();
+        public DbSet<Author> Authors => Set<Author>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Language>()

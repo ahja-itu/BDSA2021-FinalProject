@@ -36,7 +36,7 @@
             var tag2 = new Tag(2, "RAD", 50);
             var tag3 = new Tag(3, "API", 90);
 
-            var author1 = new Author(1, "Ramsus", "Kristensen");
+            var author1 = new Author(1, "Rasmus", "Kristensen");
             var author2 = new Author(2, "Alex", "Su");
             var author3 = new Author(3, "Thor", "Lind");
 
@@ -188,6 +188,7 @@
             ProgrammingLanguageRepository = new ProgrammingLanguageRepository(context);
             RatingRepository = new RatingRepository(context);
             TagRepository = new TagRepository(context);
+            AuthorRepository = new AuthorRepository(context);
         }
         public IContext Context { get; }
         public LanguageRepository LanguageRepository { get; }
@@ -197,5 +198,6 @@
         public ProgrammingLanguageRepository ProgrammingLanguageRepository { get; }
         public RatingRepository RatingRepository { get; }
         public TagRepository TagRepository { get; }
+        public AuthorRepository AuthorRepository { get; }
     }
 }

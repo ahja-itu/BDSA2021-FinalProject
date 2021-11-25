@@ -71,7 +71,7 @@
         }
 
         [Fact]
-        public async Task ReadAllAsync_returns_all_tags()
+        public async Task ReadAllAsync_returns_all_medias()
         {
             var actuals = await _v.MediaRepository.ReadAsync();
 

@@ -71,7 +71,7 @@
         }
 
         [Fact]
-        public async Task ReadAllAsync_returns_all_tags()
+        public async Task ReadAllAsync_returns_all_languages()
         {
             var actuals = await _v.LanguageRepository.ReadAsync();
 

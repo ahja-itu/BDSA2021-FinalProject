@@ -8,29 +8,78 @@
         {
             _context = context;
         }
-        public Task<(Status, AuthorDTO)> CreateAsync(CreateAuthorDTO language)
+        public async Task<(Status, AuthorDTO)> CreateAsync(CreateAuthorDTO author)
         {
-            throw new NotImplementedException();
+            var existing = await (from a in _context.Authors
+                                  where a.FirstName == author.FirstName
+                                  where a.SurName == author.SurName
+                                  select new AuthorDTO(a.Id, a.FirstName, a.SurName))
+                           .FirstOrDefaultAsync();
+
+            if (existing != null) return (Status.Conflict, existing);
+
+            var entity = new Author(author.FirstName, author.SurName);
+
+            _context.Authors.Add(entity);
+
+            await _context.SaveChangesAsync();
+
+            return (Status.Created, new AuthorDTO(entity.Id, entity.FirstName, entity.SurName));
         }
 
-        public Task<Status> DeleteAsync(int languageId)
+        public async Task<Status> DeleteAsync(int authorId)
         {
-            throw new NotImplementedException();
+            var author = await _context.Authors.FindAsync(authorId);
+
+            if (author == null) return Status.NotFound;
+
+            _context.Authors.Remove(author);
+
+            await _context.SaveChangesAsync();
+
+            return Status.Deleted;
         }
 
-        public Task<(Status, AuthorDTO)> ReadAsync(int languageId)
+        public async Task<(Status, AuthorDTO)> ReadAsync(int authorId)
         {
-            throw new NotImplementedException();
+            var query = from a in _context.Authors
+                        where a.Id == authorId
+                        select new AuthorDTO(a.Id, a.FirstName, a.SurName);
+
+            var category = await query.FirstOrDefaultAsync();
+
+            if (category == null) return (Status.NotFound, new AuthorDTO(-1, "", ""));
+
+            return (Status.Found, category);
         }
 
-        public Task<IReadOnlyCollection<AuthorDTO>> ReadAsync()
+        public async Task<IReadOnlyCollection<AuthorDTO>> ReadAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Authors.Select(a => new AuthorDTO(a.Id, a.FirstName, a.SurName)).ToListAsync();
+
         }
 
-        public Task<Status> UpdateAsync(AuthorDTO languageDTO)
+        public async Task<Status> UpdateAsync(AuthorDTO authorDTO)
         {
-            throw new NotImplementedException();
+            var existing = await (from a in _context.Authors
+                                  where a.Id != authorDTO.Id
+                                  where a.FirstName == authorDTO.FirstName
+                                  where a.SurName == authorDTO.SurName
+                                  select new AuthorDTO(a.Id, a.FirstName, a.SurName))
+                           .AnyAsync();
+
+            if (existing) return Status.Conflict;
+
+            var entity = await _context.Authors.FindAsync(authorDTO.Id);
+
+            if (entity == null) return Status.NotFound;
+
+            entity.FirstName = authorDTO.FirstName;
+            entity.SurName = authorDTO.SurName;
+
+            _context.SaveChanges();
+
+            return Status.Updated;
         }
     }
 }
