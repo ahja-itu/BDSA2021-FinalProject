@@ -10,7 +10,7 @@
 
         public async Task<(Status, RatingDTO)> CreateAsync(CreateRatingDTO rating)
         {
-            if (InvalidInput(rating)) return (Status.BadRequest, new RatingDTO(-1,0));
+            if (InvalidInput(rating)) return (Status.BadRequest, new RatingDTO(-1, 0));
 
             var existing = await (from r in _context.Ratings
                                   where r.Value == rating.Value

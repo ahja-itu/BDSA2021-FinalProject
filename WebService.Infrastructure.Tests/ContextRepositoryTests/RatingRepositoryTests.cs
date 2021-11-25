@@ -27,7 +27,7 @@
 
             var actual = await _v.RatingRepository.CreateAsync(rating);
 
-            var expected = (Status.Conflict, new RatingDTO(3,9));
+            var expected = (Status.Conflict, new RatingDTO(3, 9));
 
             Assert.Equal(expected, actual);
         }

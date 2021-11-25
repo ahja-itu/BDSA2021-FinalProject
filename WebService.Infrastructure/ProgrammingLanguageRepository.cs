@@ -12,9 +12,9 @@
         {
             if (InvalidInput(programmingLanguage)) return (Status.BadRequest, new ProgrammingLanguageDTO(-1, programmingLanguage.Name));
 
-            var existing = await(from l in _context.ProgrammingLanguages
-                                 where l.Name == programmingLanguage.Name
-                                 select new ProgrammingLanguageDTO(l.Id, l.Name))
+            var existing = await (from l in _context.ProgrammingLanguages
+                                  where l.Name == programmingLanguage.Name
+                                  select new ProgrammingLanguageDTO(l.Id, l.Name))
                .FirstOrDefaultAsync();
 
             if (existing != null) return (Status.Conflict, existing);
@@ -63,10 +63,10 @@
         {
             if (InvalidInput(programmingProgrammingLanguageDTO)) return Status.BadRequest;
 
-            var existing = await(from l in _context.ProgrammingLanguages
-                                 where l.Id != programmingProgrammingLanguageDTO.Id
-                                 where l.Name == programmingProgrammingLanguageDTO.Name
-                                 select new ProgrammingLanguageDTO(l.Id, l.Name))
+            var existing = await (from l in _context.ProgrammingLanguages
+                                  where l.Id != programmingProgrammingLanguageDTO.Id
+                                  where l.Name == programmingProgrammingLanguageDTO.Name
+                                  select new ProgrammingLanguageDTO(l.Id, l.Name))
                                       .AnyAsync();
 
             if (existing) return Status.Conflict;

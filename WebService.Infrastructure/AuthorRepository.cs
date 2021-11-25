@@ -9,8 +9,8 @@
             _context = context;
         }
         public async Task<(Status, AuthorDTO)> CreateAsync(CreateAuthorDTO author)
-        {                
-            if(InvalidInput(author)) return (Status.BadRequest, new AuthorDTO(-1, author.FirstName, author.SurName));
+        {
+            if (InvalidInput(author)) return (Status.BadRequest, new AuthorDTO(-1, author.FirstName, author.SurName));
 
             var existing = await (from a in _context.Authors
                                   where a.FirstName == author.FirstName

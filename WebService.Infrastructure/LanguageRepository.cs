@@ -14,12 +14,12 @@
             if (InvalidInput(language)) return (Status.BadRequest, new LanguageDTO(-1, language.Name));
 
             var existing = await (from l in _context.Languages
-                           where l.Name == language.Name
-                           select new LanguageDTO(l.Id, l.Name))
+                                  where l.Name == language.Name
+                                  select new LanguageDTO(l.Id, l.Name))
                            .FirstOrDefaultAsync();
 
-            if(existing != null) return (Status.Conflict, existing);
-  
+            if (existing != null) return (Status.Conflict, existing);
+
             var entity = new Language(language.Name);
 
             _context.Languages.Add(entity);
@@ -50,9 +50,9 @@
 
             var category = await query.FirstOrDefaultAsync();
 
-            if(category == null) return (Status.NotFound, new LanguageDTO(-1, ""));
+            if (category == null) return (Status.NotFound, new LanguageDTO(-1, ""));
 
-            return (Status.Found, category);     
+            return (Status.Found, category);
         }
 
         public async Task<IReadOnlyCollection<LanguageDTO>> ReadAsync()
@@ -65,9 +65,9 @@
             if (InvalidInput(languageDTO)) return Status.BadRequest;
 
             var existing = await (from l in _context.Languages
-                           where l.Id != languageDTO.Id
-                           where l.Name == languageDTO.Name
-                           select new LanguageDTO(l.Id, l.Name))
+                                  where l.Id != languageDTO.Id
+                                  where l.Name == languageDTO.Name
+                                  select new LanguageDTO(l.Id, l.Name))
                            .AnyAsync();
 
             if (existing) return Status.Conflict;

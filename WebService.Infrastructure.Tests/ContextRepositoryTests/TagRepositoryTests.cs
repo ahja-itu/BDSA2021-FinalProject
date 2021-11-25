@@ -160,7 +160,7 @@
         public async Task ReadAllAsync_returns_all_tags()
         {
             var actuals = await _v.TagRepository.ReadAsync();
-            
+
             var expected1 = new TagDTO(1, "SOLID", 10);
             var expected2 = new TagDTO(2, "RAD", 50);
             var expected3 = new TagDTO(3, "API", 90);

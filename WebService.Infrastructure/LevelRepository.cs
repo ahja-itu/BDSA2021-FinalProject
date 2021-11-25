@@ -13,9 +13,9 @@
         {
             if (InvalidInput(level)) return (Status.BadRequest, new LevelDTO(-1, level.EducationLevel));
 
-            var existing = await(from l in _context.Levels
-                                 where l.EducationLevel == level.EducationLevel
-                                 select new LevelDTO(l.Id, l.EducationLevel))
+            var existing = await (from l in _context.Levels
+                                  where l.EducationLevel == level.EducationLevel
+                                  select new LevelDTO(l.Id, l.EducationLevel))
                            .FirstOrDefaultAsync();
             if (existing != null) return (Status.Conflict, existing);
 

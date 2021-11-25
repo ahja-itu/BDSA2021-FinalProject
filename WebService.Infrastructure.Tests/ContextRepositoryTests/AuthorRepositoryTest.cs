@@ -221,7 +221,7 @@
             var actuals = await _v.AuthorRepository.ReadAsync();
 
             var expected1 = new AuthorDTO(2, "Alex", "Su");
-            var expected2 = new AuthorDTO(1, "Rasmus", "Kristensen");         
+            var expected2 = new AuthorDTO(1, "Rasmus", "Kristensen");
             var expected3 = new AuthorDTO(3, "Thor", "Lind");
 
             Assert.Collection(actuals,
@@ -322,7 +322,7 @@
         [Fact]
         public async Task UpdateAsync_author_returns_bad_request_on_firstName()
         {
-            var author = new AuthorDTO(1,"asseocarnisanguineoviscericartilaginonervomedullary", "Wachs");
+            var author = new AuthorDTO(1, "asseocarnisanguineoviscericartilaginonervomedullary", "Wachs");
 
             var actual = await _v.AuthorRepository.UpdateAsync(author);
 
@@ -334,7 +334,7 @@
         [Fact]
         public async Task UpdateAsync_author_returns_bad_request_on_surName()
         {
-            var author = new AuthorDTO(1,"Andreas", "asseocarnisanguineoviscericartilaginonervomedullary");
+            var author = new AuthorDTO(1, "Andreas", "asseocarnisanguineoviscericartilaginonervomedullary");
 
             var actual = await _v.AuthorRepository.UpdateAsync(author);
 
@@ -346,7 +346,7 @@
         [Fact]
         public async Task UpdateAsync_author_returns_bad_request_on_names()
         {
-            var author = new AuthorDTO(1,"asseocarnisanguineoviscericartilaginonervomedullary", "asseocarnisanguineoviscericartilaginonervomedullary");
+            var author = new AuthorDTO(1, "asseocarnisanguineoviscericartilaginonervomedullary", "asseocarnisanguineoviscericartilaginonervomedullary");
 
             var actual = await _v.AuthorRepository.UpdateAsync(author);
 
@@ -358,7 +358,7 @@
         [Fact]
         public async Task UpdateAsync_author_returns_bad_request_on_firstName_empty()
         {
-            var author = new AuthorDTO(1,"", "Wachs");
+            var author = new AuthorDTO(1, "", "Wachs");
 
             var actual = await _v.AuthorRepository.UpdateAsync(author);
 
@@ -370,7 +370,7 @@
         [Fact]
         public async Task UpdateAsync_author_returns_bad_request_on_surName_empty()
         {
-            var author = new AuthorDTO(1,"Andreas", "");
+            var author = new AuthorDTO(1, "Andreas", "");
 
             var actual = await _v.AuthorRepository.UpdateAsync(author);
 
@@ -382,7 +382,7 @@
         [Fact]
         public async Task UpdateAsync_author_returns_bad_request_on_names_empty()
         {
-            var author = new AuthorDTO(1,"", "");
+            var author = new AuthorDTO(1, "", "");
 
             var actual = await _v.AuthorRepository.UpdateAsync(author);
 
@@ -394,7 +394,7 @@
         [Fact]
         public async Task UpdateAsync_author_returns_bad_request_on_firstName_whitespace()
         {
-            var author = new AuthorDTO(1," ", "Wachs");
+            var author = new AuthorDTO(1, " ", "Wachs");
 
             var actual = await _v.AuthorRepository.UpdateAsync(author);
 
@@ -406,7 +406,7 @@
         [Fact]
         public async Task UpdateAsync_author_returns_bad_request_on_surName_whitespace()
         {
-            var author = new AuthorDTO(1,"Andreas", " ");
+            var author = new AuthorDTO(1, "Andreas", " ");
 
             var actual = await _v.AuthorRepository.UpdateAsync(author);
 
@@ -418,7 +418,7 @@
         [Fact]
         public async Task UpdateAsync_author_returns_bad_request_on_names_whitespace()
         {
-            var author = new AuthorDTO(1," ", " ");
+            var author = new AuthorDTO(1, " ", " ");
 
             var actual = await _v.AuthorRepository.UpdateAsync(author);
 
@@ -430,7 +430,7 @@
         [Fact]
         public async Task UpdateAsync_author_with_max_length_firstName_returns_updated()
         {
-            var author = new AuthorDTO(1,"asseocarnisanguineoviscericartilaginonervomedullar", "Wachs");
+            var author = new AuthorDTO(1, "asseocarnisanguineoviscericartilaginonervomedullar", "Wachs");
 
             var actual = await _v.AuthorRepository.UpdateAsync(author);
 
@@ -442,7 +442,7 @@
         [Fact]
         public async Task UpdateAsync_author_with_max_length_surName_returns_updated()
         {
-            var author = new AuthorDTO(1,"Andreas", "asseocarnisanguineoviscericartilaginonervomedullar");
+            var author = new AuthorDTO(1, "Andreas", "asseocarnisanguineoviscericartilaginonervomedullar");
 
             var actual = await _v.AuthorRepository.UpdateAsync(author);
 
@@ -454,7 +454,7 @@
         [Fact]
         public async Task UpdateAsync_author_with_max_length_both_names_returns_updated()
         {
-            var author = new AuthorDTO(1,"asseocarnisanguineoviscericartilaginonervomedullar", "asseocarnisanguineoviscericartilaginonervomedullar");
+            var author = new AuthorDTO(1, "asseocarnisanguineoviscericartilaginonervomedullar", "asseocarnisanguineoviscericartilaginonervomedullar");
 
             var actual = await _v.AuthorRepository.UpdateAsync(author);
 

@@ -10,12 +10,12 @@
 
         public async Task<(Status, TagDTO)> CreateAsync(CreateTagDTO tag)
         {
-            if (InvalidInput(tag)) return (Status.BadRequest, new TagDTO(-1,tag.Name,tag.Weight));
+            if (InvalidInput(tag)) return (Status.BadRequest, new TagDTO(-1, tag.Name, tag.Weight));
 
-            var existing = await(from t in _context.Tags
-                                 where t.Name == tag.Name
-                                 where t.Weight == tag.Weight
-                                 select new TagDTO(t.Id, t.Name, t.Weight))
+            var existing = await (from t in _context.Tags
+                                  where t.Name == tag.Name
+                                  where t.Weight == tag.Weight
+                                  select new TagDTO(t.Id, t.Name, t.Weight))
                            .FirstOrDefaultAsync();
 
             if (existing != null) return (Status.Conflict, existing);
@@ -65,11 +65,11 @@
         {
             if (InvalidInput(tagDTO)) return Status.BadRequest;
 
-            var existing = await(from t in _context.Tags
-                                 where t.Id != tagDTO.Id
-                                 where t.Name == tagDTO.Name
-                                 where t.Weight == tagDTO.Weight
-                                 select new TagDTO(t.Id, t.Name, t.Weight))
+            var existing = await (from t in _context.Tags
+                                  where t.Id != tagDTO.Id
+                                  where t.Name == tagDTO.Name
+                                  where t.Weight == tagDTO.Weight
+                                  select new TagDTO(t.Id, t.Name, t.Weight))
                           .AnyAsync();
 
             if (existing) return Status.Conflict;

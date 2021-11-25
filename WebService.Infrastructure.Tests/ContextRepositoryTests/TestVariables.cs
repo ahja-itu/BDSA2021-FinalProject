@@ -21,12 +21,12 @@
 
             var media1 = new Media(1, "Book");
             var media2 = new Media(2, "Report");
-            var media3 = new Media(3, "Video");        
+            var media3 = new Media(3, "Video");
 
             var programmingLanguage1 = new ProgrammingLanguage(1, "C#");
             var programmingLanguage2 = new ProgrammingLanguage(2, "C++");
             var programmingLanguage3 = new ProgrammingLanguage(3, "F#");
-            
+
 
             var rating1 = new Rating(1, 2);
             var rating2 = new Rating(2, 5);

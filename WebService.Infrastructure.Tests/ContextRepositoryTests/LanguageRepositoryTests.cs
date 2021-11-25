@@ -226,7 +226,7 @@
         [Fact]
         public async Task UpdateAsync_language_returns_bad_request_on_name_tooLong()
         {
-            var language = new LanguageDTO(1,"asseocarnisanguineoviscericartilaginonervomedullary");
+            var language = new LanguageDTO(1, "asseocarnisanguineoviscericartilaginonervomedullary");
 
             var actual = await _v.LanguageRepository.UpdateAsync(language);
 
@@ -238,7 +238,7 @@
         [Fact]
         public async Task UpdateAsync_language_returns_bad_request_on_name_empty()
         {
-            var language = new LanguageDTO(1,"");
+            var language = new LanguageDTO(1, "");
 
             var actual = await _v.LanguageRepository.UpdateAsync(language);
 
@@ -251,7 +251,7 @@
         [Fact]
         public async Task UpdateAsync_language_returns_bad_request_on_name_whitespace()
         {
-            var language = new LanguageDTO(1," ");
+            var language = new LanguageDTO(1, " ");
 
             var actual = await _v.LanguageRepository.UpdateAsync(language);
 
@@ -263,7 +263,7 @@
         [Fact]
         public async Task UpdateAsync_language_with_max_length_returns_updated()
         {
-            var language = new LanguageDTO(1,"asseocarnisanguineoviscericartilaginonervomedullar");
+            var language = new LanguageDTO(1, "asseocarnisanguineoviscericartilaginonervomedullar");
 
             var actual = await _v.LanguageRepository.UpdateAsync(language);
 
