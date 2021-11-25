@@ -10,6 +10,8 @@
 
         public async Task<(Status, ProgrammingLanguageDTO)> CreateAsync(CreateProgrammingLanguageDTO programmingLanguage)
         {
+            if (InvalidInput(programmingLanguage)) return (Status.BadRequest, new ProgrammingLanguageDTO(-1, programmingLanguage.Name));
+
             var existing = await(from l in _context.ProgrammingLanguages
                                  where l.Name == programmingLanguage.Name
                                  select new ProgrammingLanguageDTO(l.Id, l.Name))
@@ -59,6 +61,8 @@
 
         public async Task<Status> UpdateAsync(ProgrammingLanguageDTO programmingProgrammingLanguageDTO)
         {
+            if (InvalidInput(programmingProgrammingLanguageDTO)) return Status.BadRequest;
+
             var existing = await(from l in _context.ProgrammingLanguages
                                  where l.Id != programmingProgrammingLanguageDTO.Id
                                  where l.Name == programmingProgrammingLanguageDTO.Name
@@ -76,6 +80,10 @@
             _context.SaveChanges();
 
             return Status.Updated;
+        }
+        private bool InvalidInput(CreateProgrammingLanguageDTO programmingLanguage)
+        {
+            return (programmingLanguage.Name.Length > 50 || programmingLanguage.Name.Length > 50 || string.IsNullOrEmpty(programmingLanguage.Name) || string.IsNullOrEmpty(programmingLanguage.Name) || string.IsNullOrWhiteSpace(programmingLanguage.Name) || string.IsNullOrWhiteSpace(programmingLanguage.Name));
         }
     }
 }

@@ -10,6 +10,8 @@
 
         public async Task<(Status, MediaDTO)> CreateAsync(CreateMediaDTO media)
         {
+            if (InvalidInput(media)) return (Status.BadRequest, new MediaDTO(-1, media.Name));
+
             var existing = await (from m in _context.Medias
                                   where m.Name == media.Name
                                   select new MediaDTO(m.Id, m.Name))
@@ -59,6 +61,8 @@
 
         public async Task<Status> UpdateAsync(MediaDTO mediaDTO)
         {
+            if (InvalidInput(mediaDTO)) return Status.BadRequest;
+
             var existing = await (from m in _context.Medias
                                   where m.Id != mediaDTO.Id
                                   where m.Name == mediaDTO.Name
@@ -76,6 +80,11 @@
             _context.SaveChanges();
 
             return Status.Updated;
+        }
+
+        private bool InvalidInput(CreateMediaDTO media)
+        {
+            return (media.Name.Length > 50 || media.Name.Length > 50 || string.IsNullOrEmpty(media.Name) || string.IsNullOrEmpty(media.Name) || string.IsNullOrWhiteSpace(media.Name) || string.IsNullOrWhiteSpace(media.Name));
         }
     }
 }

@@ -46,6 +46,55 @@
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public async Task CreateAsync_level_returns_bad_request_on_name_tooLong()
+        {
+            var level = new CreateLevelDTO("asseocarnisanguineoviscericartilaginonervomedullary");
+
+            var actual = await _v.LevelRepository.CreateAsync(level);
+
+            var expected = (Status.BadRequest, new LevelDTO(-1, "asseocarnisanguineoviscericartilaginonervomedullary"));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_level_returns_bad_request_on_name_empty()
+        {
+            var level = new CreateLevelDTO("");
+
+            var actual = await _v.LevelRepository.CreateAsync(level);
+
+            var expected = (Status.BadRequest, new LevelDTO(-1, ""));
+
+            Assert.Equal(expected, actual);
+        }
+
+
+        [Fact]
+        public async Task CreateAsync_level_returns_bad_request_on_name_whitespace()
+        {
+            var level = new CreateLevelDTO(" ");
+
+            var actual = await _v.LevelRepository.CreateAsync(level);
+
+            var expected = (Status.BadRequest, new LevelDTO(-1, " "));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_level_with_max_length_returns_new_language_with_id()
+        {
+            var level = new CreateLevelDTO("asseocarnisanguineoviscericartilaginonervomedullar");
+
+            var actual = await _v.LevelRepository.CreateAsync(level);
+
+            var expected = (Status.Created, new LevelDTO(4, "asseocarnisanguineoviscericartilaginonervomedullar"));
+
+            Assert.Equal(expected, actual);
+        }
         #endregion
 
         #region Read
@@ -170,6 +219,55 @@
             var actual = await _v.LevelRepository.UpdateAsync(updateLevelDTO);
 
             var expected = Status.Conflict;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_level_returns_bad_request_on_name_tooLong()
+        {
+            var level = new LevelDTO(1, "asseocarnisanguineoviscericartilaginonervomedullary");
+
+            var actual = await _v.LevelRepository.UpdateAsync(level);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_level_returns_bad_request_on_name_empty()
+        {
+            var level = new LevelDTO(1, "");
+
+            var actual = await _v.LevelRepository.UpdateAsync(level);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+
+        [Fact]
+        public async Task UpdateAsync_level_returns_bad_request_on_name_whitespace()
+        {
+            var level = new LevelDTO(1, " ");
+
+            var actual = await _v.LevelRepository.UpdateAsync(level);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_level_with_max_length_returns_updated()
+        {
+            var level = new LevelDTO(1, "asseocarnisanguineoviscericartilaginonervomedullar");
+
+            var actual = await _v.LevelRepository.UpdateAsync(level);
+
+            var expected = Status.Updated;
 
             Assert.Equal(expected, actual);
         }

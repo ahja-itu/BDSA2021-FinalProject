@@ -46,6 +46,92 @@
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public async Task CreateAsync_tag_returns_bad_request_on_name_tooLong()
+        {
+            var tag = new CreateTagDTO("asseocarnisanguineoviscericartilaginonervomedullary", 1);
+
+            var actual = await _v.TagRepository.CreateAsync(tag);
+
+            var expected = (Status.BadRequest, new TagDTO(-1, "asseocarnisanguineoviscericartilaginonervomedullary", 1));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_tag_returns_bad_request_on_name_empty()
+        {
+            var tag = new CreateTagDTO("", 1);
+
+            var actual = await _v.TagRepository.CreateAsync(tag);
+
+            var expected = (Status.BadRequest, new TagDTO(-1, "", 1));
+
+            Assert.Equal(expected, actual);
+        }
+
+
+        [Fact]
+        public async Task CreateAsync_tag_returns_bad_request_on_name_whitespace()
+        {
+            var tag = new CreateTagDTO(" ", 1);
+
+            var actual = await _v.TagRepository.CreateAsync(tag);
+
+            var expected = (Status.BadRequest, new TagDTO(-1, " ", 1));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_tag_with_max_length_returns_new_language_with_id()
+        {
+            var tag = new CreateTagDTO("asseocarnisanguineoviscericartilaginonervomedullar", 1);
+
+            var actual = await _v.TagRepository.CreateAsync(tag);
+
+            var expected = (Status.Created, new TagDTO(4, "asseocarnisanguineoviscericartilaginonervomedullar", 1));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_tag_by_id_returns_status_badRequest_value_negative()
+        {
+            var tag = new CreateTagDTO("H", -5);
+
+            var actual = await _v.TagRepository.CreateAsync(tag);
+
+            var expected = (Status.BadRequest, new TagDTO(-1, "H", -5));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_tag_returns_bad_request_with_value_too_low()
+        {
+            var tag = new CreateTagDTO("H", 0);
+
+            var actual = await _v.TagRepository.CreateAsync(tag);
+
+            var expected = (Status.BadRequest, new TagDTO(-1, "H", 0));
+
+            Assert.Equal(expected, actual);
+        }
+
+
+        [Fact]
+        public async Task CreateAsync_tag_returns_bad_request_with_value_too_high()
+        {
+            var tag = new CreateTagDTO("H", 101);
+
+            var actual = await _v.TagRepository.CreateAsync(tag);
+
+            var expected = (Status.BadRequest, new TagDTO(-1, "H", 101));
+
+            Assert.Equal(expected, actual);
+        }
         #endregion
 
         #region Read
@@ -174,6 +260,90 @@
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task UpdateAsync_tag_returns_bad_request_on_name_tooLong()
+        {
+            var tag = new TagDTO(1, "asseocarnisanguineoviscericartilaginonervomedullary", 1);
+
+            var actual = await _v.TagRepository.UpdateAsync(tag);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_tag_returns_bad_request_on_name_empty()
+        {
+            var tag = new TagDTO(1, "", 1);
+
+            var actual = await _v.TagRepository.UpdateAsync(tag);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+
+        [Fact]
+        public async Task UpdateAsync_tag_returns_bad_request_on_name_whitespace()
+        {
+            var tag = new TagDTO(1, " ", 1);
+
+            var actual = await _v.TagRepository.UpdateAsync(tag);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_tag_with_max_length_returns_updated()
+        {
+            var tag = new TagDTO(1, "asseocarnisanguineoviscericartilaginonervomedullar", 1);
+
+            var actual = await _v.TagRepository.UpdateAsync(tag);
+
+            var expected = Status.Updated;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_tag_by_id_returns_status_badRequest_value_too_low()
+        {
+            var updateTagDTO = new TagDTO(3, "H", 0);
+
+            var actual = await _v.TagRepository.UpdateAsync(updateTagDTO);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_tag_by_id_returns_status_badRequest_value_too_high()
+        {
+            var updateTagDTO = new TagDTO(3, "H", 101);
+
+            var actual = await _v.TagRepository.UpdateAsync(updateTagDTO);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_tag_by_id_returns_status_badRequest_value_negative()
+        {
+            var updateTagDTO = new TagDTO(3, "H", -5);
+
+            var actual = await _v.TagRepository.UpdateAsync(updateTagDTO);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
         #endregion
     }
 }

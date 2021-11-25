@@ -9,7 +9,9 @@
             _context = context;
         }
         public async Task<(Status, AuthorDTO)> CreateAsync(CreateAuthorDTO author)
-        {
+        {                
+            if(InvalidInput(author)) return (Status.BadRequest, new AuthorDTO(-1, author.FirstName, author.SurName));
+
             var existing = await (from a in _context.Authors
                                   where a.FirstName == author.FirstName
                                   where a.SurName == author.SurName
@@ -61,6 +63,8 @@
 
         public async Task<Status> UpdateAsync(AuthorDTO authorDTO)
         {
+            if (InvalidInput(authorDTO)) return Status.BadRequest;
+
             var existing = await (from a in _context.Authors
                                   where a.Id != authorDTO.Id
                                   where a.FirstName == authorDTO.FirstName
@@ -80,6 +84,11 @@
             _context.SaveChanges();
 
             return Status.Updated;
+        }
+
+        private bool InvalidInput(CreateAuthorDTO author)
+        {
+            return (author.FirstName.Length > 50 || author.SurName.Length > 50 || string.IsNullOrEmpty(author.FirstName) || string.IsNullOrEmpty(author.SurName) || string.IsNullOrWhiteSpace(author.FirstName) || string.IsNullOrWhiteSpace(author.SurName));
         }
     }
 }

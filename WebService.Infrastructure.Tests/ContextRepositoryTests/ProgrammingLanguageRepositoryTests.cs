@@ -46,6 +46,55 @@
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public async Task CreateAsync_programmingLanguage_returns_bad_request_on_name_tooLong()
+        {
+            var programmingLanguage = new CreateProgrammingLanguageDTO("asseocarnisanguineoviscericartilaginonervomedullary");
+
+            var actual = await _v.ProgrammingLanguageRepository.CreateAsync(programmingLanguage);
+
+            var expected = (Status.BadRequest, new ProgrammingLanguageDTO(-1, "asseocarnisanguineoviscericartilaginonervomedullary"));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_programmingLanguage_returns_bad_request_on_name_empty()
+        {
+            var programmingLanguage = new CreateProgrammingLanguageDTO("");
+
+            var actual = await _v.ProgrammingLanguageRepository.CreateAsync(programmingLanguage);
+
+            var expected = (Status.BadRequest, new ProgrammingLanguageDTO(-1, ""));
+
+            Assert.Equal(expected, actual);
+        }
+
+
+        [Fact]
+        public async Task CreateAsync_programmingLanguage_returns_bad_request_on_name_whitespace()
+        {
+            var programmingLanguage = new CreateProgrammingLanguageDTO(" ");
+
+            var actual = await _v.ProgrammingLanguageRepository.CreateAsync(programmingLanguage);
+
+            var expected = (Status.BadRequest, new ProgrammingLanguageDTO(-1, " "));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_programmingLanguage_with_max_length_returns_new_language_with_id()
+        {
+            var programmingLanguage = new CreateProgrammingLanguageDTO("asseocarnisanguineoviscericartilaginonervomedullar");
+
+            var actual = await _v.ProgrammingLanguageRepository.CreateAsync(programmingLanguage);
+
+            var expected = (Status.Created, new ProgrammingLanguageDTO(4, "asseocarnisanguineoviscericartilaginonervomedullar"));
+
+            Assert.Equal(expected, actual);
+        }
         #endregion
 
         #region Read
@@ -170,6 +219,55 @@
             var actual = await _v.ProgrammingLanguageRepository.UpdateAsync(updateProgrammingLanguageDTO);
 
             var expected = Status.Conflict;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_programmingLanguage_returns_bad_request_on_name_tooLong()
+        {
+            var programmingLanguage = new ProgrammingLanguageDTO(1, "asseocarnisanguineoviscericartilaginonervomedullary");
+
+            var actual = await _v.ProgrammingLanguageRepository.UpdateAsync(programmingLanguage);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_programmingLanguage_returns_bad_request_on_name_empty()
+        {
+            var programmingLanguage = new ProgrammingLanguageDTO(1, "");
+
+            var actual = await _v.ProgrammingLanguageRepository.UpdateAsync(programmingLanguage);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+
+        [Fact]
+        public async Task UpdateAsync_programmingLanguage_returns_bad_request_on_name_whitespace()
+        {
+            var programmingLanguage = new ProgrammingLanguageDTO(1, " ");
+
+            var actual = await _v.ProgrammingLanguageRepository.UpdateAsync(programmingLanguage);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_programmingLanguage_with_max_length_returns_updated()
+        {
+            var programmingLanguage = new ProgrammingLanguageDTO(1, "asseocarnisanguineoviscericartilaginonervomedullar");
+
+            var actual = await _v.ProgrammingLanguageRepository.UpdateAsync(programmingLanguage);
+
+            var expected = Status.Updated;
 
             Assert.Equal(expected, actual);
         }

@@ -46,6 +46,151 @@
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public async Task CreateAsync_author_returns_bad_request_on_firstName_tooLong()
+        {
+            var author = new CreateAuthorDTO("asseocarnisanguineoviscericartilaginonervomedullary", "Wachs");
+
+            var actual = await _v.AuthorRepository.CreateAsync(author);
+
+            var expected = (Status.BadRequest, new AuthorDTO(-1, "asseocarnisanguineoviscericartilaginonervomedullary", "Wachs"));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_author_returns_bad_request_on_surName_tooLong()
+        {
+            var author = new CreateAuthorDTO("Andreas", "asseocarnisanguineoviscericartilaginonervomedullary");
+
+            var actual = await _v.AuthorRepository.CreateAsync(author);
+
+            var expected = (Status.BadRequest, new AuthorDTO(-1, "Andreas", "asseocarnisanguineoviscericartilaginonervomedullary"));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_author_returns_bad_request_on_names_tooLong()
+        {
+            var author = new CreateAuthorDTO("asseocarnisanguineoviscericartilaginonervomedullary", "asseocarnisanguineoviscericartilaginonervomedullary");
+
+            var actual = await _v.AuthorRepository.CreateAsync(author);
+
+            var expected = (Status.BadRequest, new AuthorDTO(-1, "asseocarnisanguineoviscericartilaginonervomedullary", "asseocarnisanguineoviscericartilaginonervomedullary"));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_author_returns_bad_request_on_firstName_empty()
+        {
+            var author = new CreateAuthorDTO("", "Wachs");
+
+            var actual = await _v.AuthorRepository.CreateAsync(author);
+
+            var expected = (Status.BadRequest, new AuthorDTO(-1, "", "Wachs"));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_author_returns_bad_request_on_surName_empty()
+        {
+            var author = new CreateAuthorDTO("Andreas", "");
+
+            var actual = await _v.AuthorRepository.CreateAsync(author);
+
+            var expected = (Status.BadRequest, new AuthorDTO(-1, "Andreas", ""));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_author_returns_bad_request_on_names_empty()
+        {
+            var author = new CreateAuthorDTO("", "");
+
+            var actual = await _v.AuthorRepository.CreateAsync(author);
+
+            var expected = (Status.BadRequest, new AuthorDTO(-1, "", ""));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_author_returns_bad_request_on_firstName_whitespace()
+        {
+            var author = new CreateAuthorDTO(" ", "Wachs");
+
+            var actual = await _v.AuthorRepository.CreateAsync(author);
+
+            var expected = (Status.BadRequest, new AuthorDTO(-1, " ", "Wachs"));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_author_returns_bad_request_on_surName_whitespace()
+        {
+            var author = new CreateAuthorDTO("Andreas", " ");
+
+            var actual = await _v.AuthorRepository.CreateAsync(author);
+
+            var expected = (Status.BadRequest, new AuthorDTO(-1, "Andreas", " "));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_author_returns_bad_request_on_names_whitespace()
+        {
+            var author = new CreateAuthorDTO(" ", " ");
+
+            var actual = await _v.AuthorRepository.CreateAsync(author);
+
+            var expected = (Status.BadRequest, new AuthorDTO(-1, " ", " "));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_author_with_max_length_firstName_returns_new_author_with_id()
+        {
+            var author = new CreateAuthorDTO("asseocarnisanguineoviscericartilaginonervomedullar", "Wachs");
+
+            var actual = await _v.AuthorRepository.CreateAsync(author);
+
+            var expected = (Status.Created, new AuthorDTO(4, "asseocarnisanguineoviscericartilaginonervomedullar", "Wachs"));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_author_with_max_length_surName_returns_new_author_with_id()
+        {
+            var author = new CreateAuthorDTO("Andreas", "asseocarnisanguineoviscericartilaginonervomedullar");
+
+            var actual = await _v.AuthorRepository.CreateAsync(author);
+
+            var expected = (Status.Created, new AuthorDTO(4, "Andreas", "asseocarnisanguineoviscericartilaginonervomedullar"));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_author_with_max_length_both_names_returns_new_author_with_id()
+        {
+            var author = new CreateAuthorDTO("asseocarnisanguineoviscericartilaginonervomedullar", "asseocarnisanguineoviscericartilaginonervomedullar");
+
+            var actual = await _v.AuthorRepository.CreateAsync(author);
+
+            var expected = (Status.Created, new AuthorDTO(4, "asseocarnisanguineoviscericartilaginonervomedullar", "asseocarnisanguineoviscericartilaginonervomedullar"));
+
+            Assert.Equal(expected, actual);
+        }
+
         #endregion
 
         #region Read
@@ -170,6 +315,150 @@
             var actual = await _v.AuthorRepository.UpdateAsync(updateAuthorDTO);
 
             var expected = Status.Conflict;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_author_returns_bad_request_on_firstName()
+        {
+            var author = new AuthorDTO(1,"asseocarnisanguineoviscericartilaginonervomedullary", "Wachs");
+
+            var actual = await _v.AuthorRepository.UpdateAsync(author);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_author_returns_bad_request_on_surName()
+        {
+            var author = new AuthorDTO(1,"Andreas", "asseocarnisanguineoviscericartilaginonervomedullary");
+
+            var actual = await _v.AuthorRepository.UpdateAsync(author);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_author_returns_bad_request_on_names()
+        {
+            var author = new AuthorDTO(1,"asseocarnisanguineoviscericartilaginonervomedullary", "asseocarnisanguineoviscericartilaginonervomedullary");
+
+            var actual = await _v.AuthorRepository.UpdateAsync(author);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_author_returns_bad_request_on_firstName_empty()
+        {
+            var author = new AuthorDTO(1,"", "Wachs");
+
+            var actual = await _v.AuthorRepository.UpdateAsync(author);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_author_returns_bad_request_on_surName_empty()
+        {
+            var author = new AuthorDTO(1,"Andreas", "");
+
+            var actual = await _v.AuthorRepository.UpdateAsync(author);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_author_returns_bad_request_on_names_empty()
+        {
+            var author = new AuthorDTO(1,"", "");
+
+            var actual = await _v.AuthorRepository.UpdateAsync(author);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_author_returns_bad_request_on_firstName_whitespace()
+        {
+            var author = new AuthorDTO(1," ", "Wachs");
+
+            var actual = await _v.AuthorRepository.UpdateAsync(author);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_author_returns_bad_request_on_surName_whitespace()
+        {
+            var author = new AuthorDTO(1,"Andreas", " ");
+
+            var actual = await _v.AuthorRepository.UpdateAsync(author);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_author_returns_bad_request_on_names_whitespace()
+        {
+            var author = new AuthorDTO(1," ", " ");
+
+            var actual = await _v.AuthorRepository.UpdateAsync(author);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_author_with_max_length_firstName_returns_updated()
+        {
+            var author = new AuthorDTO(1,"asseocarnisanguineoviscericartilaginonervomedullar", "Wachs");
+
+            var actual = await _v.AuthorRepository.UpdateAsync(author);
+
+            var expected = Status.Updated;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_author_with_max_length_surName_returns_updated()
+        {
+            var author = new AuthorDTO(1,"Andreas", "asseocarnisanguineoviscericartilaginonervomedullar");
+
+            var actual = await _v.AuthorRepository.UpdateAsync(author);
+
+            var expected = Status.Updated;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_author_with_max_length_both_names_returns_updated()
+        {
+            var author = new AuthorDTO(1,"asseocarnisanguineoviscericartilaginonervomedullar", "asseocarnisanguineoviscericartilaginonervomedullar");
+
+            var actual = await _v.AuthorRepository.UpdateAsync(author);
+
+            var expected = Status.Updated;
 
             Assert.Equal(expected, actual);
         }

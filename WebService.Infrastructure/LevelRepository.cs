@@ -11,6 +11,8 @@
 
         public async Task<(Status, LevelDTO)> CreateAsync(CreateLevelDTO level)
         {
+            if (InvalidInput(level)) return (Status.BadRequest, new LevelDTO(-1, level.EducationLevel));
+
             var existing = await(from l in _context.Levels
                                  where l.EducationLevel == level.EducationLevel
                                  select new LevelDTO(l.Id, l.EducationLevel))
@@ -59,6 +61,8 @@
 
         public async Task<Status> UpdateAsync(LevelDTO levelDTO)
         {
+            if (InvalidInput(levelDTO)) return Status.BadRequest;
+
             var existing = await (from l in _context.Levels
                                   where l.Id != levelDTO.Id
                                   where l.EducationLevel == levelDTO.EducationLevel
@@ -76,6 +80,11 @@
             _context.SaveChanges();
 
             return Status.Updated;
+        }
+
+        private bool InvalidInput(CreateLevelDTO level)
+        {
+            return (level.EducationLevel.Length > 50 || level.EducationLevel.Length > 50 || string.IsNullOrEmpty(level.EducationLevel) || string.IsNullOrEmpty(level.EducationLevel) || string.IsNullOrWhiteSpace(level.EducationLevel) || string.IsNullOrWhiteSpace(level.EducationLevel));
         }
     }
 }

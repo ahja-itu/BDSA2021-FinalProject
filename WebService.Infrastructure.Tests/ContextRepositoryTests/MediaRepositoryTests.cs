@@ -46,6 +46,55 @@
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public async Task CreateAsync_media_returns_bad_request_on_name_tooLong()
+        {
+            var media = new CreateMediaDTO("asseocarnisanguineoviscericartilaginonervomedullary");
+
+            var actual = await _v.MediaRepository.CreateAsync(media);
+
+            var expected = (Status.BadRequest, new MediaDTO(-1, "asseocarnisanguineoviscericartilaginonervomedullary"));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_media_returns_bad_request_on_name_empty()
+        {
+            var media = new CreateMediaDTO("");
+
+            var actual = await _v.MediaRepository.CreateAsync(media);
+
+            var expected = (Status.BadRequest, new MediaDTO(-1, ""));
+
+            Assert.Equal(expected, actual);
+        }
+
+
+        [Fact]
+        public async Task CreateAsync_media_returns_bad_request_on_name_whitespace()
+        {
+            var media = new CreateMediaDTO(" ");
+
+            var actual = await _v.MediaRepository.CreateAsync(media);
+
+            var expected = (Status.BadRequest, new MediaDTO(-1, " "));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_media_with_max_length_returns_new_language_with_id()
+        {
+            var media = new CreateMediaDTO("asseocarnisanguineoviscericartilaginonervomedullar");
+
+            var actual = await _v.MediaRepository.CreateAsync(media);
+
+            var expected = (Status.Created, new MediaDTO(4, "asseocarnisanguineoviscericartilaginonervomedullar"));
+
+            Assert.Equal(expected, actual);
+        }
         #endregion
 
         #region Read
@@ -170,6 +219,55 @@
             var actual = await _v.MediaRepository.UpdateAsync(updateMediaDTO);
 
             var expected = Status.Conflict;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_media_returns_bad_request_on_name_tooLong()
+        {
+            var media = new MediaDTO(1, "asseocarnisanguineoviscericartilaginonervomedullary");
+
+            var actual = await _v.MediaRepository.UpdateAsync(media);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_media_returns_bad_request_on_name_empty()
+        {
+            var media = new MediaDTO(1, "");
+
+            var actual = await _v.MediaRepository.UpdateAsync(media);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+
+        [Fact]
+        public async Task UpdateAsync_media_returns_bad_request_on_name_whitespace()
+        {
+            var media = new MediaDTO(1, " ");
+
+            var actual = await _v.MediaRepository.UpdateAsync(media);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_media_with_max_length_returns_updated()
+        {
+            var media = new MediaDTO(1, "asseocarnisanguineoviscericartilaginonervomedullar");
+
+            var actual = await _v.MediaRepository.UpdateAsync(media);
+
+            var expected = Status.Updated;
 
             Assert.Equal(expected, actual);
         }

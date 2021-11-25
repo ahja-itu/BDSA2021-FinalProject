@@ -45,6 +45,43 @@
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public async Task CreateAsync_rating_by_id_returns_status_badRequest_value_negative()
+        {
+            var rating = new CreateRatingDTO(-5);
+
+            var actual = await _v.RatingRepository.CreateAsync(rating);
+
+            var expected = (Status.BadRequest, new RatingDTO(-1, 0));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_rating_returns_bad_request_with_value_too_low()
+        {
+            var rating = new CreateRatingDTO(11);
+
+            var actual = await _v.RatingRepository.CreateAsync(rating);
+
+            var expected = (Status.BadRequest, new RatingDTO(-1, 0));
+
+            Assert.Equal(expected, actual);
+        }
+
+
+        [Fact]
+        public async Task CreateAsync_rating_returns_bad_request_with_value_too_high()
+        {
+            var rating = new CreateRatingDTO(0);
+
+            var actual = await _v.RatingRepository.CreateAsync(rating);
+
+            var expected = (Status.BadRequest, new RatingDTO(-1, 0));
+
+            Assert.Equal(expected, actual);
+        }
         #endregion
 
         #region Read
@@ -169,6 +206,42 @@
             var actual = await _v.RatingRepository.UpdateAsync(updateRatingDTO);
 
             var expected = Status.Conflict;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_rating_by_id_returns_status_badRequest_value_too_low()
+        {
+            var updateRatingDTO = new RatingDTO(3, 0);
+
+            var actual = await _v.RatingRepository.UpdateAsync(updateRatingDTO);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_rating_by_id_returns_status_badRequest_value_too_high()
+        {
+            var updateRatingDTO = new RatingDTO(3, 11);
+
+            var actual = await _v.RatingRepository.UpdateAsync(updateRatingDTO);
+
+            var expected = Status.BadRequest;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_rating_by_id_returns_status_badRequest_value_negative()
+        {
+            var updateRatingDTO = new RatingDTO(3, -5);
+
+            var actual = await _v.RatingRepository.UpdateAsync(updateRatingDTO);
+
+            var expected = Status.BadRequest;
 
             Assert.Equal(expected, actual);
         }

@@ -10,6 +10,8 @@
 
         public async Task<(Status, RatingDTO)> CreateAsync(CreateRatingDTO rating)
         {
+            if (InvalidInput(rating)) return (Status.BadRequest, new RatingDTO(-1,0));
+
             var existing = await (from r in _context.Ratings
                                   where r.Value == rating.Value
                                   select new RatingDTO(r.Id, r.Value))
@@ -59,6 +61,8 @@
 
         public async Task<Status> UpdateAsync(RatingDTO ratingDTO)
         {
+            if (InvalidInput(ratingDTO)) return Status.BadRequest;
+
             var existing = await (from r in _context.Ratings
                                   where r.Id != ratingDTO.Id
                                   where r.Value == ratingDTO.Value
@@ -76,6 +80,11 @@
             _context.SaveChanges();
 
             return Status.Updated;
+        }
+
+        private bool InvalidInput(CreateRatingDTO rating)
+        {
+            return !(rating.Value >= 1 && rating.Value <= 10);
         }
     }
 }
