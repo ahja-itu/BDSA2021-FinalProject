@@ -11,6 +11,19 @@
 
         public Task<(Status, MaterialDTO)> CreateAsync(CreateMaterialDTO material)
         {
+            var entity = new Material()
+            {
+                Tags = new List<Tag> { tag1 },
+                Ratings = new List<Rating> { rating1 },
+                Levels = new List<Level> { level1 },
+                ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage1 },
+                Medias = new List<Media> { media1 },
+                Language = language1,
+                Content = content1,
+                Title = "Material 1",
+                Authors = new List<Author> { author1 },
+                TimeStamp = System.DateTime.UtcNow
+            }
             throw new NotImplementedException();
         }
 

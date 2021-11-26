@@ -4,7 +4,7 @@ namespace WebService.Core.Shared
 {
     public record MaterialDTO : CreateMaterialDTO
     {
-        public MaterialDTO(int id, ICollection<TagDTO> tags, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<string> authors, DateTime timeStamp) : base(tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, timeStamp)
+        public MaterialDTO(int id, ICollection<TagDTO> tags, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<AuthorDTO> authors, DateTime timeStamp) : base(tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, timeStamp)
         {
             Id = id;
         }
@@ -13,7 +13,7 @@ namespace WebService.Core.Shared
     }
     public record CreateMaterialDTO
     {
-        public CreateMaterialDTO(ICollection<TagDTO> tags, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<string> authors, DateTime timeStamp)
+        public CreateMaterialDTO(ICollection<TagDTO> tags, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<AuthorDTO> authors, DateTime timeStamp)
         {
             Tags = tags;
             Ratings = ratings;
@@ -36,13 +36,13 @@ namespace WebService.Core.Shared
         public IPresentableMaterial Content { get; init; }
         [StringLength(50)]
         public string Title { get; init; }
-        public ICollection<string> Authors { get; init; }
+        public ICollection<AuthorDTO> Authors { get; init; }
         public DateTime TimeStamp { get; init; }
     }
 
     public record UpdateMaterialDTO : CreateMaterialDTO
     {
-        public UpdateMaterialDTO(int id, ICollection<TagDTO> tags, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<string> authors, DateTime timeStamp) : base(tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, timeStamp)
+        public UpdateMaterialDTO(int id, ICollection<TagDTO> tags, ICollection<RatingDTO> ratings, ICollection<LevelDTO> levels, ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<MediaDTO> medias, LanguageDTO language, IPresentableMaterial content, string title, ICollection<AuthorDTO> authors, DateTime timeStamp) : base(tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, timeStamp)
         {
             Id = id;
         }
