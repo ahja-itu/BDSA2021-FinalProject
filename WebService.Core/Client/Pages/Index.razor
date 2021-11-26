@@ -1,5 +1,9 @@
 ﻿@page "/"
-
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using WebService.Core.Shared
+@attribute [Authorize]
+@inject HttpClient Http
 <PageTitle>Index</PageTitle>
 <style>
     .btgInput{
@@ -33,22 +37,13 @@
         color:#FF9F1C;
         background:transparent !important;
     }
-    .bigIcon.i * {
-        font-size:10em !important;
-    }
-    .mediumIcon{
-
-    }
-    .smallIcon{
-
-    }
     
 </style>
 <h1 style="text-align: center; color:#ffffff" >Bridge The Gap!</h1>
 <div class="row" style="border-bottom:solid;border-color:#7765E3">
     <div class="col d-flex justify-content-center align-item-center" style="width:100%">
             <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" Style="width:100%;font-size:2em"/>
-            <RadzenButton class="btgIconButton bigIcon" Click="Search" Icon="search"/>  
+            <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>  
     </div>
 </div>
 @if (AdvancedView)
@@ -57,7 +52,6 @@
         <div class="row">
             <div class="col" data-toggle="buttons">
                 <RadzenButton Click=@(_ => ChangeFilter("Tags")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Tags"/>
-                <RadzenButton Click=@(_ => ChangeFilter("Categories")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Categories"/>
                 <RadzenButton Click=@(_ => ChangeFilter("Ratings")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Ratings"/>
                 <RadzenButton Click=@(_ => ChangeFilter("Levels")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Levels"/>
                 <RadzenButton Click=@(_ => ChangeFilter("Programing Language")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Programing Languages"/>
@@ -69,19 +63,24 @@
         {
             <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
                 <div class="col">
-                    <RadzenTextBox class="btgInput" Change="SearchFilters" @bind-Value=@FilterSearchInput Placeholder="@placeholder"/>
+                    <RadzenTextBox class="btgInput" onchange="SearchFilters" @bind-Value=@FilterSearchInput Placeholder="@placeholder"/>
                     <RadzenButton Click="SearchFilters" Icon="search" class="btgIconButton smallIcon"/> 
                 </div>
             </div>
             <div class="row">
-                
+                @foreach (var str in showCollection)
+                {
+                     <RadzenButton Click=@(_ => AddFilterToList(str)) Style="border-radius: 24px; background: #fff; margin:10px; color:#7765E3; width: auto;" Text="@str"/>
+                }
+                <p>@teststring</p>
+
             </div>
         }
         else
         {
             <div class="row">
                 <h3 style="margin-top: 2rem">Range Slider</h3>
-                <RadzenSlider Range="true" @bind-Value=@ratingValues TValue="IEnumerable<int>" Min="1" Max="10"/>
+                <RadzenSlider @bind-Value=@rating TValue="int" Step="1" Min="0" Max="10" />
             </div>
         }  
     </div>
@@ -91,12 +90,30 @@
 </div>
 
 @code{
-    string SearchInput;
+    string teststring = "start";
+    string SearchInput = "";
     private void Search() => Console.WriteLine(SearchInput);
+    ICollection<string> tags = new string[] {"I", "am", "a","tag"};
+    ICollection<string> levels = new string[] {"I", "am", "a","level"};
+    ICollection<string> programingLang = new string[] {"I", "am", "a","Programming","language"};
+    ICollection<string> lang = new string[] {"I", "am", "a","Language"};
+    ICollection<string> medias = new string[] {"We", "are", "a","collection","of","medias"};
+
+    ICollection<string> lastCalledCollection = new List<string>() { "Hello","World","!"};
+    ICollection<string> showCollection = new List<string>() { "Hello","World","!"};
+
+    string collectionToSaveTo = "Tags";
+    ICollection<string> tagsToSend = new string[] { };
+    ICollection<string> levelsToSend = new string[] { };
+    ICollection<string> programmingLangToSend = new string[] { };
+    ICollection<string> langToSend = new string[] { };
+    ICollection<string> mediaToSend = new string[] { };
+
+
 
     bool IsShowingFilterOptions = true;
     string placeholder = "Search Tags";
-    IEnumerable<int> ratingValues;
+    int rating = 5;
     private void ChangeFilter(string filterName)
     {
         placeholder = "Search " + filterName;
@@ -106,24 +123,22 @@
             switch (filterName)
             {
                 case "Tags":
-                    //fill TagsList
-                    break;
-                case "Categories":
-                    //fill CategoriesList
+                    ReplaceListWithBackup(ref showCollection, tags);
                     break;
                 case "Levels":
-                    //fill LevelsList
+                    ReplaceListWithBackup(ref showCollection, levels);
                     break;
                 case "Programing Language":
-                    //fill ProgramingLanguageList
+                    ReplaceListWithBackup(ref showCollection, programingLang);
                     break;
                 case "Languages":
-                    //fill LanguagesList
+                    ReplaceListWithBackup(ref showCollection, lang);
                     break;
                 case "Medias":
-                    //fill MediasList
+                    ReplaceListWithBackup(ref showCollection, medias);
                     break;
             }
+            collectionToSaveTo = filterName;
         }
         else
         {
@@ -131,10 +146,16 @@
         }
     }
 
-    string FilterSearchInput;
+    string FilterSearchInput = "";
     private void SearchFilters()
     {
-        
+        ICollection<string> ToShow = new List<string>();
+        ReplaceListWithoutBackup(ref showCollection, lastCalledCollection);
+        foreach (var str in showCollection)
+        {
+            if (str.Contains(FilterSearchInput) || FilterSearchInput.Contains(str)) ToShow.Add(str);
+        }
+        ReplaceListWithoutBackup(ref showCollection, ToShow);
     }
 
     bool AdvancedView = false;
@@ -144,4 +165,69 @@
         displayIcon = !AdvancedView ? "expand_less" : "expand_more";
         AdvancedView = !AdvancedView;
     }
+    private void ReplaceListWithBackup(ref ICollection<string> target, ICollection<string> source)
+    {
+        ReplaceListWithoutBackup(ref target, source);
+        lastCalledCollection = source;
+    }
+    private void ReplaceListWithoutBackup(ref ICollection<string> target, ICollection<string> source)
+    {
+        target.Clear();
+        foreach(var str in source) 
+        {
+            target.Add(str);
+        }
+    }
+
+    private void AddFilterToList(string toAdd)
+    {
+        switch (collectionToSaveTo)
+        {
+            case "Tags":
+                ToggelFilter(tagsToSend, toAdd);
+                break;
+            case "Levels":
+                ToggelFilter(levelsToSend, toAdd);
+                break;
+            case "Programing Language":
+                ToggelFilter(programmingLangToSend, toAdd);
+                break;
+            case "Languages":
+                ToggelFilter(langToSend, toAdd);
+                break;
+            case "Medias":
+                ToggelFilter(mediaToSend, toAdd);
+                break;
+        }
+    }
+
+    private void ToggelFilter(ICollection<string> list,string text)
+    {
+        teststring = "adding " + text;
+        if (list.Contains(text))
+        {
+            //  list.Remove(text);
+        }
+        else
+        {
+           list.Add(text);
+        }
+        
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var tagsDTOs = await Http.GetFromJsonAsync<ICollection<TagDTO>>("api/Tag");
+        var levelsDTOs = await Http.GetFromJsonAsync<ICollection<LevelDTO>>("api/Level");
+        var programingLangDTOs = await Http.GetFromJsonAsync<ICollection<ProgrammingLanguageDTO>>("api/ProgrammingLanguage");
+        var langDTOs = await Http.GetFromJsonAsync<ICollection<LanguageDTO>>("api/Language");
+        var mediasDTOs = await Http.GetFromJsonAsync<ICollection<MediaDTO>>("api/Media");
+
+        tags = tagsDTOs == null ? new List<string>(){} : tagsDTOs.Select(e => e.Name).ToList();
+        tags = levelsDTOs == null ? new List<string>(){} : levelsDTOs.Select(e => e.EducationLevel).ToList();
+        tags = programingLangDTOs == null ? new List<string>(){} : programingLangDTOs.Select(e => e.Name).ToList();
+        tags = langDTOs == null ? new List<string>(){} : langDTOs.Select(e => e.Name).ToList();
+        tags = mediasDTOs == null ? new List<string>(){} : mediasDTOs.Select(e => e.Name).ToList();
+    }
+    
 }
