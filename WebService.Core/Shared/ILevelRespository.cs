@@ -6,5 +6,6 @@
         Task<(Status, LevelDTO)> ReadAsync(int levelId);
         Task<IReadOnlyCollection<LevelDTO>> ReadAsync();
         Task<Status> DeleteAsync(int levelId);
+        Task<Status> UpdateAsync(LevelDTO levelDTO);
     }
 }

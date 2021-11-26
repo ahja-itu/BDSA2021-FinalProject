@@ -9,24 +9,82 @@
             _context = context;
         }
 
-        public Task<(Status, LevelDTO)> CreateAsync(CreateLevelDTO level)
+        public async Task<(Status, LevelDTO)> CreateAsync(CreateLevelDTO level)
         {
-            throw new NotImplementedException();
+            if (InvalidInput(level)) return (Status.BadRequest, new LevelDTO(-1, level.EducationLevel));
+
+            var existing = await (from l in _context.Levels
+                                  where l.EducationLevel == level.EducationLevel
+                                  select new LevelDTO(l.Id, l.EducationLevel))
+                           .FirstOrDefaultAsync();
+            if (existing != null) return (Status.Conflict, existing);
+
+            var entity = new Level(level.EducationLevel);
+
+            _context.Levels.Add(entity);
+
+            await _context.SaveChangesAsync();
+
+            return (Status.Created, new LevelDTO(entity.Id, entity.EducationLevel));
         }
 
-        public Task<Status> DeleteAsync(int levelId)
+        public async Task<Status> DeleteAsync(int levelId)
         {
-            throw new NotImplementedException();
+            var level = await _context.Levels.FindAsync(levelId);
+
+            if (level == null) return Status.NotFound;
+
+            _context.Levels.Remove(level);
+
+            await _context.SaveChangesAsync();
+
+            return Status.Deleted;
         }
 
-        public Task<(Status, LevelDTO)> ReadAsync(int levelId)
+        public async Task<(Status, LevelDTO)> ReadAsync(int levelId)
         {
-            throw new NotImplementedException();
+            var query = from l in _context.Levels
+                        where l.Id == levelId
+                        select new LevelDTO(l.Id, l.EducationLevel);
+
+            var category = await query.FirstOrDefaultAsync();
+
+            if (category == null) return (Status.NotFound, new LevelDTO(-1, ""));
+
+            return (Status.Found, category);
         }
 
-        public Task<IReadOnlyCollection<LevelDTO>> ReadAsync()
+        public async Task<IReadOnlyCollection<LevelDTO>> ReadAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Levels.Select(l => new LevelDTO(l.Id, l.EducationLevel)).ToListAsync();
+        }
+
+        public async Task<Status> UpdateAsync(LevelDTO levelDTO)
+        {
+            if (InvalidInput(levelDTO)) return Status.BadRequest;
+
+            var existing = await (from l in _context.Levels
+                                  where l.Id != levelDTO.Id
+                                  where l.EducationLevel == levelDTO.EducationLevel
+                                  select new LevelDTO(l.Id, l.EducationLevel))
+                                     .AnyAsync();
+
+            if (existing) return Status.Conflict;
+
+            var entity = await _context.Levels.FindAsync(levelDTO.Id);
+
+            if (entity == null) return Status.NotFound;
+
+            entity.EducationLevel = levelDTO.EducationLevel;
+
+            _context.SaveChanges();
+
+            return Status.Updated;
+        }
+
+        private bool InvalidInput(CreateLevelDTO level)
+        {
+            return (level.EducationLevel.Length > 50 || level.EducationLevel.Length > 50 || string.IsNullOrEmpty(level.EducationLevel) || string.IsNullOrEmpty(level.EducationLevel) || string.IsNullOrWhiteSpace(level.EducationLevel) || string.IsNullOrWhiteSpace(level.EducationLevel));
         }
     }
 }

@@ -8,24 +8,83 @@
             _context = context;
         }
 
-        public Task<(Status, MediaDTO)> CreateAsync(CreateMediaDTO media)
+        public async Task<(Status, MediaDTO)> CreateAsync(CreateMediaDTO media)
         {
-            throw new NotImplementedException();
+            if (InvalidInput(media)) return (Status.BadRequest, new MediaDTO(-1, media.Name));
+
+            var existing = await (from m in _context.Medias
+                                  where m.Name == media.Name
+                                  select new MediaDTO(m.Id, m.Name))
+                          .FirstOrDefaultAsync();
+
+            if (existing != null) return (Status.Conflict, existing);
+
+            var entity = new Media(media.Name);
+
+            _context.Medias.Add(entity);
+
+            await _context.SaveChangesAsync();
+
+            return (Status.Created, new MediaDTO(entity.Id, entity.Name));
         }
 
-        public Task<Status> DeleteAsync(int mediaId)
+        public async Task<Status> DeleteAsync(int mediaId)
         {
-            throw new NotImplementedException();
+            var media = await _context.Medias.FindAsync(mediaId);
+
+            if (media == null) return Status.NotFound;
+
+            _context.Medias.Remove(media);
+
+            await _context.SaveChangesAsync();
+
+            return Status.Deleted;
         }
 
-        public Task<(Status, MediaDTO)> ReadAsync(int mediaId)
+        public async Task<(Status, MediaDTO)> ReadAsync(int mediaId)
         {
-            throw new NotImplementedException();
+            var query = from m in _context.Medias
+                        where m.Id == mediaId
+                        select new MediaDTO(m.Id, m.Name);
+
+            var category = await query.FirstOrDefaultAsync();
+
+            if (category == null) return (Status.NotFound, new MediaDTO(-1, ""));
+
+            return (Status.Found, category);
         }
 
-        public Task<IReadOnlyCollection<MediaDTO>> ReadAsync()
+        public async Task<IReadOnlyCollection<MediaDTO>> ReadAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Medias.Select(m => new MediaDTO(m.Id, m.Name)).ToListAsync();
+        }
+
+        public async Task<Status> UpdateAsync(MediaDTO mediaDTO)
+        {
+            if (InvalidInput(mediaDTO)) return Status.BadRequest;
+
+            var existing = await (from m in _context.Medias
+                                  where m.Id != mediaDTO.Id
+                                  where m.Name == mediaDTO.Name
+                                  select new MediaDTO(m.Id, m.Name))
+                                      .AnyAsync();
+
+            if (existing) return Status.Conflict;
+
+            var entity = await _context.Medias.FindAsync(mediaDTO.Id);
+
+            if (entity == null) return Status.NotFound;
+
+            entity.Name = mediaDTO.Name;
+
+            _context.SaveChanges();
+
+            return Status.Updated;
+        }
+
+        private bool InvalidInput(CreateMediaDTO media)
+        {
+            return (media.Name.Length > 50 || media.Name.Length > 50 || string.IsNullOrEmpty(media.Name) || string.IsNullOrEmpty(media.Name) || string.IsNullOrWhiteSpace(media.Name) || string.IsNullOrWhiteSpace(media.Name));
         }
     }
 }

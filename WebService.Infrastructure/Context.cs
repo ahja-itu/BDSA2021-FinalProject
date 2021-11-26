@@ -15,8 +15,8 @@
         public DbSet<ProgrammingLanguage> ProgrammingLanguages => Set<ProgrammingLanguage>();
 
         public DbSet<Rating> Ratings => Set<Rating>();
-
         public DbSet<Tag> Tags => Set<Tag>();
+        public DbSet<Author> Authors => Set<Author>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Language>()
@@ -24,7 +24,7 @@
                 .IsUnique();
 
             modelBuilder.Entity<Level>()
-                .HasIndex(s => s.Name)
+                .HasIndex(s => s.EducationLevel)
                 .IsUnique();
 
             modelBuilder.Entity<Material>()

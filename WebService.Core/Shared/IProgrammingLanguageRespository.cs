@@ -6,5 +6,7 @@
         Task<(Status, ProgrammingLanguageDTO)> ReadAsync(int programmingLanguageId);
         Task<IReadOnlyCollection<ProgrammingLanguageDTO>> ReadAsync();
         Task<Status> DeleteAsync(int programmingLanguageId);
+        Task<Status> UpdateAsync(ProgrammingLanguageDTO programmingLanguageDTO);
+
     }
 }

@@ -6,5 +6,6 @@
         Task<(Status, MediaDTO)> ReadAsync(int mediaId);
         Task<IReadOnlyCollection<MediaDTO>> ReadAsync();
         Task<Status> DeleteAsync(int mediaId);
+        Task<Status> UpdateAsync(MediaDTO mediaDTO);
     }
 }

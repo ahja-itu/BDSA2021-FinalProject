@@ -6,5 +6,6 @@
         Task<(Status, RatingDTO)> ReadAsync(int ratingId);
         Task<IReadOnlyCollection<RatingDTO>> ReadAsync();
         Task<Status> DeleteAsync(int ratingId);
+        Task<Status> UpdateAsync(RatingDTO ratingDTO);
     }
 }
