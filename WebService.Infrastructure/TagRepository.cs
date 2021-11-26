@@ -14,7 +14,6 @@
 
             var existing = await (from t in _context.Tags
                                   where t.Name == tag.Name
-                                  where t.Weight == tag.Weight
                                   select new TagDTO(t.Id, t.Name, t.Weight))
                            .FirstOrDefaultAsync();
 
