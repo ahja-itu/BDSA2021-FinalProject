@@ -1,6 +1,5 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using WebService.Core.Shared
 @attribute [Authorize]
 @inject HttpClient Http
@@ -37,7 +36,6 @@
         color:#FF9F1C;
         background:transparent !important;
     }
-    
 </style>
 <h1 style="text-align: center; color:#ffffff" >Bridge The Gap!</h1>
 <div class="row" style="border-bottom:solid;border-color:#7765E3">
@@ -63,7 +61,7 @@
         {
             <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
                 <div class="col">
-                    <RadzenTextBox class="btgInput" onchange="SearchFilters" @bind-Value=@FilterSearchInput Placeholder="@placeholder"/>
+                    <RadzenTextBox class="btgInput" onChange="SearchFilters" @bind-Value=@FilterSearchInput Placeholder="@placeholder"/>
                     <RadzenButton Click="SearchFilters" Icon="search" class="btgIconButton smallIcon"/> 
                 </div>
             </div>
@@ -93,14 +91,14 @@
     string teststring = "start";
     string SearchInput = "";
     private void Search() => Console.WriteLine(SearchInput);
-    ICollection<string> tags = new string[] {"I", "am", "a","tag"};
-    ICollection<string> levels = new string[] {"I", "am", "a","level"};
-    ICollection<string> programingLang = new string[] {"I", "am", "a","Programming","language"};
-    ICollection<string> lang = new string[] {"I", "am", "a","Language"};
-    ICollection<string> medias = new string[] {"We", "are", "a","collection","of","medias"};
+    ICollection<string> tags = new[] {"I", "am", "a","tag"};
+    ICollection<string> levels = new[] {"I", "am", "a","level"};
+    ICollection<string> programingLang = new[] {"I", "am", "a","Programming","language"};
+    ICollection<string> lang = new[] {"I", "am", "a","Language"};
+    ICollection<string> medias = new[] {"We", "are", "a","collection","of","medias"};
 
-    ICollection<string> lastCalledCollection = new List<string>() { "Hello","World","!"};
-    ICollection<string> showCollection = new List<string>() { "Hello","World","!"};
+    ICollection<string> lastCalledCollection = new List<string> { "Hello","World","!"};
+    ICollection<string> showCollection = new List<string> { "Hello","World","!"};
 
     string collectionToSaveTo = "Tags";
     ICollection<string> tagsToSend = new string[] { };
@@ -149,16 +147,12 @@
     string FilterSearchInput = "";
     private void SearchFilters()
     {
-        ICollection<string> ToShow = new List<string>();
         ReplaceListWithoutBackup(ref showCollection, lastCalledCollection);
-        foreach (var str in showCollection)
-        {
-            if (str.Contains(FilterSearchInput) || FilterSearchInput.Contains(str)) ToShow.Add(str);
-        }
+        ICollection<string> ToShow = showCollection.Where(str => str.Contains(FilterSearchInput) || FilterSearchInput.Contains(str)).ToList();
         ReplaceListWithoutBackup(ref showCollection, ToShow);
     }
 
-    bool AdvancedView = false;
+    bool AdvancedView;
     string displayIcon = "expand_more";
     private void ShowFilters()
     {
@@ -184,24 +178,24 @@
         switch (collectionToSaveTo)
         {
             case "Tags":
-                ToggelFilter(tagsToSend, toAdd);
+                ToggleFilter(tagsToSend, toAdd);
                 break;
             case "Levels":
-                ToggelFilter(levelsToSend, toAdd);
+                ToggleFilter(levelsToSend, toAdd);
                 break;
             case "Programing Language":
-                ToggelFilter(programmingLangToSend, toAdd);
+                ToggleFilter(programmingLangToSend, toAdd);
                 break;
             case "Languages":
-                ToggelFilter(langToSend, toAdd);
+                ToggleFilter(langToSend, toAdd);
                 break;
             case "Medias":
-                ToggelFilter(mediaToSend, toAdd);
+                ToggleFilter(mediaToSend, toAdd);
                 break;
         }
     }
 
-    private void ToggelFilter(ICollection<string> list,string text)
+    private void ToggleFilter(ICollection<string> list,string text)
     {
         teststring = "adding " + text;
         if (list.Contains(text))
@@ -223,11 +217,11 @@
         var langDTOs = await Http.GetFromJsonAsync<ICollection<LanguageDTO>>("api/Language");
         var mediasDTOs = await Http.GetFromJsonAsync<ICollection<MediaDTO>>("api/Media");
 
-        tags = tagsDTOs == null ? new List<string>(){} : tagsDTOs.Select(e => e.Name).ToList();
-        tags = levelsDTOs == null ? new List<string>(){} : levelsDTOs.Select(e => e.EducationLevel).ToList();
-        tags = programingLangDTOs == null ? new List<string>(){} : programingLangDTOs.Select(e => e.Name).ToList();
-        tags = langDTOs == null ? new List<string>(){} : langDTOs.Select(e => e.Name).ToList();
-        tags = mediasDTOs == null ? new List<string>(){} : mediasDTOs.Select(e => e.Name).ToList();
+        tags = tagsDTOs == null ? new List<string>() : tagsDTOs.Select(e => e.Name).ToList();
+        tags = levelsDTOs == null ? new List<string>() : levelsDTOs.Select(e => e.EducationLevel).ToList();
+        tags = programingLangDTOs == null ? new List<string>() : programingLangDTOs.Select(e => e.Name).ToList();
+        tags = langDTOs == null ? new List<string>() : langDTOs.Select(e => e.Name).ToList();
+        tags = mediasDTOs == null ? new List<string>() : mediasDTOs.Select(e => e.Name).ToList();
     }
     
 }
