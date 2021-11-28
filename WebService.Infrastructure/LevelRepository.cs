@@ -11,21 +11,21 @@
 
         public async Task<(Status, LevelDTO)> CreateAsync(CreateLevelDTO level)
         {
-            if (InvalidInput(level)) return (Status.BadRequest, new LevelDTO(-1, level.EducationLevel));
+            if (InvalidInput(level)) return (Status.BadRequest, new LevelDTO(-1, level.Name));
 
             var existing = await (from l in _context.Levels
-                                  where l.EducationLevel == level.EducationLevel
-                                  select new LevelDTO(l.Id, l.EducationLevel))
+                                  where l.Name == level.Name
+                                  select new LevelDTO(l.Id, l.Name))
                            .FirstOrDefaultAsync();
             if (existing != null) return (Status.Conflict, existing);
 
-            var entity = new Level(level.EducationLevel);
+            var entity = new Level(level.Name);
 
             _context.Levels.Add(entity);
 
             await _context.SaveChangesAsync();
 
-            return (Status.Created, new LevelDTO(entity.Id, entity.EducationLevel));
+            return (Status.Created, new LevelDTO(entity.Id, entity.Name));
         }
 
         public async Task<Status> DeleteAsync(int levelId)
@@ -45,7 +45,7 @@
         {
             var query = from l in _context.Levels
                         where l.Id == levelId
-                        select new LevelDTO(l.Id, l.EducationLevel);
+                        select new LevelDTO(l.Id, l.Name);
 
             var category = await query.FirstOrDefaultAsync();
 
@@ -56,7 +56,7 @@
 
         public async Task<IReadOnlyCollection<LevelDTO>> ReadAsync()
         {
-            return await _context.Levels.Select(l => new LevelDTO(l.Id, l.EducationLevel)).ToListAsync();
+            return await _context.Levels.Select(l => new LevelDTO(l.Id, l.Name)).ToListAsync();
         }
 
         public async Task<Status> UpdateAsync(LevelDTO levelDTO)
@@ -65,8 +65,8 @@
 
             var existing = await (from l in _context.Levels
                                   where l.Id != levelDTO.Id
-                                  where l.EducationLevel == levelDTO.EducationLevel
-                                  select new LevelDTO(l.Id, l.EducationLevel))
+                                  where l.Name == levelDTO.Name
+                                  select new LevelDTO(l.Id, l.Name))
                                      .AnyAsync();
 
             if (existing) return Status.Conflict;
@@ -75,7 +75,7 @@
 
             if (entity == null) return Status.NotFound;
 
-            entity.EducationLevel = levelDTO.EducationLevel;
+            entity.Name = levelDTO.Name;
 
             await _context.SaveChangesAsync();
 
@@ -84,7 +84,7 @@
 
         private bool InvalidInput(CreateLevelDTO level)
         {
-            return (level.EducationLevel.Length > 50 || level.EducationLevel.Length > 50 || string.IsNullOrEmpty(level.EducationLevel) || string.IsNullOrEmpty(level.EducationLevel) || string.IsNullOrWhiteSpace(level.EducationLevel) || string.IsNullOrWhiteSpace(level.EducationLevel));
+            return (level.Name.Length > 50 || level.Name.Length > 50 || string.IsNullOrEmpty(level.Name) || string.IsNullOrEmpty(level.Name) || string.IsNullOrWhiteSpace(level.Name) || string.IsNullOrWhiteSpace(level.Name));
         }
     }
 }

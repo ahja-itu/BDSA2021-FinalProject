@@ -62,7 +62,7 @@
                                 entity.Id,
                                 entity.WeightedTags.Select(e => new CreateWeightedTagDTO(e.Name, e.Weight)).ToList(),
                                 entity.Ratings.Select(e => new CreateRatingDTO(e.Value, e.Reviewer)).ToList(),
-                                entity.Levels.Select(e => new CreateLevelDTO(e.EducationLevel)).ToList(),
+                                entity.Levels.Select(e => new CreateLevelDTO(e.Name)).ToList(),
                                 entity.ProgrammingLanguages.Select(e => new CreateProgrammingLanguageDTO(e.Name)).ToList(),
                                 entity.Medias.Select(e => new CreateMediaDTO(e.Name)).ToList(),
                                 new CreateLanguageDTO(entity.Language.Name),
@@ -190,7 +190,7 @@
         {
             foreach (var level in levelDTOs)
             {
-                yield return _context.Levels.Where(e => e.EducationLevel == level.EducationLevel).First();
+                yield return _context.Levels.Where(e => e.Name == level.Name).First();
             }
         }
         private IEnumerable<ProgrammingLanguage> ReadProgrammingLanguages(ICollection<CreateProgrammingLanguageDTO> programmingLanguageDTOs)
@@ -224,7 +224,7 @@
             stringList.AddRange(material.Medias.Select(e => e.Name).ToList());
             stringList.AddRange(material.Authors.Select(e => e.FirstName).ToList());
             stringList.AddRange(material.Authors.Select(e => e.SurName).ToList());
-            stringList.AddRange(material.Levels.Select(e => e.EducationLevel).ToList());
+            stringList.AddRange(material.Levels.Select(e => e.Name).ToList());
             stringList.AddRange(material.ProgrammingLanguages.Select(e => e.Name).ToList());
             stringList.AddRange(material.Ratings.Select(e => e.Reviewer).ToList());
             stringList.AddRange(material.Tags.Select(e => e.Name).ToList());

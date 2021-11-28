@@ -2,20 +2,20 @@
 {
     public class Level
     {
-        public Level(string educationLevel)
+        public Level(string name)
         {
-            EducationLevel = educationLevel;
+            Name = name;
         }
 
-        public Level(int id, string educationLevel)
+        public Level(int id, string name)
         {
             Id = id;
-            EducationLevel = educationLevel;
+            Name = name;
         }
 
         public int Id { get; set; }
 
         [StringLength(50)]
-        public string EducationLevel { get; set; }
+        public string Name { get; set; }
     }
 }
