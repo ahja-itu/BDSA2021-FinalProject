@@ -7,9 +7,7 @@
         DbSet<Material> Materials { get; }
         DbSet<Media> Medias { get; }
         DbSet<ProgrammingLanguage> ProgrammingLanguages { get; }
-        DbSet<Rating> Ratings { get; }
         DbSet<Tag> Tags { get; }
-        DbSet<Author> Authors { get; }
         int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

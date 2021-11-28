@@ -77,7 +77,7 @@
 
             entity.EducationLevel = levelDTO.EducationLevel;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Status.Updated;
         }

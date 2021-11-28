@@ -3,7 +3,7 @@
     public class Material
     {
         public int Id { get; set; }
-        public ICollection<Tag>? Tags { get; set; }
+        public ICollection<WeightedTag>? WeightedTags { get; set; }
         public ICollection<Rating>? Ratings { get; set; }
         public ICollection<Level>? Levels { get; set; }
         public ICollection<ProgrammingLanguage>? ProgrammingLanguages { get; set; }

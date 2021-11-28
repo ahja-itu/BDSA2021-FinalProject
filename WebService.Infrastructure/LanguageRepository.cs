@@ -78,7 +78,7 @@
 
             entity.Name = languageDTO.Name;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Status.Updated;
         }

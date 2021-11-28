@@ -46,7 +46,7 @@
 
             var material1 = new Material()
             {
-                Tags = new List<Tag> { tag1 },
+                WeightedTags = new List<Tag> { tag1 },
                 Ratings = new List<Rating> { rating1 },
                 Levels = new List<Level> { level1 },
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage1 },
@@ -59,7 +59,7 @@
             };
             var material2 = new Material()
             {
-                Tags = new List<Tag> { tag2 },
+                WeightedTags = new List<Tag> { tag2 },
                 Ratings = new List<Rating> { rating2 },
                 Levels = new List<Level> { level2 },
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage2 },
@@ -72,7 +72,7 @@
             };
             var material3 = new Material()
             {
-                Tags = new List<Tag> { tag3 },
+                WeightedTags = new List<Tag> { tag3 },
                 Ratings = new List<Rating> { rating3 },
                 Levels = new List<Level> { level3 },
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage3 },
@@ -85,7 +85,7 @@
             };
             var material4 = new Material()
             {
-                Tags = new List<Tag> { tag1, tag2 },
+                WeightedTags = new List<Tag> { tag1, tag2 },
                 Ratings = new List<Rating> { rating1, rating2 },
                 Levels = new List<Level> { level1, level2 },
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage1, programmingLanguage2 },
@@ -98,7 +98,7 @@
             };
             var material5 = new Material()
             {
-                Tags = new List<Tag> { tag2, tag3 },
+                WeightedTags = new List<Tag> { tag2, tag3 },
                 Ratings = new List<Rating> { rating2, rating3 },
                 Levels = new List<Level> { level2, level3 },
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage2, programmingLanguage3 },
@@ -111,7 +111,7 @@
             };
             var material6 = new Material()
             {
-                Tags = new List<Tag> { tag3, tag1 },
+                WeightedTags = new List<Tag> { tag3, tag1 },
                 Ratings = new List<Rating> { rating3, rating1 },
                 Levels = new List<Level> { level3, level1 },
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage3, programmingLanguage1 },
@@ -124,7 +124,7 @@
             };
             var material7 = new Material()
             {
-                Tags = new List<Tag> { tag1, tag3 },
+                WeightedTags = new List<Tag> { tag1, tag3 },
                 Ratings = new List<Rating> { rating1, rating3 },
                 Levels = new List<Level> { level1, level3 },
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage1, programmingLanguage3 },
@@ -137,7 +137,7 @@
             };
             var material8 = new Material()
             {
-                Tags = new List<Tag> { tag2, tag1 },
+                WeightedTags = new List<Tag> { tag2, tag1 },
                 Ratings = new List<Rating> { rating2, rating1 },
                 Levels = new List<Level> { level2, level1 },
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage2, programmingLanguage1 },
@@ -150,7 +150,7 @@
             };
             var material9 = new Material()
             {
-                Tags = new List<Tag> { tag3, tag2 },
+                WeightedTags = new List<Tag> { tag3, tag2 },
                 Ratings = new List<Rating> { rating3, rating2 },
                 Levels = new List<Level> { level3, level2 },
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage3, programmingLanguage2 },
@@ -163,7 +163,7 @@
             };
             var material10 = new Material()
             {
-                Tags = new List<Tag> { tag3, tag2, tag1 },
+                WeightedTags = new List<Tag> { tag3, tag2, tag1 },
                 Ratings = new List<Rating> { rating3, rating2, rating1 },
                 Levels = new List<Level> { level3, level2, level1 },
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage3, programmingLanguage2, programmingLanguage1 },
