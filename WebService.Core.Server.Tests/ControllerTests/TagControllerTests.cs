@@ -16,7 +16,7 @@ namespace WebService.Core.Server.Tests.ControllerTests
         [Fact]
         public async Task Create_returns_status_created()
         {
-            var tag = new CreateTagDTO("Database",1);
+            var tag = new CreateTagDTO("Database");
 
             var actual = await _tagController.Post(tag) as CreatedResult;
 
@@ -26,7 +26,7 @@ namespace WebService.Core.Server.Tests.ControllerTests
         [Fact]
         public async Task Create_returns_status_conflict()
         {
-            var tag = new CreateTagDTO("SOLID", 1);
+            var tag = new CreateTagDTO("SOLID");
 
             var actual = await _tagController.Post(tag) as ConflictResult;
 
@@ -36,7 +36,7 @@ namespace WebService.Core.Server.Tests.ControllerTests
         [Fact]
         public async Task Create_returns_status_badRequest()
         {
-            var tag = new CreateTagDTO("", 1);
+            var tag = new CreateTagDTO("");
 
             var actual = await _tagController.Post(tag) as BadRequestResult;
 

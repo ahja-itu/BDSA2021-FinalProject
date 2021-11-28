@@ -36,7 +36,7 @@
             var weightedTag2 = new WeightedTag("RAD", 50);
             var weightedTag3 = new WeightedTag("API", 90);
 
-            var tag1 = new Tag(1, "Solid");
+            var tag1 = new Tag(1, "SOLID");
             var tag2 = new Tag(2, "RAD");
             var tag3 = new Tag(3, "API");
 
