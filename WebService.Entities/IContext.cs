@@ -1,4 +1,6 @@
-﻿namespace WebService.Infrastructure
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace WebService.Entities
 {
     public interface IContext : IDisposable
     {
