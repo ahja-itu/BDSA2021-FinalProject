@@ -36,14 +36,32 @@
         color:#FF9F1C;
         background:transparent !important;
     }
+    .scroller {
+        background-color: transparent;
+        width: auto;
+        height: 500px;
+        overflow: auto;
+    }
+    .result{
+        background: transparent;
+        padding: 25px;
+        border-left: solid;
+        border-color: #7765E3;
+        height: 200px;
+        max-height: 200px;
+        min-width: auto;
+        color: #7765E3;
+    }
 </style>
 <h1 style="text-align: center; color:#ffffff" >Bridge The Gap!</h1>
+<!-- search bar -->
 <div class="row" style="border-bottom:solid;border-color:#7765E3">
     <div class="col d-flex justify-content-center align-item-center" style="width:100%">
-            <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" Style="width:100%;font-size:2em"/>
-            <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>  
+        <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" Style="width:100%;font-size:2em"/>
+        <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>  
     </div>
 </div>
+<!-- Filter box bar -->
 @if (AdvancedView)
 {
     <div id="filters" class="row" style="margin-left:20px;margin-right:20px;background:#4E4E4E;border-radius: 24px;margin-top:15px;padding:25px">
@@ -83,15 +101,151 @@
         }  
     </div>
 }
+<!-- Show Filter Button -->
 <div class="row d-flex justify-content-center align-item-center">
     <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@displayIcon"/>
 </div>
-
+<!-- search bar -->
+@if (true)
+{
+    <div class="row scroller">  
+        @foreach (var material in Results)
+        {
+            <div class="row result">
+                <div class="row">
+                    <div class="col"><a href="#" style="color:white;">material.url</a></div>
+                    <div class="col" style="text-align: right"><p>@material.Language.Name</p></div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <RadzenButton class="btgIconButton" Style="font-size: 20px; padding: 0">@material.Title</RadzenButton>
+                    </div>
+                    <div class="col" style="text-align: right"><p>@GetAvgRating(material)</p></div>
+                </div>
+                <div style="color: white">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec scelerisque erat faucibus augue vulputate faucibus non sed orci. Vestibulum rutrum arcu in pretium eleifend. Ut ornare massa nec congue vehicula. Nulla quis lorem libero. Curabitur quis lacus imperdiet, tempus magna eget, vestibulum enim. Ut tincidunt lorem eu ante consequat, sit amet tincidunt nisi consequat...</p>
+                </div>
+            </div>
+        }
+    </div>
+}
 @code{
+    bool ShowResults = false;
     int iDCounter = 0;
     string teststring = "start";
     string SearchInput = "";
     private void Search() => Console.WriteLine(SearchInput);
+
+    ICollection<MaterialDTO> Results = new []{
+        new MaterialDTO(1,
+            new CreateWeightedTagDTO[]{},
+            new CreateRatingDTO[]
+            {
+                new RatingDTO(0,1,"p1"),
+                new RatingDTO(1,7,"p2"),
+                new RatingDTO(2,3,"p3"),
+                new RatingDTO(3,6,"p4"),
+                new RatingDTO(4,7,"p6"),
+            },
+            new CreateLevelDTO[]{},
+            new CreateProgrammingLanguageDTO[]{},
+            new CreateMediaDTO[]{},
+            new CreateLanguageDTO("englando"),
+            null,"test 0",
+            new CreateAuthorDTO[]{},
+            new DateTime()
+        ),
+        new MaterialDTO(1,
+            new CreateWeightedTagDTO[]{},
+            new CreateRatingDTO[]
+            {
+                new RatingDTO(0,1,"p1"),
+                new RatingDTO(1,7,"p2"),
+                new RatingDTO(2,3,"p3"),
+                new RatingDTO(3,6,"p4"),
+                new RatingDTO(4,7,"p6"),
+            },
+            new CreateLevelDTO[]{},
+            new CreateProgrammingLanguageDTO[]{},
+            new CreateMediaDTO[]{},
+            new CreateLanguageDTO("englando"),
+            null,"test 1",
+            new CreateAuthorDTO[]{},
+            new DateTime()
+            ),
+        new MaterialDTO(1,
+            new CreateWeightedTagDTO[]{},
+            new CreateRatingDTO[]
+            {
+                new RatingDTO(0,1,"p1"),
+                new RatingDTO(1,7,"p2"),
+                new RatingDTO(2,3,"p3"),
+                new RatingDTO(3,6,"p4"),
+                new RatingDTO(4,7,"p6"),
+            },
+            new CreateLevelDTO[]{},
+            new CreateProgrammingLanguageDTO[]{},
+            new CreateMediaDTO[]{},
+            new CreateLanguageDTO("englando"),
+            null,"test 2",
+            new CreateAuthorDTO[]{},
+            new DateTime()
+            ),new MaterialDTO(1,
+                new CreateWeightedTagDTO[]{},
+                new CreateRatingDTO[]
+                {
+                    new RatingDTO(0,1,"p1"),
+                    new RatingDTO(1,7,"p2"),
+                    new RatingDTO(2,3,"p3"),
+                    new RatingDTO(3,6,"p4"),
+                    new RatingDTO(4,7,"p6"),
+                },
+                new CreateLevelDTO[]{},
+                new CreateProgrammingLanguageDTO[]{},
+                new CreateMediaDTO[]{},
+                new CreateLanguageDTO("englando"),
+                null,"test 3",
+                new CreateAuthorDTO[]{},
+                new DateTime()
+                ),
+        new MaterialDTO(1,
+            new CreateWeightedTagDTO[]{},
+            new CreateRatingDTO[]
+            {
+                new RatingDTO(0,1,"p1"),
+                new RatingDTO(1,7,"p2"),
+                new RatingDTO(2,3,"p3"),
+                new RatingDTO(3,6,"p4"),
+                new RatingDTO(4,7,"p6"),
+            },
+            new CreateLevelDTO[]{},
+            new CreateProgrammingLanguageDTO[]{},
+            new CreateMediaDTO[]{},
+            new CreateLanguageDTO("englando"),
+            null,"test 4",
+            new CreateAuthorDTO[]{},
+            new DateTime()
+            ),
+        new MaterialDTO(1,
+            new CreateWeightedTagDTO[]{},
+            new CreateRatingDTO[]
+            {
+                new RatingDTO(0,1,"p1"),
+                new RatingDTO(1,7,"p2"),
+                new RatingDTO(2,3,"p3"),
+                new RatingDTO(3,6,"p4"),
+                new RatingDTO(4,7,"p6"),
+            },
+            new CreateLevelDTO[]{},
+            new CreateProgrammingLanguageDTO[]{},
+            new CreateMediaDTO[]{},
+            new CreateLanguageDTO("englando"),
+            null,"test 5",
+            new CreateAuthorDTO[]{},
+            new DateTime()
+            )
+    };
+
     ICollection<string> tags = new[] {"I", "am", "a","tag"};
     ICollection<string> levels = new[] {"I", "am", "a","level"};
     ICollection<string> programingLang = new[] {"I", "am", "a","Programming","language"};
@@ -215,6 +369,13 @@
         return "FilterOption " + (iDCounter - 1);
     }
 
+    private float GetAvgRating(MaterialDTO material)
+    {
+        float sum = material.Ratings.Sum(rating => rating.Value);
+        return sum / material.Ratings.Count;
+    }
+
+
     /*
     protected override async Task OnInitializedAsync()
     {
@@ -225,11 +386,10 @@
         var mediasDTOs = await Http.GetFromJsonAsync<ICollection<MediaDTO>>("api/Media");
 
         tags = tagsDTOs == null ? new List<string>() : tagsDTOs.Select(e => e.Name).ToList();
-        tags = levelsDTOs == null ? new List<string>() : levelsDTOs.Select(e => e.EducationLevel).ToList();
+        tags = levelsDTOs == null ? new List<string>() : levelsDTOs.Select(e => e.Name).ToList();
         tags = programingLangDTOs == null ? new List<string>() : programingLangDTOs.Select(e => e.Name).ToList();
         tags = langDTOs == null ? new List<string>() : langDTOs.Select(e => e.Name).ToList();
         tags = mediasDTOs == null ? new List<string>() : mediasDTOs.Select(e => e.Name).ToList();
     }
     */
-    
 }
