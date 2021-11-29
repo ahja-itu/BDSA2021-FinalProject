@@ -8,6 +8,6 @@
         public ICollection<ProgrammingLanguageDTO>? ProgrammingLanguages { get; set; }
         public ICollection<LanguageDTO>? Languages { get; set; }
         public ICollection<MediaDTO>? Medias { get; set; }
-        public RatingDTO? RatingDTO { get; set; }
+        public int Rating{ get; set; }
     }
 }

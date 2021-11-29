@@ -1,8 +1,8 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.Authorization
 @using WebService.Core.Shared
+@using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
-@inject HttpClient Http
+@inject HttpClient _http
 <PageTitle>Index</PageTitle>
 <style>
     .btgInput{
@@ -44,25 +44,23 @@
     }
     .result{
         background: transparent;
-        padding: 25px;
-        border-left: solid;
-        border-color: #7765E3;
+        padding-top: 25px;
         height: 200px;
         max-height: 200px;
         min-width: auto;
         color: #7765E3;
     }
 </style>
-<h1 style="text-align: center; color:#ffffff" >Bridge The Gap!</h1>
+<h1 style="text-align: center; color:#ffffff">Bridge The Gap!</h1>
 <!-- search bar -->
 <div class="row" style="border-bottom:solid;border-color:#7765E3">
     <div class="col d-flex justify-content-center align-item-center" style="width:100%">
         <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" Style="width:100%;font-size:2em"/>
-        <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>  
+        <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>
     </div>
 </div>
 <!-- Filter box -->
-@if (AdvancedView)
+@if (_advancedView)
 {
     <div id="filters" class="row" style="margin-left:20px;margin-right:20px;background:#4E4E4E;border-radius: 24px;margin-top:15px;padding:25px">
         <div class="row">
@@ -75,20 +73,20 @@
                 <RadzenButton id="medias" Click=@(_ => ChangeFilter("Medias")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Medias"/>
             </div>
         </div>
-        @if (IsShowingFilterOptions)
+        @if (_isShowingFilterOptions)
         {
             <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
                 <div class="col">
-                    <RadzenTextBox id="searchFilter" class="btgInput" onChange="SearchFilters" @bind-Value=@FilterSearchInput Placeholder="@placeholder"/>
-                    <RadzenButton Click="SearchFilters" Icon="search" class="btgIconButton smallIcon"/> 
+                    <RadzenTextBox id="searchFilter" class="btgInput" onChange="SearchFilters" @bind-Value=@_filterSearchInput Placeholder="@_placeholder"/>
+                    <RadzenButton Click="SearchFilters" Icon="search" class="btgIconButton smallIcon"/>
                 </div>
             </div>
             <div class="row">
-                @foreach (var str in showCollection)
+                @foreach (var str in _showCollection)
                 {
-                    <RadzenButton id="@FitlerOptionIdGenerator()" Click=@(_ => AddFilterToList(str)) Style="border-radius: 24px; background: #fff; margin:10px; color:#7765E3; width: auto;" Text="@str"/>
+                    <RadzenButton id="@FilterOptionIdGenerator()" Click=@(_ => AddFilterToList(str)) Style="border-radius: 24px; background: #fff; margin:10px; color:#7765E3; width: auto;" Text="@str"/>
                 }
-                <p>@teststring</p>
+                <p>@_testString</p>
 
             </div>
         }
@@ -96,233 +94,165 @@
         {
             <div class="row">
                 <h3 style="margin-top: 2rem">Range Slider</h3>
-                <RadzenSlider id="slider" @bind-Value=@rating TValue="int" Step="1" Min="0" Max="10" />
+                <RadzenSlider id="slider" @bind-Value=@_rating TValue="int" Step="1" Min="0" Max="10"/>
             </div>
-        }  
+        }
     </div>
 }
 <!-- Show Filter Button -->
 <div class="row d-flex justify-content-center align-item-center">
-    <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@displayIcon"/>
+    <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@_displayIcon"/>
 </div>
-<!-- Result Box -->
-@if (true)
+<!-- Search Box -->
+@if (_hasResults)
 {
-    <div class="row scroller">  
-        @foreach (var material in Results)
+    <div class="row scroller">
+        @foreach (var material in _results)
         {
-            <div class="row result">
-                <div class="row">
-                    <div class="col"><a href="#" style="color:white;">material.url</a></div>
-                    <div class="col" style="text-align: right"><p>@material.Language.Name</p></div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <RadzenButton class="btgIconButton" Style="font-size: 20px; padding: 0">@material.Title</RadzenButton>
+            <div class="result">
+                <div style="border-left: 6px solid #7765E3; !important;">
+                    <div class="row" style="margin-left: 5px">
+                        <div class="col">
+                            <a href="#" style="color:white;">
+                                material.url
+                            </a>
+                        </div>
+                        <div class="col" style="text-align: right">
+                            <p>
+                                @material.Language.Name
+                            </p>
+                        </div>
                     </div>
-                    <div class="col" style="text-align: right"><p>@GetAvgRating(material)</p></div>
-                </div>
-                <div style="color: white">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec scelerisque erat faucibus augue vulputate faucibus non sed orci. Vestibulum rutrum arcu in pretium eleifend. Ut ornare massa nec congue vehicula. Nulla quis lorem libero. Curabitur quis lacus imperdiet, tempus magna eget, vestibulum enim. Ut tincidunt lorem eu ante consequat, sit amet tincidunt nisi consequat...</p>
+                    <div class="row" style="margin-left: 5px">
+                        <div class="col">
+                            <RadzenButton class="btgIconButton" Style="font-size: 20px; padding: 0">
+                                @material.Title
+                            </RadzenButton>
+                        </div>
+                        <div class="col" style="text-align: right">
+                            <p>
+                                @GetAvgRating(material)
+                            </p>
+                        </div>
+                    </div>
+                    <div style="color: white; margin-left: 5px">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec scelerisque erat faucibus augue vulputate faucibus non sed orci. Vestibulum rutrum arcu in pretium eleifend. Ut ornare massa nec congue vehicula. Nulla quis lorem libero. Curabitur quis lacus imperdiet, tempus magna eget, vestibulum enim. Ut tincidunt lorem eu ante consequat, sit amet tincidunt nisi consequat...
+                        </p>
+                    </div>
                 </div>
             </div>
         }
     </div>
 }
+
 @code{
-    bool ShowResults = false;
-    int iDCounter = 0;
-    string teststring = "start";
-    string SearchInput = "";
-    private void Search() => Console.WriteLine(SearchInput);
+    bool _hasResults;
+    int _iDCounter;
+    string _testString = "start";
+    readonly string SearchInput = "";
+    readonly ICollection<MaterialDTO> _results = new List<MaterialDTO>();
 
-    ICollection<MaterialDTO> Results = new []{
-        new MaterialDTO(1,
-            new CreateWeightedTagDTO[]{},
-            new CreateRatingDTO[]
-            {
-                new RatingDTO(0,1,"p1"),
-                new RatingDTO(1,7,"p2"),
-                new RatingDTO(2,3,"p3"),
-                new RatingDTO(3,6,"p4"),
-                new RatingDTO(4,7,"p6"),
-            },
-            new CreateLevelDTO[]{},
-            new CreateProgrammingLanguageDTO[]{},
-            new CreateMediaDTO[]{},
-            new CreateLanguageDTO("englando"),
-            null,"test 0",
-            new CreateAuthorDTO[]{},
-            new DateTime()
-        ),
-        new MaterialDTO(1,
-            new CreateWeightedTagDTO[]{},
-            new CreateRatingDTO[]
-            {
-                new RatingDTO(0,1,"p1"),
-                new RatingDTO(1,7,"p2"),
-                new RatingDTO(2,3,"p3"),
-                new RatingDTO(3,6,"p4"),
-                new RatingDTO(4,7,"p6"),
-            },
-            new CreateLevelDTO[]{},
-            new CreateProgrammingLanguageDTO[]{},
-            new CreateMediaDTO[]{},
-            new CreateLanguageDTO("englando"),
-            null,"test 1",
-            new CreateAuthorDTO[]{},
-            new DateTime()
-            ),
-        new MaterialDTO(1,
-            new CreateWeightedTagDTO[]{},
-            new CreateRatingDTO[]
-            {
-                new RatingDTO(0,1,"p1"),
-                new RatingDTO(1,7,"p2"),
-                new RatingDTO(2,3,"p3"),
-                new RatingDTO(3,6,"p4"),
-                new RatingDTO(4,7,"p6"),
-            },
-            new CreateLevelDTO[]{},
-            new CreateProgrammingLanguageDTO[]{},
-            new CreateMediaDTO[]{},
-            new CreateLanguageDTO("englando"),
-            null,"test 2",
-            new CreateAuthorDTO[]{},
-            new DateTime()
-            ),new MaterialDTO(1,
-                new CreateWeightedTagDTO[]{},
-                new CreateRatingDTO[]
-                {
-                    new RatingDTO(0,1,"p1"),
-                    new RatingDTO(1,7,"p2"),
-                    new RatingDTO(2,3,"p3"),
-                    new RatingDTO(3,6,"p4"),
-                    new RatingDTO(4,7,"p6"),
-                },
-                new CreateLevelDTO[]{},
-                new CreateProgrammingLanguageDTO[]{},
-                new CreateMediaDTO[]{},
-                new CreateLanguageDTO("englando"),
-                null,"test 3",
-                new CreateAuthorDTO[]{},
-                new DateTime()
-                ),
-        new MaterialDTO(1,
-            new CreateWeightedTagDTO[]{},
-            new CreateRatingDTO[]
-            {
-                new RatingDTO(0,1,"p1"),
-                new RatingDTO(1,7,"p2"),
-                new RatingDTO(2,3,"p3"),
-                new RatingDTO(3,6,"p4"),
-                new RatingDTO(4,7,"p6"),
-            },
-            new CreateLevelDTO[]{},
-            new CreateProgrammingLanguageDTO[]{},
-            new CreateMediaDTO[]{},
-            new CreateLanguageDTO("englando"),
-            null,"test 4",
-            new CreateAuthorDTO[]{},
-            new DateTime()
-            ),
-        new MaterialDTO(1,
-            new CreateWeightedTagDTO[]{},
-            new CreateRatingDTO[]
-            {
-                new RatingDTO(0,1,"p1"),
-                new RatingDTO(1,7,"p2"),
-                new RatingDTO(2,3,"p3"),
-                new RatingDTO(3,6,"p4"),
-                new RatingDTO(4,7,"p6"),
-            },
-            new CreateLevelDTO[]{},
-            new CreateProgrammingLanguageDTO[]{},
-            new CreateMediaDTO[]{},
-            new CreateLanguageDTO("englando"),
-            null,"test 5",
-            new CreateAuthorDTO[]{},
-            new DateTime()
-            )
-    };
+    private void Search()
+    {
+        _hasResults = true;
+        var searchForm = new SearchForm
+        {
+            TextField = SearchInput,
+            Tags = _tagsToSend.Select(str => new TagDTO(0, str)).ToList(),
+            Levels = _levelsToSend.Select(str => new LevelDTO(0, str)).ToList(),
+            ProgrammingLanguages = _programmingLangToSend.Select(str => new ProgrammingLanguageDTO(0, str)).ToList(),
+            Languages = _lang.Select(str => new LanguageDTO(0, str)).ToList(),
+            Medias = _medias.Select(str => new MediaDTO(0, str)).ToList(),
+            Rating = _rating
+        };
 
-    ICollection<string> tags = new[] {"I", "am", "a","tag"};
-    ICollection<string> levels = new[] {"I", "am", "a","level"};
-    ICollection<string> programingLang = new[] {"I", "am", "a","Programming","language"};
-    ICollection<string> lang = new[] {"I", "am", "a","Language"};
-    ICollection<string> medias = new[] {"We", "are", "a","collection","of","medias"};
+    // send results and receive results
 
-    ICollection<string> lastCalledCollection = new List<string> { "Hello","World","!"};
-    ICollection<string> showCollection = new List<string> { "Hello","World","!"};
+        _hasResults = true;
+    }
 
-    string collectionToSaveTo = "Tags";
-    ICollection<string> tagsToSend = new string[] { };
-    ICollection<string> levelsToSend = new string[] { };
-    ICollection<string> programmingLangToSend = new string[] { };
-    ICollection<string> langToSend = new string[] { };
-    ICollection<string> mediaToSend = new string[] { };
+    readonly ICollection<string> _tags = new[] {"I", "am", "a", "tag"};
+    readonly ICollection<string> _levels = new[] {"I", "am", "a", "level"};
+    readonly ICollection<string> _programingLang = new[] {"I", "am", "a", "Programming", "language"};
+    readonly ICollection<string> _lang = new[] {"I", "am", "a", "Language"};
+    readonly ICollection<string> _medias = new[] {"We", "are", "a", "collection", "of", "medias"};
+
+    ICollection<string> _lastCalledCollection = new List<string> {"Hello", "World", "!"};
+    ICollection<string> _showCollection = new List<string> {"Hello", "World", "!"};
+
+    string _collectionToSaveTo = "Tags";
+    readonly ICollection<string> _tagsToSend = new string[] {};
+    readonly ICollection<string> _levelsToSend = new string[] {};
+    readonly ICollection<string> _programmingLangToSend = new string[] {};
+    readonly ICollection<string> _langToSend = new string[] {};
+    readonly ICollection<string> _mediaToSend = new string[] {};
 
 
+    bool _isShowingFilterOptions = true;
+    string _placeholder = "Search Tags";
+    int _rating = 5;
 
-    bool IsShowingFilterOptions = true;
-    string placeholder = "Search Tags";
-    int rating = 5;
     private void ChangeFilter(string filterName)
     {
-        placeholder = "Search " + filterName;
+        _placeholder = "Search " + filterName;
         if (filterName != "Ratings")
         {
-            IsShowingFilterOptions = true;
+            _isShowingFilterOptions = true;
             switch (filterName)
             {
                 case "Tags":
-                    ReplaceListWithBackup(ref showCollection, tags);
+                    ReplaceListWithBackup(ref _showCollection, _tags);
                     break;
                 case "Levels":
-                    ReplaceListWithBackup(ref showCollection, levels);
+                    ReplaceListWithBackup(ref _showCollection, _levels);
                     break;
                 case "Programing Languages":
-                    ReplaceListWithBackup(ref showCollection, programingLang);
+                    ReplaceListWithBackup(ref _showCollection, _programingLang);
                     break;
                 case "Languages":
-                    ReplaceListWithBackup(ref showCollection, lang);
+                    ReplaceListWithBackup(ref _showCollection, _lang);
                     break;
                 case "Medias":
-                    ReplaceListWithBackup(ref showCollection, medias);
+                    ReplaceListWithBackup(ref _showCollection, _medias);
                     break;
             }
-            collectionToSaveTo = filterName;
+            _collectionToSaveTo = filterName;
         }
         else
         {
-            IsShowingFilterOptions = false;
+            _isShowingFilterOptions = false;
         }
     }
 
-    string FilterSearchInput = "";
+    string _filterSearchInput = "";
+
     private void SearchFilters()
     {
-        ReplaceListWithoutBackup(ref showCollection, lastCalledCollection);
-        ICollection<string> ToShow = showCollection.Where(str => str.Contains(FilterSearchInput) || FilterSearchInput.Contains(str)).ToList();
-        ReplaceListWithoutBackup(ref showCollection, ToShow);
+        ReplaceListWithoutBackup(ref _showCollection, _lastCalledCollection);
+        ICollection<string> toShow = _showCollection.Where(str => str.Contains(_filterSearchInput) || _filterSearchInput.Contains(str)).ToList();
+        ReplaceListWithoutBackup(ref _showCollection, toShow);
     }
 
-    bool AdvancedView;
-    string displayIcon = "expand_more";
+    bool _advancedView;
+    string _displayIcon = "expand_more";
+
     private void ShowFilters()
     {
-        displayIcon = !AdvancedView ? "expand_less" : "expand_more";
-        AdvancedView = !AdvancedView;
+        _displayIcon = !_advancedView ? "expand_less" : "expand_more";
+        _advancedView = !_advancedView;
     }
+
     private void ReplaceListWithBackup(ref ICollection<string> target, ICollection<string> source)
     {
         ReplaceListWithoutBackup(ref target, source);
-        lastCalledCollection = source;
+        _lastCalledCollection = source;
     }
-    private void ReplaceListWithoutBackup(ref ICollection<string> target, ICollection<string> source)
+
+    private static void ReplaceListWithoutBackup(ref ICollection<string> target, IEnumerable<string> source)
     {
         target.Clear();
-        foreach(var str in source) 
+        foreach (var str in source)
         {
             target.Add(str);
         }
@@ -330,48 +260,48 @@
 
     private void AddFilterToList(string toAdd)
     {
-        switch (collectionToSaveTo)
+        switch (_collectionToSaveTo)
         {
             case "Tags":
-                ToggleFilter(tagsToSend, toAdd);
+                ToggleFilter(_tagsToSend, toAdd);
                 break;
             case "Levels":
-                ToggleFilter(levelsToSend, toAdd);
+                ToggleFilter(_levelsToSend, toAdd);
                 break;
             case "Programing Languages":
-                ToggleFilter(programmingLangToSend, toAdd);
+                ToggleFilter(_programmingLangToSend, toAdd);
                 break;
             case "Languages":
-                ToggleFilter(langToSend, toAdd);
+                ToggleFilter(_langToSend, toAdd);
                 break;
             case "Medias":
-                ToggleFilter(mediaToSend, toAdd);
+                ToggleFilter(_mediaToSend, toAdd);
                 break;
         }
     }
 
-    private void ToggleFilter(ICollection<string> list,string text)
+    private void ToggleFilter(ICollection<string> list, string text)
     {
-        teststring = "adding " + text;
+        _testString = "adding " + text;
         if (list.Contains(text))
         {
-            //  list.Remove(text);
+    //  list.Remove(text);
         }
         else
         {
-           list.Add(text);
+            list.Add(text);
         }
     }
 
-    private string FitlerOptionIdGenerator()
+    private string FilterOptionIdGenerator()
     {
-        iDCounter++;
-        return "FilterOption " + (iDCounter - 1);
+        _iDCounter++;
+        return "FilterOption " + (_iDCounter - 1);
     }
 
-    private float GetAvgRating(MaterialDTO material)
+    private static float GetAvgRating(CreateMaterialDTO material)
     {
-        float sum = material.Ratings.Sum(rating => rating.Value);
+        float sum = material.Ratings.Sum(e => e.Value);
         return sum / material.Ratings.Count;
     }
 
