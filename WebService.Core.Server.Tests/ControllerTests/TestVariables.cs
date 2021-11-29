@@ -1,4 +1,4 @@
-﻿namespace WebService.Infrastructure.Tests.ContextRepositoryTests
+﻿namespace WebService.Core.Server.Tests.ControllerTests
 {
     internal class TestVariables
     {
@@ -76,7 +76,7 @@
                 Authors = new List<Author> { author3, author1 },
                 TimeStamp = System.DateTime.UtcNow.AddYears(-11).AddDays(10)
             };
-         
+
             var material3 = new Material()
             {
                 WeightedTags = new List<WeightedTag> { weightedTag3, weightedTag2, weightedTag1 },
@@ -91,7 +91,7 @@
                 TimeStamp = System.DateTime.UtcNow
             };
 
-            context.AddRange(language1, language2, language3, level1, level2, level3, media1, media2, media3, programmingLanguage1, programmingLanguage2, programmingLanguage3, rating1, rating2, rating3, tag1, tag2, tag3, material1,material2, material3);
+            context.AddRange(language1, language2, language3, level1, level2, level3, media1, media2, media3, programmingLanguage1, programmingLanguage2, programmingLanguage3, rating1, rating2, rating3, tag1, tag2, tag3, material1, material2, material3);
 
             context.SaveChanges();
 

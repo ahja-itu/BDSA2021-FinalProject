@@ -2,18 +2,18 @@
 {
     public record CreateLevelDTO
     {
-        public CreateLevelDTO(string educationLevel)
+        public CreateLevelDTO(string name)
         {
-            EducationLevel = educationLevel;
+            Name = name;
         }
 
         [StringLength(50)]
-        public string EducationLevel { get; init; }
+        public string Name { get; init; }
     }
 
     public record LevelDTO : CreateLevelDTO
     {
-        public LevelDTO(int id, string level) : base(level)
+        public LevelDTO(int id, string name) : base(name)
         {
             Id = id;
         }

@@ -77,7 +77,7 @@
 
             entity.Name = programmingProgrammingLanguageDTO.Name;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Status.Updated;
         }

@@ -1,8 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Web.Resource;
-using WebService.Core.Shared;
-
 namespace WebService.Core.Server.Controllers;
 
 [Authorize]

@@ -1,7 +1,9 @@
 ﻿namespace WebService.Entities
 {
+    [Owned]
     public class Author
     {
+
         public Author(string firstName, string surName)
         {
             FirstName = firstName;
