@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using Xunit;
 using Bunit;
 using WebService.Core.Client.Pages;
@@ -22,28 +24,32 @@ public class IndexTest
         Assert.Equal("Bridge The Gap!", name.GetInnerText());
     }
 
-
     [Fact]
-    public void IndexShouldShowFilterOptionsWhenPressingFilterButton()
+    public void IndexFilterButtonShowsFilterOptions()
     {
         // Arrange
         using var ctx = new TestContext();
         var cut = ctx.RenderComponent<Index>();
         var buttons = cut.FindAll("button");
         var filterButton = buttons.GetElementById("filterButton");
-
+    
         // Act
         filterButton.Click();
-        var countOfFilterOptions = cut.FindAll("button").Count - buttons.Count;
-
-
-        // Assert
-        Assert.Equal(8, countOfFilterOptions) ;
+        var filterOptions = new List<IElement>();
+        var buttonsAfterClick = cut.FindAll("button");
+        for (var i = 0; i < 1000; i++)
+        {
+            var filterOption = buttonsAfterClick.GetElementById("FilterOption " + i);
+            if (filterOption != null) filterOptions.Add(filterOption);
+        }
+        var countOfFilterOptions = cut.FindAll("button").Count - buttons.Count - filterOptions.Count;
         
+        // Assert
+        Assert.Equal(7, countOfFilterOptions);
     }
 
     [Fact]
-    public void IndexShouldHideFitlerOptionsWhenPressingFilterButtonAgain()
+    public void IndexFilterButtonAgainHidesFilterOptions()
     {
         // Arrange
         using var ctx = new TestContext();
@@ -75,7 +81,6 @@ public class IndexTest
 
         // Assert
         Assert.Equal("Search Tags",searchField.GetAttribute("Placeholder"));
-
     }
 
     [Fact]
@@ -90,7 +95,7 @@ public class IndexTest
         filterButton.Click();
         cut.FindAll("button").GetElementById("tags").Click();
         var searchField = cut.FindAll("input").GetElementById("searchFilter");
-        var 
+        //var 
 
         // Assert
 
@@ -111,7 +116,6 @@ public class IndexTest
 
         // Assert
         Assert.Equal("Search Levels", searchField.GetAttribute("Placeholder"));
-
     }
 
     [Fact]
@@ -124,12 +128,11 @@ public class IndexTest
 
         // Act
         filterButton.Click();
-        cut.FindAll("button").GetElementById("programingLang").Click();
+        cut.FindAll("button").GetElementById("programming Languages").Click();
         var searchField = cut.FindAll("input").GetElementById("searchFilter");
 
         // Assert
         Assert.Equal("Search Programing Languages", searchField.GetAttribute("Placeholder"));
-
     }
 
     [Fact]
@@ -147,7 +150,6 @@ public class IndexTest
 
         // Assert
         Assert.Equal("Search Languages", searchField.GetAttribute("Placeholder"));
-
     }
 
     [Fact]
@@ -165,6 +167,5 @@ public class IndexTest
 
         // Assert
         Assert.Equal("Search Medias", searchField.GetAttribute("Placeholder"));
-
     }
 }

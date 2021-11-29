@@ -49,26 +49,26 @@
     <div id="filters" class="row" style="margin-left:20px;margin-right:20px;background:#4E4E4E;border-radius: 24px;margin-top:15px;padding:25px">
         <div class="row">
             <div class="col" data-toggle="buttons">
-                <RadzenButton Click=@(_ => ChangeFilter("Tags")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Tags"/>
-                <RadzenButton Click=@(_ => ChangeFilter("Ratings")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Ratings"/>
-                <RadzenButton Click=@(_ => ChangeFilter("Levels")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Levels"/>
-                <RadzenButton Click=@(_ => ChangeFilter("Programing Language")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Programing Languages"/>
-                <RadzenButton Click=@(_ => ChangeFilter("Languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Languages"/>
-                <RadzenButton Click=@(_ => ChangeFilter("Medias")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Medias"/>
+                <RadzenButton id="tags" Click=@(_ => ChangeFilter("Tags")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Tags"/>
+                <RadzenButton id="ratings" Click=@(_ => ChangeFilter("Ratings")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Ratings"/>
+                <RadzenButton id="levels" Click=@(_ => ChangeFilter("Levels")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Levels"/>
+                <RadzenButton id="programming Languages" Click=@(_ => ChangeFilter("Programing Languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Programing Languages"/>
+                <RadzenButton id="languages" Click=@(_ => ChangeFilter("Languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Languages"/>
+                <RadzenButton id="medias" Click=@(_ => ChangeFilter("Medias")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Medias"/>
             </div>
         </div>
         @if (IsShowingFilterOptions)
         {
             <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
                 <div class="col">
-                    <RadzenTextBox class="btgInput" onChange="SearchFilters" @bind-Value=@FilterSearchInput Placeholder="@placeholder"/>
+                    <RadzenTextBox id="searchFilter" class="btgInput" onChange="SearchFilters" @bind-Value=@FilterSearchInput Placeholder="@placeholder"/>
                     <RadzenButton Click="SearchFilters" Icon="search" class="btgIconButton smallIcon"/> 
                 </div>
             </div>
             <div class="row">
                 @foreach (var str in showCollection)
                 {
-                     <RadzenButton Click=@(_ => AddFilterToList(str)) Style="border-radius: 24px; background: #fff; margin:10px; color:#7765E3; width: auto;" Text="@str"/>
+                    <RadzenButton id="@FitlerOptionIdGenerator()" Click=@(_ => AddFilterToList(str)) Style="border-radius: 24px; background: #fff; margin:10px; color:#7765E3; width: auto;" Text="@str"/>
                 }
                 <p>@teststring</p>
 
@@ -84,10 +84,11 @@
     </div>
 }
 <div class="row d-flex justify-content-center align-item-center">
-    <RadzenButton class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@displayIcon"/>
+    <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@displayIcon"/>
 </div>
 
 @code{
+    int iDCounter = 0;
     string teststring = "start";
     string SearchInput = "";
     private void Search() => Console.WriteLine(SearchInput);
@@ -126,7 +127,7 @@
                 case "Levels":
                     ReplaceListWithBackup(ref showCollection, levels);
                     break;
-                case "Programing Language":
+                case "Programing Languages":
                     ReplaceListWithBackup(ref showCollection, programingLang);
                     break;
                 case "Languages":
@@ -183,7 +184,7 @@
             case "Levels":
                 ToggleFilter(levelsToSend, toAdd);
                 break;
-            case "Programing Language":
+            case "Programing Languages":
                 ToggleFilter(programmingLangToSend, toAdd);
                 break;
             case "Languages":
@@ -206,9 +207,15 @@
         {
            list.Add(text);
         }
-        
     }
 
+    private string FitlerOptionIdGenerator()
+    {
+        iDCounter++;
+        return "FilterOption " + (iDCounter - 1);
+    }
+
+    /*
     protected override async Task OnInitializedAsync()
     {
         var tagsDTOs = await Http.GetFromJsonAsync<ICollection<TagDTO>>("api/Tag");
@@ -223,5 +230,6 @@
         tags = langDTOs == null ? new List<string>() : langDTOs.Select(e => e.Name).ToList();
         tags = mediasDTOs == null ? new List<string>() : mediasDTOs.Select(e => e.Name).ToList();
     }
+    */
     
 }
