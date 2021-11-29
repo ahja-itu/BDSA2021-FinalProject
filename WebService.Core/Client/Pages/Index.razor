@@ -61,7 +61,7 @@
         <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>  
     </div>
 </div>
-<!-- Filter box bar -->
+<!-- Filter box -->
 @if (AdvancedView)
 {
     <div id="filters" class="row" style="margin-left:20px;margin-right:20px;background:#4E4E4E;border-radius: 24px;margin-top:15px;padding:25px">
@@ -96,7 +96,7 @@
         {
             <div class="row">
                 <h3 style="margin-top: 2rem">Range Slider</h3>
-                <RadzenSlider @bind-Value=@rating TValue="int" Step="1" Min="0" Max="10" />
+                <RadzenSlider id="slider" @bind-Value=@rating TValue="int" Step="1" Min="0" Max="10" />
             </div>
         }  
     </div>
@@ -105,7 +105,7 @@
 <div class="row d-flex justify-content-center align-item-center">
     <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@displayIcon"/>
 </div>
-<!-- search bar -->
+<!-- Result Box -->
 @if (true)
 {
     <div class="row scroller">  
