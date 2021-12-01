@@ -15,7 +15,7 @@
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<MediaDTO>>> Get()
+        public async Task<ActionResult<ICollection<MediaDTO>>> Get()
         {
             var result = await _mediaRepository.ReadAsync();
             return Ok(result);

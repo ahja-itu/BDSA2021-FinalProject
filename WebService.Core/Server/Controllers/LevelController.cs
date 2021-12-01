@@ -15,7 +15,7 @@
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<LevelDTO>>> Get()
+        public async Task<ActionResult<ICollection<LevelDTO>>> Get()
         {
             var result = await _levelRepository.ReadAsync();
             return Ok(result);

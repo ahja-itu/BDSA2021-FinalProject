@@ -15,7 +15,7 @@
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<LanguageDTO>>> Get()
+        public async Task<ActionResult<ICollection<LanguageDTO>>> Get()
         {
             var result = await _languageRepository.ReadAsync();
             return Ok(result);

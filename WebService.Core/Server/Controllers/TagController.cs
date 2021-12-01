@@ -15,7 +15,7 @@
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<TagDTO>>> Get()
+        public async Task<ActionResult<ICollection<TagDTO>>> Get()
         {
             var result = await _tagRepository.ReadAsync();
             return Ok(result);
