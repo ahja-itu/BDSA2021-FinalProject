@@ -73,14 +73,6 @@
             context.Medias.RemoveRange(context.Medias);
             context.ProgrammingLanguages.RemoveRange(context.ProgrammingLanguages);
             context.Tags.RemoveRange(context.Tags);
-
-            //context.Database.ExecuteSqlRaw("TRUNCATE TABLE Levels RESTART IDENTITY");
-            //context.Database.ExecuteSqlRaw("TRUNCATE TABLE Materials RESTART IDENTITY");
-            //context.Database.ExecuteSqlRaw("TRUNCATE TABLE Medias RESTART IDENTITY");
-            //context.Database.ExecuteSqlRaw("TRUNCATE TABLE ProgrammingLanguages RESTART IDENTITY");
-            //context.Database.ExecuteSqlRaw("TRUNCATE TABLE Tags RESTART IDENTITY");
-            //context.Database.ExecuteSqlRaw("TRUNCATE TABLE WeightedTag RESTART IDENTITY");
-            //context.Database.ExecuteSqlRaw("TRUNCATE TABLE Languages RESTART IDENTITY");
         }
 
         public static void Seed(Context context)
