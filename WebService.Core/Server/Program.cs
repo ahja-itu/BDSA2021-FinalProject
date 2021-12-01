@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using WebService.Entities;
+using WebService.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +12,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<Context>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("btg")));
+builder.Services.AddScoped<ILanguageRepository,LanguageRepository>();
+builder.Services.AddScoped<ILevelRespository,LevelRepository>();
+builder.Services.AddScoped<IMediaRepository,MediaRepository>();
+builder.Services.AddScoped<IProgrammingLanguageRespository,ProgrammingLanguageRepository>();
+builder.Services.AddScoped<ITagRepository,TagRepository>();
+
 
 var app = builder.Build();
 

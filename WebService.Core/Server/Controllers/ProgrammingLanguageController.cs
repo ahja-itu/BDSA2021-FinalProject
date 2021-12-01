@@ -2,22 +2,22 @@
 {
     [Authorize]
     [ApiController]
-    [Route("[api/controller]")]
+    [Route("[controller]")]
     [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class ProgrammingLanguageController : ControllerBase
     {
-        private readonly IProgrammingLanguageRespository _ProgrammingLanguageRespository;
+        private readonly IProgrammingLanguageRespository _programmingLanguageRepository;
 
         public ProgrammingLanguageController(IProgrammingLanguageRespository programmingLanguageRepository)
         {
-            _ProgrammingLanguageRespository = programmingLanguageRepository;
+            _programmingLanguageRepository = programmingLanguageRepository;
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ProgrammingLanguageDTO>>> Get()
         {
-            var result = await _ProgrammingLanguageRespository.ReadAsync();
+            var result = await _programmingLanguageRepository.ReadAsync();
             return Ok(result);
         }
 
