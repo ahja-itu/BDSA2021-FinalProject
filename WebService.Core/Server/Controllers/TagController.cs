@@ -13,7 +13,7 @@
             _tagRepository = tagRepository;
         }
 
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ICollection<TagDTO>>> Get()
         {
