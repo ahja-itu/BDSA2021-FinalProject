@@ -231,16 +231,16 @@
     string _placeholder = "Search Tags";
     int _rating = 5;
     int _iDCounter;
-    readonly ICollection<string> _tags = new List<string>();
-    readonly ICollection<string> _levels = new List<string>();
-    readonly ICollection<string> _programmingLang = new List<string>();
-    readonly ICollection<string> _language = new List<string>();
-    readonly ICollection<string> _medias = new List<string>();
+    ICollection<string> _tags = new List<string>();
+    ICollection<string> _levels = new List<string>();
+    ICollection<string> _programmingLang = new List<string>();
+    ICollection<string> _language = new List<string>();
+    ICollection<string> _medias = new List<string>();
 
     ICollection<string> _lastCalledCollection = new List<string>();
     ICollection<string> _showCollection = new List<string>();
 
-    private void SearchFilters(string? val)
+    private void SearchFilters(string val)
     {
         ReplaceListWithoutBackup(ref _showCollection, _lastCalledCollection);
         ICollection<string> toShow = _showCollection.Where(str => str.Contains(val) || val.Contains(str)).ToList();
@@ -366,22 +366,22 @@
 
     #region InitAPICalls
 
-    /*
+    
     protected override async Task OnInitializedAsync()
     {
-        var tagsDTOs = await Http.GetFromJsonAsync<ICollection<TagDTO>>("api/Tag");
-        var levelsDTOs = await Http.GetFromJsonAsync<ICollection<LevelDTO>>("api/Level");
-        var programmingLangDTOs = await Http.GetFromJsonAsync<ICollection<ProgrammingLanguageDTO>>("api/ProgrammingLanguage");
-        var langDTOs = await Http.GetFromJsonAsync<ICollection<LanguageDTO>>("api/Language");
-        var mediasDTOs = await Http.GetFromJsonAsync<ICollection<MediaDTO>>("api/Media");
+        var tagsDTOs = await _http.GetFromJsonAsync<ICollection<TagDTO>>("Tag");
+        var levelsDTOs = await _http.GetFromJsonAsync<ICollection<LevelDTO>>("Level");
+        var programmingLangDTOs = await _http.GetFromJsonAsync<ICollection<ProgrammingLanguageDTO>>("ProgrammingLanguage");
+        var langDTOs = await _http.GetFromJsonAsync<ICollection<LanguageDTO>>("Language");
+        var mediasDTOs = await _http.GetFromJsonAsync<ICollection<MediaDTO>>("Media");
 
-        tags = tagsDTOs == null ? new List<string>() : tagsDTOs.Select(e => e.Name).ToList();
-        tags = levelsDTOs == null ? new List<string>() : levelsDTOs.Select(e => e.Name).ToList();
-        tags = programmingLangDTOs == null ? new List<string>() : programmingLangDTOs.Select(e => e.Name).ToList();
-        tags = langDTOs == null ? new List<string>() : langDTOs.Select(e => e.Name).ToList();
-        tags = mediasDTOs == null ? new List<string>() : mediasDTOs.Select(e => e.Name).ToList();
+        _tags = tagsDTOs == null ? new List<string>() : tagsDTOs.Select(e => e.Name).ToList();
+        _levels = levelsDTOs == null ? new List<string>() : levelsDTOs.Select(e => e.Name).ToList();
+        _programmingLang = programmingLangDTOs == null ? new List<string>() : programmingLangDTOs.Select(e => e.Name).ToList();
+        _language = langDTOs == null ? new List<string>() : langDTOs.Select(e => e.Name).ToList();
+        _medias = mediasDTOs == null ? new List<string>() : mediasDTOs.Select(e => e.Name).ToList();
     }
-    */
+    
 
     #endregion
 
