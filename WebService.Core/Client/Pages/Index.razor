@@ -1,6 +1,8 @@
 ﻿@page "/"
 @using WebService.Core.Shared
 @using Microsoft.AspNetCore.Authorization
+@using System.Text.Json.Serialization
+@using System.Text.Json
 @attribute [Authorize]
 @inject HttpClient _http
 <PageTitle>Index</PageTitle>
@@ -367,7 +369,9 @@
     #region InitAPICalls
     protected override async Task OnInitializedAsync()
     {
-        var tagsDTOs = await _http.GetFromJsonAsync<ICollection<TagDTO>>("Tag");
+        var tagresponse = await _http.GetAsync($"Tag").Result.Content.ReadAsStringAsync();
+        var tagsDTOs = JsonSerializer.Deserialize<ICollection<TagDTO>>(tagresponse);
+        
         var levelsDTOs = await _http.GetFromJsonAsync<ICollection<LevelDTO>>("Level");
         var programmingLangDTOs = await _http.GetFromJsonAsync<ICollection<ProgrammingLanguageDTO>>("ProgrammingLanguage");
         var langDTOs = await _http.GetFromJsonAsync<ICollection<LanguageDTO>>("Language");
