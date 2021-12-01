@@ -4,8 +4,13 @@
     
     public class Material
     {
-        public Material(ICollection<WeightedTag> weightedTags, ICollection<Rating> ratings, ICollection<Level> levels, ICollection<ProgrammingLanguage> programmingLanguages, ICollection<Media> medias, Language language, string summary, string url, string content, string title, ICollection<Author> authors, DateTime timeStamp)
+        public Material()
         {
+        }
+
+        public Material(int id, ICollection<WeightedTag> weightedTags, ICollection<Rating> ratings, ICollection<Level> levels, ICollection<ProgrammingLanguage> programmingLanguages, ICollection<Media> medias, Language language, string summary, string url, string content, string title, ICollection<Author> authors, DateTime timeStamp)
+        {
+            Id = id;
             WeightedTags = weightedTags;
             Ratings = ratings;
             Levels = levels;
@@ -19,9 +24,8 @@
             Authors = authors;
             TimeStamp = timeStamp;
         }
-        public Material(int id, ICollection<WeightedTag> weightedTags, ICollection<Rating> ratings, ICollection<Level> levels, ICollection<ProgrammingLanguage> programmingLanguages, ICollection<Media> medias, Language language, string summary, string url, string content, string title, ICollection<Author> authors, DateTime timeStamp)
+        public Material(ICollection<WeightedTag> weightedTags, ICollection<Rating> ratings, ICollection<Level> levels, ICollection<ProgrammingLanguage> programmingLanguages, ICollection<Media> medias, Language language, string summary, string url, string content, string title, ICollection<Author> authors, DateTime timeStamp)
         {
-            Id = id;
             WeightedTags = weightedTags;
             Ratings = ratings;
             Levels = levels;

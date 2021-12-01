@@ -16,6 +16,7 @@ public class IndexTest
     {
         // Arrange
         using var ctx = new TestContext();
+
         var cut = ctx.RenderComponent<Index>();
 
         // Act
@@ -46,7 +47,7 @@ public class IndexTest
         var countOfFilterOptions = cut.FindAll("button").Count - buttons.Count - filterOptions.Count;
         
         // Assert
-        Assert.Equal(7, countOfFilterOptions);
+        Assert.Equal(6, countOfFilterOptions);
     }
 
     [Fact]
@@ -137,7 +138,7 @@ public class IndexTest
         var searchField = cut.FindAll("input").GetElementById("searchFilter");
 
         // Assert
-        Assert.Equal("Search Programing Languages", searchField.GetAttribute("Placeholder"));
+        Assert.Equal("Search programming Languages", searchField.GetAttribute("Placeholder"));
     }
 
     [Fact]
