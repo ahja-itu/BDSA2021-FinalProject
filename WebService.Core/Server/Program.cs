@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using WebService.Core.Server;
 using WebService.Entities;
 using WebService.Infrastructure;
 
@@ -13,13 +14,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<Context>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("btg")));
-builder.Services.AddScoped<ILanguageRepository,LanguageRepository>();
-builder.Services.AddScoped<ILevelRespository,LevelRepository>();
-builder.Services.AddScoped<IMediaRepository,MediaRepository>();
-builder.Services.AddScoped<IProgrammingLanguageRespository,ProgrammingLanguageRepository>();
-builder.Services.AddScoped<ITagRepository,TagRepository>();
+var configuration = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddUserSecrets<Program>()
+        .AddJsonFile("appsettings.json")
+        .Build();
 
+var connectionString = configuration.GetConnectionString("btg");
+builder.Services.AddDbContext<Context>(options => options.UseNpgsql(connectionString));
+builder.Services.AddScoped<IContext, Context>();
+builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
+builder.Services.AddScoped<ILevelRespository, LevelRepository>();
+builder.Services.AddScoped<IMediaRepository, MediaRepository>();
+builder.Services.AddScoped<IProgrammingLanguageRespository, ProgrammingLanguageRepository>();
+builder.Services.AddScoped<ITagRepository, TagRepository>();
 
 var app = builder.Build();
 
