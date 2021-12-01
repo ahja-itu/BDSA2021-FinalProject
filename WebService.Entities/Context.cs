@@ -66,27 +66,26 @@
 
         private static void CleanDB(Context context)
         {
-            context.Database.ExecuteSqlRaw("DELETE btg.Authors");
-            context.Database.ExecuteSqlRaw("DELETE btg.Languages");
-            context.Database.ExecuteSqlRaw("DELETE btg.Levels");
-            context.Database.ExecuteSqlRaw("DELETE btg.Materials");
-            context.Database.ExecuteSqlRaw("DELETE btg.Medias");
-            context.Database.ExecuteSqlRaw("DELETE btg.ProgrammingLanguages");
-            context.Database.ExecuteSqlRaw("DELETE btg.Tags");
+            // Solution from https://stackoverflow.com/questions/15220411/entity-framework-delete-all-rows-in-table
+            context.Languages.RemoveRange(context.Languages);
+            context.Levels.RemoveRange(context.Levels);
+            context.Materials.RemoveRange(context.Materials);
+            context.Medias.RemoveRange(context.Medias);
+            context.ProgrammingLanguages.RemoveRange(context.ProgrammingLanguages);
+            context.Tags.RemoveRange(context.Tags);
 
-
-            // Reset id counters
-            context.Database.ExecuteSqlRaw("ALTER SEQUENCE btg.Authors_id_seq RESTART WITH 1");
-            context.Database.ExecuteSqlRaw("ALTER SEQUENCE btg.Languages_id_seq RESTART WITH 1");
-            context.Database.ExecuteSqlRaw("ALTER SEQUENCE btg.Levels_id_seq RESTART WITH 1");
-            context.Database.ExecuteSqlRaw("ALTER SEQUENCE btg.Materials_id_seq RESTART WITH 1");
-            context.Database.ExecuteSqlRaw("ALTER SEQUENCE btg.Medias_id_seq RESTART WITH 1");
-            context.Database.ExecuteSqlRaw("ALTER SEQUENCE btg.ProgrammingLanguages_id_seq RESTART WITH 1");
-            context.Database.ExecuteSqlRaw("ALTER SEQUENCE btg.Tags_id_seq RESTART WITH 1");
+            //context.Database.ExecuteSqlRaw("TRUNCATE TABLE Levels RESTART IDENTITY");
+            //context.Database.ExecuteSqlRaw("TRUNCATE TABLE Materials RESTART IDENTITY");
+            //context.Database.ExecuteSqlRaw("TRUNCATE TABLE Medias RESTART IDENTITY");
+            //context.Database.ExecuteSqlRaw("TRUNCATE TABLE ProgrammingLanguages RESTART IDENTITY");
+            //context.Database.ExecuteSqlRaw("TRUNCATE TABLE Tags RESTART IDENTITY");
+            //context.Database.ExecuteSqlRaw("TRUNCATE TABLE WeightedTag RESTART IDENTITY");
+            //context.Database.ExecuteSqlRaw("TRUNCATE TABLE Languages RESTART IDENTITY");
         }
 
         public static void Seed(Context context)
         {
+            
 
             // Clear out the database entries
             Context.CleanDB(context);
@@ -131,48 +130,48 @@
                 new Level("Everyone")
             };
             
-            var weightedTags = new WeightedTag[] 
+            var tags = new Tag[] 
             {
-                new WeightedTag(1, "GOF", 10),
-                new WeightedTag(2, "Advanced", 10),
-                new WeightedTag(3, "Beginner", 10),
-                new WeightedTag(4, "Linq", 10),
-                new WeightedTag(5, "Solid", 10),
-                new WeightedTag(6, "Blazor", 10),
-                new WeightedTag(7, "Docker", 10),
-                new WeightedTag(8, "RAD", 10),
-                new WeightedTag(9, "SDD", 10),
-                new WeightedTag(10, "ODD", 10),
-                new WeightedTag(11, "Algorithms", 10),
-                new WeightedTag(12, "macos", 10),
-                new WeightedTag(13, "windows", 10),
-                new WeightedTag(14, "Linux", 10),
-                new WeightedTag(15, "Azure", 10),
-                new WeightedTag(16, "Collections", 10),
-                new WeightedTag(17, "Generics", 10),
-                new WeightedTag(18, "Refactor", 10),
-                new WeightedTag(19, "Testing", 10),
-                new WeightedTag(20, "TDD", 10),
-                new WeightedTag(21, "Nuget", 10),
-                new WeightedTag(22, "UI", 10),
-                new WeightedTag(23, "UX", 10),
-                new WeightedTag(24, "Multi - Tasking", 10),
-                new WeightedTag(25, "Threads", 10),
-                new WeightedTag(26, "Xunit", 10),
-                new WeightedTag(27, "API", 10),
-                new WeightedTag(28, "Terminal", 10),
-                new WeightedTag(29, "Software Architecture", 10),
-                new WeightedTag(30, "DOTNET", 10),
-                new WeightedTag(31, ".NET", 10),
-                new WeightedTag(32, "Rider", 10),
-                new WeightedTag(33, "Visual Studio", 10),
-                new WeightedTag(34, "Events", 10),
-                new WeightedTag(35, "Regexp", 10),
-                new WeightedTag(36, "Data type", 10),
-                new WeightedTag(37, "Clean Code", 10),
-                new WeightedTag(38, "Workflow", 10),
-                new WeightedTag(39, "Binary Search tree", 10),
-                new WeightedTag(40, "Path finding", 10)
+                new Tag(1, "GOF"),
+                new Tag(2, "Advanced"),
+                new Tag(3, "Beginner"),
+                new Tag(4, "Linq"),
+                new Tag(5, "Solid"),
+                new Tag(6, "Blazor"),
+                new Tag(7, "Docker"),
+                new Tag(8, "RAD"),
+                new Tag(9, "SDD"),
+                new Tag(10, "ODD"),
+                new Tag(11, "Algorithms"),
+                new Tag(12, "macos"),
+                new Tag(13, "windows"),
+                new Tag(14, "Linux"),
+                new Tag(15, "Azure"),
+                new Tag(16, "Collections"),
+                new Tag(17, "Generics"),
+                new Tag(18, "Refactor"),
+                new Tag(19, "Testing"),
+                new Tag(20, "TDD"),
+                new Tag(21, "Nuget"),
+                new Tag(22, "UI"),
+                new Tag(23, "UX"),
+                new Tag(24, "Multi - Tasking"),
+                new Tag(25, "Threads"),
+                new Tag(26, "Xunit"),
+                new Tag(27, "API"),
+                new Tag(28, "Terminal"),
+                new Tag(29, "Software Architecture"),
+                new Tag(30, "DOTNET"),
+                new Tag(31, ".NET"),
+                new Tag(32, "Rider"),
+                new Tag(33, "Visual Studio"),
+                new Tag(34, "Events"),
+                new Tag(35, "Regexp"),
+                new Tag(36, "Data type"),
+                new Tag(37, "Clean Code"),
+                new Tag(38, "Workflow"),
+                new Tag(39, "Binary Search tree"),
+                new Tag(40, "Path finding")
             };
 
 
@@ -184,12 +183,16 @@
                 null
             };
 
+            var weightedTag1 = new WeightedTag("SOLID", 10);
+            var weightedTag2 = new WeightedTag("RAD", 50);
+            var weightedTag3 = new WeightedTag("API", 90);
+
 
             var materials = new Material[]
             {
                 new Material()
                 {
-                    WeightedTags = new List<WeightedTag> { weightedTags[0] },
+                    WeightedTags = new List<WeightedTag> { weightedTag1 },
                     Levels = new List<Level> { levels[0] },
                     ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguages[0] },
                     Medias = new List<Media> { medias[0] },
@@ -200,7 +203,7 @@
                 },
                 new Material()
                 {
-                    WeightedTags = new List<WeightedTag> { weightedTags[2], weightedTags[0]},
+                    WeightedTags = new List<WeightedTag> { weightedTag1, weightedTag2 },
                     Levels = new List<Level> { levels[2], levels[0] },
                     ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguages[0], programmingLanguages[1] },
                     Medias = new List<Media> { medias[2], medias[0] },
@@ -211,7 +214,7 @@
                 },
                 new Material()
                 {
-                    WeightedTags = new List<WeightedTag> { weightedTags[0], weightedTags[1], weightedTags[2] },
+                    WeightedTags = new List<WeightedTag> { weightedTag1, weightedTag2, weightedTag3 },
                     Levels = new List<Level> { levels[0], levels[1], levels[2] },
                     ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguages[0], programmingLanguages[1], programmingLanguages[2] },
                     Medias = new List<Media> { medias[0], medias[1], medias[2] },
@@ -222,12 +225,12 @@
                 }
             };
 
-            context.AddRange(weightedTags,
-                             programmingLanguages,
-                             medias,
-                             languages,
-                             levels,
-                             materials);
+            context.AddRange(tags);
+            context.AddRange(programmingLanguages);
+            context.AddRange(medias);
+            context.AddRange(languages);
+            context.AddRange(levels);
+            context.AddRange(materials);
   
 
             context.SaveChanges();
