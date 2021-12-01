@@ -357,7 +357,7 @@
             Rating = _rating
         };
 
-    // send results and receive results
+        // send results and receive results
 
         _hasResults = true;
     }
@@ -378,9 +378,8 @@
 
     private async Task GetTagsFromApi()
     {
-        var response = await _http.GetAsync($"Tag").Result.Content.ReadAsStringAsync();
-        var DTOs = JsonSerializer.Deserialize<ICollection<TagDTO>>(response);
-        _tags = DTOs == null ? new List<string>() : DTOs.Select(e => e.Name).ToList();
+        var tagDTOs = await _http.GetFromJsonAsync<ICollection<TagDTO>>("Tag");
+        _tags = tagDTOs == null ? new List<string>() : tagDTOs.Select(e => e.Name).ToList();
     }
 
     private async Task GetLevelsFromApi()

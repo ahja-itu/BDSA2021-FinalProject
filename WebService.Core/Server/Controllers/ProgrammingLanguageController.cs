@@ -18,7 +18,7 @@
         public async Task<ActionResult<ICollection<ProgrammingLanguageDTO>>> Get()
         {
             var result = await _programmingLanguageRepository.ReadAsync();
-            return Ok(result);
+            return  Ok(result);
         }
 
         [HttpGet("{id}")]
