@@ -13,11 +13,12 @@
             _languageRepository = languageRepository;
         }
 
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ICollection<LanguageDTO>>> Get()
         {
-            var result = await _languageRepository.ReadAsync();
+            //var result = await _languageRepository.ReadAsync();
+            var result = new List<LanguageDTO>{ new (1,"Language")};
             return Ok(result);
         }
 

@@ -18,7 +18,7 @@
         public async Task<ActionResult<ICollection<TagDTO>>> Get()
         {
             //var result = await _tagRepository.ReadAsync();
-            var result = new List<TagDTO>() { new TagDTO(1,"Tag")};
+            var result = new List<TagDTO>{ new (1,"Tag")};
             return Ok(result);
         }
 

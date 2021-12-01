@@ -13,11 +13,12 @@
             _levelRepository = levelRepository;
         }
 
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ICollection<LevelDTO>>> Get()
         {
-            var result = await _levelRepository.ReadAsync();
+            //var result = await _levelRepository.ReadAsync();
+            var result = new List<LevelDTO>{ new (1,"Level")};
             return Ok(result);
         }
 

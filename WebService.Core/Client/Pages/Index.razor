@@ -1,8 +1,6 @@
 ﻿@page "/"
 @using WebService.Core.Shared
 @using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using System.Text.Json
 @attribute [Authorize]
 @inject HttpClient _http
 <PageTitle>Index</PageTitle>
@@ -122,7 +120,7 @@
     <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@_displayIcon"/>
 </div>
 <!-- Results Box -->
-@if (_hasResults)
+@if (_results != null)
 {
     <div class="row scroller">
         @foreach (var material in _results)
@@ -169,7 +167,7 @@
     #region Gui
 
     bool _advancedView;
-    bool _hasResults;
+    
     bool _isShowingFilterOptions;
     bool _filterSelected;
 
@@ -186,7 +184,6 @@
             switch (filterName)
             {
                 case "Tags":
-                    _tagsToSend.Add(new TagDTO(0, "hej test"));
                     ReplaceListWithBackup(ref _showCollection, _tags);
                     break;
                 case "Levels":
@@ -219,10 +216,7 @@
     private static void ReplaceListWithoutBackup(ref ICollection<string> target, IEnumerable<string> source)
     {
         target.Clear();
-        foreach (var str in source)
-        {
-            target.Add(str);
-        }
+        foreach (var str in source) target.Add(str);
     }
 
     #endregion
@@ -271,68 +265,38 @@
 
     string _collectionToSaveTo = "Tags";
 
-    readonly ICollection<TagDTO> _tagsToSend = new List<TagDTO>();
-    readonly ICollection<LevelDTO> _levelsToSend = new List<LevelDTO>();
-    readonly ICollection<ProgrammingLanguageDTO> _programmingLanguagesToSend = new List<ProgrammingLanguageDTO>();
-    readonly ICollection<LanguageDTO> _languagesToSend = new List<LanguageDTO>();
-    readonly ICollection<MediaDTO> _mediasToSend = new List<MediaDTO>();
+    ICollection<string> _tagsToSend = new List<string>();
+    ICollection<string> _levelsToSend = new List<string>();
+    ICollection<string> _programmingLanguagesToSend = new List<string>();
+    ICollection<string> _languagesToSend = new List<string>();
+    ICollection<string> _mediasToSend = new List<string>();
 
     private void AddFilterToList(string toAdd)
     {
-        var contained = false;
         switch (_collectionToSaveTo)
         {
             case "Tags":
-                foreach (var tag in _tagsToSend)
-                {
-                    if (tag.Name != toAdd) continue;
-                    _tagsToSend.Remove(tag);
-                    contained = true;
-                    break;
-                }
-                if (!contained) _tagsToSend.Add(new TagDTO(0, toAdd));
+                ToggleFilter(ref _tagsToSend, toAdd);
                 break;
             case "Levels":
-                foreach (var level in _levelsToSend)
-                {
-                    if (level.Name != toAdd) continue;
-                    _levelsToSend.Remove(level);
-                    contained = true;
-                    break;
-                }
-                if (!contained) _levelsToSend.Add(new LevelDTO(0, toAdd));
+                ToggleFilter(ref _levelsToSend, toAdd);
                 break;
             case "programming Languages":
-                foreach (var programmingLanguage in _programmingLanguagesToSend)
-                {
-                    if (programmingLanguage.Name != toAdd) continue;
-                    _programmingLanguagesToSend.Remove(programmingLanguage);
-                    contained = true;
-                    break;
-                }
-                if (!contained) _programmingLanguagesToSend.Add(new ProgrammingLanguageDTO(0, toAdd));
+                ToggleFilter(ref _programmingLanguagesToSend, toAdd);
                 break;
             case "Languages":
-                foreach (var language in _languagesToSend)
-                {
-                    if (language.Name != toAdd) continue;
-                    _languagesToSend.Remove(language);
-                    contained = true;
-                    break;
-                }
-                if (!contained) _languagesToSend.Add(new LanguageDTO(0, toAdd));
+                ToggleFilter(ref _languagesToSend, toAdd);
                 break;
             case "Medias":
-                foreach (var media in _mediasToSend)
-                {
-                    if (media.Name != toAdd) continue;
-                    _mediasToSend.Remove(media);
-                    contained = true;
-                    break;
-                }
-                if (!contained) _mediasToSend.Add(new MediaDTO(0, toAdd));
+                ToggleFilter(ref _mediasToSend, toAdd);
                 break;
         }
+    }
+
+    private void ToggleFilter(ref ICollection<string> list, string val)
+    {
+        if (list.Contains(val)) list.Remove(val);
+        else  list.Add(val);
     }
 
     #endregion
@@ -341,29 +305,20 @@
 
     #region Search
 
-    readonly string SearchInput = "";
-
+    string SearchInput = "";
+    IEnumerable<MaterialDTO>? _results;
     private void Search()
     {
-        _hasResults = true;
-        var searchForm = new SearchForm
-        {
-            TextField = SearchInput,
-            Tags = _tagsToSend,
-            Levels = _levelsToSend,
-            ProgrammingLanguages = _programmingLanguagesToSend,
-            Languages = _languagesToSend,
-            Medias = _mediasToSend,
-            Rating = _rating
-        };
-
+        var searchForm = new SearchForm(
+            SearchInput,
+            _tagsToSend.Select(e =>new TagDTO(0,e)),
+            _levelsToSend.Select(e =>new LevelDTO(0,e)),
+            _programmingLanguagesToSend.Select(e =>new ProgrammingLanguageDTO(0,e)),
+            _languagesToSend.Select(e =>new LanguageDTO(0,e)),
+            _mediasToSend.Select(e =>new MediaDTO(0,e)),
+            _rating);
         // send results and receive results
-
-        _hasResults = true;
     }
-
-    ICollection<MaterialDTO> _results = new List<MaterialDTO>();
-
     #endregion
 
     #region InitAPICalls

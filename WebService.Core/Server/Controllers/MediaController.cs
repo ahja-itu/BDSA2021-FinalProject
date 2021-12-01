@@ -13,11 +13,12 @@
             _mediaRepository = mediaRepository;
         }
 
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ICollection<MediaDTO>>> Get()
         {
-            var result = await _mediaRepository.ReadAsync();
+            //var result = await _mediaRepository.ReadAsync();
+            var result = new List<MediaDTO>{ new (1,"Media")};
             return Ok(result);
         }
 

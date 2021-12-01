@@ -13,11 +13,12 @@
             _programmingLanguageRepository = programmingLanguageRepository;
         }
 
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ICollection<ProgrammingLanguageDTO>>> Get()
         {
-            var result = await _programmingLanguageRepository.ReadAsync();
+            //var result = await _programmingLanguageRepository.ReadAsync();
+            var result = new List<ProgrammingLanguageDTO>{ new (1,"ProgrammingLanguage")};
             return  Ok(result);
         }
 
