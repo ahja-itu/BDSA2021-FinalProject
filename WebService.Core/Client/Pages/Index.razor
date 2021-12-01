@@ -95,7 +95,7 @@
         {
             <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
                 <div class="col">
-                    <RadzenTextBox id="searchFilter" class="btgInput" @oninput=@(_ => { SearchFilters(_filterSearchInput);}) @bind-Value=@_filterSearchInput Placeholder="@_placeholder"/>
+                    <RadzenTextBox id="searchFilter" class="btgInput" @oninput=@(args => { SearchFilters(args.Value.ToString());}) @bind-Value=@_filterSearchInput Placeholder="@_placeholder"/>
                     <RadzenButton Click=@(_ => SearchFilters(_filterSearchInput)) Icon="search" class="btgIconButton smallIcon"/>
                 </div>
             </div>
@@ -239,8 +239,7 @@
     private void SearchFilters(string val)
     {
         ReplaceListWithoutBackup(ref _showCollection, _lastCalledCollection);
-        ICollection<string> toShow = _showCollection.Where(str => str.Contains(val) || val.Contains(str)).ToList();
-        ReplaceListWithoutBackup(ref _showCollection, toShow);
+        ReplaceListWithoutBackup(ref _showCollection, _showCollection.Where(str => str.ToLower().Contains(val.ToLower()) || val.ToLower().Contains(str.ToLower())).ToList());
     }
 
     private string FilterOptionIdGenerator()
