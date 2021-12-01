@@ -65,7 +65,7 @@
             authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Rasmus", "Kristensen") };
             
             tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("SOLID", 101) };
-            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, dateTime);
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _CreateMaterialDTOTagWeightTooHigh = material;
             tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10) };
             
