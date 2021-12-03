@@ -22,7 +22,18 @@
         }
 
         [HttpGet("{id}")]
-        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<MaterialDTO>> Get(int id)
+        {
+            var result = await _materialRepository.ReadAsync(id);
+            var response = result.Item1;
+
+            if (response == Status.Found) return Ok(result);
+            else return NotFound();
+        }
+
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MaterialDTO>> Get(int id)

@@ -22,7 +22,6 @@
         }
 
         [HttpGet("{id}")]
-        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<LanguageDTO>> Get(int id)
