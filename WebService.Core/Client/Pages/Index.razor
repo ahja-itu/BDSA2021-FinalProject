@@ -1,8 +1,8 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.Authorization
 @using WebService.Core.Shared
+@using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
-@inject HttpClient Http
+@inject HttpClient _http
 <PageTitle>Index</PageTitle>
 <style>
     .btgInput{
@@ -36,15 +36,49 @@
         color:#FF9F1C;
         background:transparent !important;
     }
+    .scroller {
+        background-color: transparent;
+        width: auto;
+        height: 500px;
+        overflow: auto;
+    }
+    .result{
+        background: transparent;
+        padding-top: 25px;
+        height: 200px;
+        max-height: 200px;
+        min-width: auto;
+        color: #7765E3;
+    }
+    .slider{
+        background: #7765E3 !important;
+        border-color: #8776E5 !important;
+    }
+    .slider span{
+        background: #C2BAF2 !important;
+        border-radius: 1rem;
+        border-color: #8776E5 !important;
+    }
+    .slider span::before{
+        color:#7765E3 !important;
+    }
+    input{
+      color: #C2BAF2 !important;
+    }
 </style>
-<h1 style="text-align: center; color:#ffffff" >Bridge The Gap!</h1>
+<!-- Header -->
+<div style="padding-bottom: 20%">
+    <h1 style="text-align: center; color:#ffffff">Bridge The Gap!</h1>
+</div>
+<!-- Search bar -->
 <div class="row" style="border-bottom:solid;border-color:#7765E3">
     <div class="col d-flex justify-content-center align-item-center" style="width:100%">
-            <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" Style="width:100%;font-size:2em"/>
-            <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>  
+        <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" Style="width:100%;font-size:2em"/>
+        <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>
     </div>
 </div>
-@if (AdvancedView)
+<!-- Filter box -->
+@if (_advancedView)
 {
     <div id="filters" class="row" style="margin-left:20px;margin-right:20px;background:#4E4E4E;border-radius: 24px;margin-top:15px;padding:25px">
         <div class="row">
@@ -52,184 +86,279 @@
                 <RadzenButton id="tags" Click=@(_ => ChangeFilter("Tags")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Tags"/>
                 <RadzenButton id="ratings" Click=@(_ => ChangeFilter("Ratings")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Ratings"/>
                 <RadzenButton id="levels" Click=@(_ => ChangeFilter("Levels")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Levels"/>
-                <RadzenButton id="programming Languages" Click=@(_ => ChangeFilter("Programing Languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Programing Languages"/>
+                <RadzenButton id="programming Languages" Click=@(_ => ChangeFilter("programming Languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="programming Languages"/>
                 <RadzenButton id="languages" Click=@(_ => ChangeFilter("Languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Languages"/>
                 <RadzenButton id="medias" Click=@(_ => ChangeFilter("Medias")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Medias"/>
             </div>
         </div>
-        @if (IsShowingFilterOptions)
+        @if (_isShowingFilterOptions && _filterSelected)
         {
             <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
                 <div class="col">
-                    <RadzenTextBox id="searchFilter" class="btgInput" onChange="SearchFilters" @bind-Value=@FilterSearchInput Placeholder="@placeholder"/>
-                    <RadzenButton Click="SearchFilters" Icon="search" class="btgIconButton smallIcon"/> 
+                    <RadzenTextBox id="searchFilter" class="btgInput" @oninput=@(args => { SearchFilters(args.Value.ToString());}) @bind-Value=@_filterSearchInput Placeholder="@_placeholder"/>
+                    <RadzenButton Click=@(_ => SearchFilters(_filterSearchInput)) Icon="search" class="btgIconButton smallIcon"/>
                 </div>
             </div>
             <div class="row">
-                @foreach (var str in showCollection)
+                @foreach (var str in _showCollection)
                 {
-                    <RadzenButton id="@FitlerOptionIdGenerator()" Click=@(_ => AddFilterToList(str)) Style="border-radius: 24px; background: #fff; margin:10px; color:#7765E3; width: auto;" Text="@str"/>
+                    <RadzenButton id="@FilterOptionIdGenerator()" Click=@(_ => AddFilterToList(str)) Style="border-radius: 24px; background: #fff; margin:10px; color:#7765E3; width: auto;" Text="@str"/>
                 }
-                <p>@teststring</p>
-
             </div>
         }
-        else
+        else if (!_isShowingFilterOptions && _filterSelected)
         {
             <div class="row">
-                <h3 style="margin-top: 2rem">Range Slider</h3>
-                <RadzenSlider @bind-Value=@rating TValue="int" Step="1" Min="0" Max="10" />
+                <p style="margin-top: 2rem">Minimum rating: @_rating</p>
+                <RadzenSlider class="slider" id="slider" @bind-Value=@_rating TValue="int" Step="1" Min="0" Max="10"/>
             </div>
-        }  
+        }
     </div>
 }
+<!-- Show Filter Button -->
 <div class="row d-flex justify-content-center align-item-center">
-    <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@displayIcon"/>
+    <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@_displayIcon"/>
 </div>
+<!-- Results Box -->
+@if (_results != null)
+{
+    <div class="row scroller">
+        @foreach (var material in _results)
+        {
+            <div class="result">
+                <div style="border-left: 6px solid #7765E3; !important;">
+                    <div class="row" style="margin-left: 5px">
+                        <div class="col">
+                            <a href="#" style="color:white;">
+                                @material.URL
+                            </a>
+                        </div>
+                        <div class="col" style="text-align: right">
+                            <p>
+                                @material.Language.Name
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-left: 5px">
+                        <div class="col">
+                            <RadzenButton class="btgIconButton" Style="font-size: 20px; padding: 0">
+                                @material.Title
+                            </RadzenButton>
+                        </div>
+                        <div class="col" style="text-align: right">
+                            <p>
+                                @GetAvgRating(material)
+                            </p>
+                        </div>
+                    </div>
+                    <div style="color: white; margin-left: 5px">
+                        <p>
+                            @material.Summary
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
 
 @code{
-    int iDCounter = 0;
-    string teststring = "start";
-    string SearchInput = "";
-    private void Search() => Console.WriteLine(SearchInput);
-    ICollection<string> tags = new[] {"I", "am", "a","tag"};
-    ICollection<string> levels = new[] {"I", "am", "a","level"};
-    ICollection<string> programingLang = new[] {"I", "am", "a","Programming","language"};
-    ICollection<string> lang = new[] {"I", "am", "a","Language"};
-    ICollection<string> medias = new[] {"We", "are", "a","collection","of","medias"};
 
-    ICollection<string> lastCalledCollection = new List<string> { "Hello","World","!"};
-    ICollection<string> showCollection = new List<string> { "Hello","World","!"};
+    #region Gui
 
-    string collectionToSaveTo = "Tags";
-    ICollection<string> tagsToSend = new string[] { };
-    ICollection<string> levelsToSend = new string[] { };
-    ICollection<string> programmingLangToSend = new string[] { };
-    ICollection<string> langToSend = new string[] { };
-    ICollection<string> mediaToSend = new string[] { };
+    bool _advancedView;
+    
+    bool _isShowingFilterOptions;
+    bool _filterSelected;
 
+    #region Filters
 
-
-    bool IsShowingFilterOptions = true;
-    string placeholder = "Search Tags";
-    int rating = 5;
     private void ChangeFilter(string filterName)
     {
-        placeholder = "Search " + filterName;
+        _filterSelected = true;
+        _filterSearchInput = "";
+        _placeholder = "Search " + filterName;
         if (filterName != "Ratings")
         {
-            IsShowingFilterOptions = true;
+            _isShowingFilterOptions = true;
             switch (filterName)
             {
                 case "Tags":
-                    ReplaceListWithBackup(ref showCollection, tags);
+                    ReplaceListWithBackup(ref _showCollection, _tags);
                     break;
                 case "Levels":
-                    ReplaceListWithBackup(ref showCollection, levels);
+                    ReplaceListWithBackup(ref _showCollection, _levels);
                     break;
-                case "Programing Languages":
-                    ReplaceListWithBackup(ref showCollection, programingLang);
+                case "programming Languages":
+                    ReplaceListWithBackup(ref _showCollection, _programmingLanguages);
                     break;
                 case "Languages":
-                    ReplaceListWithBackup(ref showCollection, lang);
+                    ReplaceListWithBackup(ref _showCollection, _language);
                     break;
                 case "Medias":
-                    ReplaceListWithBackup(ref showCollection, medias);
+                    ReplaceListWithBackup(ref _showCollection, _medias);
                     break;
             }
-            collectionToSaveTo = filterName;
+            _collectionToSaveTo = filterName;
         }
         else
         {
-            IsShowingFilterOptions = false;
+            _isShowingFilterOptions = false;
         }
     }
 
-    string FilterSearchInput = "";
-    private void SearchFilters()
-    {
-        ReplaceListWithoutBackup(ref showCollection, lastCalledCollection);
-        ICollection<string> ToShow = showCollection.Where(str => str.Contains(FilterSearchInput) || FilterSearchInput.Contains(str)).ToList();
-        ReplaceListWithoutBackup(ref showCollection, ToShow);
-    }
-
-    bool AdvancedView;
-    string displayIcon = "expand_more";
-    private void ShowFilters()
-    {
-        displayIcon = !AdvancedView ? "expand_less" : "expand_more";
-        AdvancedView = !AdvancedView;
-    }
     private void ReplaceListWithBackup(ref ICollection<string> target, ICollection<string> source)
     {
         ReplaceListWithoutBackup(ref target, source);
-        lastCalledCollection = source;
+        _lastCalledCollection = source;
     }
-    private void ReplaceListWithoutBackup(ref ICollection<string> target, ICollection<string> source)
+
+    private static void ReplaceListWithoutBackup(ref ICollection<string> target, IEnumerable<string> source)
     {
         target.Clear();
-        foreach(var str in source) 
-        {
-            target.Add(str);
-        }
+        foreach (var str in source) target.Add(str);
     }
+
+    #endregion
+
+    #region FiltersOptions
+
+    string _filterSearchInput = "";
+    string _placeholder = "Search Tags";
+    int _rating = 5;
+    int _iDCounter;
+    ICollection<string> _tags = new List<string>();
+    ICollection<string> _levels = new List<string>();
+    ICollection<string> _programmingLanguages = new List<string>();
+    ICollection<string> _language = new List<string>();
+    ICollection<string> _medias = new List<string>();
+
+    ICollection<string> _lastCalledCollection = new List<string>();
+    ICollection<string> _showCollection = new List<string>();
+
+    private void SearchFilters(string val)
+    {
+        ReplaceListWithoutBackup(ref _showCollection, _lastCalledCollection);
+        ReplaceListWithoutBackup(ref _showCollection, _showCollection.Where(str => str.ToLower().Contains(val.ToLower()) || val.ToLower().Contains(str.ToLower())).ToList());
+    }
+
+    private string FilterOptionIdGenerator()
+    {
+        _iDCounter++;
+        return "FilterOption " + (_iDCounter - 1);
+    }
+
+    private static float GetAvgRating(CreateMaterialDTO material)
+    {
+        float sum = material.Ratings.Sum(e => e.Value);
+        return sum / material.Ratings.Count;
+    }
+
+    string _displayIcon = "expand_more";
+
+    private void ShowFilters()
+    {
+        _displayIcon = !_advancedView ? "expand_less" : "expand_more";
+        _advancedView = !_advancedView;
+    }
+
+    string _collectionToSaveTo = "Tags";
+
+    ICollection<string> _tagsToSend = new List<string>();
+    ICollection<string> _levelsToSend = new List<string>();
+    ICollection<string> _programmingLanguagesToSend = new List<string>();
+    ICollection<string> _languagesToSend = new List<string>();
+    ICollection<string> _mediasToSend = new List<string>();
 
     private void AddFilterToList(string toAdd)
     {
-        switch (collectionToSaveTo)
+        switch (_collectionToSaveTo)
         {
             case "Tags":
-                ToggleFilter(tagsToSend, toAdd);
+                ToggleFilter(ref _tagsToSend, toAdd);
                 break;
             case "Levels":
-                ToggleFilter(levelsToSend, toAdd);
+                ToggleFilter(ref _levelsToSend, toAdd);
                 break;
-            case "Programing Languages":
-                ToggleFilter(programmingLangToSend, toAdd);
+            case "programming Languages":
+                ToggleFilter(ref _programmingLanguagesToSend, toAdd);
                 break;
             case "Languages":
-                ToggleFilter(langToSend, toAdd);
+                ToggleFilter(ref _languagesToSend, toAdd);
                 break;
             case "Medias":
-                ToggleFilter(mediaToSend, toAdd);
+                ToggleFilter(ref _mediasToSend, toAdd);
                 break;
         }
     }
 
-    private void ToggleFilter(ICollection<string> list,string text)
+    private void ToggleFilter(ref ICollection<string> list, string val)
     {
-        teststring = "adding " + text;
-        if (list.Contains(text))
-        {
-            //  list.Remove(text);
-        }
-        else
-        {
-           list.Add(text);
-        }
+        if (list.Contains(val)) list.Remove(val);
+        else  list.Add(val);
     }
 
-    private string FitlerOptionIdGenerator()
-    {
-        iDCounter++;
-        return "FilterOption " + (iDCounter - 1);
-    }
+    #endregion
 
-    /*
+    #endregion
+
+    #region Search
+
+    string SearchInput = "";
+    IEnumerable<MaterialDTO>? _results;
+    private void Search()
+    {
+        var searchForm = new SearchForm(
+            SearchInput,
+            _tagsToSend.Select(e =>new TagDTO(0,e)),
+            _levelsToSend.Select(e =>new LevelDTO(0,e)),
+            _programmingLanguagesToSend.Select(e =>new ProgrammingLanguageDTO(0,e)),
+            _languagesToSend.Select(e =>new LanguageDTO(0,e)),
+            _mediasToSend.Select(e =>new MediaDTO(0,e)),
+            _rating);
+        // send results and receive results
+    }
+    #endregion
+
+    #region InitAPICalls
     protected override async Task OnInitializedAsync()
     {
-        var tagsDTOs = await Http.GetFromJsonAsync<ICollection<TagDTO>>("api/Tag");
-        var levelsDTOs = await Http.GetFromJsonAsync<ICollection<LevelDTO>>("api/Level");
-        var programingLangDTOs = await Http.GetFromJsonAsync<ICollection<ProgrammingLanguageDTO>>("api/ProgrammingLanguage");
-        var langDTOs = await Http.GetFromJsonAsync<ICollection<LanguageDTO>>("api/Language");
-        var mediasDTOs = await Http.GetFromJsonAsync<ICollection<MediaDTO>>("api/Media");
-
-        tags = tagsDTOs == null ? new List<string>() : tagsDTOs.Select(e => e.Name).ToList();
-        tags = levelsDTOs == null ? new List<string>() : levelsDTOs.Select(e => e.EducationLevel).ToList();
-        tags = programingLangDTOs == null ? new List<string>() : programingLangDTOs.Select(e => e.Name).ToList();
-        tags = langDTOs == null ? new List<string>() : langDTOs.Select(e => e.Name).ToList();
-        tags = mediasDTOs == null ? new List<string>() : mediasDTOs.Select(e => e.Name).ToList();
+        await GetTagsFromApi();
+        await GetLevelsFromApi();
+        await GetProgrammingLanguagesFromApi();
+        await GetLanguagesFromApi();
+        await GetMediasFromApi();
     }
-    */
+
+    private async Task GetTagsFromApi()
+    {
+        var tagDTOs = await _http.GetFromJsonAsync<ICollection<TagDTO>>("Tag");
+        _tags = tagDTOs == null ? new List<string>() : tagDTOs.Select(e => e.Name).ToList();
+    }
+
+    private async Task GetLevelsFromApi()
+    {
+        var levelsDTOs = await _http.GetFromJsonAsync<ICollection<LevelDTO>>("Level");
+        _levels = levelsDTOs == null ? new List<string>() : levelsDTOs.Select(e => e.Name).ToList();
+    }
     
+    private async Task GetProgrammingLanguagesFromApi()
+    {
+        var programmingLanguageDTOs = await _http.GetFromJsonAsync<ICollection<ProgrammingLanguageDTO>>("ProgrammingLanguage");
+        _programmingLanguages = programmingLanguageDTOs == null ? new List<string>() : programmingLanguageDTOs.Select(e => e.Name).ToList();
+    }
+    
+    private async Task GetLanguagesFromApi()
+    {
+        var languageDTOs = await _http.GetFromJsonAsync<ICollection<LanguageDTO>>("Language");
+        _language = languageDTOs == null ? new List<string>() : languageDTOs.Select(e => e.Name).ToList();
+    }
+
+    private async Task GetMediasFromApi()
+    {
+        var mediasDTOs = await _http.GetFromJsonAsync<ICollection<MediaDTO>>("Media");
+        _medias = mediasDTOs == null ? new List<string>() : mediasDTOs.Select(e => e.Name).ToList();
+    }
+    #endregion
+
 }

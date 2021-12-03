@@ -2,22 +2,23 @@
 {
     [Authorize]
     [ApiController]
-    [Route("[api/controller]")]
+    [Route("[controller]")]
     [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class LevelController : ControllerBase
     {
-        private readonly ILevelRespository _levelRespository;
+        private readonly ILevelRespository _levelRepository;
 
         public LevelController(ILevelRespository levelRepository)
         {
-            _levelRespository = levelRepository;
+            _levelRepository = levelRepository;
         }
 
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<LevelDTO>>> Get()
+        public async Task<ActionResult<ICollection<LevelDTO>>> Get()
         {
-            var result = await _levelRespository.ReadAsync();
+            //var result = await _levelRepository.ReadAsync();
+            var result = new List<LevelDTO>{ new (1,"Level")};
             return Ok(result);
         }
 
