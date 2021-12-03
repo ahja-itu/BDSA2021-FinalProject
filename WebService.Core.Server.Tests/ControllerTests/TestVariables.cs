@@ -40,56 +40,66 @@
             var tag2 = new Tag(2, "RAD");
             var tag3 = new Tag(3, "API");
 
+            var summary1 = "I am material 1";
+            var summary2 = "I am material 2";
+            var summary3 = "I am material 3";
+            
+            var url1 = "url1.com";
+            var url2 = "url2.com";
+            var url3 = "url3.com";
 
             var author1 = new Author("Rasmus", "Kristensen");
             var author2 = new Author("Alex", "Su");
             var author3 = new Author("Thor", "Lind");
 
-            IPresentableMaterial? content1 = null;
-            IPresentableMaterial? content2 = null;
-            IPresentableMaterial? content3 = null;
+            var content1 = "null";
+            var content2 = "null";
+            var content3 = "null";
 
-            var material1 = new Material()
-            {
-                WeightedTags = new List<WeightedTag> { weightedTag1 },
-                Ratings = new List<Rating> { rating1 },
-                Levels = new List<Level> { level1 },
-                ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage1 },
-                Medias = new List<Media> { media1 },
-                Language = language1,
-                Content = content1,
-                Title = "Material 1",
-                Authors = new List<Author> { author1 },
-                TimeStamp = System.DateTime.UtcNow
-            };
+            var material1 = new Material(
+                new List<WeightedTag> {weightedTag1},
+                new List<Rating> {rating1},
+                new List<Level> {level1},
+                new List<ProgrammingLanguage> {programmingLanguage1},
+                new List<Media> {media1},
+                language1,
+                summary1,
+                url1,
+                content1,
+                "Material 1",
+                new List<Author> {author1},
+                System.DateTime.UtcNow
+            );
+            var material2 = new Material
+            (
+                new List<WeightedTag> { weightedTag3, weightedTag1 },
+                new List<Rating> { rating3, rating1 },
+                 new List<Level> { level3, level1 },
+                new List<ProgrammingLanguage> { programmingLanguage3, programmingLanguage1 },
+                new List<Media> { media3, media1 },
+                language3,
+                summary2,
+                url2,
+                content3,
+                "Material 2",
+                new List<Author> { author3, author1 },
+                System.DateTime.UtcNow.AddYears(-11).AddDays(10)
+            );
 
-            var material2 = new Material()
-            {
-                WeightedTags = new List<WeightedTag> { weightedTag3, weightedTag1 },
-                Ratings = new List<Rating> { rating3, rating1 },
-                Levels = new List<Level> { level3, level1 },
-                ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage3, programmingLanguage1 },
-                Medias = new List<Media> { media3, media1 },
-                Language = language3,
-                Content = content3,
-                Title = "Material 2",
-                Authors = new List<Author> { author3, author1 },
-                TimeStamp = System.DateTime.UtcNow.AddYears(-11).AddDays(10)
-            };
-
-            var material3 = new Material()
-            {
-                WeightedTags = new List<WeightedTag> { weightedTag3, weightedTag2, weightedTag1 },
-                Ratings = new List<Rating> { rating3, rating2, rating1 },
-                Levels = new List<Level> { level3, level2, level1 },
-                ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguage3, programmingLanguage2, programmingLanguage1 },
-                Medias = new List<Media> { media3, media2, media1 },
-                Language = language3,
-                Content = content3,
-                Title = "Material 3",
-                Authors = new List<Author> { author3, author2, author1 },
-                TimeStamp = System.DateTime.UtcNow
-            };
+            var material3 = new Material(
+                new List<WeightedTag> { weightedTag3, weightedTag2, weightedTag1 },
+                new List<Rating> { rating3, rating2, rating1 },
+                new List<Level> { level3, level2, level1 },
+                new List<ProgrammingLanguage> { programmingLanguage3, programmingLanguage2, programmingLanguage1 },
+                new List<Media> { media3, media2, media1 },
+                language3,
+                summary3,
+                url3,
+                content3,
+                "Material 3",
+                new List<Author> { author3, author2, author1 },
+                System.DateTime.UtcNow
+            );
 
             context.AddRange(language1, language2, language3, level1, level2, level3, media1, media2, media3, programmingLanguage1, programmingLanguage2, programmingLanguage3, rating1, rating2, rating3, tag1, tag2, tag3, material1, material2, material3);
 

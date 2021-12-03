@@ -1,21 +1,19 @@
-﻿namespace WebService.Entities
+﻿namespace WebService.Entities;
+
+public class Language
 {
-    public class Language
+    public Language(string name)
     {
-        public Language(string name)
-        {
-            Name = name;
-        }
-
-        public Language(int id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
-
-        public int Id { get; set; }
-
-        [StringLength(50)]
-        public string Name { get; set; }
+        Name = name;
     }
+
+    public Language(int id, string name)
+    {
+        Id = id;
+        Name = name;
+    }
+
+    public int Id { get; set; }
+
+    [StringLength(50)] public string Name { get; set; }
 }

@@ -9,6 +9,8 @@
         private readonly CreateMaterialDTO _CreateMaterialDTODuplicateMedia;
         private readonly CreateMaterialDTO _CreateMaterialDTORatingWrongWeight;
         private readonly CreateMaterialDTO _CreateMaterialDTOTooLongAuthorName;
+        private readonly CreateMaterialDTO _CreateMaterialDTOTagWeightTooHigh;
+
         private readonly MaterialDTO _UpdateMaterialDTO;
         private readonly MaterialDTO _UpdateMaterialDTONotFound;
         private readonly MaterialDTO _UpdateMaterialDTOConflict;
@@ -29,53 +31,59 @@
             var authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Rasmus", "Kristensen") };
             var title = "Title";
             var dateTime = DateTime.UtcNow;
-            IPresentableMaterial content = null;
+            var content = "null";
+            var summary = "i am a material";
+            var url = "url.com";
 
-            var material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, dateTime);
+            var material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
 
             _CreateMaterialDTO = material;
 
             title = "Material 1";
-            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, dateTime);
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _CreateMaterialDTOConflict = material;
             title = "Title";
 
             tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("Tag1", 10) };
-            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, dateTime);
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _CreateMaterialDTOTagNotExisting = material;
             tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10) };
 
             medias = new List<CreateMediaDTO> { new CreateMediaDTO("Book"), new CreateMediaDTO("book") };
-            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, dateTime);
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _CreateMaterialDTODuplicateMedia = material;
             medias = new List<CreateMediaDTO> { new CreateMediaDTO("Book") };
 
             ratings = new List<CreateRatingDTO> { new CreateRatingDTO(12, "Me") };
-            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, dateTime);
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _CreateMaterialDTORatingWrongWeight = material;
             ratings = new List<CreateRatingDTO> { new CreateRatingDTO(5, "Me") };
 
             authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("RasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmus", "Kristensen") };
-            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, dateTime);
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _CreateMaterialDTOTooLongAuthorName = material;
             authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Rasmus", "Kristensen") };
-
+            
+            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("SOLID", 101) };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
+            _CreateMaterialDTOTagWeightTooHigh = material;
+            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10) };
+            
             title = "New title";
-            var updateMaterial = new MaterialDTO(1,tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, dateTime);
+            var updateMaterial = new MaterialDTO(1,tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _UpdateMaterialDTO = updateMaterial;
             title = "Title";
 
-            updateMaterial = new MaterialDTO(10, tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, dateTime);
+            updateMaterial = new MaterialDTO(10, tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _UpdateMaterialDTONotFound = updateMaterial;
-            updateMaterial = new MaterialDTO(1, tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, dateTime);
 
             title = "Material 2";
-            updateMaterial = new MaterialDTO(1, tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, dateTime);
+            updateMaterial = new MaterialDTO(1, tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _UpdateMaterialDTOConflict = updateMaterial;
             title = "Title";
 
             tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("Tag1", 10), new CreateWeightedTagDTO("RasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmus",1000) };
-            updateMaterial = new MaterialDTO(10, tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, dateTime);
+            updateMaterial = new MaterialDTO(10, tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _UpdateMaterialDTOBadRequest = updateMaterial;
             tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10) };
 
@@ -157,6 +165,20 @@
         public async Task CreateAsync_material_returns_bad_request_on_too_long_author_name()
         {
             var material = _CreateMaterialDTOTooLongAuthorName;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+        
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_tag_weight_too_high()
+        {
+            var material = _CreateMaterialDTOTagWeightTooHigh;
 
             var response = await _v.MaterialRepository.CreateAsync(material);
 
@@ -261,8 +283,8 @@
         public async Task UpdateAsync_material_by_id_returns_new_title()
         {
             var updateMaterialDTO = _UpdateMaterialDTO;
-
-            var response = await _v.MaterialRepository.UpdateAsync(updateMaterialDTO);
+            
+            await _v.MaterialRepository.UpdateAsync(updateMaterialDTO);
 
             var actual = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.Title;
 

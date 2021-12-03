@@ -2,22 +2,23 @@
 {
     [Authorize]
     [ApiController]
-    [Route("[api/controller]")]
+    [Route("[controller]")]
     [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class LanguageController : ControllerBase
     {
-        private readonly ILanguageRepository _languageRespository;
+        private readonly ILanguageRepository _languageRepository;
 
         public LanguageController(ILanguageRepository languageRepository)
         {
-            _languageRespository = languageRepository;
+            _languageRepository = languageRepository;
         }
 
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<LanguageDTO>>> Get()
+        public async Task<ActionResult<ICollection<LanguageDTO>>> Get()
         {
-            var result = await _languageRespository.ReadAsync();
+            //var result = await _languageRepository.ReadAsync();
+            var result = new List<LanguageDTO>{ new (1,"Language")};
             return Ok(result);
         }
 

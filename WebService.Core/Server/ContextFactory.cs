@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
-using WebService.Core.Server;
 using WebService.Entities;
 
 namespace WebService.Core.Server;

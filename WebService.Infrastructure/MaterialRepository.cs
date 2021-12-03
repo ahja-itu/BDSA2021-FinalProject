@@ -49,6 +49,8 @@
                                         createMaterialDTO.ProgrammingLanguages,
                                         createMaterialDTO.Medias,
                                         createMaterialDTO.Language,
+                                        createMaterialDTO.Summary,
+                                        createMaterialDTO.URL,
                                         createMaterialDTO.Content,
                                         createMaterialDTO.Title,
                                         createMaterialDTO.Authors,
@@ -66,6 +68,8 @@
                                 entity.ProgrammingLanguages.Select(e => new CreateProgrammingLanguageDTO(e.Name)).ToList(),
                                 entity.Medias.Select(e => new CreateMediaDTO(e.Name)).ToList(),
                                 new CreateLanguageDTO(entity.Language.Name),
+                                entity.Summary,
+                                entity.URL,
                                 entity.Content,
                                 entity.Title,
                                 entity.Authors.Select(e => new CreateAuthorDTO(e.FirstName, e.SurName)).ToList(),
@@ -75,19 +79,21 @@
 
         private async Task<Material> ConvertCreateMaterialDTOToMaterial(CreateMaterialDTO createMaterialDTO)
         {
-            return new Material()
-            {
-                WeightedTags = createMaterialDTO.Tags.Select(e => new WeightedTag(e.Name, e.Weight)).ToList(),
-                Ratings = createMaterialDTO.Ratings.Select(e => new Rating(e.Value, e.Reviewer)).ToList(),
-                Authors = createMaterialDTO.Authors.Select(e => new Author(e.FirstName, e.SurName)).ToList(),
-                Language = await _context.Languages.Where(e => e.Name == createMaterialDTO.Language.Name).SingleAsync(),
-                Content = createMaterialDTO.Content,
-                Levels = ReadLevels(createMaterialDTO.Levels).ToList(),
-                ProgrammingLanguages = ReadProgrammingLanguages(createMaterialDTO.ProgrammingLanguages).ToList(),
-                Medias = ReadMedias(createMaterialDTO.Medias).ToList(),
-                Title = createMaterialDTO.Title,
-                TimeStamp = createMaterialDTO.TimeStamp
-            };
+            return new Material(
+
+                createMaterialDTO.Tags.Select(e => new WeightedTag(e.Name, e.Weight)).ToList(),
+                createMaterialDTO.Ratings.Select(e => new Rating(e.Value, e.Reviewer)).ToList(),
+                ReadLevels(createMaterialDTO.Levels).ToList(),
+                ReadProgrammingLanguages(createMaterialDTO.ProgrammingLanguages).ToList(),
+                ReadMedias(createMaterialDTO.Medias).ToList(),
+                await _context.Languages.Where(e => e.Name == createMaterialDTO.Language.Name).SingleAsync(),
+                createMaterialDTO.Summary,
+                createMaterialDTO.URL,
+                createMaterialDTO.Content,
+                createMaterialDTO.Title,
+                createMaterialDTO.Authors.Select(e => new Author(e.FirstName, e.SurName)).ToList(),
+                createMaterialDTO.TimeStamp
+            );
         }
 
         public async Task<Status> DeleteAsync(int materialId)
@@ -169,12 +175,14 @@
             var programmingLanguages = new List<CreateProgrammingLanguageDTO> {};
             var medias = new List<CreateMediaDTO> {};
             var language = new CreateLanguageDTO("");
-            var authors = new List<CreateAuthorDTO>() {};
+            var summary = "";
+            var url = "";
+            var content = "";
             var title = "";
-            var dateTime = DateTime.UtcNow;
-            IPresentableMaterial content = null;
-
-            var material = new MaterialDTO(-1, tags, ratings, levels, programmingLanguages, medias, language, content, title, authors, dateTime);
+            var authors = new List<CreateAuthorDTO>() {};
+            var datetime = DateTime.UtcNow;
+            
+            var material = new MaterialDTO(-1,tags,ratings,levels,programmingLanguages,medias,language,summary,url,content,title,authors,datetime);
             return material;
         }
 

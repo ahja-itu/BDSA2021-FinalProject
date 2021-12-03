@@ -2,8 +2,9 @@
 $username = "postgres"
 $password = "postgres" # New-Guid
 $database = "btg"
-$host = "localhost:55432"
-$connectionString = "Host=$host;Database=$database;Username=$username;Password=$password"
+$dbhost = "localhost"
+$dbport = "55432"
+$connectionString = "Host=$dbhost;Port=$dbport;Database=$database;Username=$username;Password=$password"
 
 dotnet user-secrets set "ConnectionStrings:$database" "$connectionString" --project WebService.Core/Server
 

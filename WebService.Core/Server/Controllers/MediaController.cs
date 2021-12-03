@@ -2,22 +2,23 @@
 {
     [Authorize]
     [ApiController]
-    [Route("[api/controller]")]
+    [Route("[controller]")]
     [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class MediaController : ControllerBase
     {
-        private readonly IMediaRepository _mediaRespository;
+        private readonly IMediaRepository _mediaRepository;
 
         public MediaController(IMediaRepository mediaRepository)
         {
-            _mediaRespository = mediaRepository;
+            _mediaRepository = mediaRepository;
         }
 
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<MediaDTO>>> Get()
+        public async Task<ActionResult<ICollection<MediaDTO>>> Get()
         {
-            var result = await _mediaRespository.ReadAsync();
+            //var result = await _mediaRepository.ReadAsync();
+            var result = new List<MediaDTO>{ new (1,"Media")};
             return Ok(result);
         }
 

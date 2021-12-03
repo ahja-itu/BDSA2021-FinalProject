@@ -2,7 +2,7 @@
 {
     [Authorize]
     [ApiController]
-    [Route("[api/controller]")]
+    [Route("[controller]")]
     [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class TagController : ControllerBase
     {
@@ -13,11 +13,12 @@
             _tagRepository = tagRepository;
         }
 
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<TagDTO>>> Get()
+        public async Task<ActionResult<ICollection<TagDTO>>> Get()
         {
-            var result = await _tagRepository.ReadAsync();
+            //var result = await _tagRepository.ReadAsync();
+            var result = new List<TagDTO>{ new (1,"Tag")};
             return Ok(result);
         }
 
