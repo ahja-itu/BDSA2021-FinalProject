@@ -1,39 +1,36 @@
-﻿namespace WebService.Entities
+﻿namespace WebService.Entities;
+
+public class Tag
 {
-    public class Tag
+    public Tag(string name)
     {
-        public Tag(string name)
-        {
-            Name = name;
-        }
-
-        public Tag(int id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
-
-        public int Id { get; set; }
-
-        [StringLength(50)]
-        public string Name { get; set; }
+        Name = name;
     }
 
-    [Owned]
-    public class WeightedTag : Tag
+    public Tag(int id, string name)
     {
-        public WeightedTag(string name, int weight) : base(name)
-        {
-            Weight = weight;
-        }
-
-        public WeightedTag(int id, string name, int weight) : base(name)
-        {
-            Id = id;
-            Weight = weight;
-        }
-
-        [Range(1, 100)]
-        public int Weight { get; set; }
+        Id = id;
+        Name = name;
     }
+
+    public int Id { get; set; }
+
+    [StringLength(50)] public string Name { get; set; }
+}
+
+[Owned]
+public class WeightedTag : Tag
+{
+    public WeightedTag(string name, int weight) : base(name)
+    {
+        Weight = weight;
+    }
+
+    public WeightedTag(int id, string name, int weight) : base(name)
+    {
+        Id = id;
+        Weight = weight;
+    }
+
+    [Range(1, 100)] public int Weight { get; set; }
 }
