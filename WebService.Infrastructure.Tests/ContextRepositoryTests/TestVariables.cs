@@ -52,9 +52,9 @@
             var author2 = new Author("Alex", "Su");
             var author3 = new Author("Thor", "Lind");
 
-            string content1 = "null";
-            string content2 = "null";
-            string content3 = "null";
+            string content1 = "Content 1";
+            string content2 = "Content 2";
+            string content3 = "Content 3";
 
             var material1 = new Material(
             
@@ -81,7 +81,7 @@
                 language3,
                 summary2,
                 url2,
-                content3,
+                content2,
                 "Material 2",
                 new List<Author> { author3, author1 },
                 System.DateTime.UtcNow.AddYears(-11).AddDays(10)
