@@ -30,7 +30,7 @@
             var response = result.Item1;
 
             if (response == Status.Found) return Ok(result);
-            else return NotFound();
+            else return NotFound(result);
         }
 
         [HttpGet]
