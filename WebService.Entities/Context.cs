@@ -248,6 +248,7 @@ public class Context : DbContext, IContext
         context.AddRange(languages);
         context.AddRange(levels);
         context.AddRange(materials);
+        context.AddRange(authors);
 
 
         context.SaveChanges();

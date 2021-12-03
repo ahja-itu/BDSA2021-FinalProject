@@ -12,8 +12,8 @@ using WebService.Entities;
 namespace WebService.Entities.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20211201125745_init")]
-    partial class init
+    [Migration("20211203133620_mig")]
+    partial class mig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -79,15 +79,29 @@ namespace WebService.Entities.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("LanguageId")
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("LanguageId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasMaxLength(400)
+                        .HasColumnType("character varying(400)");
 
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
+
+                    b.Property<string>("URL")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -183,7 +197,9 @@ namespace WebService.Entities.Migrations
                 {
                     b.HasOne("WebService.Entities.Language", "Language")
                         .WithMany()
-                        .HasForeignKey("LanguageId");
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsMany("WebService.Entities.Author", "Authors", b1 =>
                         {
