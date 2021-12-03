@@ -12,8 +12,8 @@ using WebService.Entities;
 namespace WebService.Entities.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20211203133620_mig")]
-    partial class mig
+    [Migration("20211203154952_BDSABTGMigrations")]
+    partial class BDSABTGMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
