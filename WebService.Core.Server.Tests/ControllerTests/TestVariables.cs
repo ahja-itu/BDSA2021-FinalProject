@@ -95,7 +95,7 @@
                 language3,
                 summary3,
                 url3,
-                content3,
+                content2,
                 "Material 3",
                 new List<Author> { author3, author2, author1 },
                 System.DateTime.UtcNow

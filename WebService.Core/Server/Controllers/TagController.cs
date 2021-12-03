@@ -31,7 +31,7 @@
             var response = result.Item1;
 
             if(response == Status.Found) return Ok(result);
-            else return NotFound(result);
+            else return NotFound();
         }
 
         [HttpPost]

@@ -1,11 +1,9 @@
-﻿using System.Net;
-
-namespace WebService.Core.Server.Tests.ControllerTests
+﻿namespace WebService.Core.Server.Tests.ControllerTests
 {
     public class TagControllerTests
     {
-        private TagController _tagController;
-        private TestVariables _v;
+        private readonly TagController _tagController;
+        private readonly TestVariables _v;
 
         public TagControllerTests()
         {
@@ -13,8 +11,9 @@ namespace WebService.Core.Server.Tests.ControllerTests
             _tagController = new TagController(_v.TagRepository);
         }
 
+        #region Post/Create
         [Fact]
-        public async Task Create_returns_status_created()
+        public async Task Post_tag_returns_status_created()
         {
             var tag = new CreateTagDTO("Database");
 
@@ -24,7 +23,7 @@ namespace WebService.Core.Server.Tests.ControllerTests
         }
 
         [Fact]
-        public async Task Create_returns_status_conflict()
+        public async Task Post_tag_returns_status_conflict()
         {
             var tag = new CreateTagDTO("SOLID");
 
@@ -34,7 +33,7 @@ namespace WebService.Core.Server.Tests.ControllerTests
         }
 
         [Fact]
-        public async Task Create_returns_status_badRequest()
+        public async Task Post_tag_returns_status_badRequest()
         {
             var tag = new CreateTagDTO("");
 
@@ -42,14 +41,99 @@ namespace WebService.Core.Server.Tests.ControllerTests
 
             Assert.Equal((int)HttpStatusCode.BadRequest, actual?.StatusCode);
         }
+        #endregion
 
+        #region Get/Read
         [Fact]
-        public async Task Read_all_returns_status_ok()
+        public async Task Get_all_tags_returns_status_ok()
         {
             var response = await _tagController.Get();
             var actual = response.Result as OkObjectResult;
 
             Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
         }
+
+        [Fact]
+        public async Task Get_tag_returns_status_ok()
+        {
+            var response = await _tagController.Get(1);
+            var actual = response.Result as OkObjectResult;
+
+            Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
+        }
+
+        [Fact]
+        public async Task Get_tag_returns_status_notFound()
+        {
+            var response = await _tagController.Get(4);
+            var actual = response.Result as NotFoundResult;
+
+            Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
+        }
+        #endregion
+
+        #region Delete
+        [Fact]
+        public async Task Delete_tag_returns_status_noContent()
+        {
+            var response = await _tagController.Delete(3);
+            var actual = response as NoContentResult;
+
+            Assert.Equal((int)HttpStatusCode.NoContent, actual?.StatusCode);
+        }
+
+        [Fact]
+        public async Task Delete_tag_returns_status_notFound()
+        {
+            var response = await _tagController.Delete(4);
+            var actual = response as NotFoundResult;
+
+            Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
+        }
+        #endregion
+
+        #region Put/Update
+        [Fact]
+        public async Task Put_tag_returns_status_noContent()
+        {
+            var tag = new TagDTO(1, "Database");
+            var response = await _tagController.Put(tag);
+            var actual = response as NoContentResult;
+
+            Assert.Equal((int)HttpStatusCode.NoContent, actual?.StatusCode);
+        }
+
+        [Fact]
+        public async Task Put_tag_returns_status_conflict()
+        {
+            var tag = new TagDTO(1, "API");
+            var response = await _tagController.Put(tag);
+            var actual = response as ConflictResult;
+
+            Assert.Equal((int)HttpStatusCode.Conflict, actual?.StatusCode);
+        }
+
+        [Fact]
+        public async Task Put_tag_returns_status_badRequest()
+        {
+            var tag = new TagDTO(1, "");
+            var response = await _tagController.Put(tag);
+            var actual = response as BadRequestResult;
+
+            Assert.Equal((int)HttpStatusCode.BadRequest, actual?.StatusCode);
+        }
+
+        [Fact]
+        public async Task Put_tag_returns_status_notFound()
+        {
+            var tag = new TagDTO(4, "Database");
+            var response = await _tagController.Put(tag);
+            var actual = response as NotFoundResult;
+
+            Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
+        }
+
+        #endregion
+
     }
 }
