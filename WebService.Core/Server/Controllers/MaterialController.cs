@@ -37,11 +37,12 @@
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<MaterialDTO>> Get(SearchForm searchForm)
         {
-            var result = await _materialRepository.ReadAsync(searchForm);
-            var response = result.Item1;
+            throw new NotImplementedException();
+            //var result = await _materialRepository.ReadAsync(searchForm);
+            //var response = result.Item1;
 
-            if (response == Status.Found) return Ok(result);
-            else return NotFound();
+            //if (response == Status.Found) return Ok(result);
+            //else return NotFound();
         }
 
         [HttpPost]
