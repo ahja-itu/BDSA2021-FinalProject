@@ -33,12 +33,11 @@
             else return NotFound();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<MaterialDTO>> Get(int id)
+        public async Task<ActionResult<MaterialDTO>> Get(SearchForm searchForm)
         {
-            var result = await _materialRepository.ReadAsync(id);
+            var result = await _materialRepository.ReadAsync(searchForm);
             var response = result.Item1;
 
             if (response == Status.Found) return Ok(result);
