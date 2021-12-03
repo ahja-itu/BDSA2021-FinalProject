@@ -12,8 +12,8 @@ using WebService.Entities;
 namespace WebService.Entities.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20211203122315_Migration03122021")]
-    partial class Migration03122021
+    [Migration("20211203171840_BDSA")]
+    partial class BDSA
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
