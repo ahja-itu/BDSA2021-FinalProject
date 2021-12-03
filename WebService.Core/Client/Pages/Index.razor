@@ -70,14 +70,16 @@
 <div style="padding-bottom: 20%">
     <h1 style="text-align: center; color:#ffffff">Bridge The Gap!</h1>
 </div>
-<!-- Search bar -->
-<div class="row" style="border-bottom:solid;border-color:#7765E3">
-    <div class="col d-flex justify-content-center align-item-center" style="width:100%">
-        <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" Style="width:100%;font-size:2em"/>
-        <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>
+@if (_showingSearchForm)
+{
+    <!-- Search bar -->
+    <div class="row" style="border-bottom:solid;border-color:#7765E3">
+        <div class="col d-flex justify-content-center align-item-center" style="width:100%">
+            <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" Style="width:100%;font-size:2em"/>
+            <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>
+        </div>
     </div>
-</div>
-<!-- Filter box -->
+    <!-- Filter box -->
 @if (_advancedView)
 {
     <div id="filters" class="row" style="margin-left:20px;margin-right:20px;background:#4E4E4E;border-radius: 24px;margin-top:15px;padding:25px">
@@ -95,7 +97,7 @@
         {
             <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
                 <div class="col">
-                    <RadzenTextBox id="searchFilter" class="btgInput" @oninput=@(args => { SearchFilters(args.Value.ToString());}) @bind-Value=@_filterSearchInput Placeholder="@_placeholder"/>
+                    <RadzenTextBox id="searchFilter" class="btgInput" @oninput=@(args => { SearchFilters(args.Value.ToString()); }) @bind-Value=@_filterSearchInput Placeholder="@_placeholder"/>
                     <RadzenButton Click=@(_ => SearchFilters(_filterSearchInput)) Icon="search" class="btgIconButton smallIcon"/>
                 </div>
             </div>
@@ -115,11 +117,11 @@
         }
     </div>
 }
-<!-- Show Filter Button -->
-<div class="row d-flex justify-content-center align-item-center">
-    <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@_displayIcon"/>
-</div>
-<!-- Results Box -->
+    <!-- Show Filter Button -->
+    <div class="row d-flex justify-content-center align-item-center">
+        <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@_displayIcon"/>
+    </div>
+    <!-- Results Box -->
 @if (_results != null)
 {
     <div class="row scroller">
@@ -141,7 +143,7 @@
                     </div>
                     <div class="row" style="margin-left: 5px">
                         <div class="col">
-                            <RadzenButton class="btgIconButton" Style="font-size: 20px; padding: 0">
+                            <RadzenButton class="btgIconButton" Click="@(_ => ShowSelectedMaterial(material.Id))" Style="font-size: 20px; padding: 0">
                                 @material.Title
                             </RadzenButton>
                         </div>
@@ -161,9 +163,15 @@
         }
     </div>
 }
-
+}
+else
+{
+    <div>
+        
+    </div>
+}
 @code{
-
+    
     #region Gui
 
     bool _advancedView;
@@ -319,7 +327,15 @@
         // send results and receive results
     }
     #endregion
-
+    bool _showingSearchForm = true;
+    void ShowSelectedMaterial(int id)
+    {
+        MaterialDTO material;
+        foreach (var DTO in _results) if (DTO.Id == id) material = DTO;
+        
+        _showingSearchForm = false;
+    }
+    
     #region InitAPICalls
     protected override async Task OnInitializedAsync()
     {
@@ -360,5 +376,5 @@
         _medias = mediasDTOs == null ? new List<string>() : mediasDTOs.Select(e => e.Name).ToList();
     }
     #endregion
-
+    
 }
