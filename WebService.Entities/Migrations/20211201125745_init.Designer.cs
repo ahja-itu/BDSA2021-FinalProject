@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebService.Entities;
@@ -11,9 +12,10 @@ using WebService.Entities;
 namespace WebService.Entities.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20211201125745_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,29 +79,15 @@ namespace WebService.Entities.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("LanguageId")
+                    b.Property<int?>("LanguageId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Summary")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("character varying(400)");
 
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
-
-                    b.Property<string>("URL")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -195,84 +183,7 @@ namespace WebService.Entities.Migrations
                 {
                     b.HasOne("WebService.Entities.Language", "Language")
                         .WithMany()
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsMany("WebService.Entities.Author", "Authors", b1 =>
-                        {
-                            b1.Property<int>("MaterialId")
-                                .HasColumnType("integer");
-
-                            b1.Property<string>("FirstName")
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
-
-                            b1.Property<string>("SurName")
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
-
-                            b1.Property<int>("Id")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("MaterialId", "FirstName", "SurName");
-
-                            b1.ToTable("Author");
-
-                            b1.WithOwner()
-                                .HasForeignKey("MaterialId");
-                        });
-
-                    b.OwnsMany("WebService.Entities.Rating", "Ratings", b1 =>
-                        {
-                            b1.Property<int>("MaterialId")
-                                .HasColumnType("integer");
-
-                            b1.Property<string>("Reviewer")
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
-
-                            b1.Property<int>("Id")
-                                .HasColumnType("integer");
-
-                            b1.Property<DateTime>("TimeStamp")
-                                .HasColumnType("timestamp with time zone");
-
-                            b1.Property<int>("Value")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("MaterialId", "Reviewer");
-
-                            b1.ToTable("Rating");
-
-                            b1.WithOwner()
-                                .HasForeignKey("MaterialId");
-                        });
-
-                    b.OwnsMany("WebService.Entities.WeightedTag", "WeightedTags", b1 =>
-                        {
-                            b1.Property<int>("MaterialId")
-                                .HasColumnType("integer");
-
-                            b1.Property<string>("Name")
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
-
-                            b1.Property<int>("Id")
-                                .HasColumnType("integer");
-
-                            b1.Property<int>("Weight")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("MaterialId", "Name");
-
-                            b1.ToTable("WeightedTag");
-
-                            b1.WithOwner()
-                                .HasForeignKey("MaterialId");
-                        });
-
-                    b.Navigation("Authors");
+                        .HasForeignKey("LanguageId");
 
                     b.OwnsMany("WebService.Entities.Author", "Authors", b1 =>
                         {
