@@ -33,7 +33,7 @@
             else return NotFound(result);
         }
 
-        [HttpGet]
+        [HttpGet("{SearchForm}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<MaterialDTO>> Get(SearchForm searchForm)
         {
