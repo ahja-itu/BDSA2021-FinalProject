@@ -1,4 +1,6 @@
-﻿namespace WebService.Core.Server
+﻿
+
+namespace WebService.Infrastructure
 {
     public class SearchAlgorithm
     {
@@ -9,19 +11,16 @@
             //return new List<int>();
         }
 
-        private SearchForm SearchFormParse(SearchForm searchForm)
+        public SearchForm SearchFormParse(SearchForm searchForm)
         {
             //TextFieldParse(searchForm);
             throw new NotImplementedException();
         }
         
-        private SearchForm TextFieldParse(SearchForm searchForm)
+        public SearchForm TextFieldParse(SearchForm searchForm)
         {
             throw new NotImplementedException();
-
-            
             string[] text = searchForm.TextField.Split(' ');
-   
         }
 
         private List<MaterialDTO> FindMaterials(SearchForm searchForm)
