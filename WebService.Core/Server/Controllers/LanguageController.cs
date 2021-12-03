@@ -17,15 +17,15 @@
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ICollection<LanguageDTO>>> Get()
         {
-            //var result = await _languageRepository.ReadAsync();
-            var result = new List<LanguageDTO>{ new (1,"Language")};
+            var result = await _languageRepository.ReadAsync();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public Task<ActionResult<TagDTO>> Get(int id)
+        public async Task<ActionResult<TagDTO>> Get(int id)
         {
-            throw new NotImplementedException();
+            var result = await _languageRepository.ReadAsync(id);
+            return Ok(result);
         }
 
         [HttpPost]
