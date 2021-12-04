@@ -2,20 +2,39 @@
 {
     public class MaterialRepositoryTests
     {
+        // Mock Repository
         private readonly TestVariables _v;
+
+        // Create material test variables
         private readonly CreateMaterialDTO _CreateMaterialDTO;
         private readonly CreateMaterialDTO _CreateMaterialDTOConflict;
         private readonly CreateMaterialDTO _CreateMaterialDTOTagNotExisting;
+        private readonly CreateMaterialDTO _CreateMaterialDTOTooLongTagName;
+        private readonly CreateMaterialDTO _CreateMaterialDTOTagWeightTooHigh;
+        private readonly CreateMaterialDTO _CreateMaterialDTODuplicateTag;
+
         private readonly CreateMaterialDTO _CreateMaterialDTODuplicateMedia;
+        private readonly CreateMaterialDTO _CreateMaterialDTOMediaNotExisting;
+        private readonly CreateMaterialDTO _CreateMaterialDTOTooLongMediaName;
+
         private readonly CreateMaterialDTO _CreateMaterialDTORatingWrongWeight;
+        private readonly CreateMaterialDTO _CreateMaterialDTOToolongRatingName;
+        private readonly CreateMaterialDTO _CreateMaterialDTOMultipleRatingsFromSameUser;
+
         private readonly CreateMaterialDTO _CreateMaterialDTOTooLongAuthorFirstName;
         private readonly CreateMaterialDTO _CreateMaterialDTOTooLongAuthorSurName;
-        private readonly CreateMaterialDTO _CreateMaterialDTOTagWeightTooHigh;
+        private readonly CreateMaterialDTO _CreateMaterialDTODuplicateAuthor;
+
         private readonly CreateMaterialDTO _CreateMaterialDTOLevelNotExisting;
         private readonly CreateMaterialDTO _CreateMaterialDTOTooLongLevelName;
-        private readonly CreateMaterialDTO _CreateMaterialDTOTooLongTagName;
-        private readonly CreateMaterialDTO _CreateMaterialDTOToolongRatingName;
-        private readonly CreateMaterialDTO _CreateMaterialDTODuplicateTag;
+        private readonly CreateMaterialDTO _CreateMaterialDTODuplicateLevel;
+
+        private readonly CreateMaterialDTO _CreateMaterialDTOLanguageNotExisting;
+        private readonly CreateMaterialDTO _CreateMaterialDTOTooLongLanguageName;
+
+        private readonly CreateMaterialDTO _CreateMaterialDTOProgrammingLanguageNotExisting;
+        private readonly CreateMaterialDTO _CreateMaterialDTOTooLongProgrammingLanguageName;
+        private readonly CreateMaterialDTO _CreateMaterialDTODuplicateProgrammingLanguage;
 
         private readonly MaterialDTO _UpdateMaterialDTO;
         private readonly MaterialDTO _UpdateMaterialDTONotFound;
@@ -26,7 +45,7 @@
 
         public MaterialRepositoryTests()
         {
-            _v = new TestVariables();
+            _v = new TestVariables(); // A mock repository
 
             var tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10) };
             var ratings = new List<CreateRatingDTO> { new CreateRatingDTO(5, "Me") };
@@ -75,6 +94,14 @@
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _CreateMaterialDTODuplicateMedia = material;
 
+            medias = new List<CreateMediaDTO> { new CreateMediaDTO("Tv Show") };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOMediaNotExisting = material;
+
+            medias = new List<CreateMediaDTO> { new CreateMediaDTO("VideoVideoVideoVideoVideoVideoVideoVideoVideoVideoVideo") };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOTooLongMediaName = material;
+
             medias = new List<CreateMediaDTO> { new CreateMediaDTO("Book") }; // medias reset
 
             // ratings testing
@@ -86,7 +113,11 @@
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTOToolongRatingName = material;
 
-            ratings = new List<CreateRatingDTO> { new CreateRatingDTO(5, "Me") };
+            ratings = new List<CreateRatingDTO> { new CreateRatingDTO(10, "Me"), new CreateRatingDTO(7, "Me") };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOMultipleRatingsFromSameUser = material;
+
+            ratings = new List<CreateRatingDTO> { new CreateRatingDTO(5, "Me") }; // ratings resest
 
             // authors testing
             authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("RasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmus", "Kristensen") };
@@ -96,6 +127,10 @@
             authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Rasmus", "KristensenKristensenKristensenKristensenKristensenKristensen") };
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTOTooLongAuthorSurName = material;
+
+            authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Rasmus", "Kristensen"), new CreateAuthorDTO("Rasmus", "Kristensen") };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTODuplicateAuthor = material;
 
             authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Rasmus", "Kristensen") }; // authors reset
 
@@ -108,7 +143,39 @@
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTOTooLongLevelName = material;
 
+            levels = new List<CreateLevelDTO> { new CreateLevelDTO("Bachelor"), new CreateLevelDTO("Bachelor") };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOTooLongLevelName = material;
+
             levels = new List<CreateLevelDTO> { new CreateLevelDTO("PHD") }; // levels reset
+
+            // language testing
+            language = new CreateLanguageDTO("ChingChong");
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOLanguageNotExisting = material;
+
+            language = new CreateLanguageDTO("DanishDanishDanishDanishDanishDanishDanishDanishDanish");
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOTooLongLanguageName = material;
+
+            language = new CreateLanguageDTO("Danish"); // language reset
+
+            // programming language testing
+            programmingLanguages = new List<CreateProgrammingLanguageDTO> { new CreateProgrammingLanguageDTO("Java") };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOProgrammingLanguageNotExisting = material;
+
+            programmingLanguages = new List<CreateProgrammingLanguageDTO> { new CreateProgrammingLanguageDTO("JavaScriptJavaScriptJavaScriptJavaScriptJavaScriptJavaScriptJavaScriptJavaScript") };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOTooLongProgrammingLanguageName = material;
+
+            programmingLanguages = new List<CreateProgrammingLanguageDTO> { new CreateProgrammingLanguageDTO("Java"), new CreateProgrammingLanguageDTO("Java") };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOProgrammingLanguageNotExisting = material;
+
+            programmingLanguages = new List<CreateProgrammingLanguageDTO> { new CreateProgrammingLanguageDTO("C#") }; // programming language reset
+
+            // update testing
 
             title = "New title";
             var updateMaterial = new MaterialDTO(1,tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
@@ -234,6 +301,34 @@
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_media_not_existing()
+        {
+            var material = _CreateMaterialDTOMediaNotExisting;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_too_long_media_name()
+        {
+            var material = _CreateMaterialDTOTooLongMediaName;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
         // Ratings
 
         [Fact]
@@ -254,6 +349,20 @@
         public async Task CreateAsync_material_returns_bad_request_on_too_long_rating_name()
         {
             var material = _CreateMaterialDTOToolongRatingName;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_duplicate_user_with_different_ratings()
+        {
+            var material = _CreateMaterialDTOMultipleRatingsFromSameUser;
 
             var response = await _v.MaterialRepository.CreateAsync(material);
 
@@ -294,6 +403,20 @@
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_duplicate_author()
+        {
+            var material = _CreateMaterialDTODuplicateAuthor;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
         // Levels
 
         [Fact]
@@ -314,6 +437,20 @@
         public async Task CreateAsync_material_returns_bad_request_on_too_long_level_name()
         {
             var material = _CreateMaterialDTOTooLongLevelName;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_duplicate_level()
+        {
+            var material = _CreateMaterialDTODuplicateLevel;
 
             var response = await _v.MaterialRepository.CreateAsync(material);
 
@@ -352,6 +489,170 @@
         }
 
         [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_check_tags_and_status_found()
+        {
+            var response = await _v.MaterialRepository.ReadAsync(3);
+
+            var actualStatus = response.Item1;
+            var actuals = response.Item2.Tags;
+
+            var expectedStatus = Status.Found;
+            var expected1 = ("API", 90);
+            var expected2 = ("RAD", 50);
+            var expected3 = ("SOLID", 10);
+
+            Assert.Equal(expectedStatus, actualStatus);
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, (actual.Name, actual.Weight)),
+                actual => Assert.Equal(expected2, (actual.Name, actual.Weight)),
+                actual => Assert.Equal(expected3, (actual.Name, actual.Weight)));
+        }
+
+        [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_check_ratings_and_status_found()
+        {
+            var response = await _v.MaterialRepository.ReadAsync(3);
+
+            var actualStatus = response.Item1;
+            var actuals = response.Item2.Ratings;
+
+            var expectedStatus = Status.Found;
+            var expected1 = (9, "Poul");
+            var expected2 = (5, "Kim");
+            var expected3 = (2, "Rasmus");
+
+            Assert.Equal(expectedStatus, actualStatus);
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, (actual.Value, actual.Reviewer)),
+                actual => Assert.Equal(expected2, (actual.Value, actual.Reviewer)),
+                actual => Assert.Equal(expected3, (actual.Value, actual.Reviewer)));
+        }
+
+        [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_check_levels_and_status_found()
+        {
+            var response = await _v.MaterialRepository.ReadAsync(3);
+
+            var actualStatus = response.Item1;
+            var actuals = response.Item2.Levels;
+
+            var expectedStatus = Status.Found;
+            var expected1 = "PHD";
+            var expected2 = "Master";
+            var expected3 = "Bachelor";
+
+            Assert.Equal(expectedStatus, actualStatus);
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual.Name),
+                actual => Assert.Equal(expected2, actual.Name),
+                actual => Assert.Equal(expected3, actual.Name));
+        }
+
+        [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_check_programming_language_and_status_found()
+        {
+            var response = await _v.MaterialRepository.ReadAsync(3);
+
+            var actualStatus = response.Item1;
+            var actuals = response.Item2.ProgrammingLanguages;
+
+            var expectedStatus = Status.Found;
+            var expected1 = "F#";
+            var expected2 = "C++";
+            var expected3 = "C#";
+
+            Assert.Equal(expectedStatus, actualStatus);
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual.Name),
+                actual => Assert.Equal(expected2, actual.Name),
+                actual => Assert.Equal(expected3, actual.Name));
+        }
+
+        [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_check_media_and_status_found()
+        {
+            var response = await _v.MaterialRepository.ReadAsync(3);
+
+            var actualStatus = response.Item1;
+            var actuals = response.Item2.Medias;
+
+            var expectedStatus = Status.Found;
+            var expected1 = "Book";
+
+            Assert.Equal(expectedStatus, actualStatus);
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual.Name));
+        }
+
+        [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_check_authors_and_status_found()
+        {
+            var response = await _v.MaterialRepository.ReadAsync(3);
+
+            var actualStatus = response.Item1;
+            var actuals = response.Item2.Authors;
+
+            var expectedStatus = Status.Found;
+            var expected1 = ("Thor", "Lind");
+            var expected2 = ("Alex", "Su");
+            var expected3 = ("Rasmus", "Kristensen");
+
+            Assert.Equal(expectedStatus, actualStatus);
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, (actual.FirstName, actual.SurName)),
+                actual => Assert.Equal(expected2, (actual.FirstName, actual.SurName)),
+                actual => Assert.Equal(expected3, (actual.FirstName, actual.SurName)));
+        }
+
+        [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_check_language_and_status_found()
+        {
+            var response = await _v.MaterialRepository.ReadAsync(1);
+
+            var actual = (response.Item1, response.Item2.Language.Name);
+
+            var expected = (Status.Found, "Swedish");
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_check_summary_and_status_found()
+        {
+            var response = await _v.MaterialRepository.ReadAsync(1);
+
+            var actual = (response.Item1, response.Item2.Summary);
+
+            var expected = (Status.Found, "I am material 3");
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_check_url_and_status_found()
+        {
+            var response = await _v.MaterialRepository.ReadAsync(1);
+
+            var actual = (response.Item1, response.Item2.URL);
+
+            var expected = (Status.Found, "url3.com");
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_check_content_and_status_found()
+        {
+            var response = await _v.MaterialRepository.ReadAsync(1);
+
+            var actual = (response.Item1, response.Item2.Content);
+
+            var expected = (Status.Found, "null");
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
         public async Task ReadAllAsync_returns_all_material_check_titles()
         {
             var response = await _v.MaterialRepository.ReadAsync();
@@ -360,6 +661,22 @@
             var expected1 = "Material 1";
             var expected2 = "Material 2";
             var expected3 = "Material 3";
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual),
+                actual => Assert.Equal(expected2, actual),
+                actual => Assert.Equal(expected3, actual));
+        }
+
+        [Fact]
+        public async Task ReadAllAsync_returns_all_material_check_tags()
+        {
+            var response = await _v.MaterialRepository.ReadAsync();
+            var actuals = response.Select(e => e.Tags.First().Name);
+
+            var expected1 = "SOLID";
+            var expected2 = "API";
+            var expected3 = "API";
 
             Assert.Collection(actuals,
                 actual => Assert.Equal(expected1, actual),
