@@ -8,8 +8,14 @@
         private readonly CreateMaterialDTO _CreateMaterialDTOTagNotExisting;
         private readonly CreateMaterialDTO _CreateMaterialDTODuplicateMedia;
         private readonly CreateMaterialDTO _CreateMaterialDTORatingWrongWeight;
-        private readonly CreateMaterialDTO _CreateMaterialDTOTooLongAuthorName;
+        private readonly CreateMaterialDTO _CreateMaterialDTOTooLongAuthorFirstName;
+        private readonly CreateMaterialDTO _CreateMaterialDTOTooLongAuthorSurName;
         private readonly CreateMaterialDTO _CreateMaterialDTOTagWeightTooHigh;
+        private readonly CreateMaterialDTO _CreateMaterialDTOLevelNotExisting;
+        private readonly CreateMaterialDTO _CreateMaterialDTOTooLongLevelName;
+        private readonly CreateMaterialDTO _CreateMaterialDTOTooLongTagName;
+        private readonly CreateMaterialDTO _CreateMaterialDTOToolongRatingName;
+        private readonly CreateMaterialDTO _CreateMaterialDTODuplicateTag;
 
         private readonly MaterialDTO _UpdateMaterialDTO;
         private readonly MaterialDTO _UpdateMaterialDTONotFound;
@@ -39,36 +45,71 @@
 
             _CreateMaterialDTO = material;
 
+            // material testing
             title = "Material 1";
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _CreateMaterialDTOConflict = material;
             title = "Title";
 
+            // tags testing
             tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("Tag1", 10) };
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _CreateMaterialDTOTagNotExisting = material;
-            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10) };
 
+            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("SOLID", 101) };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOTagWeightTooHigh = material;
+
+            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("SOLIDSOLIDSOLIDSOLIDSOLIDSOLIDSOLIDSOLIDSOLIDSOLID", 10) };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOTooLongTagName = material;
+
+            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("SOLID", 10), new CreateWeightedTagDTO("SOLID", 10) };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTODuplicateTag = material;
+
+            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10) }; // tags reset
+
+            // medias testing
             medias = new List<CreateMediaDTO> { new CreateMediaDTO("Book"), new CreateMediaDTO("book") };
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _CreateMaterialDTODuplicateMedia = material;
-            medias = new List<CreateMediaDTO> { new CreateMediaDTO("Book") };
 
+            medias = new List<CreateMediaDTO> { new CreateMediaDTO("Book") }; // medias reset
+
+            // ratings testing
             ratings = new List<CreateRatingDTO> { new CreateRatingDTO(12, "Me") };
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _CreateMaterialDTORatingWrongWeight = material;
+
+            ratings = new List<CreateRatingDTO> { new CreateRatingDTO(8, "MyssenbergMyssenbergMyssenbergMyssenbergMyssenbergMyssenberg") };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOToolongRatingName = material;
+
             ratings = new List<CreateRatingDTO> { new CreateRatingDTO(5, "Me") };
 
+            // authors testing
             authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("RasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmus", "Kristensen") };
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
-            _CreateMaterialDTOTooLongAuthorName = material;
-            authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Rasmus", "Kristensen") };
-            
-            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("SOLID", 101) };
-            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
-            _CreateMaterialDTOTagWeightTooHigh = material;
-            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10) };
-            
+            _CreateMaterialDTOTooLongAuthorFirstName = material;
+
+            authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Rasmus", "KristensenKristensenKristensenKristensenKristensenKristensen") };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOTooLongAuthorSurName = material;
+
+            authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Rasmus", "Kristensen") }; // authors reset
+
+            // levels testing
+            levels = new List<CreateLevelDTO> { new CreateLevelDTO("Bachelor") };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOLevelNotExisting = material;
+
+            levels = new List<CreateLevelDTO> { new CreateLevelDTO("BachelorBachelorBachelorBachelorBachelorBachelorBachelor") };
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOTooLongLevelName = material;
+
+            levels = new List<CreateLevelDTO> { new CreateLevelDTO("PHD") }; // levels reset
+
             title = "New title";
             var updateMaterial = new MaterialDTO(1,tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
             _UpdateMaterialDTO = updateMaterial;
@@ -119,6 +160,8 @@
             Assert.Equal(expected, actual);
         }
 
+        // Tags
+
         [Fact]
         public async Task CreateAsync_material_returns_bad_request_on_tag_not_existing()
         {
@@ -134,6 +177,50 @@
         }
 
         [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_duplicate_tag()
+        {
+            var material = _CreateMaterialDTODuplicateTag;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_too_long_tag_name()
+        {
+            var material = _CreateMaterialDTOTooLongTagName;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_tag_weight_too_high()
+        {
+            var material = _CreateMaterialDTOTagWeightTooHigh;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        // Medias
+
+        [Fact]
         public async Task CreateAsync_material_returns_bad_request_on_duplicate_media()
         {
             var material = _CreateMaterialDTODuplicateMedia;
@@ -146,6 +233,8 @@
 
             Assert.Equal(expected, actual);
         }
+
+        // Ratings
 
         [Fact]
         public async Task CreateAsync_material_returns_bad_request_on_wrong_rating_weight()
@@ -162,9 +251,9 @@
         }
 
         [Fact]
-        public async Task CreateAsync_material_returns_bad_request_on_too_long_author_name()
+        public async Task CreateAsync_material_returns_bad_request_on_too_long_rating_name()
         {
-            var material = _CreateMaterialDTOTooLongAuthorName;
+            var material = _CreateMaterialDTOToolongRatingName;
 
             var response = await _v.MaterialRepository.CreateAsync(material);
 
@@ -174,11 +263,13 @@
 
             Assert.Equal(expected, actual);
         }
-        
+
+        // Authors
+
         [Fact]
-        public async Task CreateAsync_material_returns_bad_request_on_tag_weight_too_high()
+        public async Task CreateAsync_material_returns_bad_request_on_too_long_author_first_name()
         {
-            var material = _CreateMaterialDTOTagWeightTooHigh;
+            var material = _CreateMaterialDTOTooLongAuthorFirstName;
 
             var response = await _v.MaterialRepository.CreateAsync(material);
 
@@ -188,6 +279,51 @@
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_too_long_author_sur_name()
+        {
+            var material = _CreateMaterialDTOTooLongAuthorSurName;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        // Levels
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_level_not_existing()
+        {
+            var material = _CreateMaterialDTOLevelNotExisting;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_too_long_level_name()
+        {
+            var material = _CreateMaterialDTOTooLongLevelName;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
         #endregion
 
         #region Read
