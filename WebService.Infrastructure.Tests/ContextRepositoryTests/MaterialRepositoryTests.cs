@@ -100,7 +100,7 @@
             authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Rasmus", "Kristensen") }; // authors reset
 
             // levels testing
-            levels = new List<CreateLevelDTO> { new CreateLevelDTO("Bachelor") };
+            levels = new List<CreateLevelDTO> { new CreateLevelDTO("Banana") };
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTOLevelNotExisting = material;
 
