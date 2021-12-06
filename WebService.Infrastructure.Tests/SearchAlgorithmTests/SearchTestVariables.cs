@@ -76,9 +76,9 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
 
 
 
-            //Varying tag weight
+            //Varying tag weight - Tag1
             Tag1Materials = new List<Material>();
-            for (int i = 1; i < 10; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 var material1 = new Material() //
                 {
@@ -100,7 +100,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             }
 
 
-            //Varying rating
+            //Varying rating - Tag2
             Tag2Materials = new List<Material>();
             for (int i = 0; i < 10; i++)
             {
@@ -123,7 +123,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 Tag2Materials.Add(material);
             };
 
-            //Varying levels
+            //Varying levels - Tag3
             List<HashSet<Level>> Tag3Levels = new List<HashSet<Level>>(){
                 new HashSet<Level>(){bachelor},
                 new HashSet<Level>(){masters},
@@ -157,7 +157,68 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             }
 
 
-            //Varying programming Languages
+            //Varying Languages - Tag4
+
+            Tag4Materials = new List<Material>();
+
+            var material4_1 = new Material()
+            {
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag4", 5) },
+                Ratings = new HashSet<Rating> { ratings[6][1] },
+                Levels = new HashSet<Level> { bachelor },
+                ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
+                Medias = new HashSet<Media> { video },
+                Language = danish,
+                Summary = "Lorem ipsum",
+                URL = "iamaURL",
+                Content = "I am content",
+                Title = "En titel på dansk",
+                Authors = new HashSet<Author> { author1 },
+                TimeStamp = System.DateTime.Parse("2011")
+            };
+
+            var material4_2 = new Material()
+            {
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag4", 5) },
+                Ratings = new HashSet<Rating> { ratings[6][1] },
+                Levels = new HashSet<Level> { bachelor },
+                ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
+                Medias = new HashSet<Media> { video },
+                Language = english,
+                Summary = "Lorem ipsum",
+                URL = "iamaURL",
+                Content = "I am content",
+                Title = "A title in English",
+                Authors = new HashSet<Author> { author1 },
+                TimeStamp = System.DateTime.Parse("2011")
+            };
+
+
+
+            var material4_3 = new Material()
+            {
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag4", 5) },
+                Ratings = new HashSet<Rating> { ratings[6][1] },
+                Levels = new HashSet<Level> { bachelor },
+                ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
+                Medias = new HashSet<Media> { video },
+                Language = spanish,
+                Summary = "Lorem ipsum",
+                URL = "iamaURL",
+                Content = "I am content",
+                Title = "Un título en español",
+                Authors = new HashSet<Author> { author1 },
+                TimeStamp = System.DateTime.Parse("2011")
+            };
+
+            context.AddRange(material4_1);
+            context.AddRange(material4_2);
+            context.AddRange(material4_3);
+            Tag4Materials.Add(material4_1);
+            Tag4Materials.Add(material4_2);
+            Tag4Materials.Add(material4_3);
+
+            //Varying programming Languages - Tag5
             List<HashSet<ProgrammingLanguage>> Tag5PLanguages = new List<HashSet<ProgrammingLanguage>>(){
                 new HashSet<ProgrammingLanguage>(){csharp},
                 new HashSet<ProgrammingLanguage>(){fsharp},
@@ -192,8 +253,52 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             }
 
 
-            //Varying author
-              List<HashSet<Author>> Tag7Authors = new List<HashSet<Author>>(){
+            //Varying media - Tag6
+            Tag6Materials = new List<Material>();
+
+            var material6_1 = new Material()
+            {
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag6", 5) },
+                Ratings = new HashSet<Rating> { ratings[4][1] },
+                Levels = new HashSet<Level> { bachelor },
+                ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
+                Medias = new HashSet<Media> { video },
+                Language = danish,
+                Summary = "Lorem ipsum",
+                URL = "iamaURL",
+                Content = "I am content",
+                Title = "Dockerize your life",
+                Authors = new HashSet<Author> { author1 },
+                TimeStamp = System.DateTime.Parse("2013")
+            };
+
+
+
+            var material6_2 = new Material()
+            {
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag6", 5) },
+                Ratings = new HashSet<Rating> { ratings[4][1] },
+                Levels = new HashSet<Level> { bachelor },
+                ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
+                Medias = new HashSet<Media> { report },
+                Language = danish,
+                Summary = "Lorem ipsum",
+                URL = "iamaURL",
+                Content = "I am content",
+                Title = "Dockerize your life",
+                Authors = new HashSet<Author> { author1 },
+                TimeStamp = System.DateTime.Parse("2013")
+            };
+
+            context.AddRange(material6_1);
+            context.AddRange(material6_2);
+
+            Tag6Materials.Add(material6_1);
+            Tag6Materials.Add(material6_2);
+
+
+            //Varying author - Tag7
+            List<HashSet<Author>> Tag7Authors = new List<HashSet<Author>>(){
                 new HashSet<Author>(){author1},
                  new HashSet<Author>(){author2},
                 new HashSet<Author>(){author3},
@@ -225,8 +330,31 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 Tag7Materials.Add(material7);
             }
 
-            //Varying title
-              List<HashSet<Author>> Tag7Titles = new List<HashSet<Author>>(){
+            //Varying timestamp - Tag8
+            Tag8Materials = new List<Material>();
+            for (int i = 2014; i < 2022; i++)
+            {
+                var material8 = new Material() //
+                {
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag8", 5) },
+                    Ratings = new HashSet<Rating> { ratings[5][1] },
+                    Levels = new HashSet<Level> { masters },
+                    ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
+                    Medias = new HashSet<Media> { video },
+                    Language = english,
+                    Summary = "Lorem ipsum",
+                    URL = "iamaURL",
+                    Content = "I am content",
+                    Title = "The lastest news about C#",
+                    Authors = new HashSet<Author> { author1 },
+                    TimeStamp = System.DateTime.Parse(i.ToString())
+                };
+                context.AddRange(material8);
+                Tag8Materials.Add(material8);
+            }
+
+            //Varying title - Tag9
+            List<HashSet<Author>> Tag7Titles = new List<HashSet<Author>>(){
                 new HashSet<Author>(){author1},
                 new HashSet<Author>(){author2},
                 new HashSet<Author>(){author3},
@@ -259,6 +387,30 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             }
 
 
+            //Varying weight, two tags - Tag10, Tag11
+            Tag1011Materials = new List<Material>();
+            for (int i = 1; i <= 10; i++)
+            {
+                var material1011 = new Material() //
+                {
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag10", i), new WeightedTag("Tag11", 11-i) },
+                    Ratings = new HashSet<Rating> { ratings[5][1] },
+                    Levels = new HashSet<Level> { masters },
+                    ProgrammingLanguages = new HashSet<ProgrammingLanguage> { masters },
+                    Medias = new HashSet<Media> { report },
+                    Language = english,
+                    Summary = "Lorem ipsum",
+                    URL = "iamaURL",
+                    Content = "I am content",
+                    Title = "Blazor for beginners",
+                    Authors = new HashSet<Author> { author1 },
+                    TimeStamp = System.DateTime.UtcNow
+                };
+                context.AddRange(material1011);
+                Tag1011Materials.Add(material1011);
+            }
+
+
 
 
             context.AddRange(danish, english, spanish, bachelor, masters, phd, book, report, video, csharp, java, fsharp);
@@ -287,9 +439,12 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
         public List<Material> Tag1Materials { get; }
         public List<Material> Tag2Materials { get; }
         public List<Material> Tag3Materials { get; }
+        public List<Material> Tag4Materials { get; }
         public List<Material> Tag5Materials { get; }
-
-        public List<Material> Tag7Materials{get;}
+        public List<Material> Tag6Materials { get; }
+        public List<Material> Tag7Materials { get; }
+        public List<Material> Tag8Materials { get; }
+        public List<Material> Tag1011Materials { get; }
 
 
     }
