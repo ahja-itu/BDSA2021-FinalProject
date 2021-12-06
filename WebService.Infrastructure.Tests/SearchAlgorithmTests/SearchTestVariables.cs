@@ -27,9 +27,12 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             var java = new ProgrammingLanguage(2, "JAVA");
             var fsharp = new ProgrammingLanguage(3, "F#");
 
+            int MaterialID = 1;
+
             Tag[] tags = new Tag[13];
 
-            for (int i = 1; i < 13; i++) {
+            for (int i = 1; i < 13; i++)
+            {
                 tags[i] = new Tag(i, "Tag" + i);
                 context.AddRange(tags[i]);
             }
@@ -37,10 +40,13 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             //makes Reviewer 1-10 for all Ratings 1-10
             Rating[][] ratings = new Rating[10][];
 
-            for(int i = 1; i<11 ; i++){
-                for (int j = 1; j < 11; i++){
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 1; j < 11; i++)
+                {
                     ratings[i] = new Rating[10];
                     ratings[i][j] = (new Rating(i, ("Reviewer" + j)));
+                    context.AddRange(ratings[i][j]);
                 }
             }
 
@@ -62,7 +68,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             */
 
 
-        
+
 
             var author1 = new Author("Rasmus", "Kristensen");
             var author2 = new Author("Alex", "Su");
@@ -74,19 +80,19 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             Tag1Materials = new List<Material>();
             for (int i = 1; i < 10; i++)
             {
-                var material1= new Material() //
+                var material1 = new Material() //
                 {
-                    WeightedTags = new List<WeightedTag> { new WeightedTag("Tag1", i) },
-                    Ratings = new List<Rating> { ratings[5][1] },
-                    Levels = new List<Level> { masters },
-                    ProgrammingLanguages = new List<ProgrammingLanguage> { csharp },
-                    Medias = new List<Media> { book },
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag1", i) },
+                    Ratings = new HashSet<Rating> { ratings[5][1] },
+                    Levels = new HashSet<Level> { masters },
+                    ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
+                    Medias = new HashSet<Media> { book },
                     Language = danish,
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
                     Title = "Blazor for beginners",
-                    Authors = new List<Author> { author1 },
+                    Authors = new HashSet<Author> { author1 },
                     TimeStamp = System.DateTime.UtcNow
                 };
                 context.AddRange(material1);
@@ -96,31 +102,166 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
 
             //Varying rating
             Tag2Materials = new List<Material>();
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var material = new Material() //
                 {
-                    WeightedTags = new List<WeightedTag> { new WeightedTag("Tag2", 5) },
-                    Ratings = new List<Rating> { ratings[i][1] },
-                    Levels = new List<Level> { masters },
-                    ProgrammingLanguages = new List<ProgrammingLanguage> { java },
-                    Medias = new List<Media> { report },
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag2", 5) },
+                    Ratings = new HashSet<Rating> { ratings[i][1] },
+                    Levels = new HashSet<Level> { masters },
+                    ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
+                    Medias = new HashSet<Media> { report },
                     Language = english,
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
                     Title = "Blazor for beginners",
-                    Authors = new List<Author> { author1 },
+                    Authors = new HashSet<Author> { author1 },
                     TimeStamp = System.DateTime.UtcNow
                 };
 
                 Tag2Materials.Add(material);
             };
 
+            //Varying levels
+            List<HashSet<Level>> Tag3Levels = new List<HashSet<Level>>(){
+                new HashSet<Level>(){bachelor},
+                new HashSet<Level>(){masters},
+                new HashSet<Level>(){phd},
+                new HashSet<Level>(){bachelor, masters},
+                new HashSet<Level>(){bachelor, phd},
+                new HashSet<Level>(){masters, phd},
+                new HashSet<Level>(){bachelor, masters, phd}
+            };
+
+            Tag3Materials = new List<Material>();
+            for (int i = 0; i < 6; i++)
+            {
+                var material3 = new Material() //
+                {
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag3", 5) },
+                    Ratings = new HashSet<Rating> { ratings[5][1] },
+                    Levels = Tag3Levels[i],
+                    ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
+                    Medias = new HashSet<Media> { book },
+                    Language = danish,
+                    Summary = "Lorem ipsum",
+                    URL = "iamaURL",
+                    Content = "I am content",
+                    Title = ".NET Framework tutorial",
+                    Authors = new HashSet<Author> { author1 },
+                    TimeStamp = System.DateTime.UtcNow
+                };
+                context.AddRange(material3);
+                Tag3Materials.Add(material3);
+            }
+
+
+            //Varying programming Languages
+            List<HashSet<ProgrammingLanguage>> Tag5PLanguages = new List<HashSet<ProgrammingLanguage>>(){
+                new HashSet<ProgrammingLanguage>(){csharp},
+                new HashSet<ProgrammingLanguage>(){fsharp},
+                new HashSet<ProgrammingLanguage>(){java},
+                new HashSet<ProgrammingLanguage>(){csharp, fsharp},
+                new HashSet<ProgrammingLanguage>(){csharp, java},
+                new HashSet<ProgrammingLanguage>(){fsharp, java},
+                new HashSet<ProgrammingLanguage>(){csharp, fsharp, java},
+
+            };
+
+            Tag5Materials = new List<Material>();
+            for (int i = 0; i < 6; i++)
+            {
+                var material5 = new Material() //
+                {
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag5", 5) },
+                    Ratings = new HashSet<Rating> { ratings[5][1] },
+                    Levels = new HashSet<Level>() { bachelor },
+                    ProgrammingLanguages = Tag5PLanguages[i],
+                    Medias = new HashSet<Media> { book },
+                    Language = danish,
+                    Summary = "Lorem ipsum",
+                    URL = "iamaURL",
+                    Content = "I am content",
+                    Title = ".NET Framework tutorial",
+                    Authors = new HashSet<Author> { author1 },
+                    TimeStamp = System.DateTime.UtcNow
+                };
+                context.AddRange(material5);
+                Tag5Materials.Add(material5);
+            }
+
+
+            //Varying author
+              List<HashSet<Author>> Tag7Authors = new List<HashSet<Author>>(){
+                new HashSet<Author>(){author1},
+                 new HashSet<Author>(){author2},
+                new HashSet<Author>(){author3},
+                new HashSet<Author>(){author1, author2},
+                new HashSet<Author>(){author1, author3},
+                new HashSet<Author>(){author2, author3},
+                new HashSet<Author>(){author1, author2, author3}
+            };
+
+            Tag7Materials = new List<Material>();
+            for (int i = 0; i < 6; i++)
+            {
+                var material7 = new Material() //
+                {
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag5", 5) },
+                    Ratings = new HashSet<Rating> { ratings[5][1] },
+                    Levels = new HashSet<Level>() { bachelor },
+                    ProgrammingLanguages = new HashSet<ProgrammingLanguage>(){java},
+                    Medias = new HashSet<Media> { book },
+                    Language = danish,
+                    Summary = "Lorem ipsum",
+                    URL = "iamaURL",
+                    Content = "I am content",
+                    Title = ".NET Framework tutorial",
+                    Authors = Tag7Authors[i],
+                    TimeStamp = System.DateTime.UtcNow
+                };
+                context.AddRange(material7);
+                Tag7Materials.Add(material7);
+            }
+
+            //Varying title
+              List<HashSet<Author>> Tag7Titles = new List<HashSet<Author>>(){
+                new HashSet<Author>(){author1},
+                new HashSet<Author>(){author2},
+                new HashSet<Author>(){author3},
+                new HashSet<Author>(){author1, author2},
+                new HashSet<Author>(){author1, author3},
+                new HashSet<Author>(){author2, author3},
+                new HashSet<Author>(){author1, author2, author3}
+            };
+
+            Tag5Materials = new List<Material>();
+            for (int i = 0; i < 6; i++)
+            {
+                var material5 = new Material() //
+                {
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag5", 5) },
+                    Ratings = new HashSet<Rating> { ratings[5][1] },
+                    Levels = new HashSet<Level>() { bachelor },
+                    ProgrammingLanguages = new HashSet<ProgrammingLanguage>(){java},
+                    Medias = new HashSet<Media> { book },
+                    Language = danish,
+                    Summary = "Lorem ipsum",
+                    URL = "iamaURL",
+                    Content = "I am content",
+                    Title = ".NET Framework tutorial",
+                    Authors = Tag7Authors[i],
+                    TimeStamp = System.DateTime.UtcNow
+                };
+                context.AddRange(material5);
+                Tag5Materials.Add(material5);
+            }
 
 
 
-            context.AddRange(danish, english, spanish, bachelor, masters, phd, book, report, video, csharp, java, fsharp, rating1, rating2, rating3, tag1, tag2, tag3, material1,material2, material3);
+
+            context.AddRange(danish, english, spanish, bachelor, masters, phd, book, report, video, csharp, java, fsharp);
 
             context.SaveChanges();
 
@@ -145,5 +286,11 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
 
         public List<Material> Tag1Materials { get; }
         public List<Material> Tag2Materials { get; }
+        public List<Material> Tag3Materials { get; }
+        public List<Material> Tag5Materials { get; }
+
+        public List<Material> Tag7Materials{get;}
+
+
     }
 }

@@ -5,14 +5,15 @@ namespace WebService.Infrastructure.Tests
     public class SearchAlgorithmTest
     {
 
-        private SearchTestVariables _v;
-        
+        private SearchTestVariables _v;   
+        private MaterialRepository _materialRepository;
         private List<Material> _tag1Materials;
         private List<Material> _tag2Materials;
 
         public SearchAlgorithmTest()
         {
             _v = new SearchTestVariables();
+            _materialRepository = new MaterialRepository(_v.Context);
 
             _tag1Materials = _v.Tag1Materials;
             _tag2Materials = _v.Tag2Materials;
@@ -36,25 +37,6 @@ namespace WebService.Infrastructure.Tests
 
             //Assert
             Assert.Equal(expected, result);
-        }
-
-
-        [Fact]
-        public void Search_given_certain_inputs_returns_relevant_list_of_materialIDs()
-        {
-            //Arrange
-            SearchForm searchform = new SearchForm()
-            {
-                //Write searchinput
-            };
-
-            SearchAlgorithm s = new SearchAlgorithm();
-
-            //Act
-            List<MaterialDTO> result = s.Search(searchform);
-
-            //Assert
-            Assert.Equal<List<MaterialDTO>>(new List<MaterialDTO>() { }, result);
         }
 
         /*[Fact]
@@ -90,7 +72,7 @@ namespace WebService.Infrastructure.Tests
             new SearchForm("I am a text search tag1", new List<TagDTO>(){ new TagDTO(1,"Tag1" ) }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0)};
         }
 
-        [Theory]
+        [Fact]
         [MemberData(nameof(TextFieldParse_given_SearchForm_parses_SearchForm_data))]
         public void TextFieldParse_given_SearchForm_parses_SearchForm(SearchForm searchForm, SearchForm expected)
         {
@@ -104,6 +86,21 @@ namespace WebService.Infrastructure.Tests
             Assert.Equal(expected, result);
         }
 
+        //tag1, varying weight
+        [Fact]
+        public void Search_given_SearchForm_returns_list_of_materials_prioritized_by_tag_weight(){
+            //Arrange
+            SearchAlgorithm s = new SearchAlgorithm();   
+            SearchForm searhForm = new SearchForm("I am a text search", new List<TagDTO>() { new TagDTO(1, "Tag1") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(),0);
+
+
+            //Act
+            var actual = s.Search(searhForm);
+
+            //Assert
+
+            Assert.True(MaterialRepository.ConvertMaterialToMaterialDTOHashSet(_v.Tag1Materials.ElementAt(1))==actual.ElementAt(1));
+        }
      
 
         //tag2, varying rating
