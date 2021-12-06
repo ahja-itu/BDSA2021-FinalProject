@@ -77,6 +77,25 @@
                                 );
         }
 
+             public static MaterialDTO ConvertMaterialToMaterialDTOHashSet(Material entity)
+        {
+            return new MaterialDTO(
+                                entity.Id,
+                                entity.WeightedTags.Select(e => new CreateWeightedTagDTO(e.Name, e.Weight)).ToHashSet(),
+                                entity.Ratings.Select(e => new CreateRatingDTO(e.Value, e.Reviewer)).ToHashSet(),
+                                entity.Levels.Select(e => new CreateLevelDTO(e.Name)).ToHashSet(),
+                                entity.ProgrammingLanguages.Select(e => new CreateProgrammingLanguageDTO(e.Name)).ToHashSet(),
+                                entity.Medias.Select(e => new CreateMediaDTO(e.Name)).ToHashSet(),
+                                new CreateLanguageDTO(entity.Language.Name),
+                                entity.Summary,
+                                entity.URL,
+                                entity.Content,
+                                entity.Title,
+                                entity.Authors.Select(e => new CreateAuthorDTO(e.FirstName, e.SurName)).ToHashSet(),
+                                entity.TimeStamp
+                                );
+        }
+
         private async Task<Material> ConvertCreateMaterialDTOToMaterial(CreateMaterialDTO createMaterialDTO)
         {
             return new Material(
@@ -95,7 +114,6 @@
                 createMaterialDTO.TimeStamp
             );
         }
-
         public async Task<Status> DeleteAsync(int materialId)
         {
             var material = await _context.Materials.FindAsync(materialId);
@@ -117,7 +135,7 @@
 
             var category = await query.FirstOrDefaultAsync();
 
-            if (category == null) return (Status.NotFound,CreateEmptyMaterialDTO());
+            if (category == null) return (Status.NotFound, CreateEmptyMaterialDTO());
 
             return (Status.Found, ConvertMaterialToMaterialDTO(category));
         }
@@ -136,10 +154,10 @@
         {
             if (!ValidTags(materialDTO.Tags).Result || InvalidInput(materialDTO)) return Status.BadRequest;
 
-            var existing = await(from m in _context.Materials
-                                 where m.Id != materialDTO.Id
-                                 where m.Title == materialDTO.Title
-                                 select m).AnyAsync();
+            var existing = await (from m in _context.Materials
+                                  where m.Id != materialDTO.Id
+                                  where m.Title == materialDTO.Title
+                                  select m).AnyAsync();
 
 
             if (existing) return Status.Conflict;
@@ -169,20 +187,20 @@
 
         private static MaterialDTO CreateEmptyMaterialDTO()
         {
-            var tags = new List<CreateWeightedTagDTO> {};
-            var ratings = new List<CreateRatingDTO> {};
-            var levels = new List<CreateLevelDTO> {};
-            var programmingLanguages = new List<CreateProgrammingLanguageDTO> {};
-            var medias = new List<CreateMediaDTO> {};
+            var tags = new List<CreateWeightedTagDTO> { };
+            var ratings = new List<CreateRatingDTO> { };
+            var levels = new List<CreateLevelDTO> { };
+            var programmingLanguages = new List<CreateProgrammingLanguageDTO> { };
+            var medias = new List<CreateMediaDTO> { };
             var language = new CreateLanguageDTO("");
             var summary = "";
             var url = "";
             var content = "";
             var title = "";
-            var authors = new List<CreateAuthorDTO>() {};
+            var authors = new List<CreateAuthorDTO>() { };
             var datetime = DateTime.UtcNow;
-            
-            var material = new MaterialDTO(-1,tags,ratings,levels,programmingLanguages,medias,language,summary,url,content,title,authors,datetime);
+
+            var material = new MaterialDTO(-1, tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, datetime);
             return material;
         }
 
