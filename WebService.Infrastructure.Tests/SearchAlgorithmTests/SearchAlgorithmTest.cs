@@ -9,6 +9,8 @@ namespace WebService.Infrastructure.Tests
         private MaterialRepository _materialRepository;
         private List<Material> _tag1Materials;
         private List<Material> _tag2Materials;
+        private List<Material> _tag4Materials;
+        private List<Material> _tag6Materials;
 
         public SearchAlgorithmTest()
         {
@@ -17,6 +19,8 @@ namespace WebService.Infrastructure.Tests
 
             _tag1Materials = _v.Tag1Materials;
             _tag2Materials = _v.Tag2Materials;
+            _tag4Materials = _v.Tag4Materials;
+            _tag6Materials = _v.Tag6Materials;
 
         }
 
@@ -166,7 +170,37 @@ namespace WebService.Infrastructure.Tests
 
 
         //tag4
+        public static IEnumerable<object[]> Search_given_SearchForm_containing_language_returns_list_of_material_only_with_given_language_data(IEnumerable<Material> _tag4Materials)
+        {
+            yield return new object[] {new LanguageDTO(1, "Danish"), new List<Material>{ _tag4Materials.ElementAt(0)}};
+            yield return new object[] { new LanguageDTO(2, "English"), new List<Material> { _tag4Materials.ElementAt(1) } };
+            yield return new object[] { new LanguageDTO(3, "Spanish"), new List<Material> { _tag4Materials.ElementAt(2) } };
+        }
 
+
+        [Theory]
+        [MemberData(nameof(Search_given_SearchForm_containing_language_returns_list_of_material_only_with_given_language_data))]
+        public void Search_given_SearchForm_containing_language_returns_list_of_material_only_with_given_language(LanguageDTO language, List<Material> expected)
+        {
+
+            //Arrange
+            SearchAlgorithm algo = new SearchAlgorithm();
+            SearchForm searchForm = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO> { language}, new List<MediaDTO>(), 0);
+            List<MaterialDTO> expectedDTO = new List<MaterialDTO>();
+            foreach (Material m in expected)
+            {
+                MaterialDTO temp = MaterialRepository.ConvertMaterialToMaterialDTOHashSet(m);
+                expectedDTO.Add(temp);
+            }
+
+            //Act
+            //search and return list of materialDTO
+            var result = algo.Search(searchForm);
+
+            //Assert
+            //Compare with DTO converted to Material or vice-versa
+            Assert.Equal<MaterialDTO>(expectedDTO, result);
+        }
 
 
         //tag5
@@ -175,7 +209,36 @@ namespace WebService.Infrastructure.Tests
 
 
         //tag6
+        public static IEnumerable<object[]> Search_given_SearchForm_containing_media_returns_list_of_material_only_with_given_media_data(IEnumerable<Material> _tag6Materials)
+        {
+            yield return new object[] { new MediaDTO(3, "Video"), new List<Material> { _tag6Materials.ElementAt(0) } };
+            yield return new object[] { new MediaDTO(2, "Report"), new List<Material> { _tag6Materials.ElementAt(1) } };
+        }
 
+
+        [Theory]
+        [MemberData(nameof(Search_given_SearchForm_containing_media_returns_list_of_material_only_with_given_media_data))]
+        public void Search_given_SearchForm_containing_media_returns_list_of_material_only_with_given_media(MediaDTO media, List<Material> expected)
+        {
+
+            //Arrange
+            SearchAlgorithm algo = new SearchAlgorithm();
+            SearchForm searchForm = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO> { media}, 0);
+            List<MaterialDTO> expectedDTO = new List<MaterialDTO>();
+            foreach (Material m in expected)
+            {
+                MaterialDTO temp = MaterialRepository.ConvertMaterialToMaterialDTOHashSet(m);
+                expectedDTO.Add(temp);
+            }
+
+            //Act
+            //search and return list of materialDTO
+            var result = algo.Search(searchForm);
+
+            //Assert
+            //Compare with DTO converted to Material or vice-versa
+            Assert.Equal<MaterialDTO>(expectedDTO, result);
+        }
 
 
 
