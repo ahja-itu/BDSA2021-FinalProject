@@ -432,7 +432,7 @@ Mauris non facilisis", "title",
     readonly string _searchInput = "";
     IEnumerable<MaterialDTO>? _results;
 
-    private void Search()
+    private async Task Search()
     {
         var searchForm = new SearchForm(
             _searchInput,
@@ -442,7 +442,7 @@ Mauris non facilisis", "title",
             _languagesToSend.Select(e => new LanguageDTO(0, e)),
             _mediasToSend.Select(e => new MediaDTO(0, e)),
             _rating);
-    // send results and receive results
+        _results = await _http.GetFromJsonAsync<ICollection<MaterialDTO>>($"Search{searchForm}");
     }
 
     #endregion
@@ -465,7 +465,7 @@ Mauris non facilisis", "title",
         _showingSearchForm = true;
     }
 
-    #region InitAPICalls
+    #region APICalls
 
     protected override async Task OnInitializedAsync()
     {
