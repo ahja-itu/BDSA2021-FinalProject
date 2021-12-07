@@ -96,7 +96,7 @@
             {
                 <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
                     <div class="col">
-                        <RadzenTextBox id="searchFilter" class="btgInput" @oninput=@(args => { SearchFilters(args.Value.ToString()); }) @bind-Value=@_filterSearchInput Placeholder="@_placeholder"/>
+                        <RadzenTextBox id="searchFilter" class="btgInput" @oninput=@(args => { SearchFilters(args.Value.ToString()); }) @bind-Value=@_filterSearchInput Placeholder="@_searchFilterPlaceholder"/>
                         <RadzenButton Click=@(_ => SearchFilters(_filterSearchInput)) Icon="search" class="btgIconButton smallIcon"/>
                     </div>
                 </div>
@@ -122,10 +122,10 @@
         <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@_displayIcon"/>
     </div>
     <!-- Results Box -->
-@if (_results != null)
+@if (_searchResults != null)
 {
     <div class="row scroller">
-        @foreach (var material in _results)
+        @foreach (var material in _searchResults)
         {
             <div class="result">
                 <div style="border-left: 6px solid #7765E3; !important;">
@@ -213,20 +213,52 @@ else
 
 @code{
 
-    #region Gui
+    #region AdvancedSearchViewHandlers
+
+    #region DisplayHandler
 
     bool _advancedView;
+    string _displayIcon = "expand_more";
 
-    bool _isShowingFilterOptions;
+    void ShowFilters()
+    {
+        _displayIcon = !_advancedView ? "expand_less" : "expand_more";
+        _advancedView = !_advancedView;
+    }
+
+    #endregion
+
+    #region FilterSearchHandler
+
+    string _searchFilterPlaceholder = "Search Tags";
+    string _filterSearchInput = "";
+    ICollection<string> _lastCalledCollection = new List<string>();
+    ICollection<string> _showCollection = new List<string>();
+
+    void SearchFilters(string val)
+    {
+        ReplaceListWithoutBackup(ref _showCollection, _lastCalledCollection);
+        ReplaceListWithoutBackup(ref _showCollection, _showCollection.Where(str => str.ToLower().Contains(val.ToLower()) || val.ToLower().Contains(str.ToLower())).ToList());
+    }
+
+    #endregion
+
+    #region ChangeFilter
+
     bool _filterSelected;
+    bool _isShowingFilterOptions;
+    string _collectionToSaveTo = "Tags";
+    ICollection<string> _tags = new List<string>();
+    ICollection<string> _levels = new List<string>();
+    ICollection<string> _programmingLanguages = new List<string>();
+    ICollection<string> _language = new List<string>();
+    ICollection<string> _medias = new List<string>();
 
-    #region Filters
-
-    private void ChangeFilter(string filterName)
+    void ChangeFilter(string filterName)
     {
         _filterSelected = true;
         _filterSearchInput = "";
-        _placeholder = "Search " + filterName;
+        _searchFilterPlaceholder = "Search " + filterName;
         if (filterName != "Ratings")
         {
             _isShowingFilterOptions = true;
@@ -256,13 +288,13 @@ else
         }
     }
 
-    private void ReplaceListWithBackup(ref ICollection<string> target, ICollection<string> source)
+    void ReplaceListWithBackup(ref ICollection<string> target, ICollection<string> source)
     {
         ReplaceListWithoutBackup(ref target, source);
         _lastCalledCollection = source;
     }
 
-    private static void ReplaceListWithoutBackup(ref ICollection<string> target, IEnumerable<string> source)
+    void ReplaceListWithoutBackup(ref ICollection<string> target, IEnumerable<string> source)
     {
         target.Clear();
         foreach (var str in source) target.Add(str);
@@ -270,56 +302,9 @@ else
 
     #endregion
 
-    #region FiltersOptions
+    #region AddFilter
 
-    string _filterSearchInput = "";
-    string _placeholder = "Search Tags";
-    int _rating = 5;
-    int _iDCounter;
-    ICollection<string> _tags = new List<string>();
-    ICollection<string> _levels = new List<string>();
-    ICollection<string> _programmingLanguages = new List<string>();
-    ICollection<string> _language = new List<string>();
-    ICollection<string> _medias = new List<string>();
-
-    ICollection<string> _lastCalledCollection = new List<string>();
-    ICollection<string> _showCollection = new List<string>();
-
-    private void SearchFilters(string val)
-    {
-        ReplaceListWithoutBackup(ref _showCollection, _lastCalledCollection);
-        ReplaceListWithoutBackup(ref _showCollection, _showCollection.Where(str => str.ToLower().Contains(val.ToLower()) || val.ToLower().Contains(str.ToLower())).ToList());
-    }
-
-    private string FilterOptionIdGenerator()
-    {
-        _iDCounter++;
-        return "FilterOption " + (_iDCounter - 1);
-    }
-
-    private static float GetAvgRating(CreateMaterialDTO material)
-    {
-        float sum = material.Ratings.Sum(e => e.Value);
-        return sum / material.Ratings.Count;
-    }
-
-    string _displayIcon = "expand_more";
-
-    private void ShowFilters()
-    {
-        _displayIcon = !_advancedView ? "expand_less" : "expand_more";
-        _advancedView = !_advancedView;
-    }
-
-    string _collectionToSaveTo = "Tags";
-
-    ICollection<string> _tagsToSend = new List<string>();
-    ICollection<string> _levelsToSend = new List<string>();
-    ICollection<string> _programmingLanguagesToSend = new List<string>();
-    ICollection<string> _languagesToSend = new List<string>();
-    ICollection<string> _mediasToSend = new List<string>();
-
-    private void AddFilterToList(string toAdd)
+    void AddFilterToList(string toAdd)
     {
         switch (_collectionToSaveTo)
         {
@@ -341,7 +326,7 @@ else
         }
     }
 
-    private void ToggleFilter(ref ICollection<string> list, string val)
+    void ToggleFilter(ref ICollection<string> list, string val)
     {
         if (list.Contains(val)) list.Remove(val);
         else list.Add(val);
@@ -349,16 +334,30 @@ else
 
     #endregion
 
+    int _iDCounter;
+
+    string FilterOptionIdGenerator()
+    {
+        _iDCounter++;
+        return "FilterOption " + (_iDCounter - 1);
+    }
+
     #endregion
 
-    MaterialDTO? _selectedMaterial;
-
-    #region Search
+    #region SearchFormHandler
 
     string _searchInput = "";
-    IEnumerable<MaterialDTO>? _results;
+    int _rating = 5;
 
-    private async Task Search()
+    ICollection<string> _tagsToSend = new List<string>();
+    ICollection<string> _levelsToSend = new List<string>();
+    ICollection<string> _programmingLanguagesToSend = new List<string>();
+    ICollection<string> _languagesToSend = new List<string>();
+    ICollection<string> _mediasToSend = new List<string>();
+
+    IEnumerable<MaterialDTO>? _searchResults;
+
+    async Task Search()
     {
         var searchForm = new SearchForm(
             _searchInput,
@@ -369,16 +368,19 @@ else
             _mediasToSend.Select(e => new MediaDTO(0, e)),
             _rating);
         var response = await _http.PostAsJsonAsync("Search", searchForm);
-        _results = await response.Content.ReadFromJsonAsync<ICollection<MaterialDTO>>();
+        _searchResults = await response.Content.ReadFromJsonAsync<ICollection<MaterialDTO>>();
     }
 
     #endregion
 
+    #region SelectedMaterialHandler
+
     bool _showingSearchForm = true;
+    MaterialDTO? _selectedMaterial;
 
     void ShowSelectedMaterial(int id)
     {
-        foreach (var dto in _results)
+        foreach (var dto in _searchResults)
         {
             if (dto.Id != id) continue;
             _selectedMaterial = dto;
@@ -392,7 +394,9 @@ else
         _showingSearchForm = true;
     }
 
-    #region APICalls
+    #endregion
+
+    #region INITAPICalls
 
     protected override async Task OnInitializedAsync()
     {
@@ -403,31 +407,31 @@ else
         await GetMediasFromApi();
     }
 
-    private async Task GetTagsFromApi()
+    async Task GetTagsFromApi()
     {
         var tagDTOs = await _http.GetFromJsonAsync<ICollection<TagDTO>>("Tag");
         _tags = tagDTOs == null ? new List<string>() : tagDTOs.Select(e => e.Name).ToList();
     }
 
-    private async Task GetLevelsFromApi()
+    async Task GetLevelsFromApi()
     {
         var levelsDTOs = await _http.GetFromJsonAsync<ICollection<LevelDTO>>("Level");
         _levels = levelsDTOs == null ? new List<string>() : levelsDTOs.Select(e => e.Name).ToList();
     }
 
-    private async Task GetProgrammingLanguagesFromApi()
+    async Task GetProgrammingLanguagesFromApi()
     {
         var programmingLanguageDTOs = await _http.GetFromJsonAsync<ICollection<ProgrammingLanguageDTO>>("ProgrammingLanguage");
         _programmingLanguages = programmingLanguageDTOs == null ? new List<string>() : programmingLanguageDTOs.Select(e => e.Name).ToList();
     }
 
-    private async Task GetLanguagesFromApi()
+    async Task GetLanguagesFromApi()
     {
         var languageDTOs = await _http.GetFromJsonAsync<ICollection<LanguageDTO>>("Language");
         _language = languageDTOs == null ? new List<string>() : languageDTOs.Select(e => e.Name).ToList();
     }
 
-    private async Task GetMediasFromApi()
+    async Task GetMediasFromApi()
     {
         var mediasDTOs = await _http.GetFromJsonAsync<ICollection<MediaDTO>>("Media");
         _medias = mediasDTOs == null ? new List<string>() : mediasDTOs.Select(e => e.Name).ToList();
@@ -435,15 +439,24 @@ else
 
     #endregion
 
+    #region MaterialExtentions
+
     string MaterialLevelsToString(CreateMaterialDTO material)
     {
         return material.Levels.Aggregate("", (current, level) => current + level.Name + "");
     }
 
+    float GetAvgRating(CreateMaterialDTO material)
+    {
+        float sum = material.Ratings.Sum(e => e.Value);
+        return sum / material.Ratings.Count;
+    }
 
     string MaterialAuthorsToString(CreateMaterialDTO material)
     {
         return material.Authors.Aggregate("Authors: ", (current, author) => current + author.FirstName + author.SurName + " ");
     }
+
+    #endregion
 
 }
