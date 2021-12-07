@@ -35,6 +35,7 @@ builder.Services.AddScoped<ILevelRespository, LevelRepository>();
 builder.Services.AddScoped<IMediaRepository, MediaRepository>();
 builder.Services.AddScoped<IProgrammingLanguageRespository, ProgrammingLanguageRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<ISearch, SearchAlgorithm>();
 
 var app = builder.Build();
 
