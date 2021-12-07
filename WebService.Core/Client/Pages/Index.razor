@@ -67,10 +67,6 @@
       color: #C2BAF2 !important;
     }
 </style>
-<!-- Header -->
-<div>
-    <h1 style="text-align: center; color:#ffffff">Bridge The Gap!</h1>
-</div>
 @if (_showingSearchForm)
 {
     <!-- Search bar -->
@@ -378,7 +374,7 @@ else
 
     #endregion
 
-    bool _showingSearchForm;
+    bool _showingSearchForm = true;
 
     void ShowSelectedMaterial(int id)
     {
