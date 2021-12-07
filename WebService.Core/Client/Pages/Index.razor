@@ -78,7 +78,7 @@
     <!-- Search bar -->
     <div class="row" style="border-bottom:solid;border-color:#7765E3;padding-top: 20%">
         <div class="col d-flex justify-content-center align-item-center" style="width:100%">
-            <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" Style="width:100%;font-size:2em"/>
+            <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" @bind-value="_searchInput" Style="width:100%;font-size:2em"/>
             <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>
         </div>
     </div>
