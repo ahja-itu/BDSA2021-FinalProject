@@ -2,6 +2,8 @@
 @using WebService.Core.Shared
 @using Microsoft.AspNetCore.Authorization
 @using System.Globalization
+@using System.Text.Json
+@using System.Text.Json.Serialization
 @attribute [Authorize]
 @inject HttpClient _http
 <PageTitle>Index</PageTitle>
@@ -429,7 +431,7 @@ Mauris non facilisis", "title",
 
     #region Search
 
-    readonly string _searchInput = "";
+    string _searchInput = "";
     IEnumerable<MaterialDTO>? _results;
 
     private async Task Search()
@@ -442,7 +444,9 @@ Mauris non facilisis", "title",
             _languagesToSend.Select(e => new LanguageDTO(0, e)),
             _mediasToSend.Select(e => new MediaDTO(0, e)),
             _rating);
-        _results = await _http.GetFromJsonAsync<ICollection<MaterialDTO>>($"Search{searchForm}");
+        var response = await _http.PostAsJsonAsync("Search",searchForm);
+        _results = await response.Content.ReadFromJsonAsync<ICollection<MaterialDTO>>();
+
     }
 
     #endregion
