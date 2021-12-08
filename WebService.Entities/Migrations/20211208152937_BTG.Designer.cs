@@ -12,7 +12,7 @@ using WebService.Entities;
 namespace WebService.Entities.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20211208152530_BTG")]
+    [Migration("20211208152937_BTG")]
     partial class BTG
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
