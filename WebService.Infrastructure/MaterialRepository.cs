@@ -83,7 +83,6 @@ namespace WebService.Infrastructure
         private async Task<Material> ConvertCreateMaterialDTOToMaterial(CreateMaterialDTO createMaterialDTO)
         {
             return new Material(
-
                 createMaterialDTO.Tags.Select(e => new WeightedTag(e.Name, e.Weight)).ToList(),
                 createMaterialDTO.Ratings.Select(e => new Rating(e.Value, e.Reviewer)).ToList(),
                 await ReadLevels(createMaterialDTO.Levels),
@@ -209,6 +208,8 @@ namespace WebService.Infrastructure
             entity.TimeStamp = newEntity.TimeStamp;
             entity.Authors = newEntity.Authors;
             entity.Language = newEntity.Language;
+            entity.URL = newEntity.URL;
+            entity.Summary = newEntity.Summary;
 
             await _context.SaveChangesAsync();
 
@@ -282,11 +283,13 @@ namespace WebService.Infrastructure
 
             foreach (var name in stringList)
             {
-                if (name.Length > 50 || name.Length > 50 || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(name))
+                if (name.Length > 50 || string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
                 {
                     return true;
                 }
             }
+
+            if(material.Summary.Length > 250 || string.IsNullOrEmpty(material.Summary) || string.IsNullOrWhiteSpace(material.Summary))
 
             foreach (var rating in material.Ratings)
             {
