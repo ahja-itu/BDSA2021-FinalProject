@@ -1,7 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-
-namespace WebService.Infrastructure
+﻿namespace WebService.Infrastructure
 {
     public class MaterialRepository : IMaterialRepository
     {
@@ -83,12 +80,11 @@ namespace WebService.Infrastructure
         private async Task<Material> ConvertCreateMaterialDTOToMaterial(CreateMaterialDTO createMaterialDTO)
         {
             return new Material(
-
                 createMaterialDTO.Tags.Select(e => new WeightedTag(e.Name, e.Weight)).ToList(),
                 createMaterialDTO.Ratings.Select(e => new Rating(e.Value, e.Reviewer)).ToList(),
-                ReadLevels(createMaterialDTO.Levels).ToList(),
-                ReadProgrammingLanguages(createMaterialDTO.ProgrammingLanguages).ToList(),
-                ReadMedias(createMaterialDTO.Medias).ToList(),
+                await ReadLevels(createMaterialDTO.Levels),
+                await ReadProgrammingLanguages(createMaterialDTO.ProgrammingLanguages),
+                await ReadMedias(createMaterialDTO.Medias),
                 await _context.Languages.Where(e => e.Name == createMaterialDTO.Language.Name).SingleAsync(),
                 createMaterialDTO.Summary,
                 createMaterialDTO.URL,
@@ -120,7 +116,7 @@ namespace WebService.Infrastructure
 
             var category = await query.FirstOrDefaultAsync();
 
-            if (category == null) return (Status.NotFound,CreateEmptyMaterialDTO());
+            if (category == null) return (Status.NotFound, CreateEmptyMaterialDTO());
 
             return (Status.Found, ConvertMaterialToMaterialDTO(category));
         }
@@ -132,17 +128,22 @@ namespace WebService.Infrastructure
 
         public async Task<(Status, IReadOnlyCollection<MaterialDTO>)> ReadAsync(SearchForm searchInput)
         {
-            var materials = _context.Materials.AsEnumerable()
-                                              .Where(material => material.hasMinimumAverageRating(searchInput.Rating))
-                                              .Where(MayContainProgrammingLanguage(searchInput))
-                                              .Where(MayContainLanguage(searchInput))
-                                              .Where(MayContainMedia(searchInput))
-                                              .Where(MayContainTag(searchInput))
-                                              .Where(MayContainLevel(searchInput))
-                                              .Select(ConvertMaterialToMaterialDTO)
-                                              .ToList();
+            // We can't have the server translate our query where we do linq statements on searchInput :(
+            var materialsWhereRatingHolds = await _context.Materials
+                .Where(material => material.Ratings.Average(rating => rating.Value) >= searchInput.Rating)
+                .ToListAsync();
 
-            if (materials.Count() == 0)
+            // We're doing the following computations on the client, instead of the server
+            var materials = materialsWhereRatingHolds
+                .Where(material => MayContainProgrammingLanguage(searchInput).Invoke(material))
+                .Where(material => MayContainLanguage(searchInput).Invoke(material))
+                .Where(material => MayContainMedia(searchInput).Invoke(material))
+                .Where(material => MayContainTag(searchInput).Invoke(material))
+                .Where(material => MayContainLevel(searchInput).Invoke(material))
+                .Select(ConvertMaterialToMaterialDTO)
+                .ToList();
+
+            if (materials.Count == 0)
             {
                 return (Status.NotFound, new ReadOnlyCollection<MaterialDTO>(new List<MaterialDTO>()));
             }
@@ -154,40 +155,40 @@ namespace WebService.Infrastructure
             => material => searchInput.Levels.Any()
                 ? material.Levels.Any(level => searchInput.Levels.Any(searchInputLevels => searchInputLevels.Name == level.Name))
                 : true;
-        
+
 
         public static Func<Material, bool> MayContainTag(SearchForm searchInput)
-            =>  material => searchInput.Tags.Any()
-                  ? material.WeightedTags.Any(wt => searchInput.Tags.Any(st => st.Name == wt.Name)) 
-                  : true;
-        
+            => material => searchInput.Tags.Any()
+                 ? material.WeightedTags.Any(wt => searchInput.Tags.Any(st => st.Name == wt.Name))
+                 : true;
+
 
         public static Func<Material, bool> MayContainMedia(SearchForm searchInput)
             => material => searchInput.Medias.Any()
                 ? material.Medias.Any(media => searchInput.Medias.Any(mediadto => mediadto.Name == media.Name))
                 : true;
-        
+
 
         public static Func<Material, bool> MayContainLanguage(SearchForm searchInput)
             => material => searchInput.Languages.Any()
-                ? searchInput.Languages.Any(l => l.Name == material.Language.Name) 
+                ? searchInput.Languages.Any(l => l.Name == material.Language.Name)
                 : true;
 
         public static Func<Material, bool> MayContainProgrammingLanguage(SearchForm searchInput)
             => material => searchInput.ProgrammingLanguages.Any()
                 ? material.ProgrammingLanguages.Select(pl => pl.Name)
                                                 .Any(pl => searchInput.ProgrammingLanguages.Select(sipl => sipl.Name)
-                                                                                            .Any(sipl => pl == sipl)) 
+                                                                                            .Any(sipl => pl == sipl))
                 : true;
 
         public async Task<Status> UpdateAsync(MaterialDTO materialDTO)
         {
             if (!ValidTags(materialDTO.Tags).Result || InvalidInput(materialDTO)) return Status.BadRequest;
 
-            var existing = await(from m in _context.Materials
-                                 where m.Id != materialDTO.Id
-                                 where m.Title == materialDTO.Title
-                                 select m).AnyAsync();
+            var existing = await (from m in _context.Materials
+                                  where m.Id != materialDTO.Id
+                                  where m.Title == materialDTO.Title
+                                  select m).AnyAsync();
 
 
             if (existing) return Status.Conflict;
@@ -196,65 +197,75 @@ namespace WebService.Infrastructure
 
             if (entity == null) return Status.NotFound;
 
-            var newEntity = await ConvertCreateMaterialDTOToMaterial(materialDTO);
+            try
+            {
+                var newEntity = await ConvertCreateMaterialDTOToMaterial(materialDTO);
 
-            entity.Ratings = newEntity.Ratings;
-            entity.Title = newEntity.Title;
-            entity.ProgrammingLanguages = newEntity.ProgrammingLanguages;
-            entity.Levels = newEntity.Levels;
-            entity.Content = newEntity.Content;
-            entity.WeightedTags = newEntity.WeightedTags;
-            entity.Ratings = newEntity.Ratings;
-            entity.Medias = newEntity.Medias;
-            entity.TimeStamp = newEntity.TimeStamp;
-            entity.Authors = newEntity.Authors;
-            entity.Language = newEntity.Language;
+                entity.Ratings = newEntity.Ratings;
+                entity.Title = newEntity.Title;
+                entity.ProgrammingLanguages = newEntity.ProgrammingLanguages;
+                entity.Levels = newEntity.Levels;
+                entity.Content = newEntity.Content;
+                entity.WeightedTags = newEntity.WeightedTags;
+                entity.Ratings = newEntity.Ratings;
+                entity.Medias = newEntity.Medias;
+                entity.TimeStamp = newEntity.TimeStamp;
+                entity.Authors = newEntity.Authors;
+                entity.Language = newEntity.Language;
+                entity.URL = newEntity.URL;
+                entity.Summary = newEntity.Summary;
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-            return Status.Updated;
+                return Status.Updated;
+            }
+            catch
+            {
+                return Status.BadRequest;
+            }
         }
 
         private static MaterialDTO CreateEmptyMaterialDTO()
         {
-            var tags = new List<CreateWeightedTagDTO> {};
-            var ratings = new List<CreateRatingDTO> {};
-            var levels = new List<CreateLevelDTO> {};
-            var programmingLanguages = new List<CreateProgrammingLanguageDTO> {};
-            var medias = new List<CreateMediaDTO> {};
+            var tags = new List<CreateWeightedTagDTO> { };
+            var ratings = new List<CreateRatingDTO> { };
+            var levels = new List<CreateLevelDTO> { };
+            var programmingLanguages = new List<CreateProgrammingLanguageDTO> { };
+            var medias = new List<CreateMediaDTO> { };
             var language = new CreateLanguageDTO("");
             var summary = "";
             var url = "";
             var content = "";
             var title = "";
-            var authors = new List<CreateAuthorDTO>() {};
+            var authors = new List<CreateAuthorDTO>() { };
             var datetime = DateTime.UtcNow;
-            
-            var material = new MaterialDTO(-1,tags,ratings,levels,programmingLanguages,medias,language,summary,url,content,title,authors,datetime);
+
+            var material = new MaterialDTO(-1, tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, datetime);
             return material;
         }
 
-        private IEnumerable<Media> ReadMedias(ICollection<CreateMediaDTO> mediaDTOs)
+        private async Task<ICollection<Media>> ReadMedias(ICollection<CreateMediaDTO> mediaDTOs)
         {
-            foreach (var media in mediaDTOs)
-            {
-                yield return _context.Medias.Where(e => e.Name == media.Name).First();
-            }
+            var mediaDTONames = mediaDTOs.Select(e => e.Name).ToHashSet();
+            var medias = await _context.Medias.Where(e => mediaDTONames.Contains(e.Name)).ToListAsync();
+            if (medias.Count != mediaDTOs.Count) throw new Exception("Bad request");
+            else return medias;
         }
 
-        private IEnumerable<Level> ReadLevels(ICollection<CreateLevelDTO> levelDTOs)
+        private async Task<ICollection<Level>> ReadLevels(ICollection<CreateLevelDTO> levelDTOs)
         {
-            foreach (var level in levelDTOs)
-            {
-                yield return _context.Levels.Where(e => e.Name == level.Name).First();
-            }
+            var levelDTONames = levelDTOs.Select(e => e.Name).ToHashSet();
+            var levels = await _context.Levels.Where(e => levelDTONames.Contains(e.Name)).ToListAsync();
+            if (levels.Count != levelDTOs.Count) throw new Exception("Bad request");
+            else return levels;
         }
-        private IEnumerable<ProgrammingLanguage> ReadProgrammingLanguages(ICollection<CreateProgrammingLanguageDTO> programmingLanguageDTOs)
+
+        private async Task<ICollection<ProgrammingLanguage>> ReadProgrammingLanguages(ICollection<CreateProgrammingLanguageDTO> programmingLanguageDTOs)
         {
-            foreach (var programmingLanguage in programmingLanguageDTOs)
-            {
-                yield return _context.ProgrammingLanguages.Where(e => e.Name == programmingLanguage.Name).First();
-            }
+            var ProgrammingLanguageDTONames = programmingLanguageDTOs.Select(e => e.Name).ToHashSet();
+            var programmingLanguages = await _context.ProgrammingLanguages.Where(e => ProgrammingLanguageDTONames.Contains(e.Name)).ToListAsync();
+            if (programmingLanguages.Count != programmingLanguageDTOs.Count) throw new Exception("Bad request");
+            else return programmingLanguages;
         }
 
         private async Task<bool> ValidTags(ICollection<CreateWeightedTagDTO> tags)
@@ -275,8 +286,8 @@ namespace WebService.Infrastructure
         private bool InvalidInput(CreateMaterialDTO material)
         {
             var stringList = new List<string>();
-            stringList.Append(material.Title);
-            stringList.Append(material.Language.Name);
+            stringList.Add(material.Title);
+            stringList.Add(material.Language.Name);
             stringList.AddRange(material.Medias.Select(e => e.Name).ToList());
             stringList.AddRange(material.Authors.Select(e => e.FirstName).ToList());
             stringList.AddRange(material.Authors.Select(e => e.SurName).ToList());
@@ -287,11 +298,13 @@ namespace WebService.Infrastructure
 
             foreach (var name in stringList)
             {
-                if (name.Length > 50 || name.Length > 50 || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(name))
+                if (name.Length > 50 || string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
                 {
                     return true;
                 }
             }
+
+            if (material.Summary.Length > 250 || string.IsNullOrEmpty(material.Summary) || string.IsNullOrWhiteSpace(material.Summary)) return true;
 
             foreach (var rating in material.Ratings)
             {
