@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace WebService.Infrastructure
 {
@@ -132,17 +131,22 @@ namespace WebService.Infrastructure
 
         public async Task<(Status, IReadOnlyCollection<MaterialDTO>)> ReadAsync(SearchForm searchInput)
         {
-            var materials = _context.Materials.AsEnumerable()
-                                              .Where(material => material.hasMinimumAverageRating(searchInput.Rating))
-                                              .Where(MayContainProgrammingLanguage(searchInput))
-                                              .Where(MayContainLanguage(searchInput))
-                                              .Where(MayContainMedia(searchInput))
-                                              .Where(MayContainTag(searchInput))
-                                              .Where(MayContainLevel(searchInput))
-                                              .Select(ConvertMaterialToMaterialDTO)
-                                              .ToList();
+            // We can't have the server translate our query where we do linq statements on searchInput :(
+            var materialsWhereRatingHolds = await _context.Materials
+                .Where(material => material.Ratings.Average(rating => rating.Value) >= searchInput.Rating)
+                .ToListAsync();
 
-            if (materials.Count() == 0)
+            // We're doing the following computations on the client, instead of the server
+            var materials = materialsWhereRatingHolds
+                .Where(material => MayContainProgrammingLanguage(searchInput).Invoke(material))
+                .Where(material => MayContainLanguage(searchInput).Invoke(material))
+                .Where(material => MayContainMedia(searchInput).Invoke(material))
+                .Where(material => MayContainTag(searchInput).Invoke(material))
+                .Where(material => MayContainLevel(searchInput).Invoke(material))
+                .Select(ConvertMaterialToMaterialDTO)
+                .ToList();
+
+            if (materials.Count == 0)
             {
                 return (Status.NotFound, new ReadOnlyCollection<MaterialDTO>(new List<MaterialDTO>()));
             }
