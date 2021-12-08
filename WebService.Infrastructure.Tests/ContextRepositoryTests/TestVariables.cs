@@ -28,9 +28,14 @@
             var programmingLanguage3 = new ProgrammingLanguage(3, "F#");
 
 
-            var rating1 = new Rating(2, "Rasmus");
-            var rating2 = new Rating(5, "Kim");
-            var rating3 = new Rating(9, "Poul");
+            var rating11 = new Rating(2, "Rasmus");
+
+            var rating21 = new Rating(2, "Rasmus");
+            var rating22 = new Rating(5, "Kim");
+
+            var rating31 = new Rating(2, "Rasmus");
+            var rating32 = new Rating(5, "Kim");
+            var rating33 = new Rating(9, "Poul");
 
             var weightedTag1 = new WeightedTag("SOLID", 10);
             var weightedTag2 = new WeightedTag("RAD", 50);
@@ -52,14 +57,14 @@
             var author2 = new Author("Alex", "Su");
             var author3 = new Author("Thor", "Lind");
 
-            string content1 = "null";
-            string content2 = "null";
-            string content3 = "null";
+            string content1 = "Content 1";
+            string content2 = "Content 2";
+            string content3 = "Content 3";
 
             var material1 = new Material(
             
                 new List<WeightedTag> { weightedTag1 },
-                new List<Rating> { rating1 },
+                new List<Rating> { rating11 },
                 new List<Level> { level1 },
                 new List<ProgrammingLanguage> { programmingLanguage1 },
                 new List<Media> { media1 },
@@ -74,14 +79,14 @@
 
             var material2 = new Material(
                 new List<WeightedTag> { weightedTag3, weightedTag1 },
-                new List<Rating> { rating3, rating1 },
+                new List<Rating> { rating21, rating22 },
                 new List<Level> { level3, level1 },
-                new List<ProgrammingLanguage> { programmingLanguage3, programmingLanguage1 },
-                new List<Media> { media3, media1 },
+                new List<ProgrammingLanguage> { programmingLanguage3 },
+                new List<Media> { media2 },
                 language3,
                 summary2,
                 url2,
-                content3,
+                content2,
                 "Material 2",
                 new List<Author> { author3, author1 },
                 System.DateTime.UtcNow.AddYears(-11).AddDays(10)
@@ -89,10 +94,10 @@
          
             var material3 = new Material(
                 new List<WeightedTag> { weightedTag3, weightedTag2, weightedTag1 },
-                new List<Rating> { rating3, rating2, rating1 },
+                new List<Rating> { rating31, rating32, rating33 },
                 new List<Level> { level3, level2, level1 },
-                new List<ProgrammingLanguage> { programmingLanguage3, programmingLanguage2, programmingLanguage1 },
-                new List<Media> { media3, media2, media1 },
+                new List<ProgrammingLanguage> { programmingLanguage2 },
+                new List<Media> { media3 },
                 language3,
                 summary3,
                 url3,
@@ -102,7 +107,7 @@
                 System.DateTime.UtcNow
             );
 
-            context.AddRange(language1, language2, language3, level1, level2, level3, media1, media2, media3, programmingLanguage1, programmingLanguage2, programmingLanguage3, rating1, rating2, rating3, tag1, tag2, tag3, material1,material2, material3);
+            context.AddRange(language1, language2, language3, level1, level2, level3, media1, media2, media3, programmingLanguage1, programmingLanguage2, programmingLanguage3, tag1, tag2, tag3, material1,material2, material3);
 
             context.SaveChanges();
 

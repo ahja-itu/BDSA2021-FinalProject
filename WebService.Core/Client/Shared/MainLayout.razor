@@ -1,11 +1,13 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page" style="background:#353535; height:100vh;">
+<div class="page" style="background:#353535; height:100%; min-height: 100vh;">
     <main>
         <div class="top-row px-4 auth" style="background: #353535;border: none !important;">
             <LoginDisplay/>
         </div>
-
+        <div>
+            <h1 style="text-align: center; color:#ffffff">Bridge The Gap!</h1>
+        </div>
         <article class="content px-4 justify-content-center" style="margin:auto;width:80%;">
             @Body
         </article>

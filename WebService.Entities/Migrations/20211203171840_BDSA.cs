@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebService.Entities.Migrations
 {
-    public partial class init : Migration
+    public partial class BDSA : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,8 +42,11 @@ namespace WebService.Entities.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    LanguageId = table.Column<int>(type: "integer", nullable: true),
-                    Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    LanguageId = table.Column<int>(type: "integer", nullable: false),
+                    Summary = table.Column<string>(type: "character varying(400)", maxLength: 400, nullable: false),
+                    URL = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -53,7 +56,8 @@ namespace WebService.Entities.Migrations
                         name: "FK_Materials_Languages_LanguageId",
                         column: x => x.LanguageId,
                         principalTable: "Languages",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

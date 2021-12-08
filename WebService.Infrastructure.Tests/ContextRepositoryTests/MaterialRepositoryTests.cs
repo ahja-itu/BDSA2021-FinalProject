@@ -60,19 +60,19 @@
             var summary = "i am a material";
             var url = "url.com";
 
-            var material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
+            var material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
 
             _CreateMaterialDTO = material;
 
             // material testing
             title = "Material 1";
-            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTOConflict = material;
             title = "Title";
 
             // tags testing
             tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("Tag1", 10) };
-            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTOTagNotExisting = material;
 
             tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("SOLID", 101) };
@@ -91,7 +91,7 @@
 
             // medias testing
             medias = new List<CreateMediaDTO> { new CreateMediaDTO("Book"), new CreateMediaDTO("book") };
-            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTODuplicateMedia = material;
 
             medias = new List<CreateMediaDTO> { new CreateMediaDTO("Tv Show") };
@@ -106,7 +106,7 @@
 
             // ratings testing
             ratings = new List<CreateRatingDTO> { new CreateRatingDTO(12, "Me") };
-            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTORatingWrongWeight = material;
 
             ratings = new List<CreateRatingDTO> { new CreateRatingDTO(8, "MyssenbergMyssenbergMyssenbergMyssenbergMyssenbergMyssenberg") };
@@ -139,13 +139,13 @@
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTOLevelNotExisting = material;
 
-            levels = new List<CreateLevelDTO> { new CreateLevelDTO("BachelorBachelorBachelorBachelorBachelorBachelorBachelor") };
+            levels = new List<CreateLevelDTO> { new CreateLevelDTO("BachelorBachelorBachelorBachelorBachelorBachelorBachelorBachelorBachelorBachelorBachelor") };
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTOTooLongLevelName = material;
 
             levels = new List<CreateLevelDTO> { new CreateLevelDTO("Bachelor"), new CreateLevelDTO("Bachelor") };
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
-            _CreateMaterialDTOTooLongLevelName = material;
+            _CreateMaterialDTODuplicateLevel = material;
 
             levels = new List<CreateLevelDTO> { new CreateLevelDTO("PHD") }; // levels reset
 
@@ -178,20 +178,41 @@
             // update testing
 
             title = "New title";
-            var updateMaterial = new MaterialDTO(1,tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
-            _UpdateMaterialDTO = updateMaterial;
-            title = "Title";
+            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10), new CreateWeightedTagDTO("RAD",50)};
+            ratings = new List<CreateRatingDTO> { new CreateRatingDTO(5, "Me"), new CreateRatingDTO(10, "Alex") };
+            levels = new List<CreateLevelDTO> { new CreateLevelDTO("PHD"), new CreateLevelDTO("Bachelor") };
+            programmingLanguages = new List<CreateProgrammingLanguageDTO> { new CreateProgrammingLanguageDTO("C#"), new CreateProgrammingLanguageDTO("Java") };
+            medias = new List<CreateMediaDTO> { new CreateMediaDTO("Video") };
+            language = new CreateLanguageDTO("English");
+            content = "Banana Phone!";
+            summary = "i am materialized";
+            url = "anotherUrl.com";
 
-            updateMaterial = new MaterialDTO(10, tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
+            var updateMaterial = new MaterialDTO(1, tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _UpdateMaterialDTO = updateMaterial;
+            
+            title = "Title";
+            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10) };
+            ratings = new List<CreateRatingDTO> { new CreateRatingDTO(5, "Me") };
+            levels = new List<CreateLevelDTO> { new CreateLevelDTO("PHD") };
+            programmingLanguages = new List<CreateProgrammingLanguageDTO> { new CreateProgrammingLanguageDTO("C#") };
+            medias = new List<CreateMediaDTO> { new CreateMediaDTO("Book") };
+            language = new CreateLanguageDTO("Danish");
+            authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Peter", "Petersen") };
+            content = "null";
+            summary = "i am a material";
+            url = "url.com";
+
+            updateMaterial = new MaterialDTO(10, tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _UpdateMaterialDTONotFound = updateMaterial;
 
             title = "Material 2";
-            updateMaterial = new MaterialDTO(1, tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
+            updateMaterial = new MaterialDTO(1, tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _UpdateMaterialDTOConflict = updateMaterial;
             title = "Title";
 
-            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("Tag1", 10), new CreateWeightedTagDTO("RasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmus",1000) };
-            updateMaterial = new MaterialDTO(10, tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
+            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("Tag1", 10), new CreateWeightedTagDTO("RasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmus", 1000) };
+            updateMaterial = new MaterialDTO(10, tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _UpdateMaterialDTOBadRequest = updateMaterial;
             tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10) };
 
@@ -206,11 +227,11 @@
 
             var response = await _v.MaterialRepository.CreateAsync(material);
 
-            var actual = (response.Item1, response.Item2.Id); 
+            var actual = (response.Item1, response.Item2.Id);
 
             var expected = (Status.Created, 4);
 
-            Assert.Equal(expected,actual);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -448,7 +469,7 @@
         }
 
         [Fact]
-        public async Task CreateAsync_material_returns_bad_request_on_duplicate_level()
+        public async Task CreateAsync_material_returns_created_on_duplicate_level()
         {
             var material = _CreateMaterialDTODuplicateLevel;
 
@@ -456,7 +477,7 @@
 
             var actual = (response.Item1, response.Item2.Id);
 
-            var expected = (Status.BadRequest, -1);
+            var expected = (Status.Created, 4);
 
             Assert.Equal(expected, actual);
         }
@@ -517,9 +538,9 @@
             var actuals = response.Item2.Ratings;
 
             var expectedStatus = Status.Found;
-            var expected1 = (9, "Poul");
+            var expected1 = (2, "Rasmus");
             var expected2 = (5, "Kim");
-            var expected3 = (2, "Rasmus");
+            var expected3 = (9, "Poul");
 
             Assert.Equal(expectedStatus, actualStatus);
             Assert.Collection(actuals,
@@ -557,15 +578,11 @@
             var actuals = response.Item2.ProgrammingLanguages;
 
             var expectedStatus = Status.Found;
-            var expected1 = "F#";
-            var expected2 = "C++";
-            var expected3 = "C#";
+            var expected1 = "C++";
 
             Assert.Equal(expectedStatus, actualStatus);
             Assert.Collection(actuals,
-                actual => Assert.Equal(expected1, actual.Name),
-                actual => Assert.Equal(expected2, actual.Name),
-                actual => Assert.Equal(expected3, actual.Name));
+                actual => Assert.Equal(expected1, actual.Name));
         }
 
         [Fact]
@@ -577,7 +594,7 @@
             var actuals = response.Item2.Medias;
 
             var expectedStatus = Status.Found;
-            var expected1 = "Book";
+            var expected1 = "Video";
 
             Assert.Equal(expectedStatus, actualStatus);
             Assert.Collection(actuals,
@@ -607,7 +624,7 @@
         [Fact]
         public async Task ReadAsync_material_by_id_returns_material_check_language_and_status_found()
         {
-            var response = await _v.MaterialRepository.ReadAsync(1);
+            var response = await _v.MaterialRepository.ReadAsync(3);
 
             var actual = (response.Item1, response.Item2.Language.Name);
 
@@ -619,7 +636,7 @@
         [Fact]
         public async Task ReadAsync_material_by_id_returns_material_check_summary_and_status_found()
         {
-            var response = await _v.MaterialRepository.ReadAsync(1);
+            var response = await _v.MaterialRepository.ReadAsync(3);
 
             var actual = (response.Item1, response.Item2.Summary);
 
@@ -631,7 +648,7 @@
         [Fact]
         public async Task ReadAsync_material_by_id_returns_material_check_url_and_status_found()
         {
-            var response = await _v.MaterialRepository.ReadAsync(1);
+            var response = await _v.MaterialRepository.ReadAsync(3);
 
             var actual = (response.Item1, response.Item2.URL);
 
@@ -643,11 +660,11 @@
         [Fact]
         public async Task ReadAsync_material_by_id_returns_material_check_content_and_status_found()
         {
-            var response = await _v.MaterialRepository.ReadAsync(1);
+            var response = await _v.MaterialRepository.ReadAsync(3);
 
             var actual = (response.Item1, response.Item2.Content);
 
-            var expected = (Status.Found, "null");
+            var expected = (Status.Found, "Content 3");
 
             Assert.Equal(expected, actual);
         }
@@ -683,6 +700,93 @@
                 actual => Assert.Equal(expected2, actual),
                 actual => Assert.Equal(expected3, actual));
         }
+
+        [Fact]
+        public async Task ReadAsync_given_search_form_input_with_rating_above_avergage_of_10_should_return_material()
+        {
+            SearchForm input = new SearchForm("",
+                new TagDTO[0],
+                new LevelDTO[0],
+                new ProgrammingLanguageDTO[0],
+                new LanguageDTO[0],
+                new MediaDTO[0],
+                10);
+
+            (var status, var response) = await _v.MaterialRepository.ReadAsync(input);
+
+            Assert.Equal(Status.NotFound, status);
+        }
+
+        [Fact]
+        public async Task ReadAsync_given_search_material_form_input_with_rating_above_average_of_0_should_return_all_materials()
+        {
+            SearchForm input = new SearchForm("",
+                new TagDTO[0],
+                new LevelDTO[0],
+                new ProgrammingLanguageDTO[0],
+                new LanguageDTO[0],
+                new MediaDTO[0],
+                0);
+
+            (var status, var response) = await _v.MaterialRepository.ReadAsync(input);
+            var actualCount = _v.Context.Materials.Select(m => m).Count();
+
+            Assert.Equal(Status.Found, status);
+            Assert.Equal(actualCount, response.Count());
+        }
+
+        [Fact]
+        public async Task ReadAsync_given_search_material_form_input_with_rating_above_average_of_3_should_return_two_materials()
+        {
+            SearchForm input = new SearchForm("",
+                new TagDTO[0],
+                new LevelDTO[0],
+                new ProgrammingLanguageDTO[0],
+                new LanguageDTO[0],
+                new MediaDTO[0],
+                3);
+
+
+            (var status, var response) = await _v.MaterialRepository.ReadAsync(input);
+
+            Assert.Equal(Status.Found, status);
+            Assert.Equal(2, response.Count());
+        }
+
+        [Fact]
+        public async Task ReadAsync_given_programming_language_filter_c_sharp_should_only_return_materials_with_csharp()
+        {
+            SearchForm input = new SearchForm("",
+                Array.Empty<TagDTO>(),
+                Array.Empty<LevelDTO>(),
+                new ProgrammingLanguageDTO[] { new ProgrammingLanguageDTO(1, "F#") },
+                Array.Empty<LanguageDTO>(),
+                Array.Empty<MediaDTO>(),
+                1);
+
+            (var status, var response) = await _v.MaterialRepository.ReadAsync(input);
+
+            Assert.Equal(Status.Found, status);
+            Assert.Equal(1, response.Count);
+        }
+
+        [Fact]
+        public async Task ReadAsync_given_programming_language_filter_than_doesnt_exist_return_no_materials()
+        {
+            SearchForm input = new SearchForm("",
+                new TagDTO[0],
+                new LevelDTO[0],
+                new ProgrammingLanguageDTO[] { new ProgrammingLanguageDTO(1, "Lisp") },
+                new LanguageDTO[0],
+                new MediaDTO[0],
+                1);
+
+            (var status, var response) = await _v.MaterialRepository.ReadAsync(input);
+
+            Assert.Equal(Status.NotFound, status);
+            Assert.Equal(0, response.Count);
+        }
+
         #endregion
 
         #region Delete
@@ -736,7 +840,7 @@
         public async Task UpdateAsync_material_by_id_returns_new_title()
         {
             var updateMaterialDTO = _UpdateMaterialDTO;
-            
+
             await _v.MaterialRepository.UpdateAsync(updateMaterialDTO);
 
             var actual = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.Title;
@@ -747,10 +851,149 @@
         }
 
         [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_returns_new_tags()
+        {
+            var updateMaterialDTO = _UpdateMaterialDTO;
+
+            await _v.MaterialRepository.UpdateAsync(updateMaterialDTO);
+
+            var actuals = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.Tags;
+
+            var expected1 = ("API", 10);
+            var expected2 = ("RAD", 50);
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, (actual.Name, actual.Weight)),
+                actual => Assert.Equal(expected2, (actual.Name, actual.Weight)));
+        }
+
+        [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_returns_new_ratings()
+        {
+            var updateMaterialDTO = _UpdateMaterialDTO;
+
+            await _v.MaterialRepository.UpdateAsync(updateMaterialDTO);
+
+            var actuals = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.Ratings;
+
+            var expected1 = (5, "Me");
+            var expected2 = (10, "Alex");
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, (actual.Value, actual.Reviewer)),
+                actual => Assert.Equal(expected2, (actual.Value, actual.Reviewer)));
+        }
+
+        [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_returns_new_levels()
+        {
+            var updateMaterialDTO = _UpdateMaterialDTO;
+
+            await _v.MaterialRepository.UpdateAsync(updateMaterialDTO);
+
+            var actuals = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.Levels;
+
+            var expected1 = "PHD";
+            var expected2 = "Bachelor";
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual.Name),
+                actual => Assert.Equal(expected2, actual.Name));
+        }
+
+        [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_returns_new_programming_languages()
+        {
+            var updateMaterialDTO = _UpdateMaterialDTO;
+
+            await _v.MaterialRepository.UpdateAsync(updateMaterialDTO);
+
+            var actuals = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.ProgrammingLanguages;
+
+            var expected1 = "C#";
+            var expected2 = "Java";
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual.Name),
+                actual => Assert.Equal(expected2, actual.Name));
+        }
+
+        [Fact]
+        public async Task ReadAsync_material_by_id_returns_material_returns_new_medias()
+        {
+            var updateMaterialDTO = _UpdateMaterialDTO;
+
+            await _v.MaterialRepository.UpdateAsync(updateMaterialDTO);
+
+            var actuals = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.Medias;
+
+            var expected1 = "Video";
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual.Name));
+        }
+
+        [Fact]
+        public async Task UpdateAsync_material_by_id_returns_new_language()
+        {
+            var updateMaterialDTO = _UpdateMaterialDTO;
+
+            await _v.MaterialRepository.UpdateAsync(updateMaterialDTO);
+
+            var actual = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.Language.Name;
+
+            var expected = "English";
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_material_by_id_returns_new_content()
+        {
+            var updateMaterialDTO = _UpdateMaterialDTO;
+
+            await _v.MaterialRepository.UpdateAsync(updateMaterialDTO);
+
+            var actual = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.Content;
+
+            var expected = "Banana Phone!";
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_material_by_id_returns_new_summary()
+        {
+            var updateMaterialDTO = _UpdateMaterialDTO;
+
+            await _v.MaterialRepository.UpdateAsync(updateMaterialDTO);
+
+            var actual = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.Summary;
+
+            var expected = "i am materialized";
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_material_by_id_returns_new_url()
+        {
+            var updateMaterialDTO = _UpdateMaterialDTO;
+
+            await _v.MaterialRepository.UpdateAsync(updateMaterialDTO);
+
+            var actual = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.URL;
+
+            var expected = "anotherUrl.com";
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
         public async Task UpdateAsync_material_by_id_returns_status_notFound()
         {
             var updateMaterialDTO = _UpdateMaterialDTONotFound;
-    
+
             var actual = await _v.MaterialRepository.UpdateAsync(updateMaterialDTO);
 
             var expected = Status.NotFound;
@@ -781,6 +1024,297 @@
 
             Assert.Equal(expected, actual);
         }
+
+        #endregion
+
+        #region Helpers
+
+        [Fact]
+        public async Task MayContainProgrammingLanguage_given_materials_with_c_sharp_pl_should_find_materials()
+        {
+            SearchForm input = new SearchForm("",
+                Array.Empty<TagDTO>(),
+                Array.Empty<LevelDTO>(),
+                new ProgrammingLanguageDTO[] { new ProgrammingLanguageDTO(1, "C#") },
+                Array.Empty<LanguageDTO>(),
+                Array.Empty<MediaDTO>(),
+                1);
+
+            var func = MaterialRepository.MayContainProgrammingLanguage(input);
+            var material = await _v.Context.Materials.FirstAsync();
+
+            var actual = func.Invoke(material);
+
+            Assert.True(actual);
+        }
+
+        [Fact]
+        public async Task MayContainProgrammingLanguage_given_materials_with_no_pls_should_find_materials()
+        {
+            SearchForm input = new SearchForm("",
+                Array.Empty<TagDTO>(),
+                Array.Empty<LevelDTO>(),
+                Array.Empty<ProgrammingLanguageDTO>(),
+                Array.Empty<LanguageDTO>(),
+                Array.Empty<MediaDTO>(),
+                1);
+
+            var func = MaterialRepository.MayContainProgrammingLanguage(input);
+            var material = await _v.Context.Materials.FirstAsync();
+
+            var actual = func.Invoke(material);
+
+            Assert.True(actual);
+        }
+
+
+        [Fact]
+        public async Task MayContainProgrammingLanguage_given_search_input_with_programming_language_clojure_should_not_find_materials()
+        {
+            SearchForm input = new SearchForm("",
+                Array.Empty<TagDTO>(),
+                Array.Empty<LevelDTO>(),
+                new ProgrammingLanguageDTO[] { new ProgrammingLanguageDTO(1, "Clojure") },
+                Array.Empty<LanguageDTO>(),
+                Array.Empty<MediaDTO>(),
+                1);
+
+            var func = MaterialRepository.MayContainProgrammingLanguage(input);
+
+            await _v.Context.Materials.ForEachAsync(material => Assert.False(func.Invoke(material)));
+        }
+
+        [Fact]
+        public async Task MayContainLanguage_given_material_with_language_danish_should_find_material()
+        {
+            SearchForm input = new SearchForm("",
+                Array.Empty<TagDTO>(),
+                Array.Empty<LevelDTO>(),
+                Array.Empty<ProgrammingLanguageDTO>(),
+                new LanguageDTO[] { new LanguageDTO(1, "Danish") },
+                Array.Empty<MediaDTO>(),
+                1);
+
+            var func = MaterialRepository.MayContainLanguage(input);
+            var material = await _v.Context.Materials.FirstAsync();
+
+            var actual = func.Invoke(material);
+
+            Assert.True(actual);
+        }
+
+        [Fact]
+        public async Task MayContainLanguage_given_material_with_no_language_given_should_find_materials()
+        {
+            SearchForm input = new SearchForm("",
+                Array.Empty<TagDTO>(),
+                Array.Empty<LevelDTO>(),
+                Array.Empty<ProgrammingLanguageDTO>(),
+                Array.Empty<LanguageDTO>(),
+                Array.Empty<MediaDTO>(),
+                1);
+
+            var func = MaterialRepository.MayContainLanguage(input);
+            var material = await _v.Context.Materials.FirstAsync();
+
+            var actual = func.Invoke(material);
+
+            Assert.True(actual);
+        }
+
+        [Fact]
+        public async Task MayContainLanguage_given_material_with_language_volapyk_should_not_find_material()
+        {
+            SearchForm input = new SearchForm("",
+                Array.Empty<TagDTO>(),
+                Array.Empty<LevelDTO>(),
+                Array.Empty<ProgrammingLanguageDTO>(),
+                new LanguageDTO[] { new LanguageDTO(1, "Volapyk") },
+                Array.Empty<MediaDTO>(),
+                1);
+
+            var func = MaterialRepository.MayContainLanguage(input);
+            var material = await _v.Context.Materials.FirstAsync();
+
+            var actual = func.Invoke(material);
+
+            Assert.False(actual);
+        }
+
+        [Fact]
+        public async Task MayContainMedia_search_with_no_given_media_should_find_material()
+        {
+            SearchForm input = new SearchForm("",
+                Array.Empty<TagDTO>(),
+                Array.Empty<LevelDTO>(),
+                Array.Empty<ProgrammingLanguageDTO>(),
+                Array.Empty<LanguageDTO>(),
+                Array.Empty<MediaDTO>(),
+                1);
+
+            var func = MaterialRepository.MayContainMedia(input);
+            var material = await _v.Context.Materials.ToListAsync();
+
+            var found = material.Where(func.Invoke).Count();
+
+            Assert.Equal(3, found);
+        }
+
+        [Fact]
+        public async Task MayContainMedia_search_with_media_book_should_return_1_material()
+        {
+            SearchForm input = new SearchForm("",
+                Array.Empty<TagDTO>(),
+                Array.Empty<LevelDTO>(),
+                Array.Empty<ProgrammingLanguageDTO>(),
+                Array.Empty<LanguageDTO>(),
+                new MediaDTO[] { new MediaDTO(1, "Book")},
+                1);
+
+            var func = MaterialRepository.MayContainMedia(input);
+            var materials = await _v.Context.Materials.ToListAsync();
+
+            var found = materials.Where(material => func.Invoke(material)).Count();
+
+            Assert.Equal(1, found);
+        }
+
+        [Fact]
+        public async Task MayContainMedia_search_with_media_mysterious_format_should_return_no_materials()
+        {
+            SearchForm input = new SearchForm("",
+                Array.Empty<TagDTO>(),
+                Array.Empty<LevelDTO>(),
+                Array.Empty<ProgrammingLanguageDTO>(),
+                Array.Empty<LanguageDTO>(),
+                new MediaDTO[] { new MediaDTO(1, "Mysterious Format") },
+                1);
+
+            var func = MaterialRepository.MayContainMedia(input);
+            var materials = await _v.Context.Materials.ToListAsync();
+
+            var found = materials.Where(material => func.Invoke(material)).Count();
+
+            Assert.Equal(0, found);
+        }
+
+        [Fact]
+        public async Task MayContainTag_search_with_no_tags_should_return_all_materials()
+        {
+            SearchForm input = new SearchForm("",
+                Array.Empty<TagDTO>(),
+                Array.Empty<LevelDTO>(),
+                Array.Empty<ProgrammingLanguageDTO>(),
+                Array.Empty<LanguageDTO>(),
+                Array.Empty<MediaDTO>(),
+                1);
+
+            var func = MaterialRepository.MayContainTag(input);
+            var materials = await _v.Context.Materials.ToListAsync();
+
+            var found = materials.Where(material => func.Invoke(material)).Count();
+
+            Assert.Equal(3, found);
+        }
+
+        [Fact]
+        public async Task MayContainTag_search_with_tag_solid_should_return_1_element()
+        {
+            SearchForm input = new SearchForm("",
+                new TagDTO[] { new TagDTO(1, "SOLID")},
+                Array.Empty<LevelDTO>(),
+                Array.Empty<ProgrammingLanguageDTO>(),
+                Array.Empty<LanguageDTO>(),
+                Array.Empty<MediaDTO>(),
+                1);
+
+            var func = MaterialRepository.MayContainTag(input);
+            var materials = await _v.Context.Materials.ToListAsync();
+
+            var found = materials.Where(material => func.Invoke(material)).Count();
+
+            Assert.Equal(1, found);
+        }
+
+        [Fact]
+        public async Task MayContainTag_search_with_tag_mystery_tag_should_return_no_element()
+        {
+            SearchForm input = new SearchForm("",
+                new TagDTO[] { new TagDTO(1, "MYSTERIOUS TAG") },
+                Array.Empty<LevelDTO>(),
+                Array.Empty<ProgrammingLanguageDTO>(),
+                Array.Empty<LanguageDTO>(),
+                Array.Empty<MediaDTO>(),
+                1);
+
+            var func = MaterialRepository.MayContainTag(input);
+            var materials = await _v.Context.Materials.ToListAsync();
+
+            var found = materials.Where(material => func.Invoke(material)).Count();
+
+            Assert.Equal(0, found);
+        }
+
+        [Fact]
+        public async Task MayContainLevel_search_with_no_level_returns_all_matrials()
+        {
+            SearchForm input = new SearchForm("",
+                Array.Empty<TagDTO>(),
+                Array.Empty<LevelDTO>(),
+                Array.Empty<ProgrammingLanguageDTO>(),
+                Array.Empty<LanguageDTO>(),
+                Array.Empty<MediaDTO>(),
+                1);
+
+            var func = MaterialRepository.MayContainLevel(input);
+            var materials = await _v.Context.Materials.ToListAsync();
+
+            var found = materials.Where(material => func.Invoke(material)).Count();
+
+            Assert.Equal(3, found);
+        }
+
+        [Fact]
+        public async Task MayContainLevel_search_with_level_phd_returns_1_matrials()
+        {
+            SearchForm input = new SearchForm("",
+                Array.Empty<TagDTO>(),
+                new LevelDTO[] { new LevelDTO(1, "PHD") },
+                Array.Empty<ProgrammingLanguageDTO>(),
+                Array.Empty<LanguageDTO>(),
+                Array.Empty<MediaDTO>(),
+                1);
+
+            var func = MaterialRepository.MayContainLevel(input);
+            var materials = await _v.Context.Materials.ToListAsync();
+
+            var found = materials.Where(func.Invoke).Count();
+
+            Assert.Equal(1, found);
+        }
+
+        [Fact]
+        public async Task MayContainLevel_search_with_level_mysterious_degree_should_return_no_materials()
+        {
+            SearchForm input = new SearchForm("",
+                Array.Empty<TagDTO>(),
+                new LevelDTO[] { new LevelDTO(1, "mysterious degree") },
+                Array.Empty<ProgrammingLanguageDTO>(),
+                Array.Empty<LanguageDTO>(),
+                Array.Empty<MediaDTO>(),
+                1);
+
+
+            var repo = new MaterialRepository(_v.Context);
+
+            var func = MaterialRepository.MayContainLevel(input);
+            var materials = await _v.Context.Materials.ToListAsync();
+
+            var found = materials.Where(material => func.Invoke(material)).Count();
+
+            Assert.Equal(0, found);
+        }
+
         #endregion
     }
 }

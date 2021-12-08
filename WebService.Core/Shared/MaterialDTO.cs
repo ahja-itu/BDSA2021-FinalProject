@@ -42,5 +42,7 @@ namespace WebService.Core.Shared
         public string Title { get; init; }
         public ICollection<CreateAuthorDTO> Authors { get; init; }
         public DateTime TimeStamp { get; init; }
+        
+        
     }
 }

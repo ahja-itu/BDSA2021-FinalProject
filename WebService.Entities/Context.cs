@@ -249,7 +249,6 @@ public class Context : DbContext, IContext
         context.AddRange(levels);
         context.AddRange(materials);
 
-
         context.SaveChanges();
     }
 }

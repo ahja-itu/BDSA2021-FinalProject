@@ -7,5 +7,5 @@ global using WebService.Entities;
 global using Xunit;
 global using WebService.Core.Server.Controllers;
 global using System.Threading.Tasks;
-global using Moq;
 global using Microsoft.AspNetCore.Mvc;
+global using System.Net;
