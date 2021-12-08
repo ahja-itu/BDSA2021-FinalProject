@@ -1,6 +1,4 @@
-﻿using WebService.Entities;
-
-namespace WebService.Core.Shared
+﻿namespace WebService.Core.Shared
 {
     public record MaterialDTO : CreateMaterialDTO
     {

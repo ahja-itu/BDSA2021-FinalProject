@@ -1,7 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-
-namespace WebService.Infrastructure
+﻿namespace WebService.Infrastructure
 {
     public class MaterialRepository : IMaterialRepository
     {
