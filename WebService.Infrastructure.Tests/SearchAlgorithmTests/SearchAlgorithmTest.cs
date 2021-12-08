@@ -1,4 +1,5 @@
 ﻿using WebService.Infrastructure.Tests.SearchAlgorithmTests;
+using ExtensionMethods;
 
 namespace WebService.Infrastructure.Tests
 {
@@ -108,7 +109,8 @@ namespace WebService.Infrastructure.Tests
             List<MaterialDTO> expected = new List<MaterialDTO>();
             for (int i = _v.Tag1Materials.Count; i > 0; i--)
             {
-                expected.Add(MaterialRepository.ConvertMaterialToMaterialDTOHashSet(_v.Tag1Materials[i - 1]));
+                expected.Add(_v.Tag1Materials[i - 1].ConvertToMaterialDTO());
+                
             }
 
             //Act
