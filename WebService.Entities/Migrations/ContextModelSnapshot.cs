@@ -129,6 +129,9 @@ namespace WebService.Entities.Migrations
                         .HasMaxLength(400)
                         .HasColumnType("character varying(400)");
 
+                    b.Property<int?>("TagId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("timestamp without time zone");
 
@@ -144,6 +147,8 @@ namespace WebService.Entities.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LanguageId");
+
+                    b.HasIndex("TagId");
 
                     b.HasIndex("Title")
                         .IsUnique();
@@ -262,10 +267,14 @@ namespace WebService.Entities.Migrations
             modelBuilder.Entity("WebService.Entities.Material", b =>
                 {
                     b.HasOne("WebService.Entities.Language", "Language")
-                        .WithMany()
+                        .WithMany("Materials")
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("WebService.Entities.Tag", null)
+                        .WithMany("Materials")
+                        .HasForeignKey("TagId");
 
                     b.OwnsMany("WebService.Entities.Author", "Authors", b1 =>
                         {
@@ -347,6 +356,16 @@ namespace WebService.Entities.Migrations
                     b.Navigation("Ratings");
 
                     b.Navigation("WeightedTags");
+                });
+
+            modelBuilder.Entity("WebService.Entities.Language", b =>
+                {
+                    b.Navigation("Materials");
+                });
+
+            modelBuilder.Entity("WebService.Entities.Tag", b =>
+                {
+                    b.Navigation("Materials");
                 });
 #pragma warning restore 612, 618
         }

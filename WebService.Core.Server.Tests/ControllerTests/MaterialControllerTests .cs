@@ -15,7 +15,7 @@
         [Fact]
         public async Task Post_material_returns_status_created()
         {
-            var material = new CreateMaterialDTO(new CreateWeightedTagDTO[] {new CreateWeightedTagDTO("API",10)},new CreateRatingDTO[] { }, new CreateLevelDTO[] {new CreateLevelDTO("PHD")},new CreateProgrammingLanguageDTO[] {new CreateProgrammingLanguageDTO("C#")},new CreateMediaDTO[] {new CreateMediaDTO("Book")},new CreateLanguageDTO("Danish"),"Summary","Url","Content","Title", new CreateAuthorDTO[] {},System.DateTime.UtcNow);
+            var material = new CreateMaterialDTO(new CreateWeightedTagDTO[] { new CreateWeightedTagDTO("API", 10) }, new CreateRatingDTO[] { }, new CreateLevelDTO[] { new CreateLevelDTO("PHD") }, new CreateProgrammingLanguageDTO[] { new CreateProgrammingLanguageDTO("C#") }, new CreateMediaDTO[] { new CreateMediaDTO("Book") }, new CreateLanguageDTO("Danish"), "Summary", "Url", "Content", "Title", new CreateAuthorDTO[] { }, System.DateTime.UtcNow);
 
             var actual = await _materialController.Post(material) as CreatedResult;
 
@@ -67,6 +67,26 @@
         {
             var response = await _materialController.Get(4);
             var actual = response.Result as NotFoundObjectResult;
+
+            Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
+        }
+
+        [Fact]
+        public async Task Get_material_returns_from_searchForm_status_ok()
+        {
+            var searchForm = new SearchForm("Hello", new TagDTO[] { new TagDTO(1, "SOLID") }, new LevelDTO[] { }, new ProgrammingLanguageDTO[] { }, new LanguageDTO[] { }, new MediaDTO[] { }, 5);
+            var response = await _materialController.Post(searchForm);
+            var actual = response.Result as OkObjectResult;
+
+            Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
+        }
+
+        [Fact]
+        public async Task Get_material_returns_from_searchForm_status_notFound()
+        {
+            var searchForm = new SearchForm("Hello", new TagDTO[] { new TagDTO(4, "DOTNET") }, new LevelDTO[] { }, new ProgrammingLanguageDTO[] { }, new LanguageDTO[] { }, new MediaDTO[] { }, 10);
+            var response = await _materialController.Post(searchForm);
+            var actual = response.Result as NotFoundResult;
 
             Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
         }

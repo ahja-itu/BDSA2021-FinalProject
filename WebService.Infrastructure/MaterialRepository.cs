@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace WebService.Infrastructure
+﻿namespace WebService.Infrastructure
 {
     public class MaterialRepository : IMaterialRepository
     {
@@ -82,12 +80,11 @@ namespace WebService.Infrastructure
         private async Task<Material> ConvertCreateMaterialDTOToMaterial(CreateMaterialDTO createMaterialDTO)
         {
             return new Material(
-
                 createMaterialDTO.Tags.Select(e => new WeightedTag(e.Name, e.Weight)).ToList(),
                 createMaterialDTO.Ratings.Select(e => new Rating(e.Value, e.Reviewer)).ToList(),
-                ReadLevels(createMaterialDTO.Levels).ToList(),
-                ReadProgrammingLanguages(createMaterialDTO.ProgrammingLanguages).ToList(),
-                ReadMedias(createMaterialDTO.Medias).ToList(),
+                await ReadLevels(createMaterialDTO.Levels),
+                await ReadProgrammingLanguages(createMaterialDTO.ProgrammingLanguages),
+                await ReadMedias(createMaterialDTO.Medias),
                 await _context.Languages.Where(e => e.Name == createMaterialDTO.Language.Name).SingleAsync(),
                 createMaterialDTO.Summary,
                 createMaterialDTO.URL,
@@ -200,23 +197,32 @@ namespace WebService.Infrastructure
 
             if (entity == null) return Status.NotFound;
 
-            var newEntity = await ConvertCreateMaterialDTOToMaterial(materialDTO);
+            try
+            {
+                var newEntity = await ConvertCreateMaterialDTOToMaterial(materialDTO);
 
-            entity.Ratings = newEntity.Ratings;
-            entity.Title = newEntity.Title;
-            entity.ProgrammingLanguages = newEntity.ProgrammingLanguages;
-            entity.Levels = newEntity.Levels;
-            entity.Content = newEntity.Content;
-            entity.WeightedTags = newEntity.WeightedTags;
-            entity.Ratings = newEntity.Ratings;
-            entity.Medias = newEntity.Medias;
-            entity.TimeStamp = newEntity.TimeStamp;
-            entity.Authors = newEntity.Authors;
-            entity.Language = newEntity.Language;
+                entity.Ratings = newEntity.Ratings;
+                entity.Title = newEntity.Title;
+                entity.ProgrammingLanguages = newEntity.ProgrammingLanguages;
+                entity.Levels = newEntity.Levels;
+                entity.Content = newEntity.Content;
+                entity.WeightedTags = newEntity.WeightedTags;
+                entity.Ratings = newEntity.Ratings;
+                entity.Medias = newEntity.Medias;
+                entity.TimeStamp = newEntity.TimeStamp;
+                entity.Authors = newEntity.Authors;
+                entity.Language = newEntity.Language;
+                entity.URL = newEntity.URL;
+                entity.Summary = newEntity.Summary;
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-            return Status.Updated;
+                return Status.Updated;
+            }
+            catch
+            {
+                return Status.BadRequest;
+            }
         }
 
         private static MaterialDTO CreateEmptyMaterialDTO()
@@ -238,27 +244,28 @@ namespace WebService.Infrastructure
             return material;
         }
 
-        private IEnumerable<Media> ReadMedias(ICollection<CreateMediaDTO> mediaDTOs)
+        private async Task<ICollection<Media>> ReadMedias(ICollection<CreateMediaDTO> mediaDTOs)
         {
-            foreach (var media in mediaDTOs)
-            {
-                yield return _context.Medias.Where(e => e.Name == media.Name).First();
-            }
+            var mediaDTONames = mediaDTOs.Select(e => e.Name).ToHashSet();
+            var medias = await _context.Medias.Where(e => mediaDTONames.Contains(e.Name)).ToListAsync();
+            if (medias.Count != mediaDTOs.Count) throw new Exception("Bad request");
+            else return medias;
         }
 
-        private IEnumerable<Level> ReadLevels(ICollection<CreateLevelDTO> levelDTOs)
+        private async Task<ICollection<Level>> ReadLevels(ICollection<CreateLevelDTO> levelDTOs)
         {
-            foreach (var level in levelDTOs)
-            {
-                yield return _context.Levels.Where(e => e.Name == level.Name).First();
-            }
+            var levelDTONames = levelDTOs.Select(e => e.Name).ToHashSet();
+            var levels = await _context.Levels.Where(e => levelDTONames.Contains(e.Name)).ToListAsync();
+            if (levels.Count != levelDTOs.Count) throw new Exception("Bad request");
+            else return levels;
         }
-        private IEnumerable<ProgrammingLanguage> ReadProgrammingLanguages(ICollection<CreateProgrammingLanguageDTO> programmingLanguageDTOs)
+
+        private async Task<ICollection<ProgrammingLanguage>> ReadProgrammingLanguages(ICollection<CreateProgrammingLanguageDTO> programmingLanguageDTOs)
         {
-            foreach (var programmingLanguage in programmingLanguageDTOs)
-            {
-                yield return _context.ProgrammingLanguages.Where(e => e.Name == programmingLanguage.Name).First();
-            }
+            var ProgrammingLanguageDTONames = programmingLanguageDTOs.Select(e => e.Name).ToHashSet();
+            var programmingLanguages = await _context.ProgrammingLanguages.Where(e => ProgrammingLanguageDTONames.Contains(e.Name)).ToListAsync();
+            if (programmingLanguages.Count != programmingLanguageDTOs.Count) throw new Exception("Bad request");
+            else return programmingLanguages;
         }
 
         private async Task<bool> ValidTags(ICollection<CreateWeightedTagDTO> tags)
@@ -279,8 +286,8 @@ namespace WebService.Infrastructure
         private bool InvalidInput(CreateMaterialDTO material)
         {
             var stringList = new List<string>();
-            stringList.Append(material.Title);
-            stringList.Append(material.Language.Name);
+            stringList.Add(material.Title);
+            stringList.Add(material.Language.Name);
             stringList.AddRange(material.Medias.Select(e => e.Name).ToList());
             stringList.AddRange(material.Authors.Select(e => e.FirstName).ToList());
             stringList.AddRange(material.Authors.Select(e => e.SurName).ToList());
@@ -291,11 +298,13 @@ namespace WebService.Infrastructure
 
             foreach (var name in stringList)
             {
-                if (name.Length > 50 || name.Length > 50 || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(name))
+                if (name.Length > 50 || string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
                 {
                     return true;
                 }
             }
+
+            if (material.Summary.Length > 250 || string.IsNullOrEmpty(material.Summary) || string.IsNullOrWhiteSpace(material.Summary)) return true;
 
             foreach (var rating in material.Ratings)
             {
