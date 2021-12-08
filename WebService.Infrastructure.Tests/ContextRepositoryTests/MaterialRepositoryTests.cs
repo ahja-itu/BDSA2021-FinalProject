@@ -129,7 +129,7 @@
 
             // authors testing
             authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("RasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmusRasmus", "Kristensen") };
-            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary,url,content, title, authors, dateTime);
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTOTooLongAuthorFirstName = material;
 
             authors = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Rasmus", "KristensenKristensenKristensenKristensenKristensenKristensen") };
@@ -194,7 +194,7 @@
             // update testing
 
             title = "New title";
-            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 90), new CreateWeightedTagDTO("RAD", 50)};
+            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 90), new CreateWeightedTagDTO("RAD", 50) };
             ratings = new List<CreateRatingDTO> { new CreateRatingDTO(5, "Kim"), new CreateRatingDTO(9, "Poul") };
             levels = new List<CreateLevelDTO> { new CreateLevelDTO("PHD"), new CreateLevelDTO("Bachelor") };
             programmingLanguages = new List<CreateProgrammingLanguageDTO> { new CreateProgrammingLanguageDTO("C#"), new CreateProgrammingLanguageDTO("F#") };
@@ -206,7 +206,7 @@
 
             var updateMaterial = new MaterialDTO(1, tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _UpdateMaterialDTO = updateMaterial;
-            
+
             title = "Title";
             tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10) };
             ratings = new List<CreateRatingDTO> { new CreateRatingDTO(5, "Me") };
@@ -1487,7 +1487,7 @@
                 Array.Empty<LevelDTO>(),
                 Array.Empty<ProgrammingLanguageDTO>(),
                 Array.Empty<LanguageDTO>(),
-                new MediaDTO[] { new MediaDTO(1, "Book")},
+                new MediaDTO[] { new MediaDTO(1, "Book") },
                 1);
 
             var func = MaterialRepository.MayContainMedia(input);
@@ -1540,7 +1540,7 @@
         public async Task MayContainTag_search_with_tag_solid_should_return_1_element()
         {
             SearchForm input = new SearchForm("",
-                new TagDTO[] { new TagDTO(1, "SOLID")},
+                new TagDTO[] { new TagDTO(1, "SOLID") },
                 Array.Empty<LevelDTO>(),
                 Array.Empty<ProgrammingLanguageDTO>(),
                 Array.Empty<LanguageDTO>(),

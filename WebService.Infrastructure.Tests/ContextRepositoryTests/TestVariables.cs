@@ -51,7 +51,7 @@
             var summary1 = "I am material 1";
             var summary2 = "I am material 2";
             var summary3 = "I am material 3";
-            
+
             var url1 = "url1.com";
             var url2 = "url2.com";
             var url3 = "url3.com";
@@ -70,7 +70,7 @@
             string content3 = "Content 3";
 
             var material1 = new Material(
-            
+
                 new List<WeightedTag> { weightedTag11 },
                 new List<Rating> { rating11 },
                 new List<Level> { level1, level2 },
@@ -99,7 +99,7 @@
                 new List<Author> { author22, author12 },
                 System.DateTime.UtcNow.AddYears(-11).AddDays(10)
             );
-         
+
             var material3 = new Material(
                 new List<WeightedTag> { weightedTag3, weightedTag2, weightedTag1 },
                 new List<Rating> { rating31, rating32, rating33 },
@@ -115,7 +115,7 @@
                 System.DateTime.UtcNow
             );
 
-            context.AddRange(language1, language2, language3, level1, level2, level3, media1, media2, media3, programmingLanguage1, programmingLanguage2, programmingLanguage3, tag1, tag2, tag3, material1,material2, material3);
+            context.AddRange(language1, language2, language3, level1, level2, level3, media1, media2, media3, programmingLanguage1, programmingLanguage2, programmingLanguage3, tag1, tag2, tag3, material1, material2, material3);
 
             context.SaveChanges();
 
