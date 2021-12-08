@@ -641,21 +641,21 @@
                 actual => Assert.Equal(expected3, actual));
         }
 
-        [Fact]
-        public async Task ReadAllAsync_returns_all_material_check_tags()
-        {
-            var response = await _v.MaterialRepository.ReadAsync();
-            var actuals = response.Select(e => e.Tags.First().Name);
+        //[Fact]
+        //public async Task ReadAllAsync_returns_all_material_check_tags()
+        //{
+        //    var response = await _v.MaterialRepository.ReadAsync();
+        //    var actuals = response.Select(e => e.Tags.First().Name);
 
-            var expected1 = "SOLID";
-            var expected2 = "API";
-            var expected3 = "API";
+        //    var expected1 = "SOLID";
+        //    var expected2 = "API";
+        //    var expected3 = "API";
 
-            Assert.Collection(actuals,
-                actual => Assert.Equal(expected1, actual),
-                actual => Assert.Equal(expected2, actual),
-                actual => Assert.Equal(expected3, actual));
-        }
+        //    Assert.Collection(actuals,
+        //        actual => Assert.Equal(expected1, actual),
+        //        actual => Assert.Equal(expected2, actual),
+        //        actual => Assert.Equal(expected3, actual));
+        //}
 
         [Fact]
         public async Task ReadAsync_given_search_form_input_with_rating_above_avergage_of_10_should_return_material()
