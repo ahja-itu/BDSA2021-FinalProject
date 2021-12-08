@@ -302,7 +302,7 @@ namespace WebService.Infrastructure
                 }
             }
 
-            if(material.Summary.Length > 250 || string.IsNullOrEmpty(material.Summary) || string.IsNullOrWhiteSpace(material.Summary))
+            if (material.Summary.Length > 250 || string.IsNullOrEmpty(material.Summary) || string.IsNullOrWhiteSpace(material.Summary)) return true;
 
             foreach (var rating in material.Ratings)
             {
