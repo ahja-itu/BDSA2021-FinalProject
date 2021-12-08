@@ -236,19 +236,19 @@ namespace WebService.Infrastructure
 
         private async Task<ICollection<Media>> ReadMedias(ICollection<CreateMediaDTO> mediaDTOs)
         {
-            var mediaDTONames = mediaDTOs.Select(e => e.Name).ToList();
+            var mediaDTONames = mediaDTOs.Select(e => e.Name).ToHashSet();
             return await _context.Medias.Where(e => mediaDTONames.Contains(e.Name)).ToListAsync();
         }
 
         private async Task<ICollection<Level>> ReadLevels(ICollection<CreateLevelDTO> levelDTOs)
         {
-            var levelDTONames = levelDTOs.Select(e => e.Name).ToList();
+            var levelDTONames = levelDTOs.Select(e => e.Name).ToHashSet();
             return await _context.Levels.Where(e => levelDTONames.Contains(e.Name)).ToListAsync();
         }
 
         private async Task<ICollection<ProgrammingLanguage>> ReadProgrammingLanguages(ICollection<CreateProgrammingLanguageDTO> programmingLanguageDTOs)
         {
-            var ProgrammingLanguageDTONames = programmingLanguageDTOs.Select(e => e.Name).ToList();
+            var ProgrammingLanguageDTONames = programmingLanguageDTOs.Select(e => e.Name).ToHashSet();
             return await _context.ProgrammingLanguages.Where(e => ProgrammingLanguageDTONames.Contains(e.Name)).ToListAsync();
         }
 

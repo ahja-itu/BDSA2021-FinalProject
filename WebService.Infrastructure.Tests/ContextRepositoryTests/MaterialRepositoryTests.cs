@@ -49,7 +49,7 @@
             _CreateMaterialDTOTagNotExisting = material;
             tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10) };
 
-            medias = new List<CreateMediaDTO> { new CreateMediaDTO("Book"), new CreateMediaDTO("book") };
+            medias = new List<CreateMediaDTO> { new CreateMediaDTO("Book"), new CreateMediaDTO("Book") };
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTODuplicateMedia = material;
             medias = new List<CreateMediaDTO> { new CreateMediaDTO("Book") };
@@ -134,7 +134,7 @@
         }
 
         [Fact]
-        public async Task CreateAsync_material_returns_bad_request_on_duplicate_media()
+        public async Task CreateAsync_material_returns_created_on_duplicate_media()
         {
             var material = _CreateMaterialDTODuplicateMedia;
 
@@ -142,7 +142,7 @@
 
             var actual = (response.Item1, response.Item2.Id);
 
-            var expected = (Status.BadRequest, -1);
+            var expected = (Status.Created, 4);
 
             Assert.Equal(expected, actual);
         }
