@@ -1,4 +1,5 @@
-﻿using WebService.Entities;
+﻿using WebService.Core.Shared;
+using WebService.Entities;
 
 namespace WebService.Core.Shared
 {
@@ -42,7 +43,46 @@ namespace WebService.Core.Shared
         public string Title { get; init; }
         public ICollection<CreateAuthorDTO> Authors { get; init; }
         public DateTime TimeStamp { get; init; }
-        
-        
+    }
+}
+namespace ExtensionMethods
+{
+    public static class MaterialExtensions
+    {
+        public static float AverageRating(this CreateMaterialDTO material)
+        {
+            float sum = material.Ratings.Sum(e => e.Value);
+            return sum / material.Ratings.Count;
+        }
+        public static string LevelsToString(this CreateMaterialDTO material)
+        {
+            var levels = material.Levels.Aggregate("", (current, level) => current + level.Name + " ");
+            return levels.Remove(levels.Length - 1);
+        }
+
+        public static string AuthorsToString(this CreateMaterialDTO material)
+        {
+            var authors =  material.Authors.Aggregate("Authors: ", (current, author) => current + author.FirstName + " " + author.SurName + ", ");
+            return authors.Remove(authors.Length - 2);
+        }
+
+        public static MaterialDTO ConvertToMaterialDTO(this Material material)
+        {
+            return new MaterialDTO(
+                material.Id,
+                material.WeightedTags.Select(e => new WeightedTagDTO(e.Id, e.Name, e.Weight)).Cast<CreateWeightedTagDTO>().ToList(),
+                material.Ratings.Select(e => new RatingDTO(e.Id, e.Value,e.Reviewer)).Cast<CreateRatingDTO>().ToList(),
+                material.Levels.Select(e => new LevelDTO(e.Id,e.Name)).Cast<CreateLevelDTO>().ToList(),
+                material.ProgrammingLanguages.Select(e => new ProgrammingLanguageDTO(e.Id,e.Name)).Cast<CreateProgrammingLanguageDTO>().ToList(),
+                material.Medias.Select(e => new MediaDTO(e.Id,e.Name)).Cast<CreateMediaDTO>().ToList(),
+                new LanguageDTO(material.Language.Id,material.Language.Name),
+                material.Summary,
+                material.URL,
+                material.Content,
+                material.Title,
+                material.Authors.Select(e => new AuthorDTO(e.Id,e.FirstName,e.SurName)).Cast<CreateAuthorDTO>().ToList(),
+                material.TimeStamp
+            );
+        }
     }
 }

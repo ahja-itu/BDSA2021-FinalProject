@@ -2,6 +2,7 @@
 @using WebService.Core.Shared
 @using Microsoft.AspNetCore.Authorization
 @using System.Globalization
+@using ExtensionMethods
 @attribute [Authorize]
 @inject HttpClient _http
 <PageTitle>Index</PageTitle>
@@ -96,7 +97,8 @@
             {
                 <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
                     <div class="col">
-                        <RadzenTextBox id="searchFilter" class="btgInput" @oninput=@(args => { SearchFilters(args.Value.ToString()); }) @bind-Value=@_filterSearchInput Placeholder="@_searchFilterPlaceholder"/>
+                        <!-- SearchFilters() is null safe! -->
+                        <RadzenTextBox id="searchFilter" class="btgInput" @oninput=@(args => { SearchFilters(args.Value!.ToString()!); }) @bind-Value=@_filterSearchInput Placeholder="@_searchFilterPlaceholder"/>
                         <RadzenButton Click=@(_ => SearchFilters(_filterSearchInput)) Icon="search" class="btgIconButton smallIcon"/>
                     </div>
                 </div>
@@ -149,7 +151,7 @@
                         </div>
                         <div class="col" style="text-align: right">
                             <p>
-                                @GetAvgRating(material)
+                                @material.AverageRating()
                             </p>
                         </div>
                     </div>
@@ -173,7 +175,8 @@ else
         <div style="padding: 10px">
             <div class="row">
                 <div class="col-6">
-                    <a href="@_selectedMaterial.URL">@_selectedMaterial.URL</a>
+                    <!-- _selectedMaterial can't be null as it is the material the user selects from the results list -->
+                    <a href="@_selectedMaterial!.URL">@_selectedMaterial.URL</a>
                 </div>
                 <div class="col-6">
                     <p style="text-align: right;">@_selectedMaterial.TimeStamp.ToString(CultureInfo.CurrentCulture)</p>
@@ -184,14 +187,14 @@ else
             </div>
             <div class="row">
                 <div class="col-6">
-                    <p>@MaterialAuthorsToString(_selectedMaterial)</p>
+                    <p>@_selectedMaterial.AuthorsToString()</p>
                 </div>
                 <div class="col-6">
                     <p style="text-align: right">@_selectedMaterial.Language.Name</p>
                 </div>
             </div>
             <div class="row">
-                <p style="text-align: right">@MaterialLevelsToString(_selectedMaterial)</p>
+                <p style="text-align: right">@_selectedMaterial.LevelsToString()</p>
             </div>
             <div class="row" style="border-bottom: solid 6px #9586E9">
                 <div class="col-6">
@@ -201,7 +204,7 @@ else
                     }
                 </div>
                 <div class="col-6">
-                    <p style="text-align: right">@GetAvgRating(_selectedMaterial)</p>
+                    <p style="text-align: right">@_selectedMaterial.AverageRating()</p>
                 </div>
             </div>
         </div>
@@ -438,25 +441,4 @@ else
     }
 
     #endregion
-
-    #region MaterialExtentions
-
-    string MaterialLevelsToString(CreateMaterialDTO material)
-    {
-        return material.Levels.Aggregate("", (current, level) => current + level.Name + "");
-    }
-
-    float GetAvgRating(CreateMaterialDTO material)
-    {
-        float sum = material.Ratings.Sum(e => e.Value);
-        return sum / material.Ratings.Count;
-    }
-
-    string MaterialAuthorsToString(CreateMaterialDTO material)
-    {
-        return material.Authors.Aggregate("Authors: ", (current, author) => current + author.FirstName + author.SurName + " ");
-    }
-
-    #endregion
-
 }
