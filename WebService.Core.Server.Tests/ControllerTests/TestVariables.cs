@@ -43,7 +43,7 @@
             var summary1 = "I am material 1";
             var summary2 = "I am material 2";
             var summary3 = "I am material 3";
-            
+
             var url1 = "url1.com";
             var url2 = "url2.com";
             var url3 = "url3.com";
@@ -57,17 +57,17 @@
             var content3 = "null";
 
             var material1 = new Material(
-                new List<WeightedTag> {weightedTag1},
-                new List<Rating> {rating1},
-                new List<Level> {level1},
-                new List<ProgrammingLanguage> {programmingLanguage1},
-                new List<Media> {media1},
+                new List<WeightedTag> { weightedTag1 },
+                new List<Rating> { rating1 },
+                new List<Level> { level1 },
+                new List<ProgrammingLanguage> { programmingLanguage1 },
+                new List<Media> { media1 },
                 language1,
                 summary1,
                 url1,
                 content1,
                 "Material 1",
-                new List<Author> {author1},
+                new List<Author> { author1 },
                 System.DateTime.UtcNow
             );
             var material2 = new Material

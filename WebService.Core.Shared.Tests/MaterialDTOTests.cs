@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using ExtensionMethods;
+using WebService.Core.Shared;
 using WebService.Entities;
 using Xunit;
 

@@ -1,9 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Xunit;
-using Bunit;
-using WebService.Core.Client.Pages;
-using AngleSharp.Dom;
 
 /*
 namespace WebService.Core.Client.Tests;

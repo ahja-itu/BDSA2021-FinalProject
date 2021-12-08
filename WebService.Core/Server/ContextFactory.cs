@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using WebService.Entities;
-
-namespace WebService.Core.Server;
+﻿namespace WebService.Core.Server;
 public class ContextFactory : IDesignTimeDbContextFactory<Context>
 {
     public Context CreateDbContext(string[] args)

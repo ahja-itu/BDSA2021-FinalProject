@@ -1,10 +1,3 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
-using WebService.Core.Server;
-using WebService.Entities;
-using WebService.Infrastructure;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -35,6 +28,7 @@ builder.Services.AddScoped<ILevelRespository, LevelRepository>();
 builder.Services.AddScoped<IMediaRepository, MediaRepository>();
 builder.Services.AddScoped<IProgrammingLanguageRespository, ProgrammingLanguageRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 builder.Services.AddScoped<ISearch, SearchAlgorithm>();
 
 var app = builder.Build();

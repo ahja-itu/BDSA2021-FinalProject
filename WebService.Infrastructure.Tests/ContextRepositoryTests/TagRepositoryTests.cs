@@ -94,7 +94,7 @@
             var expected = (Status.Created, new TagDTO(4, "asseocarnisanguineoviscericartilaginonervomedullar"));
 
             Assert.Equal(expected, actual);
-        }       
+        }
         #endregion
 
         #region Read
@@ -272,7 +272,7 @@
             Assert.Equal(expected, actual);
         }
 
-     
+
         #endregion
     }
 }
