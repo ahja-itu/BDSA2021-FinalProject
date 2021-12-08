@@ -40,13 +40,13 @@ namespace WebService.Core.Server.Model
                 repos.Add(RepoType.MEDIA, mediaRepository);
                 repos.Add(RepoType.MATERIAL, materialRepository);
 
-                CleanDB(context).Wait();
+                await CleanDB(context);
 
                 await SeedLanguagesAsync(languageRepository);
                 await SeedLevelsAsync(levelRepository);
                 await SeedMediaAsync(mediaRepository);
-                await SeedProgrmamingLanguages(plRepository);
-                await SeedTags(tagRepository);
+                await SeedProgrmamingLanguagesAsync(plRepository);
+                await SeedTagsAsync(tagRepository);
                 await SeedMaterial(repos);
             }
 
@@ -76,6 +76,8 @@ namespace WebService.Core.Server.Model
             var rand = new Random();
             var authors = LoadAuthors();
             var names = LoadNames();
+
+            Console.WriteLine("Going for ReadAsync in SeedMaterial");
 
             var tags = await tagRepo.ReadAsync();
             var level = await levelRepository.ReadAsync();
@@ -130,6 +132,8 @@ namespace WebService.Core.Server.Model
                 var summary = $"This person generated a random number, and you wont believe what number they generated!";
                 var content = $"The number that was generated was \"{theRandomNumber}\"";
                 var url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+
+                // The title has a uniqueness constraint, so this is how we get around it for now
                 var title = $"Title:{Guid.NewGuid()}";
 
                 var authorsList = new List<CreateAuthorDTO>();
@@ -156,27 +160,18 @@ namespace WebService.Core.Server.Model
         }
         
         private static List<string> LoadNames()
-            => ReadAllFields("names.csv", 2).Select(f => f[1]).ToList();
-        
+            => ReadCSV("names.csv", 2)
+                .Select(fields => fields[1])
+                .ToList();
 
         private static List<Author> LoadAuthors()
-        {
-            var authors = new List<Author>();
-
-            foreach (var fields in ReadAllFields("authors.csv", 2))
-            {
-                string firstName = fields[0];
-                string surName = fields[1];
-                Console.WriteLine($"I'm writing a new author: {firstName} {surName}");
-                authors.Add(new Author(firstName, surName));
-            }
-
-            return authors;
-        }
+            => ReadCSV("authors.csv", 2)
+                .Select(fields => new Author(fields[0], fields[1]))
+                .ToList();
 
         private static async Task SeedLanguagesAsync(ILanguageRepository repo)
         {
-            foreach (var fields in ReadAllFields("languages.csv", 2))
+            foreach (var fields in ReadCSV("languages.csv", 2))
             {
                 string name = fields[1];
 
@@ -187,19 +182,19 @@ namespace WebService.Core.Server.Model
 
         private static async Task SeedLevelsAsync(ILevelRespository repo)
         {
-            foreach (var fields in ReadAllFields("levels.csv", 2))
+            foreach (var fields in ReadCSV("levels.csv", 2))
             {
-                    string name = fields[1];
+                string name = fields[1];
 
-                    var level = new CreateLevelDTO(name);
-                    await repo.CreateAsync(level);
-            }               
+                var level = new CreateLevelDTO(name);
+                await repo.CreateAsync(level);
+            }
         }
 
 
         private static async Task SeedMediaAsync(IMediaRepository repo)
         {
-            foreach(var fields in ReadAllFields("media.csv", 2))
+            foreach (var fields in ReadCSV("media.csv", 2))
             {
                 string type = fields[1];
 
@@ -208,9 +203,9 @@ namespace WebService.Core.Server.Model
             }
         }
 
-        private static async Task SeedProgrmamingLanguages(IProgrammingLanguageRespository repo)
+        private static async Task SeedProgrmamingLanguagesAsync(IProgrammingLanguageRespository repo)
         {
-            foreach (var fields in ReadAllFields("programminglanguages.csv", 1))
+            foreach (var fields in ReadCSV("programminglanguages.csv", 1))
             {
                 string name = fields[0];
 
@@ -219,9 +214,9 @@ namespace WebService.Core.Server.Model
             }
         }
 
-        private static async Task SeedTags(ITagRepository repo)
+        private static async Task SeedTagsAsync(ITagRepository repo)
         {
-            foreach(var fields in ReadAllFields("tags.csv", 1))
+            foreach (var fields in ReadCSV("tags.csv", 1))
             {
                 string name = fields[0];
 
@@ -239,53 +234,28 @@ namespace WebService.Core.Server.Model
         private static T GetRepo<T>(Dictionary<RepoType, IRepository> repos, RepoType type)
             => repos.Where(kv => kv.Key == type).Select(kv => (T)kv.Value).First();
  
-
-        private static IEnumerable<string[]> ReadAllFields(string filename, uint fieldCount)
+        private static IEnumerable<string[]> ReadCSV(string filename, uint fieldCount)
         {
-            Console.WriteLine("Going to read all fields...");
-            foreach(var (ok, fields) in ReadFields(filename, fieldCount))
+            using TextFieldParser csvParser = new TextFieldParser(GetDataFileLocation(filename));
+            csvParser.CommentTokens = new string[] { "#" };
+            csvParser.SetDelimiters(new string[] { "," });
+            csvParser.HasFieldsEnclosedInQuotes = false;
+
+            csvParser.ReadLine();
+            while (!csvParser.EndOfData)
             {
-                if (ok)
+                var fields = csvParser.ReadFields() ?? new string[fieldCount];
+                if (IsAllNonEmpty(fields))
                 {
                     yield return fields;
                 }
             }
         }
 
-        private static IEnumerable<(bool, string[])> ReadFields(String filename, uint fieldCount)
-        {
-            using TextFieldParser csvParser = new TextFieldParser(GetDataFileLocation(filename));
-            csvParser.CommentTokens = new string[] { "#" };
-            csvParser.SetDelimiters(new string[] { "," });
-            csvParser.HasFieldsEnclosedInQuotes = false;
-
-            csvParser.ReadLine();
-            while(!csvParser.EndOfData)
-            {
-                var fields = csvParser.ReadFields() ?? new string[fieldCount];
-                yield return (IsAllNonEmpty(fields), fields);
-            }
-            
-        }
-
         private static bool IsAllNonEmpty(params string[] fields)
             => fields.All(field => field != null && field.Trim().Length > 0);
 
-        private static TextFieldParser GetParser(string filename)
-        {
-            // Thanks to https://stackoverflow.com/a/33796861 for showing how to read csv's
-            using TextFieldParser csvParser = new TextFieldParser(GetDataFileLocation(filename));
-            csvParser.CommentTokens = new string[] { "#" };
-            csvParser.SetDelimiters(new string[] { "," });
-            csvParser.HasFieldsEnclosedInQuotes = false;
-
-            csvParser.ReadLine();
-            return csvParser;
-        }
-
         private static string GetDataFileLocation(string filename)
-        {
-            return $"{Directory.GetCurrentDirectory()}\\..\\..\\data\\{filename}";
-        }
+            => $"{Directory.GetCurrentDirectory()}\\..\\..\\data\\{filename}";
     }
 }

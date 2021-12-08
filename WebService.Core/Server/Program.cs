@@ -69,7 +69,6 @@ app.MapFallbackToFile("index.html");
 
 if (!app.Environment.IsEnvironment("integration"))
 {
-    Console.WriteLine("I'm going to seed the db");
     await app.SeedAsync();
 }
 
