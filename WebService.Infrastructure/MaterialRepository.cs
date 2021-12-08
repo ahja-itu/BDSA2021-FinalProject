@@ -195,25 +195,32 @@ namespace WebService.Infrastructure
 
             if (entity == null) return Status.NotFound;
 
-            var newEntity = await ConvertCreateMaterialDTOToMaterial(materialDTO);
+            try
+            {
+                var newEntity = await ConvertCreateMaterialDTOToMaterial(materialDTO);
 
-            entity.Ratings = newEntity.Ratings;
-            entity.Title = newEntity.Title;
-            entity.ProgrammingLanguages = newEntity.ProgrammingLanguages;
-            entity.Levels = newEntity.Levels;
-            entity.Content = newEntity.Content;
-            entity.WeightedTags = newEntity.WeightedTags;
-            entity.Ratings = newEntity.Ratings;
-            entity.Medias = newEntity.Medias;
-            entity.TimeStamp = newEntity.TimeStamp;
-            entity.Authors = newEntity.Authors;
-            entity.Language = newEntity.Language;
-            entity.URL = newEntity.URL;
-            entity.Summary = newEntity.Summary;
+                entity.Ratings = newEntity.Ratings;
+                entity.Title = newEntity.Title;
+                entity.ProgrammingLanguages = newEntity.ProgrammingLanguages;
+                entity.Levels = newEntity.Levels;
+                entity.Content = newEntity.Content;
+                entity.WeightedTags = newEntity.WeightedTags;
+                entity.Ratings = newEntity.Ratings;
+                entity.Medias = newEntity.Medias;
+                entity.TimeStamp = newEntity.TimeStamp;
+                entity.Authors = newEntity.Authors;
+                entity.Language = newEntity.Language;
+                entity.URL = newEntity.URL;
+                entity.Summary = newEntity.Summary;
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-            return Status.Updated;
+                return Status.Updated;
+            }
+            catch 
+            {
+                return Status.BadRequest;
+            }         
         }
 
         private static MaterialDTO CreateEmptyMaterialDTO()
@@ -238,19 +245,25 @@ namespace WebService.Infrastructure
         private async Task<ICollection<Media>> ReadMedias(ICollection<CreateMediaDTO> mediaDTOs)
         {
             var mediaDTONames = mediaDTOs.Select(e => e.Name).ToHashSet();
-            return await _context.Medias.Where(e => mediaDTONames.Contains(e.Name)).ToListAsync();
+            var medias = await _context.Medias.Where(e => mediaDTONames.Contains(e.Name)).ToListAsync();
+            if (medias.Count != mediaDTOs.Count) throw new Exception("Bad request");
+            else return medias;
         }
 
         private async Task<ICollection<Level>> ReadLevels(ICollection<CreateLevelDTO> levelDTOs)
         {
             var levelDTONames = levelDTOs.Select(e => e.Name).ToHashSet();
-            return await _context.Levels.Where(e => levelDTONames.Contains(e.Name)).ToListAsync();
+            var levels = await _context.Levels.Where(e => levelDTONames.Contains(e.Name)).ToListAsync();
+            if (levels.Count != levelDTOs.Count) throw new Exception("Bad request");
+            else return levels;
         }
 
         private async Task<ICollection<ProgrammingLanguage>> ReadProgrammingLanguages(ICollection<CreateProgrammingLanguageDTO> programmingLanguageDTOs)
         {
             var ProgrammingLanguageDTONames = programmingLanguageDTOs.Select(e => e.Name).ToHashSet();
-            return await _context.ProgrammingLanguages.Where(e => ProgrammingLanguageDTONames.Contains(e.Name)).ToListAsync();
+            var programmingLanguages = await _context.ProgrammingLanguages.Where(e => ProgrammingLanguageDTONames.Contains(e.Name)).ToListAsync();
+            if (programmingLanguages.Count != programmingLanguageDTOs.Count) throw new Exception("Bad request");
+            else return programmingLanguages;
         }
 
         private async Task<bool> ValidTags(ICollection<CreateWeightedTagDTO> tags)
