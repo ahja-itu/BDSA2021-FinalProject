@@ -2,7 +2,7 @@
 
 namespace WebService.Infrastructure
 {
-    public class SearchAlgorithm
+    public class SearchAlgorithm : ISearch
     {
         public List<MaterialDTO> Search(SearchForm searchform)
         {
@@ -29,6 +29,10 @@ namespace WebService.Infrastructure
         }
 
         private List<MaterialDTO> PrioritizeMaterials(List<MaterialDTO> materials)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<ICollection<MaterialDTO>> Search(SearchForm searchForm)
         {
             throw new NotImplementedException();
         }

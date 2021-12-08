@@ -4,41 +4,54 @@
     [ApiController]
     [Route("[controller]")]
     [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
-    public class MediaController : ControllerBase
+    public class MaterialController : ControllerBase
     {
-        private readonly IMediaRepository _mediaRepository;
-        public MediaController(IMediaRepository mediaRepository)
+        private readonly IMaterialRepository _materialRepository;
+
+        public MaterialController(IMaterialRepository materialRepository)
         {
-            _mediaRepository = mediaRepository;
+            _materialRepository = materialRepository;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ICollection<MediaDTO>>> Get()
+        public async Task<ActionResult<ICollection<MaterialDTO>>> Get()
         {
-            var result = await _mediaRepository.ReadAsync();
+            var result = await _materialRepository.ReadAsync();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<MediaDTO>> Get(int id)
+        public async Task<ActionResult<MaterialDTO>> Get(int id)
         {
-            var result = await _mediaRepository.ReadAsync(id);
+            var result = await _materialRepository.ReadAsync(id);
             var response = result.Item1;
 
             if (response == Status.Found) return Ok(result);
-            else return NotFound();
+            else return NotFound(result);
+        }
+
+        [HttpGet("{SearchForm}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<MaterialDTO>> Get(SearchForm searchForm)
+        {
+            throw new NotImplementedException();
+            //var result = await _materialRepository.ReadAsync(searchForm);
+            //var response = result.Item1;
+
+            //if (response == Status.Found) return Ok(result);
+            //else return NotFound();
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> Post(CreateMediaDTO media)
+        public async Task<IActionResult> Post(CreateMaterialDTO material)
         {
-            var result = await _mediaRepository.CreateAsync(media);
+            var result = await _materialRepository.CreateAsync(material);
             var response = result.Item1;
 
             if (response == Status.Created) return Created(nameof(Put), result.Item2);
@@ -51,9 +64,9 @@
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> Put(MediaDTO media)
+        public async Task<IActionResult> Put(MaterialDTO material)
         {
-            var response = await _mediaRepository.UpdateAsync(media);
+            var response = await _materialRepository.UpdateAsync(material);
 
             if (response == Status.Updated) return NoContent();
             else if (response == Status.Conflict) return Conflict();
@@ -66,7 +79,7 @@
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
-            var response = await _mediaRepository.DeleteAsync(id);
+            var response = await _materialRepository.DeleteAsync(id);
 
             if (response == Status.Deleted) return NoContent();
             else return NotFound();

@@ -1,4 +1,7 @@
-﻿namespace WebService.Infrastructure
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+
+namespace WebService.Infrastructure
 {
     public class MaterialRepository : IMaterialRepository
     {
@@ -145,10 +148,55 @@
             return await _context.Materials.Select(m => ConvertMaterialToMaterialDTO(m)).ToListAsync();
         }
 
-        public Task<(Status, IReadOnlyCollection<MaterialDTO>)> ReadAsync(SearchForm searchInput)
+        public async Task<(Status, IReadOnlyCollection<MaterialDTO>)> ReadAsync(SearchForm searchInput)
         {
-            throw new NotImplementedException();
+            var materials = _context.Materials.AsEnumerable()
+                                              .Where(material => material.hasMinimumAverageRating(searchInput.Rating))
+                                              .Where(MayContainProgrammingLanguage(searchInput))
+                                              .Where(MayContainLanguage(searchInput))
+                                              .Where(MayContainMedia(searchInput))
+                                              .Where(MayContainTag(searchInput))
+                                              .Where(MayContainLevel(searchInput))
+                                              .Select(ConvertMaterialToMaterialDTO)
+                                              .ToList();
+
+            if (materials.Count() == 0)
+            {
+                return (Status.NotFound, new ReadOnlyCollection<MaterialDTO>(new List<MaterialDTO>()));
+            }
+
+            return (Status.Found, new ReadOnlyCollection<MaterialDTO>(materials));
         }
+
+        public static Func<Material, bool> MayContainLevel(SearchForm searchInput)
+            => material => searchInput.Levels.Any()
+                ? material.Levels.Any(level => searchInput.Levels.Any(searchInputLevels => searchInputLevels.Name == level.Name))
+                : true;
+        
+
+        public static Func<Material, bool> MayContainTag(SearchForm searchInput)
+            =>  material => searchInput.Tags.Any()
+                  ? material.WeightedTags.Any(wt => searchInput.Tags.Any(st => st.Name == wt.Name)) 
+                  : true;
+        
+
+        public static Func<Material, bool> MayContainMedia(SearchForm searchInput)
+            => material => searchInput.Medias.Any()
+                ? material.Medias.Any(media => searchInput.Medias.Any(mediadto => mediadto.Name == media.Name))
+                : true;
+        
+
+        public static Func<Material, bool> MayContainLanguage(SearchForm searchInput)
+            => material => searchInput.Languages.Any()
+                ? searchInput.Languages.Any(l => l.Name == material.Language.Name) 
+                : true;
+
+        public static Func<Material, bool> MayContainProgrammingLanguage(SearchForm searchInput)
+            => material => searchInput.ProgrammingLanguages.Any()
+                ? material.ProgrammingLanguages.Select(pl => pl.Name)
+                                                .Any(pl => searchInput.ProgrammingLanguages.Select(sipl => sipl.Name)
+                                                                                            .Any(sipl => pl == sipl)) 
+                : true;
 
         public async Task<Status> UpdateAsync(MaterialDTO materialDTO)
         {
