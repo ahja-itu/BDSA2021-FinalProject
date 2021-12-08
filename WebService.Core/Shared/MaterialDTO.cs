@@ -56,12 +56,14 @@ namespace ExtensionMethods
         }
         public static string LevelsToString(this CreateMaterialDTO material)
         {
-            return material.Levels.Aggregate("", (current, level) => current + level.Name + "");
+            var levels = material.Levels.Aggregate("", (current, level) => current + level.Name + " ");
+            return levels.Remove(levels.Length - 1);
         }
 
         public static string AuthorsToString(this CreateMaterialDTO material)
         {
-            return material.Authors.Aggregate("Authors: ", (current, author) => current + author.FirstName + author.SurName + " ");
+            var authors =  material.Authors.Aggregate("Authors: ", (current, author) => current + author.FirstName + " " + author.SurName + ", ");
+            return authors.Remove(authors.Length - 2);
         }
 
         public static MaterialDTO ConvertToMaterialDTO(this Material material)
