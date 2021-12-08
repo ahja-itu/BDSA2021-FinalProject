@@ -178,13 +178,13 @@
             // update testing
 
             title = "New title";
-            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10), new CreateWeightedTagDTO("RAD",50)};
-            ratings = new List<CreateRatingDTO> { new CreateRatingDTO(5, "Me"), new CreateRatingDTO(10, "Alex") };
+            tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 90), new CreateWeightedTagDTO("RAD", 50)};
+            ratings = new List<CreateRatingDTO> { new CreateRatingDTO(5, "Kim"), new CreateRatingDTO(9, "Poul") };
             levels = new List<CreateLevelDTO> { new CreateLevelDTO("PHD"), new CreateLevelDTO("Bachelor") };
-            programmingLanguages = new List<CreateProgrammingLanguageDTO> { new CreateProgrammingLanguageDTO("C#"), new CreateProgrammingLanguageDTO("Java") };
+            programmingLanguages = new List<CreateProgrammingLanguageDTO> { new CreateProgrammingLanguageDTO("C#"), new CreateProgrammingLanguageDTO("F#") };
             medias = new List<CreateMediaDTO> { new CreateMediaDTO("Video") };
             language = new CreateLanguageDTO("English");
-            content = "Banana Phone!";
+            content = "Banana Phone";
             summary = "i am materialized";
             url = "anotherUrl.com";
 
@@ -273,7 +273,7 @@
 
             var actual = (response.Item1, response.Item2.Id);
 
-            var expected = (Status.Created, 4);
+            var expected = (Status.BadRequest, -1);
 
             Assert.Equal(expected, actual);
         }
@@ -301,7 +301,7 @@
 
             var actual = (response.Item1, response.Item2.Id);
 
-            var expected = (Status.BadRequest, 1);
+            var expected = (Status.BadRequest, -1);
 
             Assert.Equal(expected, actual);
         }
@@ -433,7 +433,7 @@
 
             var actual = (response.Item1, response.Item2.Id);
 
-            var expected = (Status.Created, 4);
+            var expected = (Status.BadRequest, -1);
 
             Assert.Equal(expected, actual);
         }
@@ -815,7 +815,7 @@
 
             var actuals = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.Tags;
 
-            var expected1 = ("API", 10);
+            var expected1 = ("API", 90);
             var expected2 = ("RAD", 50);
 
             Assert.Collection(actuals,
@@ -832,8 +832,8 @@
 
             var actuals = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.Ratings;
 
-            var expected1 = (5, "Me");
-            var expected2 = (10, "Alex");
+            var expected1 = (5, "Kim");
+            var expected2 = (9, "Poul");
 
             Assert.Collection(actuals,
                 actual => Assert.Equal(expected1, (actual.Value, actual.Reviewer)),
@@ -867,7 +867,7 @@
             var actuals = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.ProgrammingLanguages;
 
             var expected1 = "C#";
-            var expected2 = "Java";
+            var expected2 = "F#";
 
             Assert.Collection(actuals,
                 actual => Assert.Equal(expected1, actual.Name),
@@ -912,7 +912,7 @@
 
             var actual = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.Content;
 
-            var expected = "Banana Phone!";
+            var expected = "Banana Phone";
 
             Assert.Equal(expected, actual);
         }
