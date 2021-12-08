@@ -8,6 +8,7 @@
         // Create material test variables
         private readonly CreateMaterialDTO _CreateMaterialDTO;
         private readonly CreateMaterialDTO _CreateMaterialDTOConflict;
+        private readonly CreateMaterialDTO _CreateMaterialDTOTooLongTitle;
         private readonly CreateMaterialDTO _CreateMaterialDTOTagNotExisting;
         private readonly CreateMaterialDTO _CreateMaterialDTOTooLongTagName;
         private readonly CreateMaterialDTO _CreateMaterialDTOTagWeightTooHigh;
@@ -35,6 +36,8 @@
         private readonly CreateMaterialDTO _CreateMaterialDTOProgrammingLanguageNotExisting;
         private readonly CreateMaterialDTO _CreateMaterialDTOTooLongProgrammingLanguageName;
         private readonly CreateMaterialDTO _CreateMaterialDTODuplicateProgrammingLanguage;
+
+        private readonly CreateMaterialDTO _CreateMaterialDTOTooLongSummary;
 
         private readonly MaterialDTO _UpdateMaterialDTO;
         private readonly MaterialDTO _UpdateMaterialDTONotFound;
@@ -68,6 +71,11 @@
             title = "Material 1";
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTOConflict = material;
+
+            title = "MaterialMaterialMaterialMaterialMaterialMaterialMaterialMaterialMaterialMaterialMaterialMaterialMaterialMaterial";
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOTooLongTitle = material;
+
             title = "Title";
 
             // tags testing
@@ -171,9 +179,17 @@
 
             programmingLanguages = new List<CreateProgrammingLanguageDTO> { new CreateProgrammingLanguageDTO("Java"), new CreateProgrammingLanguageDTO("Java") };
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
-            _CreateMaterialDTOProgrammingLanguageNotExisting = material;
+            _CreateMaterialDTODuplicateProgrammingLanguage = material;
 
             programmingLanguages = new List<CreateProgrammingLanguageDTO> { new CreateProgrammingLanguageDTO("C#") }; // programming language reset
+
+            // Summary
+
+            summary = "TENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERSTENLETTERS";
+            material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
+            _CreateMaterialDTOTooLongSummary = material;
+
+            summary = "i am a material";
 
             // update testing
 
@@ -248,6 +264,20 @@
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_too_long_title()
+        {
+            var material = _CreateMaterialDTOTooLongTitle;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
         // Tags
 
         [Fact]
@@ -263,6 +293,50 @@
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_wrong_tag_weight()
+        {
+            var material = _CreateMaterialDTOTagWeightTooHigh;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_too_long_tag_name()
+        {
+            var material = _CreateMaterialDTOTooLongTagName;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_duplicate_tag()
+        {
+            var material = _CreateMaterialDTODuplicateTag;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        // media
 
         [Fact]
         public async Task CreateAsync_material_returns_bad_request_on_duplicate_media()
@@ -428,6 +502,96 @@
         public async Task CreateAsync_material_returns_created_on_duplicate_level()
         {
             var material = _CreateMaterialDTODuplicateLevel;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        // Language
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_language_not_existing()
+        {
+            var material = _CreateMaterialDTOLanguageNotExisting;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_too_long_language_name()
+        {
+            var material = _CreateMaterialDTOTooLongLanguageName;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        // Programming Language
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_programming_language_not_existing()
+        {
+            var material = _CreateMaterialDTOProgrammingLanguageNotExisting;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_too_long_programming_language_name()
+        {
+            var material = _CreateMaterialDTOTooLongProgrammingLanguageName;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task CreateAsync_material_returns_created_on_duplicate_programming_language()
+        {
+            var material = _CreateMaterialDTODuplicateProgrammingLanguage;
+
+            var response = await _v.MaterialRepository.CreateAsync(material);
+
+            var actual = (response.Item1, response.Item2.Id);
+
+            var expected = (Status.BadRequest, -1);
+
+            Assert.Equal(expected, actual);
+        }
+
+        // Summary
+
+        [Fact]
+        public async Task CreateAsync_material_returns_bad_request_on_too_long_summary()
+        {
+            var material = _CreateMaterialDTOTooLongSummary;
 
             var response = await _v.MaterialRepository.CreateAsync(material);
 

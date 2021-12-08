@@ -284,8 +284,8 @@ namespace WebService.Infrastructure
         private bool InvalidInput(CreateMaterialDTO material)
         {
             var stringList = new List<string>();
-            stringList.Append(material.Title);
-            stringList.Append(material.Language.Name);
+            stringList.Add(material.Title);
+            stringList.Add(material.Language.Name);
             stringList.AddRange(material.Medias.Select(e => e.Name).ToList());
             stringList.AddRange(material.Authors.Select(e => e.FirstName).ToList());
             stringList.AddRange(material.Authors.Select(e => e.SurName).ToList());
