@@ -90,7 +90,7 @@
             tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 10) }; // tags reset
 
             // medias testing
-            medias = new List<CreateMediaDTO> { new CreateMediaDTO("Book"), new CreateMediaDTO("book") };
+            medias = new List<CreateMediaDTO> { new CreateMediaDTO("Book"), new CreateMediaDTO("Book") };
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTODuplicateMedia = material;
 
@@ -265,50 +265,6 @@
         }
 
         [Fact]
-        public async Task CreateAsync_material_returns_bad_request_on_duplicate_tag()
-        {
-            var material = _CreateMaterialDTODuplicateTag;
-
-            var response = await _v.MaterialRepository.CreateAsync(material);
-
-            var actual = (response.Item1, response.Item2.Id);
-
-            var expected = (Status.BadRequest, -1);
-
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public async Task CreateAsync_material_returns_bad_request_on_too_long_tag_name()
-        {
-            var material = _CreateMaterialDTOTooLongTagName;
-
-            var response = await _v.MaterialRepository.CreateAsync(material);
-
-            var actual = (response.Item1, response.Item2.Id);
-
-            var expected = (Status.BadRequest, -1);
-
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public async Task CreateAsync_material_returns_bad_request_on_tag_weight_too_high()
-        {
-            var material = _CreateMaterialDTOTagWeightTooHigh;
-
-            var response = await _v.MaterialRepository.CreateAsync(material);
-
-            var actual = (response.Item1, response.Item2.Id);
-
-            var expected = (Status.BadRequest, -1);
-
-            Assert.Equal(expected, actual);
-        }
-
-        // Medias
-
-        [Fact]
         public async Task CreateAsync_material_returns_bad_request_on_duplicate_media()
         {
             var material = _CreateMaterialDTODuplicateMedia;
@@ -345,7 +301,7 @@
 
             var actual = (response.Item1, response.Item2.Id);
 
-            var expected = (Status.BadRequest, -1);
+            var expected = (Status.Created, 4);
 
             Assert.Equal(expected, actual);
         }

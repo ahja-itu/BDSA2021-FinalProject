@@ -86,9 +86,9 @@ namespace WebService.Infrastructure
 
                 createMaterialDTO.Tags.Select(e => new WeightedTag(e.Name, e.Weight)).ToList(),
                 createMaterialDTO.Ratings.Select(e => new Rating(e.Value, e.Reviewer)).ToList(),
-                ReadLevels(createMaterialDTO.Levels).ToList(),
-                ReadProgrammingLanguages(createMaterialDTO.ProgrammingLanguages).ToList(),
-                ReadMedias(createMaterialDTO.Medias).ToList(),
+                await ReadLevels(createMaterialDTO.Levels),
+                await ReadProgrammingLanguages(createMaterialDTO.ProgrammingLanguages),
+                await ReadMedias(createMaterialDTO.Medias),
                 await _context.Languages.Where(e => e.Name == createMaterialDTO.Language.Name).SingleAsync(),
                 createMaterialDTO.Summary,
                 createMaterialDTO.URL,
@@ -234,27 +234,22 @@ namespace WebService.Infrastructure
             return material;
         }
 
-        private IEnumerable<Media> ReadMedias(ICollection<CreateMediaDTO> mediaDTOs)
+        private async Task<ICollection<Media>> ReadMedias(ICollection<CreateMediaDTO> mediaDTOs)
         {
-            foreach (var media in mediaDTOs)
-            {
-                yield return _context.Medias.Where(e => e.Name == media.Name).First();
-            }
+            var mediaDTONames = mediaDTOs.Select(e => e.Name).ToHashSet();
+            return await _context.Medias.Where(e => mediaDTONames.Contains(e.Name)).ToListAsync();
         }
 
-        private IEnumerable<Level> ReadLevels(ICollection<CreateLevelDTO> levelDTOs)
+        private async Task<ICollection<Level>> ReadLevels(ICollection<CreateLevelDTO> levelDTOs)
         {
-            foreach (var level in levelDTOs)
-            {
-                yield return _context.Levels.Where(e => e.Name == level.Name).First();
-            }
+            var levelDTONames = levelDTOs.Select(e => e.Name).ToHashSet();
+            return await _context.Levels.Where(e => levelDTONames.Contains(e.Name)).ToListAsync();
         }
-        private IEnumerable<ProgrammingLanguage> ReadProgrammingLanguages(ICollection<CreateProgrammingLanguageDTO> programmingLanguageDTOs)
+
+        private async Task<ICollection<ProgrammingLanguage>> ReadProgrammingLanguages(ICollection<CreateProgrammingLanguageDTO> programmingLanguageDTOs)
         {
-            foreach (var programmingLanguage in programmingLanguageDTOs)
-            {
-                yield return _context.ProgrammingLanguages.Where(e => e.Name == programmingLanguage.Name).First();
-            }
+            var ProgrammingLanguageDTONames = programmingLanguageDTOs.Select(e => e.Name).ToHashSet();
+            return await _context.ProgrammingLanguages.Where(e => ProgrammingLanguageDTONames.Contains(e.Name)).ToListAsync();
         }
 
         private async Task<bool> ValidTags(ICollection<CreateWeightedTagDTO> tags)
