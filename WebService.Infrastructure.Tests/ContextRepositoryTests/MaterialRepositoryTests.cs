@@ -76,7 +76,7 @@
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTOTooLongTitle = material;
 
-            title = "Title";
+            title = "Title"; // title reset
 
             // tags testing
             tags = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("Tag1", 10) };
@@ -189,7 +189,7 @@
             material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, dateTime);
             _CreateMaterialDTOTooLongSummary = material;
 
-            summary = "i am a material";
+            summary = "i am a material"; // summary reset
 
             // update testing
 
@@ -809,74 +809,215 @@
         public async Task ReadAllAsync_returns_all_material_check_tags()
         {
             var response = await _v.MaterialRepository.ReadAsync();
-            var actuals = response.Select(e => e.Tags.First());
+            var actuals = response.Select(e => e.Tags);
 
-            var expected1 = ("SOLID", 10);
-            var expected2 = ("API", 90);
-            var expected3 = ("API", 90);
+            var expected1 = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("SOLID", 10) };
+            var expected2 = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 90), new CreateWeightedTagDTO("SOLID", 10) };
+            var expected3 = new List<CreateWeightedTagDTO> { new CreateWeightedTagDTO("API", 90), new CreateWeightedTagDTO("RAD", 50), new CreateWeightedTagDTO("SOLID", 10) };
 
             Assert.Collection(actuals,
-                actual => Assert.Equal(expected1, (actual.Name, actual.Weight)),
-                actual => Assert.Equal(expected2, (actual.Name, actual.Weight)),
-                actual => Assert.Equal(expected3, (actual.Name, actual.Weight)));
+                actual => Assert.Equal(expected1, actual),
+                actual => Assert.Equal(expected2, actual),
+                actual => Assert.Equal(expected3, actual));
         }
 
         [Fact]
         public async Task ReadAllAsync_returns_all_material_check_ratings()
         {
             var response = await _v.MaterialRepository.ReadAsync();
-            var actuals = response.Select(e => e.Ratings.First());
+            var actuals = response.Select(e => e);
 
-            var expected1 = (2, "Rasmus");
-            var expected2 = (2, "Rasmus");
-            var expected3 = (2, "Rasmus");
+            var expected1 = new List<CreateRatingDTO> { new CreateRatingDTO(2, "Rasmus") };
+            var expected2 = new List<CreateRatingDTO> { new CreateRatingDTO(2, "Rasmus"), new CreateRatingDTO(5, "Kim") };
+            var expected3 = new List<CreateRatingDTO> { new CreateRatingDTO(2, "Rasmus"), new CreateRatingDTO(5, "Kim"), new CreateRatingDTO(9, "Poul") };
 
-            Assert.Collection(actuals,
-                actual => Assert.Equal(expected1, (actual.Value, actual.Reviewer)),
-                actual => Assert.Equal(expected2, (actual.Value, actual.Reviewer)),
-                actual => Assert.Equal(expected3, (actual.Value, actual.Reviewer)));
+            var expectedCounter1 = 0;
+            var expectedCounter2 = 0;
+            var expectedCounter3 = 0;
+
+            foreach (var expectedCreateRating in expected1)
+            {
+                var expectedRating = expectedCreateRating;
+                foreach (var actualRatingDTO1 in actuals.ElementAt(0).Ratings)
+                {
+                    var actualRating = actualRatingDTO1;
+                    if (
+                        expectedRating.Value == actualRating.Value &&
+                        expectedRating.Reviewer == actualRating.Reviewer &&
+                        expectedRating.TimeStamp.ToString() == actualRating.TimeStamp.ToString()
+                    )
+                    {
+                        expectedCounter1++;
+                    }
+                }
+            }
+
+            foreach (var expectedCreateRating in expected2)
+            {
+                var expectedRating = expectedCreateRating;
+                foreach (var actualRatingDTO1 in actuals.ElementAt(1).Ratings)
+                {
+                    var actualRating = actualRatingDTO1;
+                    if (
+                        expectedRating.Value == actualRating.Value &&
+                        expectedRating.Reviewer == actualRating.Reviewer &&
+                        expectedRating.TimeStamp.ToString() == actualRating.TimeStamp.ToString()
+                    )
+                    {
+                        expectedCounter2++;
+                    }
+                }
+            }
+
+            foreach (var expectedCreateRating in expected3)
+            {
+                var expectedRating = expectedCreateRating;
+                foreach (var actualRatingDTO1 in actuals.ElementAt(2).Ratings)
+                {
+                    var actualRating = actualRatingDTO1;
+                    if (
+                        expectedRating.Value == actualRating.Value &&
+                        expectedRating.Reviewer == actualRating.Reviewer &&
+                        expectedRating.TimeStamp.ToString() == actualRating.TimeStamp.ToString()
+                    )
+                    {
+                        expectedCounter3++;
+                    }
+                }
+            }
+
+            Assert.Equal(1, expectedCounter1);
+            Assert.Equal(2, expectedCounter2);
+            Assert.Equal(3, expectedCounter3);
+
         }
 
         [Fact]
         public async Task ReadAllAsync_returns_all_material_check_levels()
         {
-            
+            var response = await _v.MaterialRepository.ReadAsync();
+            var actuals = response.Select(e => e.Levels);
+
+            var expected1 = new List<CreateLevelDTO> { new CreateLevelDTO("Bachelor"), new CreateLevelDTO("Master") };
+            var expected2 = new List<CreateLevelDTO> { new CreateLevelDTO("PHD"), new CreateLevelDTO("Bachelor") };
+            var expected3 = new List<CreateLevelDTO> { new CreateLevelDTO("PHD"), new CreateLevelDTO("Master"), new CreateLevelDTO("Bachelor") };
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual),
+                actual => Assert.Equal(expected2, actual),
+                actual => Assert.Equal(expected3, actual));
         }
 
         [Fact]
         public async Task ReadAllAsync_returns_all_material_check_authors()
         {
+            var response = await _v.MaterialRepository.ReadAsync();
+            var actuals = response.Select(e => e.Authors);
 
+            var expected1 = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Rasmus", "Kristensen") };
+            var expected2 = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Alex", "Su"), new CreateAuthorDTO("Rasmus", "Kristensen") };
+            var expected3 = new List<CreateAuthorDTO>() { new CreateAuthorDTO("Thor", "Lind"), new CreateAuthorDTO("Alex", "Su"), new CreateAuthorDTO("Rasmus", "Kristensen") };
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual),
+                actual => Assert.Equal(expected2, actual),
+                actual => Assert.Equal(expected3, actual));
         }
 
         [Fact]
         public async Task ReadAllAsync_returns_all_material_check_programming_languages()
         {
+            var response = await _v.MaterialRepository.ReadAsync();
+            var actuals = response.Select(e => e.ProgrammingLanguages);
 
+            var expected1 = new List<CreateProgrammingLanguageDTO> { new CreateProgrammingLanguageDTO("C#") };
+            var expected2 = new List<CreateProgrammingLanguageDTO> { new CreateProgrammingLanguageDTO("F#") };
+            var expected3 = new List<CreateProgrammingLanguageDTO> { new CreateProgrammingLanguageDTO("C++") };
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual),
+                actual => Assert.Equal(expected2, actual),
+                actual => Assert.Equal(expected3, actual));
         }
 
         [Fact]
         public async Task ReadAllAsync_returns_all_material_check_medias()
         {
+            var response = await _v.MaterialRepository.ReadAsync();
+            var actuals = response.Select(e => e.Medias);
 
+            var expected1 = new List<CreateMediaDTO> { new CreateMediaDTO("Book"), new CreateMediaDTO("Report") };
+            var expected2 = new List<CreateMediaDTO> { new CreateMediaDTO("Report") };
+            var expected3 = new List<CreateMediaDTO> { new CreateMediaDTO("Video") };
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual),
+                actual => Assert.Equal(expected2, actual),
+                actual => Assert.Equal(expected3, actual));
         }
 
         [Fact]
         public async Task ReadAllAsync_returns_all_material_check_language()
         {
+            var response = await _v.MaterialRepository.ReadAsync();
+            var actuals = response.Select(e => e.Language);
 
+            var expected1 = new CreateLanguageDTO("Danish");
+            var expected2 = new CreateLanguageDTO("English");
+            var expected3 = new CreateLanguageDTO("Swedish");
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual),
+                actual => Assert.Equal(expected2, actual),
+                actual => Assert.Equal(expected3, actual));
         }
 
         [Fact]
         public async Task ReadAllAsync_returns_all_material_check_summary()
         {
+            var response = await _v.MaterialRepository.ReadAsync();
+            var actuals = response.Select(e => e.Summary);
 
+            var expected1 = "I am material 1";
+            var expected2 = "I am material 2";
+            var expected3 = "I am material 3";
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual),
+                actual => Assert.Equal(expected2, actual),
+                actual => Assert.Equal(expected3, actual));
         }
 
         [Fact]
         public async Task ReadAllAsync_returns_all_material_check_url()
         {
+            var response = await _v.MaterialRepository.ReadAsync();
+            var actuals = response.Select(e => e.URL);
 
+            var expected1 = "url1.com";
+            var expected2 = "url2.com";
+            var expected3 = "url3.com";
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual),
+                actual => Assert.Equal(expected2, actual),
+                actual => Assert.Equal(expected3, actual));
+        }
+
+        [Fact]
+        public async Task ReadAllAsync_returns_all_material_check_content()
+        {
+            var response = await _v.MaterialRepository.ReadAsync();
+            var actuals = response.Select(e => e.Content);
+
+            var expected1 = "Content 1";
+            var expected2 = "Content 2";
+            var expected3 = "Content 3";
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, actual),
+                actual => Assert.Equal(expected2, actual),
+                actual => Assert.Equal(expected3, actual));
         }
 
         [Fact]
@@ -1411,7 +1552,7 @@
 
             var found = materials.Where(material => func.Invoke(material)).Count();
 
-            Assert.Equal(1, found);
+            Assert.Equal(3, found);
         }
 
         [Fact]
@@ -1468,7 +1609,7 @@
 
             var found = materials.Where(func.Invoke).Count();
 
-            Assert.Equal(1, found);
+            Assert.Equal(2, found);
         }
 
         [Fact]
