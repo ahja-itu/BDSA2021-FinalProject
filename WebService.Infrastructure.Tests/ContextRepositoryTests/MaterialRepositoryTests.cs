@@ -273,7 +273,7 @@
 
             var actual = (response.Item1, response.Item2.Id);
 
-            var expected = (Status.BadRequest, -1);
+            var expected = (Status.Created, 4);
 
             Assert.Equal(expected, actual);
         }
@@ -301,7 +301,7 @@
 
             var actual = (response.Item1, response.Item2.Id);
 
-            var expected = (Status.Created, 4);
+            var expected = (Status.BadRequest, 1);
 
             Assert.Equal(expected, actual);
         }
