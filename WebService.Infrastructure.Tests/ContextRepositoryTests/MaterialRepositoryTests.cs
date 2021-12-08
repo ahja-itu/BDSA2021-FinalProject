@@ -807,7 +807,7 @@
         }
 
         [Fact]
-        public async Task ReadAsync_material_by_id_returns_material_returns_new_tags()
+        public async Task UpdateAsync_material_by_id_returns_material_returns_new_tags()
         {
             var updateMaterialDTO = _UpdateMaterialDTO;
 
@@ -824,7 +824,7 @@
         }
 
         [Fact]
-        public async Task ReadAsync_material_by_id_returns_material_returns_new_ratings()
+        public async Task UpdateAsync_material_by_id_returns_material_returns_new_ratings()
         {
             var updateMaterialDTO = _UpdateMaterialDTO;
 
@@ -841,7 +841,7 @@
         }
 
         [Fact]
-        public async Task ReadAsync_material_by_id_returns_material_returns_new_levels()
+        public async Task UpdateAsync_material_by_id_returns_material_returns_new_levels()
         {
             var updateMaterialDTO = _UpdateMaterialDTO;
 
@@ -849,8 +849,8 @@
 
             var actuals = _v.MaterialRepository.ReadAsync(updateMaterialDTO.Id).Result.Item2.Levels;
 
-            var expected1 = "PHD";
-            var expected2 = "Bachelor";
+            var expected1 = "Bachelor";
+            var expected2 = "PHD";
 
             Assert.Collection(actuals,
                 actual => Assert.Equal(expected1, actual.Name),
@@ -858,7 +858,7 @@
         }
 
         [Fact]
-        public async Task ReadAsync_material_by_id_returns_material_returns_new_programming_languages()
+        public async Task UpdateAsync_material_by_id_returns_material_returns_new_programming_languages()
         {
             var updateMaterialDTO = _UpdateMaterialDTO;
 
@@ -875,7 +875,7 @@
         }
 
         [Fact]
-        public async Task ReadAsync_material_by_id_returns_material_returns_new_medias()
+        public async Task UpdateAsync_material_by_id_returns_material_returns_new_medias()
         {
             var updateMaterialDTO = _UpdateMaterialDTO;
 
