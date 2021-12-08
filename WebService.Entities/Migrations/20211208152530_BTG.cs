@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace WebService.Entities.Migrations
 {
-    public partial class BDSA : Migration
+    public partial class BTG : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +21,45 @@ namespace WebService.Entities.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Languages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Levels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Levels", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Medias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Medias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProgrammingLanguages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProgrammingLanguages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,7 +86,8 @@ namespace WebService.Entities.Migrations
                     URL = table.Column<string>(type: "text", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    TimeStamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    TimeStamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TagId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -57,6 +98,11 @@ namespace WebService.Entities.Migrations
                         principalTable: "Languages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Materials_Tags_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tags",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -80,60 +126,75 @@ namespace WebService.Entities.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Levels",
+                name: "LevelMaterial",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    MaterialId = table.Column<int>(type: "integer", nullable: true)
+                    LevelsId = table.Column<int>(type: "integer", nullable: false),
+                    MaterialsId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Levels", x => x.Id);
+                    table.PrimaryKey("PK_LevelMaterial", x => new { x.LevelsId, x.MaterialsId });
                     table.ForeignKey(
-                        name: "FK_Levels_Materials_MaterialId",
-                        column: x => x.MaterialId,
+                        name: "FK_LevelMaterial_Levels_LevelsId",
+                        column: x => x.LevelsId,
+                        principalTable: "Levels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LevelMaterial_Materials_MaterialsId",
+                        column: x => x.MaterialsId,
                         principalTable: "Materials",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Medias",
+                name: "MaterialMedia",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    MaterialId = table.Column<int>(type: "integer", nullable: true)
+                    MaterialsId = table.Column<int>(type: "integer", nullable: false),
+                    MediasId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Medias", x => x.Id);
+                    table.PrimaryKey("PK_MaterialMedia", x => new { x.MaterialsId, x.MediasId });
                     table.ForeignKey(
-                        name: "FK_Medias_Materials_MaterialId",
-                        column: x => x.MaterialId,
+                        name: "FK_MaterialMedia_Materials_MaterialsId",
+                        column: x => x.MaterialsId,
                         principalTable: "Materials",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MaterialMedia_Medias_MediasId",
+                        column: x => x.MediasId,
+                        principalTable: "Medias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProgrammingLanguages",
+                name: "MaterialProgrammingLanguage",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    MaterialId = table.Column<int>(type: "integer", nullable: true)
+                    MaterialsId = table.Column<int>(type: "integer", nullable: false),
+                    ProgrammingLanguagesId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProgrammingLanguages", x => x.Id);
+                    table.PrimaryKey("PK_MaterialProgrammingLanguage", x => new { x.MaterialsId, x.ProgrammingLanguagesId });
                     table.ForeignKey(
-                        name: "FK_ProgrammingLanguages_Materials_MaterialId",
-                        column: x => x.MaterialId,
+                        name: "FK_MaterialProgrammingLanguage_Materials_MaterialsId",
+                        column: x => x.MaterialsId,
                         principalTable: "Materials",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MaterialProgrammingLanguage_ProgrammingLanguages_Programmin~",
+                        column: x => x.ProgrammingLanguagesId,
+                        principalTable: "ProgrammingLanguages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,9 +245,9 @@ namespace WebService.Entities.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Levels_MaterialId",
-                table: "Levels",
-                column: "MaterialId");
+                name: "IX_LevelMaterial_MaterialsId",
+                table: "LevelMaterial",
+                column: "MaterialsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Levels_Name",
@@ -195,9 +256,24 @@ namespace WebService.Entities.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_MaterialMedia_MediasId",
+                table: "MaterialMedia",
+                column: "MediasId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MaterialProgrammingLanguage_ProgrammingLanguagesId",
+                table: "MaterialProgrammingLanguage",
+                column: "ProgrammingLanguagesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Materials_LanguageId",
                 table: "Materials",
                 column: "LanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Materials_TagId",
+                table: "Materials",
+                column: "TagId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Materials_Title",
@@ -206,20 +282,10 @@ namespace WebService.Entities.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Medias_MaterialId",
-                table: "Medias",
-                column: "MaterialId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Medias_Name",
                 table: "Medias",
                 column: "Name",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProgrammingLanguages_MaterialId",
-                table: "ProgrammingLanguages",
-                column: "MaterialId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProgrammingLanguages_Name",
@@ -240,6 +306,21 @@ namespace WebService.Entities.Migrations
                 name: "Author");
 
             migrationBuilder.DropTable(
+                name: "LevelMaterial");
+
+            migrationBuilder.DropTable(
+                name: "MaterialMedia");
+
+            migrationBuilder.DropTable(
+                name: "MaterialProgrammingLanguage");
+
+            migrationBuilder.DropTable(
+                name: "Rating");
+
+            migrationBuilder.DropTable(
+                name: "WeightedTag");
+
+            migrationBuilder.DropTable(
                 name: "Levels");
 
             migrationBuilder.DropTable(
@@ -249,19 +330,13 @@ namespace WebService.Entities.Migrations
                 name: "ProgrammingLanguages");
 
             migrationBuilder.DropTable(
-                name: "Rating");
-
-            migrationBuilder.DropTable(
-                name: "Tags");
-
-            migrationBuilder.DropTable(
-                name: "WeightedTag");
-
-            migrationBuilder.DropTable(
                 name: "Materials");
 
             migrationBuilder.DropTable(
                 name: "Languages");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
         }
     }
 }
