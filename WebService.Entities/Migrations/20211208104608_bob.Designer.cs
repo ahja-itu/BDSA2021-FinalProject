@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebService.Entities;
@@ -11,9 +12,10 @@ using WebService.Entities;
 namespace WebService.Entities.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20211208104608_bob")]
+    partial class bob
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,51 +23,6 @@ namespace WebService.Entities.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("LevelMaterial", b =>
-                {
-                    b.Property<int>("LevelsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("MaterialsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("LevelsId", "MaterialsId");
-
-                    b.HasIndex("MaterialsId");
-
-                    b.ToTable("LevelMaterial");
-                });
-
-            modelBuilder.Entity("MaterialMedia", b =>
-                {
-                    b.Property<int>("MaterialsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("MediasId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("MaterialsId", "MediasId");
-
-                    b.HasIndex("MediasId");
-
-                    b.ToTable("MaterialMedia");
-                });
-
-            modelBuilder.Entity("MaterialProgrammingLanguage", b =>
-                {
-                    b.Property<int>("MaterialsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProgrammingLanguagesId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("MaterialsId", "ProgrammingLanguagesId");
-
-                    b.HasIndex("ProgrammingLanguagesId");
-
-                    b.ToTable("MaterialProgrammingLanguage");
-                });
 
             modelBuilder.Entity("WebService.Entities.Language", b =>
                 {
@@ -96,12 +53,17 @@ namespace WebService.Entities.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("MaterialId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MaterialId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -130,7 +92,7 @@ namespace WebService.Entities.Migrations
                         .HasColumnType("character varying(400)");
 
                     b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -159,12 +121,17 @@ namespace WebService.Entities.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("MaterialId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MaterialId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -180,12 +147,17 @@ namespace WebService.Entities.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("MaterialId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MaterialId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -214,49 +186,11 @@ namespace WebService.Entities.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("LevelMaterial", b =>
-                {
-                    b.HasOne("WebService.Entities.Level", null)
-                        .WithMany()
-                        .HasForeignKey("LevelsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebService.Entities.Material", null)
-                        .WithMany()
-                        .HasForeignKey("MaterialsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MaterialMedia", b =>
+            modelBuilder.Entity("WebService.Entities.Level", b =>
                 {
                     b.HasOne("WebService.Entities.Material", null)
-                        .WithMany()
-                        .HasForeignKey("MaterialsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebService.Entities.Media", null)
-                        .WithMany()
-                        .HasForeignKey("MediasId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MaterialProgrammingLanguage", b =>
-                {
-                    b.HasOne("WebService.Entities.Material", null)
-                        .WithMany()
-                        .HasForeignKey("MaterialsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebService.Entities.ProgrammingLanguage", null)
-                        .WithMany()
-                        .HasForeignKey("ProgrammingLanguagesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Levels")
+                        .HasForeignKey("MaterialId");
                 });
 
             modelBuilder.Entity("WebService.Entities.Material", b =>
@@ -304,7 +238,7 @@ namespace WebService.Entities.Migrations
                                 .HasColumnType("integer");
 
                             b1.Property<DateTime>("TimeStamp")
-                                .HasColumnType("timestamp without time zone");
+                                .HasColumnType("timestamp with time zone");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("integer");
@@ -347,6 +281,29 @@ namespace WebService.Entities.Migrations
                     b.Navigation("Ratings");
 
                     b.Navigation("WeightedTags");
+                });
+
+            modelBuilder.Entity("WebService.Entities.Media", b =>
+                {
+                    b.HasOne("WebService.Entities.Material", null)
+                        .WithMany("Medias")
+                        .HasForeignKey("MaterialId");
+                });
+
+            modelBuilder.Entity("WebService.Entities.ProgrammingLanguage", b =>
+                {
+                    b.HasOne("WebService.Entities.Material", null)
+                        .WithMany("ProgrammingLanguages")
+                        .HasForeignKey("MaterialId");
+                });
+
+            modelBuilder.Entity("WebService.Entities.Material", b =>
+                {
+                    b.Navigation("Levels");
+
+                    b.Navigation("Medias");
+
+                    b.Navigation("ProgrammingLanguages");
                 });
 #pragma warning restore 612, 618
         }
