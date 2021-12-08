@@ -13,10 +13,10 @@
             _search = search;
         }
 
-        [HttpGet]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<LanguageDTO>> Get(SearchForm searchForm)
+        public async Task<ActionResult<ICollection<MaterialDTO>>> Post(SearchForm searchForm)
         {
             //var result = await _search.Search(searchForm);
             throw new NotImplementedException();
