@@ -3,7 +3,7 @@ name: .NET
 on: push
 
 concurrency: 
-  group: concurrency-group-${GITHUB_REF##*/}
+  group: concurrency-group-${{GITHUB_REF##*/}}
   cancel-in-progress: true
 
 jobs:
