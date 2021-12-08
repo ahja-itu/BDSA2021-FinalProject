@@ -64,7 +64,7 @@ namespace ExtensionMethods
             return material.Authors.Aggregate("Authors: ", (current, author) => current + author.FirstName + author.SurName + " ");
         }
 
-        public static MaterialDTO ConvertMaterialToMaterialDTO(this Material material)
+        public static MaterialDTO ConvertToMaterialDTO(this Material material)
         {
             return new MaterialDTO(
                 material.Id,
