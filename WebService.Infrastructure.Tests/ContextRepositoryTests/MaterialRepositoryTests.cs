@@ -809,16 +809,74 @@
         public async Task ReadAllAsync_returns_all_material_check_tags()
         {
             var response = await _v.MaterialRepository.ReadAsync();
-            var actuals = response.Select(e => e.Tags.First().Name);
+            var actuals = response.Select(e => e.Tags.First());
 
-            var expected1 = "SOLID";
-            var expected2 = "API";
-            var expected3 = "API";
+            var expected1 = ("SOLID", 10);
+            var expected2 = ("API", 50);
+            var expected3 = ("API", 90);
 
             Assert.Collection(actuals,
-                actual => Assert.Equal(expected1, actual),
-                actual => Assert.Equal(expected2, actual),
-                actual => Assert.Equal(expected3, actual));
+                actual => Assert.Equal(expected1, (actual.Name, actual.Weight)),
+                actual => Assert.Equal(expected2, (actual.Name, actual.Weight)),
+                actual => Assert.Equal(expected3, (actual.Name, actual.Weight)));
+        }
+
+        [Fact]
+        public async Task ReadAllAsync_returns_all_material_check_ratings()
+        {
+            var response = await _v.MaterialRepository.ReadAsync();
+            var actuals = response.Select(e => e.Ratings.First());
+
+            var expected1 = (2, "Rasmus");
+            var expected2 = (5, "Kim");
+            var expected3 = (9, "Poul");
+
+            Assert.Collection(actuals,
+                actual => Assert.Equal(expected1, (actual.Value, actual.Reviewer)),
+                actual => Assert.Equal(expected2, (actual.Value, actual.Reviewer)),
+                actual => Assert.Equal(expected3, (actual.Value, actual.Reviewer)));
+        }
+
+        [Fact]
+        public async Task ReadAllAsync_returns_all_material_check_levels()
+        {
+            
+        }
+
+        [Fact]
+        public async Task ReadAllAsync_returns_all_material_check_authors()
+        {
+
+        }
+
+        [Fact]
+        public async Task ReadAllAsync_returns_all_material_check_programming_languages()
+        {
+
+        }
+
+        [Fact]
+        public async Task ReadAllAsync_returns_all_material_check_medias()
+        {
+
+        }
+
+        [Fact]
+        public async Task ReadAllAsync_returns_all_material_check_language()
+        {
+
+        }
+
+        [Fact]
+        public async Task ReadAllAsync_returns_all_material_check_summary()
+        {
+
+        }
+
+        [Fact]
+        public async Task ReadAllAsync_returns_all_material_check_url()
+        {
+
         }
 
         [Fact]
