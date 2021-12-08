@@ -33,10 +33,9 @@
             else return NotFound(result);
         }
 
-        [HttpGet("{SearchForm}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<MaterialDTO>> Get(SearchForm searchForm)
+        public async Task<ActionResult<MaterialDTO>> Post(SearchForm searchForm)
         {
             var result = await _materialRepository.ReadAsync(searchForm);
             var response = result.Item1;

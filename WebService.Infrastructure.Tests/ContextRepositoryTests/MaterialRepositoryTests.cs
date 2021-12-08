@@ -812,7 +812,7 @@
             var actuals = response.Select(e => e.Tags.First());
 
             var expected1 = ("SOLID", 10);
-            var expected2 = ("API", 50);
+            var expected2 = ("API", 90);
             var expected3 = ("API", 90);
 
             Assert.Collection(actuals,
@@ -828,8 +828,8 @@
             var actuals = response.Select(e => e.Ratings.First());
 
             var expected1 = (2, "Rasmus");
-            var expected2 = (5, "Kim");
-            var expected3 = (9, "Poul");
+            var expected2 = (2, "Rasmus");
+            var expected3 = (2, "Rasmus");
 
             Assert.Collection(actuals,
                 actual => Assert.Equal(expected1, (actual.Value, actual.Reviewer)),

@@ -37,9 +37,12 @@
             var rating32 = new Rating(5, "Kim");
             var rating33 = new Rating(9, "Poul");
 
+            var weightedTag11 = new WeightedTag("SOLID", 10);
+            var weightedTag12 = new WeightedTag("SOLID", 10);
             var weightedTag1 = new WeightedTag("SOLID", 10);
             var weightedTag2 = new WeightedTag("RAD", 50);
             var weightedTag3 = new WeightedTag("API", 90);
+            var weightedTag32 = new WeightedTag("API", 90);
 
             var tag1 = new Tag(1, "SOLID");
             var tag2 = new Tag(2, "RAD");
@@ -54,7 +57,12 @@
             var url3 = "url3.com";
 
             var author1 = new Author("Rasmus", "Kristensen");
+            var author11 = new Author("Rasmus", "Kristensen");
+            var author12 = new Author("Rasmus", "Kristensen");
+
             var author2 = new Author("Alex", "Su");
+            var author22 = new Author("Alex", "Su");
+
             var author3 = new Author("Thor", "Lind");
 
             string content1 = "Content 1";
@@ -63,32 +71,32 @@
 
             var material1 = new Material(
             
-                new List<WeightedTag> { weightedTag1 },
+                new List<WeightedTag> { weightedTag11 },
                 new List<Rating> { rating11 },
-                new List<Level> { level1 },
+                new List<Level> { level1, level2 },
                 new List<ProgrammingLanguage> { programmingLanguage1 },
-                new List<Media> { media1 },
+                new List<Media> { media1, media2 },
                 language1,
                 summary1,
                 url1,
                 content1,
                 "Material 1",
-                new List<Author> { author1 },
+                new List<Author> { author11 },
                 System.DateTime.UtcNow
             );
 
             var material2 = new Material(
-                new List<WeightedTag> { weightedTag3, weightedTag1 },
+                new List<WeightedTag> { weightedTag32, weightedTag12 },
                 new List<Rating> { rating21, rating22 },
                 new List<Level> { level3, level1 },
                 new List<ProgrammingLanguage> { programmingLanguage3 },
                 new List<Media> { media2 },
-                language3,
+                language2,
                 summary2,
                 url2,
                 content2,
                 "Material 2",
-                new List<Author> { author3, author1 },
+                new List<Author> { author22, author12 },
                 System.DateTime.UtcNow.AddYears(-11).AddDays(10)
             );
          

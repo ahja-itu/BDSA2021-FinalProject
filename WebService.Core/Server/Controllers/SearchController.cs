@@ -18,8 +18,11 @@
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ICollection<MaterialDTO>>> Post(SearchForm searchForm)
         {
-            //var result = await _search.Search(searchForm);
-            throw new NotImplementedException();
+            var result = await _search.Search(searchForm);
+            var response = result.Item1;
+
+            if (response == Status.Found) return Ok(result);
+            else return NotFound();
         }
     }
 }
