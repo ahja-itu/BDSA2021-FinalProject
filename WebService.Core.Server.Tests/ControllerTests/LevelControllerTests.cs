@@ -1,43 +1,43 @@
 ﻿namespace WebService.Core.Server.Tests.ControllerTests
 {
-    public class TagControllerTests
+    public class LevelControllerTests
     {
-        private readonly TagController _tagController;
+        private readonly LevelController _levelController;
         private readonly TestVariables _v;
 
-        public TagControllerTests()
+        public LevelControllerTests()
         {
             _v = new TestVariables();
-            _tagController = new TagController(_v.TagRepository);
+            _levelController = new LevelController(_v.LevelRepository);
         }
 
         #region Post/Create
         [Fact]
-        public async Task Post_tag_returns_status_created()
+        public async Task Post_level_returns_status_created()
         {
-            var tag = new CreateTagDTO("Database");
+            var level = new CreateLevelDTO("High school");
 
-            var actual = await _tagController.Post(tag) as CreatedResult;
+            var actual = await _levelController.Post(level) as CreatedResult;
 
             Assert.Equal((int)HttpStatusCode.Created, actual?.StatusCode);
         }
 
         [Fact]
-        public async Task Post_tag_returns_status_conflict()
+        public async Task Post_level_returns_status_conflict()
         {
-            var tag = new CreateTagDTO("SOLID");
+            var level = new CreateLevelDTO("PHD");
 
-            var actual = await _tagController.Post(tag) as ConflictResult;
+            var actual = await _levelController.Post(level) as ConflictResult;
 
             Assert.Equal((int)HttpStatusCode.Conflict, actual?.StatusCode);
         }
 
         [Fact]
-        public async Task Post_tag_returns_status_badRequest()
+        public async Task Post_level_returns_status_badRequest()
         {
-            var tag = new CreateTagDTO("");
+            var level = new CreateLevelDTO("");
 
-            var actual = await _tagController.Post(tag) as BadRequestResult;
+            var actual = await _levelController.Post(level) as BadRequestResult;
 
             Assert.Equal((int)HttpStatusCode.BadRequest, actual?.StatusCode);
         }
@@ -45,27 +45,27 @@
 
         #region Get/Read
         [Fact]
-        public async Task Get_all_tags_returns_status_ok()
+        public async Task Get_all_levels_returns_status_ok()
         {
-            var response = await _tagController.Get();
+            var response = await _levelController.Get();
             var actual = response.Result as OkObjectResult;
 
             Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
         }
 
         [Fact]
-        public async Task Get_tag_returns_status_ok()
+        public async Task Get_level_returns_status_ok()
         {
-            var response = await _tagController.Get(1);
+            var response = await _levelController.Get(1);
             var actual = response.Result as OkObjectResult;
 
             Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
         }
 
         [Fact]
-        public async Task Get_tag_returns_status_notFound()
+        public async Task Get_level_returns_status_notFound()
         {
-            var response = await _tagController.Get(4);
+            var response = await _levelController.Get(4);
             var actual = response.Result as NotFoundResult;
 
             Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
@@ -74,18 +74,18 @@
 
         #region Delete
         [Fact]
-        public async Task Delete_tag_returns_status_noContent()
+        public async Task Delete_level_returns_status_noContent()
         {
-            var response = await _tagController.Delete(3);
+            var response = await _levelController.Delete(3);
             var actual = response as NoContentResult;
 
             Assert.Equal((int)HttpStatusCode.NoContent, actual?.StatusCode);
         }
 
         [Fact]
-        public async Task Delete_tag_returns_status_notFound()
+        public async Task Delete_level_returns_status_notFound()
         {
-            var response = await _tagController.Delete(4);
+            var response = await _levelController.Delete(4);
             var actual = response as NotFoundResult;
 
             Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
@@ -94,40 +94,40 @@
 
         #region Put/Update
         [Fact]
-        public async Task Put_tag_returns_status_noContent()
+        public async Task Put_level_returns_status_noContent()
         {
-            var tag = new TagDTO(1, "Database");
-            var response = await _tagController.Put(tag);
+            var level = new LevelDTO(1, "High school");
+            var response = await _levelController.Put(level);
             var actual = response as NoContentResult;
 
             Assert.Equal((int)HttpStatusCode.NoContent, actual?.StatusCode);
         }
 
         [Fact]
-        public async Task Put_tag_returns_status_conflict()
+        public async Task Put_level_returns_status_conflict()
         {
-            var tag = new TagDTO(1, "API");
-            var response = await _tagController.Put(tag);
+            var level = new LevelDTO(1, "PHD");
+            var response = await _levelController.Put(level);
             var actual = response as ConflictResult;
 
             Assert.Equal((int)HttpStatusCode.Conflict, actual?.StatusCode);
         }
 
         [Fact]
-        public async Task Put_tag_returns_status_badRequest()
+        public async Task Put_level_returns_status_badRequest()
         {
-            var tag = new TagDTO(1, "");
-            var response = await _tagController.Put(tag);
+            var level = new LevelDTO(1, "");
+            var response = await _levelController.Put(level);
             var actual = response as BadRequestResult;
 
             Assert.Equal((int)HttpStatusCode.BadRequest, actual?.StatusCode);
         }
 
         [Fact]
-        public async Task Put_tag_returns_status_notFound()
+        public async Task Put_level_returns_status_notFound()
         {
-            var tag = new TagDTO(4, "Database");
-            var response = await _tagController.Put(tag);
+            var level = new LevelDTO(4, "High school");
+            var response = await _levelController.Put(level);
             var actual = response as NotFoundResult;
 
             Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);

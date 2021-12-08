@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using WebService.Core.Shared
 @using Microsoft.AspNetCore.Authorization
+@using System.Globalization
 @attribute [Authorize]
 @inject HttpClient _http
 <PageTitle>Index</PageTitle>
@@ -67,17 +68,19 @@
     }
 </style>
 <!-- Header -->
-<div style="padding-bottom: 20%">
+<div>
     <h1 style="text-align: center; color:#ffffff">Bridge The Gap!</h1>
 </div>
-<!-- Search bar -->
-<div class="row" style="border-bottom:solid;border-color:#7765E3">
-    <div class="col d-flex justify-content-center align-item-center" style="width:100%">
-        <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" Style="width:100%;font-size:2em"/>
-        <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>
+@if (_showingSearchForm)
+{
+    <!-- Search bar -->
+    <div class="row" style="border-bottom:solid;border-color:#7765E3;padding-top: 20%">
+        <div class="col d-flex justify-content-center align-item-center" style="width:100%">
+            <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" Style="width:100%;font-size:2em"/>
+            <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>
+        </div>
     </div>
-</div>
-<!-- Filter box -->
+    <!-- Filter box -->
 @if (_advancedView)
 {
     <div id="filters" class="row" style="margin-left:20px;margin-right:20px;background:#4E4E4E;border-radius: 24px;margin-top:15px;padding:25px">
@@ -91,35 +94,38 @@
                 <RadzenButton id="medias" Click=@(_ => ChangeFilter("Medias")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Medias"/>
             </div>
         </div>
-        @if (_isShowingFilterOptions && _filterSelected)
+        @if (_filterSelected)
         {
-            <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
-                <div class="col">
-                    <RadzenTextBox id="searchFilter" class="btgInput" @oninput=@(args => { SearchFilters(args.Value.ToString());}) @bind-Value=@_filterSearchInput Placeholder="@_placeholder"/>
-                    <RadzenButton Click=@(_ => SearchFilters(_filterSearchInput)) Icon="search" class="btgIconButton smallIcon"/>
+            @if (_isShowingFilterOptions)
+            {
+                <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
+                    <div class="col">
+                        <RadzenTextBox id="searchFilter" class="btgInput" @oninput=@(args => { SearchFilters(args.Value.ToString()); }) @bind-Value=@_filterSearchInput Placeholder="@_placeholder"/>
+                        <RadzenButton Click=@(_ => SearchFilters(_filterSearchInput)) Icon="search" class="btgIconButton smallIcon"/>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                @foreach (var str in _showCollection)
-                {
-                    <RadzenButton id="@FilterOptionIdGenerator()" Click=@(_ => AddFilterToList(str)) Style="border-radius: 24px; background: #fff; margin:10px; color:#7765E3; width: auto;" Text="@str"/>
-                }
-            </div>
-        }
-        else if (!_isShowingFilterOptions && _filterSelected)
-        {
-            <div class="row">
-                <p style="margin-top: 2rem">Minimum rating: @_rating</p>
-                <RadzenSlider class="slider" id="slider" @bind-Value=@_rating TValue="int" Step="1" Min="0" Max="10"/>
-            </div>
+                <div class="row">
+                    @foreach (var str in _showCollection)
+                    {
+                        <RadzenButton id="@FilterOptionIdGenerator()" Click=@(_ => AddFilterToList(str)) Style="border-radius: 24px; background: #fff; margin:10px; color:#7765E3; width: auto;" Text="@str"/>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <p style="margin-top: 2rem">Minimum rating: @_rating</p>
+                    <RadzenSlider class="slider" id="slider" @bind-Value=@_rating TValue="int" Step="1" Min="0" Max="10"/>
+                </div>
+            }
         }
     </div>
 }
-<!-- Show Filter Button -->
-<div class="row d-flex justify-content-center align-item-center">
-    <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@_displayIcon"/>
-</div>
-<!-- Results Box -->
+    <!-- Show Filter Button -->
+    <div class="row d-flex justify-content-center align-item-center">
+        <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@_displayIcon"/>
+    </div>
+    <!-- Results Box -->
 @if (_results != null)
 {
     <div class="row scroller">
@@ -141,7 +147,7 @@
                     </div>
                     <div class="row" style="margin-left: 5px">
                         <div class="col">
-                            <RadzenButton class="btgIconButton" Style="font-size: 20px; padding: 0">
+                            <RadzenButton class="btgIconButton" Click="@(_ => ShowSelectedMaterial(material.Id))" Style="font-size: 20px; padding: 0">
                                 @material.Title
                             </RadzenButton>
                         </div>
@@ -161,13 +167,60 @@
         }
     </div>
 }
+}
+else
+{
+    <div style="text-align: right">
+        <RadzenButton class="btgIconButton" Icon="close" Click="CloseMaterial"></RadzenButton>
+    </div>
+    <div style="background: #4E4E4E;border-radius: 15px">
+        <div style="padding: 10px">
+            <div class="row">
+                <div class="col-6">
+                    <a href="@_selectedMaterial.URL">@_selectedMaterial.URL</a>
+                </div>
+                <div class="col-6">
+                    <p style="text-align: right;">@_selectedMaterial.TimeStamp.ToString(CultureInfo.CurrentCulture)</p>
+                </div>
+            </div>
+            <div class="row">
+                <h3 style="color:#9586E9">@_selectedMaterial.Title</h3>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p>@MaterialAuthorsToString(_selectedMaterial)</p>
+                </div>
+                <div class="col-6">
+                    <p style="text-align: right">@_selectedMaterial.Language.Name</p>
+                </div>
+            </div>
+            <div class="row">
+                <p style="text-align: right">@MaterialLevelsToString(_selectedMaterial)</p>
+            </div>
+            <div class="row" style="border-bottom: solid 6px #9586E9">
+                <div class="col-6">
+                    @foreach (var tag in _selectedMaterial.Tags)
+                    {
+                        <RadzenButton Disabled="true" style="background: #ffffff;color: #9586E9;border-radius: 15px; font-size: 12px">@tag.Name</RadzenButton>
+                    }
+                </div>
+                <div class="col-6">
+                    <p style="text-align: right">@GetAvgRating(_selectedMaterial)</p>
+                </div>
+            </div>
+        </div>
+        <div style="padding: 20px">
+            <p>@_selectedMaterial.Content</p>
+        </div>
+    </div>
+}
 
 @code{
 
     #region Gui
 
     bool _advancedView;
-    
+
     bool _isShowingFilterOptions;
     bool _filterSelected;
 
@@ -295,32 +348,125 @@
     private void ToggleFilter(ref ICollection<string> list, string val)
     {
         if (list.Contains(val)) list.Remove(val);
-        else  list.Add(val);
+        else list.Add(val);
     }
 
     #endregion
 
     #endregion
+
+    MaterialDTO _selectedMaterial = new(
+        0,
+        new List<CreateWeightedTagDTO>
+        {
+            new("1", 7)
+        },
+        new List<CreateRatingDTO>
+        {
+            new(1, "j")
+        },
+        new List<CreateLevelDTO>
+        {
+            new("highschool")
+        },
+        new List<CreateProgrammingLanguageDTO>
+        {
+            new("c#")
+        },
+        new List<CreateMediaDTO>
+        {
+            new("pdf")
+        },
+        new CreateLanguageDTO("spanish")
+        ,
+        "summary",
+        "url",
+        @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et lobortis massa. Etiam nec justo risus. Aenean nisl orci, porta vel leo in, vehicula posuere urna. Nullam tempus placerat enim in venenatis. Sed varius eros sit amet odio efficitur molestie. In risus neque, vulputate non molestie sit amet, vehicula eu felis. Curabitur viverra rutrum interdum. Curabitur sodales ac felis at sagittis.
+
+Proin varius tristique risus nec ultrices. Praesent id fringilla ipsum, et ornare magna. Nunc et porta ligula. Vestibulum egestas dolor at sollicitudin porttitor. Suspendisse dapibus vitae diam vitae convallis. Donec quis dui ac quam eleifend luctus vel vel tellus. Mauris sit amet eros vitae nunc imperdiet dictum. Nullam ullamcorper ipsum et vestibulum dictum. Ut convallis ex et nibh elementum consequat. Maecenas ut urna in mauris consequat egestas lobortis id magna. Sed convallis mauris non ligula lacinia, eu aliquam lacus vehicula. Morbi in porta dolor, non vulputate odio. Duis egestas nunc a lorem porttitor, ut tempor magna porta. Aliquam nec aliquet elit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque et enim eget nibh vulputate commodo ultricies id elit.
+
+Integer rutrum magna sem. Vivamus id egestas dolor, vel condimentum ligula. Suspendisse id massa a libero convallis dignissim. Aenean a faucibus nibh, at ultrices enim. Donec mattis orci at dui tempus euismod. Morbi at sapien mollis, maximus diam vel, ornare enim. Vestibulum dapibus dui vitae purus scelerisque, a tincidunt ante fringilla. Quisque vitae semper tellus. Curabitur et elit varius, volutpat diam vitae, auctor justo.
+
+Fusce in odio id erat hendrerit elementum sed a enim. Nulla non dui magna. Nulla facilisi. Duis vehicula iaculis felis, vitae maximus ipsum commodo at. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse fringilla fringilla lectus, vitae tempus erat. Nulla facilisi. Proin eu orci mi.
+
+Curabitur et justo dolor. Nullam bibendum ex quis ultricies venenatis. Sed semper rutrum tristique. Proin non velit in dui consequat pulvinar. Donec tincidunt arcu at ante posuere, vitae efficitur ligula gravida. Suspendisse et libero efficitur, pellentesque elit vitae, imperdiet sem. Pellentesque risus ante, sagittis eget lorem et, lacinia venenatis lacus.
+
+Cras semper ut enim vitae faucibus. Nam vitae nibh viverra leo convallis suscipit vitae vel enim. Integer eu risus ac sem euismod varius et quis neque. Curabitur at nunc sit amet eros volutpat ornare. Sed quis malesuada lacus. Maecenas sit amet condimentum enim. Aliquam euismod, felis a tristique sollicitudin, mi lectus consequat arcu, vel consectetur neque lectus in metus. In hac habitasse platea dictumst. Suspendisse vitae metus tempor, bibendum purus a, molestie augue.
+
+Maecenas ut arcu sed tortor vestibulum viverra eget sit amet nibh. Duis et nibh accumsan, sagittis nunc ut, aliquam lacus. Nullam in suscipit elit. Sed quis eleifend nisl. Nulla odio lacus, tristique id nisl vitae, aliquet egestas augue. Nunc at ornare dolor. Donec lacinia ultrices tristique. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Interdum et malesuada fames ac ante ipsum primis in faucibus.
+
+Proin vulputate vehicula ipsum, in ultrices turpis laoreet sit amet. Mauris nec ornare justo, nec porta magna. In ut rhoncus mauris. Ut neque massa, feugiat ac viverra ut, accumsan eu ipsum. Aenean venenatis sapien vulputate tristique ultrices. Phasellus pretium leo lectus, sed suscipit nibh accumsan vitae. Pellentesque et odio vel urna sollicitudin malesuada ut ut metus. In risus lacus, scelerisque vitae mi et, cursus gravida orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum porta auctor tellus sit amet lobortis. Nam at risus nisi. Suspendisse quis magna tristique, hendrerit metus eu, feugiat eros.
+
+Phasellus aliquam vitae tortor eu pulvinar. Etiam in vestibulum purus, vel rhoncus sapien. Integer euismod eros non eleifend dignissim. Cras imperdiet eleifend diam. Sed at imperdiet libero. Morbi id libero quis ipsum ullamcorper lacinia. Integer aliquam viverra elit, quis molestie tortor auctor et. Suspendisse potenti. Etiam accumsan nulla a orci tempus, quis viverra nibh consectetur. Integer eget mauris eu magna tristique tincidunt. Cras ut magna pretium, rhoncus mi quis, molestie arcu. Proin id nisi tincidunt, pharetra metus vitae, vulputate ligula. Nullam vitae quam risus. Praesent iaculis vel mauris at ultricies.
+
+Proin tempor orci mauris, quis vestibulum mi sodales sit amet. Proin mollis nulla non fringilla sollicitudin. Nulla facilisi. Proin mattis feugiat nisl, id euismod ex sollicitudin a. Ut nibh ex, vestibulum eget neque vitae, euismod tempor tellus. Proin eget vehicula quam. Nulla vel ipsum eu dolor finibus hendrerit eget a nunc. Donec elementum eros et erat bibendum, et faucibus ante lobortis. Curabitur nec erat eget lacus consequat maximus eget in orci. Praesent egestas nulla venenatis arcu feugiat porttitor. Quisque rhoncus, sem scelerisque ornare malesuada, quam urna congue mi, non ultricies nibh metus at nisi. Pellentesque ullamcorper tempor accumsan. Sed tristique sagittis scelerisque. Mauris lobortis eros ultrices lectus lobortis egestas. Etiam commodo nibh non diam aliquam, mollis condimentum nibh semper. Nulla urna sem, tincidunt id ante ac, vehicula imperdiet ligula.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at nisi ut metus blandit pellentesque pulvinar eu diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent eu arcu neque. Aliquam ac libero quis mauris iaculis egestas. Ut eget orci sit amet leo volutpat pulvinar. Aenean vitae convallis odio, eu placerat tellus. Pellentesque luctus massa eget volutpat gravida. Etiam non dolor quis lectus placerat molestie. Vivamus tristique tellus at sollicitudin fermentum. Vivamus quis ex erat.
+
+Donec quis fermentum velit, sit amet condimentum enim. Praesent nec arcu lorem. Donec rutrum eros vitae nunc molestie, vitae ultrices tortor fringilla. Nam quis ipsum ullamcorper, bibendum nulla id, posuere augue. Donec fermentum bibendum leo quis blandit. Etiam volutpat sem feugiat, molestie quam id, aliquam mi. Sed mattis auctor lacus, id lacinia est aliquam vitae.
+
+Nulla facilisi. Phasellus ut nisi velit. Maecenas varius dolor ligula, a maximus enim malesuada congue. Pellentesque vulputate, orci nec rhoncus mollis, augue sem volutpat sem, in blandit enim urna quis mauris. Proin ut varius quam. Mauris pulvinar turpis in risus semper mattis. Phasellus tempor justo odio, nec posuere orci tincidunt sit amet. Donec consequat molestie mattis. Morbi at est mattis, tincidunt lectus non, luctus justo. Donec posuere eros diam, id dictum lectus porta ut. Suspendisse venenatis maximus maximus. Maecenas vitae congue tortor, ac sodales est. Suspendisse imperdiet ac erat nec laoreet. Vestibulum porta, sapien sed commodo interdum, ligula lacus porttitor augue, eu porta diam sapien ut leo. Curabitur sit amet neque in ipsum rhoncus tristique et eget ligula. Suspendisse sodales justo justo.
+
+Duis posuere mattis augue, in tempus diam facilisis quis. Pellentesque odio leo, condimentum eget augue nec, cursus commodo ante. Suspendisse ut interdum leo, ac semper libero. Ut nec tellus justo. Sed sollicitudin elit turpis, eget placerat erat fringilla ut. Nulla erat eros, porttitor nec ex vel, aliquet pellentesque ex. Proin consectetur aliquam mauris, sed suscipit tortor commodo ut. Nulla tincidunt gravida porttitor. Etiam gravida fringilla maximus. Morbi lacinia iaculis elit, non eleifend elit gravida at. Curabitur semper et enim at pulvinar. Etiam leo sem, ultrices sit amet blandit non, vulputate quis libero. Nullam iaculis auctor blandit. Integer gravida suscipit ornare. In efficitur erat finibus, maximus turpis et, tincidunt lacus.
+
+Integer sit amet scelerisque eros, sed pellentesque elit. Etiam bibendum pharetra arcu, id ultricies ante venenatis in. Nulla odio nunc, mattis quis leo et, faucibus vehicula tortor. In ac tempus mauris. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aliquam erat volutpat. Sed in turpis varius, sollicitudin velit vitae, dictum ex. Aenean fringilla elit et lorem vehicula, vel sodales est mattis.
+
+Proin a egestas nibh. Phasellus id dignissim ligula. Curabitur in placerat lectus, quis tincidunt metus. Morbi pretium mollis dolor eu finibus. Praesent non dictum sapien, vel iaculis augue. Maecenas auctor iaculis blandit. Vivamus lobortis euismod lacus.
+
+Nulla eget lorem varius, scelerisque enim in, molestie eros. Aenean libero nunc, sagittis nec urna eu, blandit sodales tellus. Nunc egestas viverra odio nec euismod. In suscipit justo ac quam malesuada lacinia. Donec molestie ac quam ut rutrum. Vestibulum at congue eros. Etiam sed dolor magna. Donec congue sapien elit, ac sodales turpis rutrum nec. Praesent nec imperdiet massa, et accumsan urna.
+
+Proin dui odio, fermentum id nisi ac, commodo maximus orci. Maecenas eget efficitur nunc. In egestas orci et diam dignissim auctor eu non mauris. Curabitur tempus aliquam lacus, cursus facilisis purus dictum vel. Quisque maximus vestibulum elit. Cras malesuada, magna in ultricies mollis, mi tortor iaculis dolor, quis auctor tortor sem id nulla. Mauris ut tortor molestie, sollicitudin tellus ut, efficitur neque. In luctus eros et nulla consectetur facilisis. Fusce vitae est ac urna eleifend volutpat at et est. Mauris in nulla felis.
+
+Nam in tellus non tellus malesuada ornare quis vitae justo. In hac habitasse platea dictumst. Etiam imperdiet nibh vitae est ornare, sit amet congue justo accumsan. Vivamus iaculis sem vel mauris sagittis rutrum. Phasellus eleifend ipsum non turpis sodales interdum. Mauris scelerisque, nisi ac mollis euismod, purus ex congue est, ut vehicula erat est vel leo. Aenean ultrices elit est. Maecenas porta vestibulum elit, quis suscipit eros sollicitudin ut. Maecenas dictum est arcu, sed pretium dolor vehicula sed. Proin aliquam fringilla metus et finibus. Nunc ornare id velit pretium consequat. Nulla id libero malesuada erat tincidunt elementum.
+
+Mauris non facilisis", "title",
+        new List<CreateAuthorDTO>
+        {
+            new("jens", "jensen")
+        },
+        DateTime.Now
+        );
 
     #region Search
 
-    string SearchInput = "";
+    readonly string _searchInput = "";
     IEnumerable<MaterialDTO>? _results;
+
     private void Search()
     {
         var searchForm = new SearchForm(
-            SearchInput,
-            _tagsToSend.Select(e =>new TagDTO(0,e)),
-            _levelsToSend.Select(e =>new LevelDTO(0,e)),
-            _programmingLanguagesToSend.Select(e =>new ProgrammingLanguageDTO(0,e)),
-            _languagesToSend.Select(e =>new LanguageDTO(0,e)),
-            _mediasToSend.Select(e =>new MediaDTO(0,e)),
+            _searchInput,
+            _tagsToSend.Select(e => new TagDTO(0, e)),
+            _levelsToSend.Select(e => new LevelDTO(0, e)),
+            _programmingLanguagesToSend.Select(e => new ProgrammingLanguageDTO(0, e)),
+            _languagesToSend.Select(e => new LanguageDTO(0, e)),
+            _mediasToSend.Select(e => new MediaDTO(0, e)),
             _rating);
-        // send results and receive results
+    // send results and receive results
     }
+
     #endregion
 
+    bool _showingSearchForm;
+
+    void ShowSelectedMaterial(int id)
+    {
+        foreach (var dto in _results)
+        {
+            if (dto.Id != id) continue;
+            _selectedMaterial = dto;
+            _showingSearchForm = false;
+            return;
+        }
+    }
+
+    void CloseMaterial()
+    {
+        _showingSearchForm = true;
+    }
+
     #region InitAPICalls
+
     protected override async Task OnInitializedAsync()
     {
         await GetTagsFromApi();
@@ -341,13 +487,13 @@
         var levelsDTOs = await _http.GetFromJsonAsync<ICollection<LevelDTO>>("Level");
         _levels = levelsDTOs == null ? new List<string>() : levelsDTOs.Select(e => e.Name).ToList();
     }
-    
+
     private async Task GetProgrammingLanguagesFromApi()
     {
         var programmingLanguageDTOs = await _http.GetFromJsonAsync<ICollection<ProgrammingLanguageDTO>>("ProgrammingLanguage");
         _programmingLanguages = programmingLanguageDTOs == null ? new List<string>() : programmingLanguageDTOs.Select(e => e.Name).ToList();
     }
-    
+
     private async Task GetLanguagesFromApi()
     {
         var languageDTOs = await _http.GetFromJsonAsync<ICollection<LanguageDTO>>("Language");
@@ -359,6 +505,18 @@
         var mediasDTOs = await _http.GetFromJsonAsync<ICollection<MediaDTO>>("Media");
         _medias = mediasDTOs == null ? new List<string>() : mediasDTOs.Select(e => e.Name).ToList();
     }
+
     #endregion
+
+    string MaterialLevelsToString(CreateMaterialDTO material)
+    {
+        return material.Levels.Aggregate("", (current, level) => current + level.Name + "");
+    }
+
+
+    string MaterialAuthorsToString(CreateMaterialDTO material)
+    {
+        return material.Authors.Aggregate("Authors: ", (current, author) => current + author.FirstName + author.SurName + " ");
+    }
 
 }
