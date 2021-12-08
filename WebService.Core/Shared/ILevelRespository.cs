@@ -1,6 +1,6 @@
 ﻿namespace WebService.Core.Shared
 {
-    public interface ILevelRespository
+    public interface ILevelRespository : IRepository
     {
         Task<(Status, LevelDTO)> CreateAsync(CreateLevelDTO level);
         Task<(Status, LevelDTO)> ReadAsync(int levelId);
