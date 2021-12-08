@@ -116,7 +116,7 @@
 
             var category = await query.FirstOrDefaultAsync();
 
-            if (category == null) return (Status.NotFound,CreateEmptyMaterialDTO());
+            if (category == null) return (Status.NotFound, CreateEmptyMaterialDTO());
 
             return (Status.Found, ConvertMaterialToMaterialDTO(category));
         }
@@ -150,40 +150,40 @@
             => material => searchInput.Levels.Any()
                 ? material.Levels.Any(level => searchInput.Levels.Any(searchInputLevels => searchInputLevels.Name == level.Name))
                 : true;
-        
+
 
         public static Func<Material, bool> MayContainTag(SearchForm searchInput)
-            =>  material => searchInput.Tags.Any()
-                  ? material.WeightedTags.Any(wt => searchInput.Tags.Any(st => st.Name == wt.Name)) 
-                  : true;
-        
+            => material => searchInput.Tags.Any()
+                 ? material.WeightedTags.Any(wt => searchInput.Tags.Any(st => st.Name == wt.Name))
+                 : true;
+
 
         public static Func<Material, bool> MayContainMedia(SearchForm searchInput)
             => material => searchInput.Medias.Any()
                 ? material.Medias.Any(media => searchInput.Medias.Any(mediadto => mediadto.Name == media.Name))
                 : true;
-        
+
 
         public static Func<Material, bool> MayContainLanguage(SearchForm searchInput)
             => material => searchInput.Languages.Any()
-                ? searchInput.Languages.Any(l => l.Name == material.Language.Name) 
+                ? searchInput.Languages.Any(l => l.Name == material.Language.Name)
                 : true;
 
         public static Func<Material, bool> MayContainProgrammingLanguage(SearchForm searchInput)
             => material => searchInput.ProgrammingLanguages.Any()
                 ? material.ProgrammingLanguages.Select(pl => pl.Name)
                                                 .Any(pl => searchInput.ProgrammingLanguages.Select(sipl => sipl.Name)
-                                                                                            .Any(sipl => pl == sipl)) 
+                                                                                            .Any(sipl => pl == sipl))
                 : true;
 
         public async Task<Status> UpdateAsync(MaterialDTO materialDTO)
         {
             if (!ValidTags(materialDTO.Tags).Result || InvalidInput(materialDTO)) return Status.BadRequest;
 
-            var existing = await(from m in _context.Materials
-                                 where m.Id != materialDTO.Id
-                                 where m.Title == materialDTO.Title
-                                 select m).AnyAsync();
+            var existing = await (from m in _context.Materials
+                                  where m.Id != materialDTO.Id
+                                  where m.Title == materialDTO.Title
+                                  select m).AnyAsync();
 
 
             if (existing) return Status.Conflict;
@@ -214,28 +214,28 @@
 
                 return Status.Updated;
             }
-            catch 
+            catch
             {
                 return Status.BadRequest;
-            }         
+            }
         }
 
         private static MaterialDTO CreateEmptyMaterialDTO()
         {
-            var tags = new List<CreateWeightedTagDTO> {};
-            var ratings = new List<CreateRatingDTO> {};
-            var levels = new List<CreateLevelDTO> {};
-            var programmingLanguages = new List<CreateProgrammingLanguageDTO> {};
-            var medias = new List<CreateMediaDTO> {};
+            var tags = new List<CreateWeightedTagDTO> { };
+            var ratings = new List<CreateRatingDTO> { };
+            var levels = new List<CreateLevelDTO> { };
+            var programmingLanguages = new List<CreateProgrammingLanguageDTO> { };
+            var medias = new List<CreateMediaDTO> { };
             var language = new CreateLanguageDTO("");
             var summary = "";
             var url = "";
             var content = "";
             var title = "";
-            var authors = new List<CreateAuthorDTO>() {};
+            var authors = new List<CreateAuthorDTO>() { };
             var datetime = DateTime.UtcNow;
-            
-            var material = new MaterialDTO(-1,tags,ratings,levels,programmingLanguages,medias,language,summary,url,content,title,authors,datetime);
+
+            var material = new MaterialDTO(-1, tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, datetime);
             return material;
         }
 

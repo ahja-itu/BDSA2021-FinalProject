@@ -2,7 +2,7 @@
 {
     public record MaterialDTO : CreateMaterialDTO
     {
-        public MaterialDTO(int id, ICollection<CreateWeightedTagDTO> tags, ICollection<CreateRatingDTO> ratings, ICollection<CreateLevelDTO> levels, ICollection<CreateProgrammingLanguageDTO> programmingLanguages, ICollection<CreateMediaDTO> medias, CreateLanguageDTO language, string summary, string url, string content, string title, ICollection<CreateAuthorDTO> authors, DateTime timeStamp) : base(tags, ratings, levels, programmingLanguages, medias, language, summary, url,content, title, authors, timeStamp)
+        public MaterialDTO(int id, ICollection<CreateWeightedTagDTO> tags, ICollection<CreateRatingDTO> ratings, ICollection<CreateLevelDTO> levels, ICollection<CreateProgrammingLanguageDTO> programmingLanguages, ICollection<CreateMediaDTO> medias, CreateLanguageDTO language, string summary, string url, string content, string title, ICollection<CreateAuthorDTO> authors, DateTime timeStamp) : base(tags, ratings, levels, programmingLanguages, medias, language, summary, url, content, title, authors, timeStamp)
         {
             Id = id;
         }
@@ -40,7 +40,7 @@
         public string Title { get; init; }
         public ICollection<CreateAuthorDTO> Authors { get; init; }
         public DateTime TimeStamp { get; init; }
-        
-        
+
+
     }
 }

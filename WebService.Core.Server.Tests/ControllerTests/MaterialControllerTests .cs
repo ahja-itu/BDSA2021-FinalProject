@@ -15,7 +15,7 @@
         [Fact]
         public async Task Post_material_returns_status_created()
         {
-            var material = new CreateMaterialDTO(new CreateWeightedTagDTO[] {new CreateWeightedTagDTO("API",10)},new CreateRatingDTO[] { }, new CreateLevelDTO[] {new CreateLevelDTO("PHD")},new CreateProgrammingLanguageDTO[] {new CreateProgrammingLanguageDTO("C#")},new CreateMediaDTO[] {new CreateMediaDTO("Book")},new CreateLanguageDTO("Danish"),"Summary","Url","Content","Title", new CreateAuthorDTO[] {},System.DateTime.UtcNow);
+            var material = new CreateMaterialDTO(new CreateWeightedTagDTO[] { new CreateWeightedTagDTO("API", 10) }, new CreateRatingDTO[] { }, new CreateLevelDTO[] { new CreateLevelDTO("PHD") }, new CreateProgrammingLanguageDTO[] { new CreateProgrammingLanguageDTO("C#") }, new CreateMediaDTO[] { new CreateMediaDTO("Book") }, new CreateLanguageDTO("Danish"), "Summary", "Url", "Content", "Title", new CreateAuthorDTO[] { }, System.DateTime.UtcNow);
 
             var actual = await _materialController.Post(material) as CreatedResult;
 
