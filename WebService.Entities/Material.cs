@@ -1,4 +1,6 @@
-﻿namespace WebService.Entities;
+﻿
+
+namespace WebService.Entities;
 
 public class Material
 {
@@ -61,4 +63,9 @@ public class Material
 
     public ICollection<Author> Authors { get; set; }
     public DateTime TimeStamp { get; set; }
+
+    public bool hasMinimumAverageRating(int minimumRating)
+        => Ratings.Count() == 0 ? true : Ratings.Average(r => r.Value) >= minimumRating;
+
+
 }

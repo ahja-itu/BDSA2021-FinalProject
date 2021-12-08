@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\WebService.Entities\WebService.Entities.csproj" />
     <ProjectReference Include="..\WebService.Infrastructure\WebService.Infrastructure.csproj" />
+    <ProjectReference Include="..\WebService.Core\Shared\WebService.Core.Shared.csproj" />
   </ItemGroup>
 
 </Project>
