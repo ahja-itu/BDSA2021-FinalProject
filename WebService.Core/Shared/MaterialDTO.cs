@@ -1,6 +1,4 @@
-﻿using WebService.Entities;
-
-namespace WebService.Core.Shared
+﻿namespace WebService.Core.Shared
 {
     public record MaterialDTO : CreateMaterialDTO
     {
@@ -44,7 +42,7 @@ namespace WebService.Core.Shared
         public DateTime TimeStamp { get; init; }
     }
 }
-namespace ExtensionMethods
+namespace WebService.Core.Shared
 {
     public static class MaterialExtensions
     {
