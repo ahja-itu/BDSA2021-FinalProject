@@ -18,6 +18,4 @@ public class Media
 
 
     [StringLength(50)] public string Name { get; set; }
-
-    public ICollection<Material> Materials { get; set; }
 }
