@@ -1,6 +1,5 @@
 ﻿using WebService.Infrastructure.Tests.SearchAlgorithmTests;
 using ExtensionMethods;
-
 namespace WebService.Infrastructure.Tests
 {
     public class SearchAlgorithmTest
@@ -29,8 +28,6 @@ namespace WebService.Infrastructure.Tests
             _tag7Materials = _v.Tag7Materials;
             _tag4Materials = _v.Tag4Materials;
             _tag6Materials = _v.Tag6Materials;
-
-
         }
 
         [Fact]
@@ -46,10 +43,10 @@ namespace WebService.Infrastructure.Tests
             SearchAlgorithm s = new SearchAlgorithm();
 
             //Act
-            List<MaterialDTO> result = s.Search(searchform);
+            Task<ICollection<MaterialDTO>> result = s.Search(searchform);
 
             //Assert
-            Assert.Equal(expected, result);
+            Assert.Equal(expected, result.Result);
         }
 
         /*[Fact]
@@ -114,13 +111,15 @@ namespace WebService.Infrastructure.Tests
             }
 
             //Act
-            var actual = s.Search(searchForm);
+            var actual = s.Search(searchForm).Result;
 
             //Assert
             for (int i = 0; i < expected.Count; i++)
             {
-                Assert.Equal(expected[i], actual[i]);
+                Assert.Equal(expected[i], actual.ElementAt(i));
             }
+
+        
         }
 
 
@@ -175,7 +174,7 @@ namespace WebService.Infrastructure.Tests
 
         //Act
         //search and return list of materialDTO
-        var result = algo.Search(searchForm);
+        var result = algo.Search(searchForm).Result;
 
         //Assert
         //Compare with DTO converted to Material or vice-versa
@@ -235,7 +234,7 @@ namespace WebService.Infrastructure.Tests
 
         //Act
         //search and return list of materialDTO
-        var result = algo.Search(searchForm);
+        var result = algo.Search(searchForm).Result;
 
         //Assert
         //Compare with DTO converted to Material or vice-versa
@@ -295,7 +294,7 @@ namespace WebService.Infrastructure.Tests
 
         //Act
         //search and return list of materialDTO
-        var result = algo.Search(searchForm);
+        var result = algo.Search(searchForm).Result;
         //Assert
         //Compare with DTO converted to Material or vice-versa
         Assert.Equal<MaterialDTO>(expectedDTO, result);
@@ -321,7 +320,7 @@ namespace WebService.Infrastructure.Tests
         SearchForm searchForm = new SearchForm("I am a text search", new List<TagDTO>() { new TagDTO(7, "Tag7") }, new List<LevelDTO>() { }, new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
         SearchAlgorithm s = new SearchAlgorithm();
         //Act
-        var actual = s.Search(searchForm);
+        var actual = s.Search(searchForm).Result;
 
 
         //Assert
