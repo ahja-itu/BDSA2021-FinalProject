@@ -53,11 +53,10 @@ public static class MockHttpClientBunitHelpers
 }
 
 #endregion
-
 public class IndexTest : IDisposable
 {
-    private TestContext _ctx;
-    private MockHttpMessageHandler _mock;
+    
+    private IRenderedComponent<Index> cut;
     public IndexTest() 
     {
         var languages = new List<LanguageDTO>
@@ -91,21 +90,21 @@ public class IndexTest : IDisposable
             new (2, "Docker")
         };
         
-        _ctx = new TestContext();
-        _mock = _ctx.Services.AddMockHttpClient();
-        _mock.When("/Tag").RespondJson(tags);
-        _mock.When("/Level").RespondJson(levels);
-        _mock.When("/ProgrammingLanguage").RespondJson(programmingLanguages);
-        _mock.When("/Language").RespondJson(languages);
-        _mock.When("/Media").RespondJson(medias);
+        var _ctx = new TestContext();
+        using var mock = _ctx.Services.AddMockHttpClient();
+        mock.When("/Tag").RespondJson(tags);
+        mock.When("/Level").RespondJson(levels);
+        mock.When("/ProgrammingLanguage").RespondJson(programmingLanguages);
+        mock.When("/Language").RespondJson(languages);
+        mock.When("/Media").RespondJson(medias);
         
+        cut = _ctx.RenderComponent<Index>();
     }
 
     [Fact]
     public void IndexFilterButtonShowsFilterOptions()
     {
         // Arrange
-        var cut = _ctx.RenderComponent<Index>();
         var buttons = cut.FindAll("button"); 
         var filterButton = buttons.GetElementById("filterButton");
     
@@ -128,7 +127,7 @@ public class IndexTest : IDisposable
     public void IndexFilterButtonAgainHidesFilterOptions()
     {
         // Arrange
-        var cut = _ctx.RenderComponent<Index>();
+        
         var buttonsBefore = cut.FindAll("button");
         var filterButton = buttonsBefore.GetElementById("filterButton");
 
@@ -140,117 +139,38 @@ public class IndexTest : IDisposable
         // Assert
         Assert.Equal(buttonsBefore.Count,buttonsAfter.Count);
     }
-
-    [Fact]
-    public void IndexChangeSearchFieldForFilterWhenSelectingOptionTags()
+    
+    [Theory]
+    [InlineData(12,"tags")]
+    [InlineData(12,"levels")]
+    [InlineData(11,"languages")]
+    [InlineData(12,"medias")]
+    [InlineData(13,"programming Languages")]
+    public void PressOfFilterButtonShowsExpectedNumberOfFilterButtons(int expectedNumberOfButtons,string buttonID)
     {
         // Arrange
-        var cut = _ctx.RenderComponent<Index>();
-        var expected = 12;
-
-        // Act
-        var filterButton = cut.FindAll("button").GetElementById("filterButton");
-        filterButton.Click();
-        cut.FindAll("button").GetElementById("tags").Click();
-        var actual = cut.FindAll("button").Count;
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void IndexHideSearchFieldForFilterWhenSelectingOptionRatingsAndShowRangeSlider()
-    {
-        // Arrange
-        _ctx.JSInterop.SetupVoid("Radzen.createSlider", _ => true);
-        var cut = _ctx.RenderComponent<Index>();
-        var filterButton = cut.FindAll("button").GetElementById("filterButton");
-        var searchFieldIsGone = true;
-        var sliderIsGone = false;
-
-        // Act
-        filterButton.Click();
-        cut.FindAll("button").GetElementById("ratings").Click();
-        if (cut.FindAll("input").GetElementById("searchFitler") != null) searchFieldIsGone = false;
-        if (cut.FindAll("div").GetElementById("slider") == null) sliderIsGone = true;
-
-        // Assert
-        Assert.True(searchFieldIsGone);
-        Assert.False(sliderIsGone);
-    }
-
-    [Fact]
-    public void IndexChangeSearchFieldForFilterWhenSelectingOptionLevels()
-    {
-        // Arrange
+        var expected = expectedNumberOfButtons;
         
-        var cut = _ctx.RenderComponent<Index>();
-        var expected = 12;
-
         // Act
         var filterButton = cut.FindAll("button").GetElementById("filterButton");
         filterButton.Click();
-        cut.FindAll("button").GetElementById("levels").Click();
-        var actual = cut.FindAll("button").Count;
+        var button = cut.FindAll("button").GetElementById(buttonID);
+        if (button == null)
+        {
+            Assert.True(true);
+        }
+        else
+        {
+            button.Click();
+            var actual = cut.FindAll("button").Count;
         
-        // Assert
-        Assert.Equal(expected,actual);
-    }
-
-    [Fact]
-    public void IndexChangeSearchFieldForFilterWhenSelectingOptionProgramingLanguages()
-    {
-        // Arrange
-        
-        var cut = _ctx.RenderComponent<Index>();
-        var expected = 13;
-
-        // Act
-        var filterButton = cut.FindAll("button").GetElementById("filterButton");
-        filterButton.Click();
-        cut.FindAll("button").GetElementById("programming Languages").Click();
-        var actual = cut.FindAll("button").Count;
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void IndexChangeSearchFieldForFilterWhenSelectingOptionLanguagess()
-    {
-        // Arrange
-        var cut = _ctx.RenderComponent<Index>();
-        var expected = 11;
-
-        // Act
-        var filterButton = cut.FindAll("button").GetElementById("filterButton");
-        filterButton.Click();
-        cut.FindAll("button").GetElementById("languages").Click();
-        var actual = cut.FindAll("button").Count;
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void IndexChangeSearchFieldForFilterWhenSelectingOptionMedias()
-    {
-        // Arrange
-        var cut = _ctx.RenderComponent<Index>();
-        var expected = 12;
-
-        // Act
-        var filterButton = cut.FindAll("button").GetElementById("filterButton");
-        filterButton.Click();
-        cut.FindAll("button").GetElementById("medias").Click();
-        var actual = cut.FindAll("button").Count;
-
-        // Assert
-        Assert.Equal(expected, actual);
+            // Assert
+            Assert.Equal(expected, actual);
+        }
     }
 
     public void Dispose()
     {
-        _ctx.Dispose();
+        cut.Dispose();
     }
 }
