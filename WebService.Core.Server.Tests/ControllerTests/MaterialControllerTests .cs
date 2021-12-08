@@ -70,6 +70,26 @@
 
             Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
         }
+
+        [Fact]
+        public async Task Get_material_returns_from_searchForm_status_ok()
+        {
+            var searchForm = new SearchForm("Hello", new TagDTO[] { new TagDTO(1, "SOLID") }, new LevelDTO[] { }, new ProgrammingLanguageDTO[] { }, new LanguageDTO[] { }, new MediaDTO[] { }, 5);
+            var response = await _materialController.Get(searchForm);
+            var actual = response.Result as OkObjectResult;
+
+            Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
+        }
+
+        [Fact]
+        public async Task Get_material_returns_from_searchForm_status_notFound()
+        {
+            var searchForm = new SearchForm("Hello", new TagDTO[] { new TagDTO(4, "DOTNET") }, new LevelDTO[] { }, new ProgrammingLanguageDTO[] { }, new LanguageDTO[] { }, new MediaDTO[] { }, 10);
+            var response = await _materialController.Get(searchForm);
+            var actual = response.Result as NotFoundResult;
+
+            Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
+        }
         #endregion
 
         #region Delete
