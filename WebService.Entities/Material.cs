@@ -4,7 +4,10 @@ namespace WebService.Entities;
 
 public class Material
 {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    //Only used for DBContext
     public Material()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
     }
 
