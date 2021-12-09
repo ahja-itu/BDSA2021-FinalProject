@@ -1,6 +1,6 @@
 ﻿namespace WebService.Core.Shared
 {
-    public interface IMaterialRepository
+    public interface IMaterialRepository : IRepository
     {
         Task<(Status, MaterialDTO)> CreateAsync(CreateMaterialDTO material);
         Task<(Status, MaterialDTO)> ReadAsync(int materialId);

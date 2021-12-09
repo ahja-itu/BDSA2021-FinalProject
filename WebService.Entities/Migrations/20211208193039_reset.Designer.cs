@@ -12,8 +12,8 @@ using WebService.Entities;
 namespace WebService.Entities.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20211208152937_BTG")]
-    partial class BTG
+    [Migration("20211208193039_reset")]
+    partial class reset
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -135,7 +135,7 @@ namespace WebService.Entities.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -315,7 +315,7 @@ namespace WebService.Entities.Migrations
                                 .HasColumnType("integer");
 
                             b1.Property<DateTime>("TimeStamp")
-                                .HasColumnType("timestamp with time zone");
+                                .HasColumnType("timestamp without time zone");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("integer");

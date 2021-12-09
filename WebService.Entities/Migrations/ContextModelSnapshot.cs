@@ -133,7 +133,7 @@ namespace WebService.Entities.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -313,7 +313,7 @@ namespace WebService.Entities.Migrations
                                 .HasColumnType("integer");
 
                             b1.Property<DateTime>("TimeStamp")
-                                .HasColumnType("timestamp with time zone");
+                                .HasColumnType("timestamp without time zone");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("integer");
