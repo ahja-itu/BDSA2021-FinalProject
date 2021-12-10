@@ -86,18 +86,22 @@ namespace WebService.Infrastructure
                 _map[material] += material.AverageRating() * RatingScore;
             }
         }
-        
+
         private void SetScoreLevel(SearchForm searchform)
         {
             foreach (MaterialDTO material in _map.Keys)
             {
-            foreach(CreateLevelDTO level in material.Levels){
-                foreach(LevelDTO searchLevel in searchform.Levels){
-                    if(level == searchLevel){
-                        _map[material]+= LevelScore;
+                foreach (CreateLevelDTO level in material.Levels)
+                {
+                    foreach (LevelDTO searchLevel in searchform.Levels)
+                    {
+                        if (level == searchLevel)
+                        {
+                            _map[material] += LevelScore;
+                        }
                     }
                 }
-            } 
+            }
         }
         }
         private void SetScoreProgrammingLanguage(SearchForm searchform)
@@ -124,19 +128,41 @@ namespace WebService.Infrastructure
             } 
         }
 
-        private void SetScoreTitle()
+        private void SetScoreTitle(SearchForm searchForm)
         {
-            
+            foreach (MaterialDTO material in _map.Keys)
+            {
+                var wordCount = 0;
+                var textFieldCount = searchForm.TextField.Split(" ").Count();
+                foreach(var word in material.Title.Split(" "))
+                {
+                    if (searchForm.TextField.Contains(word)) wordCount++;
+                }
+                _map[material] += wordCount/textFieldCount * TitleScore;
+            }
         }
         
-        private void SetScoreAuthor()
+        private void SetScoreAuthor(SearchForm searchForm)
         {
-            
+            foreach (MaterialDTO material in _map.Keys)
+            {
+                var authorNameCount = 0;
+
+                foreach (var author in material.Authors)
+                {
+                    if (searchForm.TextField.Contains(author.FirstName) || searchForm.TextField.Contains(author.SurName)) authorNameCount++;
+                }
+                _map[material] += authorNameCount * AuthorScore;
+            }
         }
 
         private void SetScoreTimestamp()
         {
-
+            foreach (var material in _map.Keys)
+            {
+                var yearDifferece = DateTime.UtcNow.Year - material.TimeStamp.Year;
+                _map[material] += yearDifferece * TimestampScore;
+            }
         }
      
     }
