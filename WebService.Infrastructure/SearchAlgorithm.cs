@@ -38,6 +38,8 @@ namespace WebService.Infrastructure
 
             PrioritizeMaterials(searchForm);
 
+            materials = _map.OrderBy(e => e.Value).ThenBy(e => e.Key.Title).Select(e => e.Key).ToList();
+
             return (Status.Found, materials);
         }
         public async Task<SearchForm> AddTagsToSearchFromTextField(SearchForm searchForm)
