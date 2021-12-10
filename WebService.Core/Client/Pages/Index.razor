@@ -167,33 +167,24 @@
                             </a>
                         </div>
                         <div class="col" style="text-align: right">
-                            <span class="material-icons">
-                                language
-                            </span>
-                            <p>
-                                @material.Language.Name
-                            </p>
+                            <RadzenButton class="btgIconButton" Disabled="true" Icon="language" Text=@material.Language.Name></RadzenButton>
                         </div>
                     </div>
                     <div class="row" style="margin-left: 5px">
                         <div class="col">
-                            <span class="material-icons">
-                                school
-                            </span>
-                        </div>
-                        <div class="col">
-                            <RadzenButton class="btgIconButton" Click="@(_ => ShowSelectedMaterial(material.Id))" Style="font-size: 20px; padding: 0">
+                            <RadzenButton class="btgIconButton" Click="@(_ => ShowSelectedMaterial(material.Id))" Style="text-align: left;font-size: 20px; padding: 0">
                                 @material.Title
                             </RadzenButton>
                         </div>
                         <div class="col" style="text-align: right">
-                            <span class="material-icons">
-                                star_rate
-                            </span>
-                            <p>
-                                @material.AverageRating()
-                            </p>
+                            <RadzenButton class="btgIconButton" Disabled="true" Icon="star_rate" Text=@material.AverageRatingToString()></RadzenButton>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" style="text-align: right">
+                            <RadzenButton class="btgIconButton" Disabled="true" Icon="school" Text=@material.LevelsToString()></RadzenButton>
+                        </div>
+                        
                     </div>
                     <div style="color: white; margin-left: 5px">
                         <p>
@@ -229,31 +220,25 @@ else
                 <div class="col-6">
                     <p>@_selectedMaterial.AuthorsToString()</p>
                 </div>
-                <div class="col-6">
-                   <span class="material-icons">
-                        language
-                   </span> 
-                    <p style="text-align: right">@_selectedMaterial.Language.Name</p>
+                <div class="col-6" style="text-align: right">
+                   <RadzenButton class="btgIconButton" Disabled="true" Icon="language" Text=@_selectedMaterial.Language.Name></RadzenButton>
                 </div>
             </div>
             <div class="row">
-                <span class="material-icons">
-                    school
-                </span>
-                <p style="text-align: right">@_selectedMaterial.LevelsToString()</p>
+                <div class="col" style="text-align: right">
+                    <RadzenButton class="btgIconButton" Disabled="true" Icon="school" Text=@_selectedMaterial.LevelsToString()></RadzenButton>
+                </div>
+                
             </div>
-            <div class="row" style="border-bottom: solid 6px #9586E9">
+            <div class="row" style="border-bottom: solid 6px #9586E9; padding-bottom: 5px">
                 <div class="col-6">
                     @foreach (var tag in _selectedMaterial.Tags)
                     {
                         <RadzenButton Disabled="true" style="background: #ffffff;color: #9586E9;border-radius: 15px; font-size: 12px">@tag.Name</RadzenButton>
                     }
                 </div>
-                <div class="col-6">
-                    <span class="material-icons">
-                        star_rate
-                    </span>
-                    <p style="text-align: right">@_selectedMaterial.AverageRating()</p>
+                <div class="col-6"style="text-align: right">
+                    <RadzenButton class="btgIconButton" Disabled="true" Icon="star_rate" Text=@_selectedMaterial.AverageRatingToString()></RadzenButton>
                 </div>
             </div>
         </div>
