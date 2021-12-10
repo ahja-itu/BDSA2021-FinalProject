@@ -5,23 +5,28 @@ namespace WebService.Infrastructure
     public class SearchAlgorithm : ISearch
     {
         private readonly IMaterialRepository _repository;
-        private SearchForm _searchForm; //SPØRG
+        private readonly ITagRepository _tagRepository;
 
-        public SearchAlgorithm(IMaterialRepository materialRepository)
+        private Dictionary<MaterialDTO,double> _map;
+
+        public SearchAlgorithm(IMaterialRepository materialRepository, ITagRepository tagRepository)
         {
             _repository = materialRepository;
+            _tagRepository = tagRepository;
+            _map = new Dictionary<MaterialDTO, double>();
         }
 
         public async Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm)
-        {
-            _searchForm = searchForm;
-            var databaseMaterials = FindMaterials(SearchFormParse(_searchForm));
-            if (databaseMaterials.Result.Item1 == Status.NotFound)
-            {
-                return databaseMaterials.Result;
-            };
+        {          
+            var databaseMaterials = await FindMaterials(SearchFormParse(searchForm));
 
-            var materialDTOs = FilterMaterials(databaseMaterials.Result.Item2);
+            if (databaseMaterials.Item1 == Status.NotFound)
+            {
+                return databaseMaterials;
+            };
+            
+            ICollection<MaterialDTO> materialDTOs = new List<MaterialDTO>(FilterLanguage(databaseMaterials.Item2, searchForm));
+
             return (Status.Found, PrioritizeMaterials(materialDTOs));
         }
 
@@ -30,10 +35,17 @@ namespace WebService.Infrastructure
             return TextFieldParse(searchForm);
         }
 
-        public SearchForm TextFieldParse(SearchForm searchForm)
+        public async Task<SearchForm> TextFieldParse(SearchForm searchForm)
         {
+            var tags = await _tagRepository.ReadAsync();
+            var foundWordsToTags = new List<TagDTO>(searchForm.Tags);
+
+            foreach(string word in searchForm.TextField.Split(" "))
+            {
+                if (tags.Select(e => e.Name).Contains(word)) foundWordsToTags.Add(tags.Where(e => e.Name == word).First());
+            }
+            searchForm.Tags.Join(foundWordsToTags);
             return searchForm;
-            //string[] text = searchForm.TextField.Split(' ');
         }
 
         private async Task<(Status, ICollection<MaterialDTO>)> FindMaterials(SearchForm searchForm)
@@ -43,60 +55,62 @@ namespace WebService.Infrastructure
             return (result.Item1, new List<MaterialDTO>(result.Item2));
         }
 
-        private ICollection<MaterialDTO> FilterMaterials(ICollection<MaterialDTO> materials)
-        {
-            materials = FilterLanguage(materials);
-            materials = FilterTags(materials);
-            return materials;
-        }
-
-
-        private ICollection<MaterialDTO> PrioritizeMaterials(ICollection<MaterialDTO> materials)
+        private IEnumerable<MaterialDTO> PrioritizeMaterials(IEnumerable<MaterialDTO> materials)
         {
             //TODO this
             return materials;
         }
 
-        private ICollection<MaterialDTO> FilterLanguage(ICollection<MaterialDTO> materials)
+        private IEnumerable<MaterialDTO> FilterLanguage(ICollection<MaterialDTO> materials, SearchForm searchForm)
         {
            
-            if (!_searchForm.Languages.Any()) { return materials;};
+            if (!searchForm.Languages.Any()) return materials;
 
-            List<MaterialDTO> temp = new List<MaterialDTO>();
-            
-            foreach (MaterialDTO m in materials)
-            {
-                if (_searchForm.Languages.Contains(m.Language))
-                {
-                    temp.Add(m);
-                }
-            }
+            IEnumerable<MaterialDTO> filtered = materials.Where(m => searchForm.Languages.Contains(m.Language));
 
-            return temp;
+            return filtered;
         }
 
-        private ICollection<MaterialDTO> FilterTags(ICollection<MaterialDTO> materials)
+        private void SetScoreWeigthedTags(this MaterialDTO material, SearchForm searchform)
         {
-            if (!_searchForm.Tags.Any()) { return materials;};
+                
+        }    
+           
 
-            List<MaterialDTO> temp = new List<MaterialDTO>();
-            materialLoop:
-            foreach (MaterialDTO m in materials)
-            {  
-                foreach (WeightedTagDTO wt in m.Tags)
-                {
-                    foreach (TagDTO t in _searchForm.Tags)
-                    {
-                        if (wt.Name == t.Name)
-                        {
-                            temp.Add(m);
-                            goto materialLoop;
-                        }
-                    }
-                }
-  
-            }                
-            return temp;
+        private void SetScoreRating()
+        {
+            
         }
+        
+        private void SetScoreLevel()
+        {
+            
+        }
+
+        private void SetScoreProgrammingLanguage()
+        {
+            
+        }
+        
+        private void SetScoreMedia()
+        {
+            
+        }
+
+        private void SetScoreTitle()
+        {
+            
+        }
+        
+        private void SetScoreAuthor()
+        {
+            
+        }
+
+        private void SetScoreTimestamp()
+        {
+
+        }
+     
     }
 }
