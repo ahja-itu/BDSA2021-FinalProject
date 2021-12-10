@@ -29,7 +29,7 @@
             var result = await _tagRepository.ReadAsync(id);
             var response = result.Item1;
 
-            if(response == Status.Found) return Ok(result);
+            if (response == Status.Found) return Ok(result);
             else return NotFound();
         }
 

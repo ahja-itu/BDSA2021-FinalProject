@@ -18,6 +18,6 @@
         public IEnumerable<ProgrammingLanguageDTO> ProgrammingLanguages { get; set; }
         public IEnumerable<LanguageDTO> Languages { get; set; }
         public IEnumerable<MediaDTO> Medias { get; set; }
-        public int Rating{ get; set; }
+        public int Rating { get; set; }
     }
 }

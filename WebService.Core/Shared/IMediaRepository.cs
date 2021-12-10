@@ -1,6 +1,6 @@
 ﻿namespace WebService.Core.Shared
 {
-    public interface IMediaRepository
+    public interface IMediaRepository : IRepository
     {
         Task<(Status, MediaDTO)> CreateAsync(CreateMediaDTO media);
         Task<(Status, MediaDTO)> ReadAsync(int mediaId);

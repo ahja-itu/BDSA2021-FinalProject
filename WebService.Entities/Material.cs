@@ -4,7 +4,10 @@ namespace WebService.Entities;
 
 public class Material
 {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    //Only used for DBContext
     public Material()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
     }
 
@@ -63,9 +66,5 @@ public class Material
 
     public ICollection<Author> Authors { get; set; }
     public DateTime TimeStamp { get; set; }
-
-    public bool hasMinimumAverageRating(int minimumRating)
-        => Ratings.Count() == 0 ? true : Ratings.Average(r => r.Value) >= minimumRating;
-
 
 }
