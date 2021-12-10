@@ -2,4 +2,4 @@
 global using System.Collections.ObjectModel;
 global using WebService.Core.Shared;
 global using WebService.Entities;
-global using System.Collections.Concurrent
+global using System.Collections.Concurrent;
