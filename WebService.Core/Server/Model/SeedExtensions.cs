@@ -132,9 +132,13 @@ namespace WebService.Core.Server.Model
                 var summary = $"This person generated a random number, and you wont believe what number they generated!";
                 var content = $"The number that was generated was \"{theRandomNumber}\"";
                 var url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-
-                // The title has a uniqueness constraint, so this is how we get around it for now
-                var title = $"Title:{Guid.NewGuid()}";
+                
+                // Ensure title will be created
+                var (ok, title) = ContentGenerator.GenerateTitle(weightedTags);
+                while (!ok)
+                {
+                    (ok, title) = ContentGenerator.GenerateTitle(weightedTags);
+                }
 
                 var authorsList = new List<CreateAuthorDTO>();
                 authorsList.Add(new CreateAuthorDTO(author.FirstName, author.SurName));
