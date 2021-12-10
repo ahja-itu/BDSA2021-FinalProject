@@ -7,13 +7,23 @@ namespace WebService.Infrastructure
         private readonly IMaterialRepository _repository;
         private readonly ITagRepository _tagRepository;
 
-        private Dictionary<MaterialDTO,double> _map;
+        private const float WeightedTagScore = 10;
+        private const float RatingScore = 10;
+        private const float LevelScore = 50;
+        private const float ProgrammingLanguageScore = 100;
+        private const float MediaScore = 50;
+        private const float TitleScore = 300;
+        private const float AuthorScore = 300;
+        private const float TimestampScore = -5;
+        
+
+        private Dictionary<MaterialDTO,float> _map;
 
         public SearchAlgorithm(IMaterialRepository materialRepository, ITagRepository tagRepository)
         {
             _repository = materialRepository;
             _tagRepository = tagRepository;
-            _map = new Dictionary<MaterialDTO, double>();
+            _map = new Dictionary<MaterialDTO, float>();
         }
 
         public async Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm)
@@ -71,20 +81,33 @@ namespace WebService.Infrastructure
             return filtered;
         }
 
-        private void SetScoreWeigthedTags(this MaterialDTO material, SearchForm searchform)
+        private void SetScoreWeigthedTags(this KeyValuePair<MaterialDTO, float> entry, SearchForm searchform)
         {
-                
+            foreach(CreateWeightedTagDTO tag in entry.Key.Tags){
+                foreach(TagDTO searchTag in searchform.Tags){
+                    if(tag.Name == searchTag.Name){
+                        _map[entry.Key]+= tag.Weight*WeightedTagScore;
+                    }
+                }
+            }       
         }    
            
 
-        private void SetScoreRating()
+        private void SetScoreRating(this KeyValuePair<MaterialDTO, float> entry, SearchForm searchform)
         {
-            
+            float averageRating = entry.Key.AverageRating;
+            _map[entry.Key] = entry.Value + averageRating * RatingScore;
         }
         
-        private void SetScoreLevel()
+        private void SetScoreLevel(this KeyValuePair<MaterialDTO, float> entry, SearchForm searchform)
         {
-            
+            foreach(CreateLevelDTO level in entry.Key.Levels){
+                foreach(LevelDTO searchLevel in searchform.Levels){
+                    if(level == searchLevel){
+                        _map[entry.Key]+= LevelScore;
+                    }
+                }
+            } 
         }
 
         private void SetScoreProgrammingLanguage()
