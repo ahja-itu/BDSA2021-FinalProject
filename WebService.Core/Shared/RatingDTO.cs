@@ -12,8 +12,8 @@
         [Range(1, 10)]
         public int Value { get; init; }
         public string Reviewer { get; init; }
-        public DateTime TimeStamp { get; init; }    
-        
+        public DateTime TimeStamp { get; init; }
+
     }
 
     public record RatingDTO : CreateRatingDTO

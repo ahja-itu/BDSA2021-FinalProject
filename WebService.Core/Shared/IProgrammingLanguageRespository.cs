@@ -1,6 +1,6 @@
 ﻿namespace WebService.Core.Shared
 {
-    public interface IProgrammingLanguageRespository
+    public interface IProgrammingLanguageRespository : IRepository
     {
         Task<(Status, ProgrammingLanguageDTO)> CreateAsync(CreateProgrammingLanguageDTO programmingLanguage);
         Task<(Status, ProgrammingLanguageDTO)> ReadAsync(int programmingLanguageId);

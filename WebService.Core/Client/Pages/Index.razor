@@ -2,7 +2,7 @@
 @using WebService.Core.Shared
 @using Microsoft.AspNetCore.Authorization
 @using System.Globalization
-@using ExtensionMethods
+@using System.Net
 @attribute [Authorize]
 @inject HttpClient _http
 <PageTitle>Index</PageTitle>
@@ -124,6 +124,12 @@
         <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@_displayIcon"/>
     </div>
     <!-- Results Box -->
+    @if (_noResultsFound)
+    {
+        <div class="row">
+            <p>No results found</p>
+        </div>
+    }
 @if (_searchResults != null)
 {
     <div class="row scroller">
@@ -351,7 +357,7 @@ else
 
     string _searchInput = "";
     int _rating = 5;
-
+    bool _noResultsFound;
     ICollection<string> _tagsToSend = new List<string>();
     ICollection<string> _levelsToSend = new List<string>();
     ICollection<string> _programmingLanguagesToSend = new List<string>();
@@ -362,6 +368,7 @@ else
 
     async Task Search()
     {
+        _noResultsFound = false;
         var searchForm = new SearchForm(
             _searchInput,
             _tagsToSend.Select(e => new TagDTO(0, e)),
@@ -371,7 +378,15 @@ else
             _mediasToSend.Select(e => new MediaDTO(0, e)),
             _rating);
         var response = await _http.PostAsJsonAsync("Search", searchForm);
-        _searchResults = await response.Content.ReadFromJsonAsync<ICollection<MaterialDTO>>();
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            _noResultsFound = true;
+        }
+        else
+        {
+            _searchResults = await response.Content.ReadFromJsonAsync<ICollection<MaterialDTO>>();
+        }
+        
     }
 
     #endregion

@@ -1,9 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
-using WebService.Core.Server;
-using WebService.Entities;
-using WebService.Infrastructure;
+using WebService.Core.Server.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,10 +30,12 @@ builder.Services.AddScoped<ILevelRespository, LevelRepository>();
 builder.Services.AddScoped<IMediaRepository, MediaRepository>();
 builder.Services.AddScoped<IProgrammingLanguageRespository, ProgrammingLanguageRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 builder.Services.AddScoped<ISearch, SearchAlgorithm>();
 
-var app = builder.Build();
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -55,7 +52,6 @@ else
     app.UseHsts();
 }
 
-
 app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
@@ -69,5 +65,11 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
+
+
+if (!app.Environment.IsEnvironment("integration"))
+{
+    await app.SeedAsync();
+}
 
 app.Run();
