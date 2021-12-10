@@ -1,10 +1,9 @@
 ﻿using WebService.Infrastructure.Tests.SearchAlgorithmTests;
-using ExtensionMethods;
 namespace WebService.Infrastructure.Tests
 {
     public class SearchAlgorithmTest
     {
-
+        /*
         private SearchTestVariables _v;
         private MaterialRepository _materialRepository;
         private List<Material> _tag1Materials;
@@ -74,7 +73,7 @@ namespace WebService.Infrastructure.Tests
 
             //assert
            Assert.IsType<SearchForm>(actual);
-        }*/
+        }
 
         public static IEnumerable<object[]> TextFieldParse_given_SearchForm_parses_SearchForm_data()
         {
@@ -328,7 +327,9 @@ namespace WebService.Infrastructure.Tests
             Assert.Equal(MaterialRepository.ConvertMaterialToMaterialDTOHashSet(expected.ElementAt(i)), actual.ElementAt(i));
         }
     }
+        */
 
 
+    }
 
-}}
+}

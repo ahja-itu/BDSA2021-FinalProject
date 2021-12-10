@@ -156,7 +156,8 @@
 
         public async Task<IReadOnlyCollection<MaterialDTO>> ReadAsync()
         {
-            return await _context.Materials.Select(m => ConvertMaterialToMaterialDTO(m)).ToListAsync();
+            var materials = await ReadAllMaterials();
+            return materials.Select(m => ConvertMaterialToMaterialDTO(m)).ToList();
         }
 
 
@@ -168,6 +169,10 @@
                     .Include(m => m.ProgrammingLanguages)
                     .ToListAsync();
         
+        private double GetAverage(Material material)
+        {
+            return material.Ratings.Count != 0 ? material.Ratings.Average(rating => rating.Value) : 10;
+        }
 
         public async Task<(Status, IReadOnlyCollection<MaterialDTO>)> ReadAsync(SearchForm searchInput)
         {
@@ -175,7 +180,7 @@
             var allMaterials = await ReadAllMaterials();
             // We can't have the server translate our query where we do linq statements on searchInput :(
             var materialsWhereRatingHolds = allMaterials
-                .Where(material => material.Ratings.Average(rating => rating.Value) >= searchInput.Rating)
+                .Where(material => GetAverage(material) >= searchInput.Rating)
                 .ToList();
 
             // We're doing the following computations on the client, instead of the server

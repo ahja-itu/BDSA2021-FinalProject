@@ -15,13 +15,14 @@ namespace WebService.Infrastructure
         public async Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm)
         {
             _searchForm = searchForm;
-            var databaseMaterials = FindMaterials(SearchFormParse(_searchForm));
-            if (databaseMaterials.Result.Item1 == Status.NotFound)
+            var databaseMaterials = await FindMaterials(SearchFormParse(_searchForm));
+            if (databaseMaterials.Item1 == Status.NotFound)
             {
-                return databaseMaterials.Result;
+                return databaseMaterials;
             };
 
-            var materialDTOs = FilterMaterials(databaseMaterials.Result.Item2);
+            //var materialDTOs = FilterMaterials(databaseMaterials.Item2);
+            var materialDTOs = databaseMaterials.Item2;
             return (Status.Found, PrioritizeMaterials(materialDTOs));
         }
 
@@ -59,7 +60,6 @@ namespace WebService.Infrastructure
 
         private IEnumerable<MaterialDTO> FilterLanguage(ICollection<MaterialDTO> materials)
         {
-
             foreach (MaterialDTO m in materials)
             {
                 if (_searchForm.Languages.Contains(m.Language))
