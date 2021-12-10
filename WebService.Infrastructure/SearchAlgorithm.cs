@@ -6,7 +6,6 @@ namespace WebService.Infrastructure
     {
         private readonly IMaterialRepository _repository;
         private readonly ITagRepository _tagRepository;
-
         private const float WeightedTagScore = 10;
         private const float RatingScore = 10;
         private const float LevelScore = 50;
@@ -15,15 +14,15 @@ namespace WebService.Infrastructure
         private const float TitleScore = 300;
         private const float AuthorScore = 300;
         private const float TimestampScore = -5;
-        
 
-        private Dictionary<MaterialDTO,float> _map;
+
+        private ConcurrentDictionary<MaterialDTO, float> _map;
 
         public SearchAlgorithm(IMaterialRepository materialRepository, ITagRepository tagRepository)
         {
             _repository = materialRepository;
             _tagRepository = tagRepository;
-            _map = new Dictionary<MaterialDTO, float>();
+            _map = new ConcurrentDictionary<MaterialDTO, float>();
         }
 
         public async Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm)
@@ -33,11 +32,11 @@ namespace WebService.Infrastructure
             var status = response.Item1;
             ICollection<MaterialDTO> materials = new List<MaterialDTO>(response.Item2);
 
-            if (status == Status.NotFound) return (Status.NotFound,materials);
+            if (status == Status.NotFound) return (Status.NotFound, materials);
 
             materials = FilterLanguage(materials, searchForm);
 
-            materials = PrioritizeMaterials(materials);
+            PrioritizeMaterials(searchForm);
 
             return (Status.Found, materials);
         }
@@ -46,7 +45,7 @@ namespace WebService.Infrastructure
             var tags = await _tagRepository.ReadAsync();
             var foundWordsToTags = new List<TagDTO>(searchForm.Tags);
 
-            foreach(string word in searchForm.TextField.Split(" "))
+            foreach (string word in searchForm.TextField.Split(" "))
             {
                 if (tags.Select(e => e.Name).Contains(word)) foundWordsToTags.Add(tags.Where(e => e.Name == word).First());
             }
@@ -54,31 +53,36 @@ namespace WebService.Infrastructure
             return searchForm;
         }
 
-        private ICollection<MaterialDTO> PrioritizeMaterials(ICollection<MaterialDTO> materials)
+        private void PrioritizeMaterials(SearchForm searchForm)
         {
-            //TODO this
-            return materials;
+            Parallel.Invoke(
+                () => SetScoreRating(),
+                () => SetScoreAuthor(searchForm),
+                () => SetScoreLevel(searchForm),
+                () => SetScoreMedia(searchForm),
+                () => SetScoreProgrammingLanguage(searchForm),
+                () => SetScoreTimestamp(),
+                () => SetScoreTitle(searchForm),
+                () => SetScoreWeigthedTags(searchForm)
+            );
+
         }
 
         private ICollection<MaterialDTO> FilterLanguage(ICollection<MaterialDTO> materials, SearchForm searchForm)
-        {          
+        {
             if (!searchForm.Languages.Any()) return materials;
 
             return materials.Where(m => searchForm.Languages.Contains(m.Language)).ToList();
         }
 
-        private void SetScoreWeigthedTags( SearchForm searchform)
+        private void SetScoreWeigthedTags(SearchForm searchform)
         {
-            foreach (MaterialDTO material in _map.Keys){
-            foreach(CreateWeightedTagDTO tag in material.Tags){
-                foreach(TagDTO searchTag in searchform.Tags){
-                    if(tag.Name == searchTag.Name){
-                        _map[material]+= tag.Weight*WeightedTagScore;
-                    }
-                }
-            }       
+            foreach (var material in _map.Keys)
+            {
+                var weightSum = material.Tags.Where(materialTag => searchform.Tags.Select(searchformTag => searchformTag.Name).Contains(materialTag.Name)).ToList().Select(tag => tag.Weight).Sum();
+                _map[material] += weightSum * WeightedTagScore;
             }
-        }    
+        }
         private void SetScoreRating()
         {
             foreach (MaterialDTO material in _map.Keys)
@@ -89,43 +93,29 @@ namespace WebService.Infrastructure
 
         private void SetScoreLevel(SearchForm searchform)
         {
-            foreach (MaterialDTO material in _map.Keys)
+            foreach (var material in _map.Keys)
             {
-                foreach (CreateLevelDTO level in material.Levels)
-                {
-                    foreach (LevelDTO searchLevel in searchform.Levels)
-                    {
-                        if (level == searchLevel)
-                        {
-                            _map[material] += LevelScore;
-                        }
-                    }
-                }
+                var count = material.Levels.Where(e => searchform.Levels.Contains(e)).Count();
+                _map[material] += count * LevelScore;
             }
         }
-        }
+
         private void SetScoreProgrammingLanguage(SearchForm searchform)
         {
-            foreach (MaterialDTO material in _map.Keys)
-              foreach(CreateProgrammingLanguageDTO programmingLanguage in material.ProgrammingLanguages){
-                foreach(ProgrammingLanguageDTO searchProgrmamingLanguage in searchform.ProgrammingLanguages){
-                    if(programmingLanguage == searchProgrmamingLanguage){
-                        _map[material]+= ProgrammingLanguageScore;
-                    }
-                }
-            } 
+            foreach (var material in _map.Keys)
+            {
+                var count = material.ProgrammingLanguages.Where(e => searchform.ProgrammingLanguages.Contains(e)).Count();
+                _map[material] += count * ProgrammingLanguageScore;
+            }
         }
-        
+
         private void SetScoreMedia(SearchForm searchform)
         {
-            foreach (MaterialDTO material in _map.Keys)
-              foreach(CreateMediaDTO medias in material.Medias){
-                foreach(MediaDTO searchMedias in searchform.Medias){
-                    if(medias == searchMedias){
-                        _map[material]+= MediaScore;
-                    }
-                }
-            } 
+            foreach (var material in _map.Keys)
+            {
+                var count = material.Medias.Where(e => searchform.Medias.Contains(e)).Count();
+                _map[material] += count * MediaScore;
+            }
         }
 
         private void SetScoreTitle(SearchForm searchForm)
@@ -134,14 +124,14 @@ namespace WebService.Infrastructure
             {
                 var wordCount = 0;
                 var textFieldCount = searchForm.TextField.Split(" ").Count();
-                foreach(var word in material.Title.Split(" "))
+                foreach (var word in material.Title.Split(" "))
                 {
                     if (searchForm.TextField.Contains(word)) wordCount++;
                 }
-                _map[material] += wordCount/textFieldCount * TitleScore;
+                _map[material] += wordCount / textFieldCount * TitleScore;
             }
         }
-        
+
         private void SetScoreAuthor(SearchForm searchForm)
         {
             foreach (MaterialDTO material in _map.Keys)
@@ -164,6 +154,6 @@ namespace WebService.Infrastructure
                 _map[material] += yearDifferece * TimestampScore;
             }
         }
-     
+
     }
 }
