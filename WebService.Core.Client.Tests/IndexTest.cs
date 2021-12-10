@@ -157,6 +157,8 @@ public class IndexTest : IDisposable
         var button = cut.FindAll("button").GetElementById(buttonID);
         if (button == null)
         {
+            // a github workflow workaround to ensure checks pass
+            //only needed because these five test must be run one at a time
             Assert.True(true);
         }
         else
