@@ -35,6 +35,11 @@ namespace WebService.Infrastructure
             if (status == Status.NotFound) return (Status.NotFound, materials);
 
             materials = FilterLanguage(materials, searchForm);
+            
+            foreach(MaterialDTO material in materials)
+            {
+                _map[material] = 0;
+            }
 
             PrioritizeMaterials(searchForm);
 
