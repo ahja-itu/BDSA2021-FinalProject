@@ -94,12 +94,12 @@
     <div id="filters" class="row" style="margin-left:20px;margin-right:20px;background:#4E4E4E;border-radius: 24px;margin-top:15px;padding:25px">
         <div class="row">
             <div class="col" data-toggle="buttons">
-                <RadzenButton id="tags" Click=@(_ => ChangeFilter("Tags")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Tags"/>
-                <RadzenButton id="ratings" Click=@(_ => ChangeFilter("Ratings")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Ratings"/>
-                <RadzenButton id="levels" Click=@(_ => ChangeFilter("Levels")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Levels"/>
-                <RadzenButton id="programming Languages" Click=@(_ => ChangeFilter("Programming Languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Programming Languages"/>
-                <RadzenButton id="languages" Click=@(_ => ChangeFilter("Languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Languages"/>
-                <RadzenButton id="medias" Click=@(_ => ChangeFilter("Medias")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Medias"/>
+                <RadzenButton id="tags" Click=@(_ => ChangeFilter("Tags")) Style=@tagStyle Text="Tags"/>
+                <RadzenButton id="ratings" Click=@(_ => ChangeFilter("Ratings")) Style=@ratingStyle Text="Ratings"/>
+                <RadzenButton id="levels" Click=@(_ => ChangeFilter("Levels")) Style=@levelStyle Text="Levels"/>
+                <RadzenButton id="programming Languages" Click=@(_ => ChangeFilter("Programming Languages")) Style=@programmingLanguageStyle Text="Programming Languages"/>
+                <RadzenButton id="languages" Click=@(_ => ChangeFilter("Languages")) Style=@languageStyle Text="Languages"/>
+                <RadzenButton id="medias" Click=@(_ => ChangeFilter("Medias")) Style=@mediaStyle Text="Medias"/>
             </div>
         </div>
         @if (_filterSelected)
@@ -297,6 +297,8 @@ else
 
     #region ChangeFilter
 
+    
+
     bool _filterSelected;
     bool _isShowingFilterOptions;
     string _collectionToSaveTo = "Tags";
@@ -307,11 +309,19 @@ else
     ICollection<string> _medias = new List<string>();
     ICollection<string> _selectedFilterOptions = new List<string>();
 
+    string tagStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+    string levelStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+    string programmingLanguageStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+    string languageStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+    string mediaStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+    string ratingStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+    
     void ChangeFilter(string filterName)
     {
         _filterSelected = true;
         _filterSearchInput = "";
         _searchFilterPlaceholder = "Search " + filterName;
+        SetChecked(filterName);
         if (filterName != "Ratings")
         {
             _isShowingFilterOptions = true;
@@ -319,6 +329,7 @@ else
             {
                 case "Tags":
                     _selectedFilterOptions = _tagsToSend;
+                    
                     ReplaceListWithBackup(ref _showCollection, _tags);
                     break;
                 case "Levels":
@@ -343,6 +354,37 @@ else
         else
         {
             _isShowingFilterOptions = false;
+        }
+    }
+
+    void SetChecked(string filterName)
+    {
+        tagStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+        levelStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+        programmingLanguageStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+        languageStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+        ratingStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+
+        switch (filterName)
+        {
+            case "Tags":
+                tagStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                break;
+            case "Levels":
+                levelStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                break;
+            case "Programming Languages":
+                programmingLanguageStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                break;
+            case "Languages":
+                languageStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                break;
+            case "Medias":
+                ratingStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                break;
+            case "Ratings":
+                ratingStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                break;
         }
     }
 
