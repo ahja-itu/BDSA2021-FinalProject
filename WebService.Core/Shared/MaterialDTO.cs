@@ -51,6 +51,12 @@ namespace WebService.Core.Shared
             float sum = material.Ratings.Sum(e => e.Value);
             return sum / material.Ratings.Count;
         }
+        public static string AverageRatingToString(this CreateMaterialDTO material)
+        {
+            float sum = material.Ratings.Sum(e => e.Value);
+            var result = sum / material.Ratings.Count;
+            return result.ToString();
+        }
         public static string LevelsToString(this CreateMaterialDTO material)
         {
             var levels = material.Levels.Aggregate("", (current, level) => current + level.Name + " ");

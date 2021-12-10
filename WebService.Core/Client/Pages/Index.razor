@@ -44,6 +44,13 @@
         height: 500px;
         overflow: auto;
     }
+    .mini-scroller {
+            background-color: transparent;
+            width: 100%;
+            max-height: 250px;
+            height: auto;
+            overflow: auto;
+    }
     .result{
         background: transparent;
         padding-top: 25px;
@@ -73,8 +80,12 @@
     <!-- Search bar -->
     <div class="row" style="border-bottom:solid;border-color:#7765E3;padding-top: 20%">
         <div class="col d-flex justify-content-center align-item-center" style="width:100%">
-            <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" @bind-value="_searchInput" Style="width:100%;font-size:2em"/>
-            <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>
+            <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" @bind-value="_searchInput" Style="width:100%;font-size:2em;"/>
+            <RadzenButton class="btgIconButton" Click="Search" style="padding:0px 0px;width:40px;height:40px;">
+                <i class="rzi" style="font-size:2em;">
+                search
+                </i>
+            </RadzenButton>
         </div>
     </div>
     <!-- Filter box -->
@@ -83,18 +94,19 @@
     <div id="filters" class="row" style="margin-left:20px;margin-right:20px;background:#4E4E4E;border-radius: 24px;margin-top:15px;padding:25px">
         <div class="row">
             <div class="col" data-toggle="buttons">
-                <RadzenButton id="tags" Click=@(_ => ChangeFilter("Tags")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Tags"/>
-                <RadzenButton id="ratings" Click=@(_ => ChangeFilter("Ratings")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Ratings"/>
-                <RadzenButton id="levels" Click=@(_ => ChangeFilter("Levels")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Levels"/>
-                <RadzenButton id="programming Languages" Click=@(_ => ChangeFilter("Programming Languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Programming Languages"/>
-                <RadzenButton id="languages" Click=@(_ => ChangeFilter("Languages")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Languages"/>
-                <RadzenButton id="medias" Click=@(_ => ChangeFilter("Medias")) Style="border-radius: 24px; background: #ffffff;margin:10px;color:#7765E3" Text="Medias"/>
+                <RadzenButton id="tags" Click=@(_ => ChangeFilter("Tags")) Style=@tagStyle Text="Tags"/>
+                <RadzenButton id="ratings" Click=@(_ => ChangeFilter("Ratings")) Style=@ratingStyle Text="Ratings"/>
+                <RadzenButton id="levels" Click=@(_ => ChangeFilter("Levels")) Style=@levelStyle Text="Levels"/>
+                <RadzenButton id="programming Languages" Click=@(_ => ChangeFilter("Programming Languages")) Style=@programmingLanguageStyle Text="Programming Languages"/>
+                <RadzenButton id="languages" Click=@(_ => ChangeFilter("Languages")) Style=@languageStyle Text="Languages"/>
+                <RadzenButton id="medias" Click=@(_ => ChangeFilter("Medias")) Style=@mediaStyle Text="Medias"/>
             </div>
         </div>
         @if (_filterSelected)
         {
             @if (_isShowingFilterOptions)
             {
+                
                 <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
                     <div class="col">
                         <!-- SearchFilters() is null safe! -->
@@ -103,6 +115,12 @@
                     </div>
                 </div>
                 <div class="row">
+                    @foreach (var str in _selectedFilterOptions)
+                    {
+                        <RadzenButton id="@FilterOptionIdGenerator()" Click=@(_ => AddFilterToList(str)) Style="font-size:12px; border-radius: 24px; background: #FF9F1C; margin:10px; color:#FFFFFF; width: auto; padding:2px 5px;" Text="@str" Icon="close"/>
+                    }
+                </div>
+                <div class="row mini-scroller">
                     @foreach (var str in _showCollection)
                     {
                         <RadzenButton id="@FilterOptionIdGenerator()" Click=@(_ => AddFilterToList(str)) Style="border-radius: 24px; background: #fff; margin:10px; color:#7765E3; width: auto;" Text="@str"/>
@@ -120,9 +138,14 @@
     </div>
 }
     <!-- Show Filter Button -->
-    <div class="row d-flex justify-content-center align-item-center">
+    <div class="row d-flex justify-content-left align-item-left">
         <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@_displayIcon"/>
+        
     </div>
+    <div class="row d-flex justify-content-center align-item-center">
+        <RadzenButton Click="Search" Text="Search" Style="font-size: 20px; border-radius: 24px; background: #fff; margin:10px; color:#7765E3; width: auto;"/>
+    </div>
+    
     <!-- Results Box -->
     @if (_noResultsFound)
     {
@@ -139,27 +162,29 @@
                 <div style="border-left: 6px solid #7765E3; !important;">
                     <div class="row" style="margin-left: 5px">
                         <div class="col">
-                            <a href="#" style="color:white;">
+                            <a href="@material.URL" style="color:rgba(255, 255, 255, 0.5);">
                                 @material.URL
                             </a>
                         </div>
                         <div class="col" style="text-align: right">
-                            <p>
-                                @material.Language.Name
-                            </p>
+                            <RadzenButton class="btgIconButton" Disabled="true" Icon="language" Text=@material.Language.Name></RadzenButton>
                         </div>
                     </div>
                     <div class="row" style="margin-left: 5px">
                         <div class="col">
-                            <RadzenButton class="btgIconButton" Click="@(_ => ShowSelectedMaterial(material.Id))" Style="font-size: 20px; padding: 0">
+                            <RadzenButton class="btgIconButton" Click="@(_ => ShowSelectedMaterial(material.Id))" Style="text-align: left;font-size: 20px; padding: 0">
                                 @material.Title
                             </RadzenButton>
                         </div>
                         <div class="col" style="text-align: right">
-                            <p>
-                                @material.AverageRating()
-                            </p>
+                            <RadzenButton class="btgIconButton" Disabled="true" Icon="star_rate" Text=@material.AverageRatingToString()></RadzenButton>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" style="text-align: right">
+                            <RadzenButton class="btgIconButton" Disabled="true" Icon="school" Text=@material.LevelsToString()></RadzenButton>
+                        </div>
+                        
                     </div>
                     <div style="color: white; margin-left: 5px">
                         <p>
@@ -195,22 +220,25 @@ else
                 <div class="col-6">
                     <p>@_selectedMaterial.AuthorsToString()</p>
                 </div>
-                <div class="col-6">
-                    <p style="text-align: right">@_selectedMaterial.Language.Name</p>
+                <div class="col-6" style="text-align: right">
+                   <RadzenButton class="btgIconButton" Disabled="true" Icon="language" Text=@_selectedMaterial.Language.Name></RadzenButton>
                 </div>
             </div>
             <div class="row">
-                <p style="text-align: right">@_selectedMaterial.LevelsToString()</p>
+                <div class="col" style="text-align: right">
+                    <RadzenButton class="btgIconButton" Disabled="true" Icon="school" Text=@_selectedMaterial.LevelsToString()></RadzenButton>
+                </div>
+                
             </div>
-            <div class="row" style="border-bottom: solid 6px #9586E9">
+            <div class="row" style="border-bottom: solid 6px #9586E9; padding-bottom: 5px">
                 <div class="col-6">
                     @foreach (var tag in _selectedMaterial.Tags)
                     {
                         <RadzenButton Disabled="true" style="background: #ffffff;color: #9586E9;border-radius: 15px; font-size: 12px">@tag.Name</RadzenButton>
                     }
                 </div>
-                <div class="col-6">
-                    <p style="text-align: right">@_selectedMaterial.AverageRating()</p>
+                <div class="col-6"style="text-align: right">
+                    <RadzenButton class="btgIconButton" Disabled="true" Icon="star_rate" Text=@_selectedMaterial.AverageRatingToString()></RadzenButton>
                 </div>
             </div>
         </div>
@@ -254,6 +282,8 @@ else
 
     #region ChangeFilter
 
+    
+
     bool _filterSelected;
     bool _isShowingFilterOptions;
     string _collectionToSaveTo = "Tags";
@@ -262,30 +292,45 @@ else
     ICollection<string> _programmingLanguages = new List<string>();
     ICollection<string> _language = new List<string>();
     ICollection<string> _medias = new List<string>();
+    ICollection<string> _selectedFilterOptions = new List<string>();
 
+    string tagStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+    string levelStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+    string programmingLanguageStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+    string languageStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+    string mediaStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+    string ratingStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+    
     void ChangeFilter(string filterName)
     {
         _filterSelected = true;
         _filterSearchInput = "";
         _searchFilterPlaceholder = "Search " + filterName;
+        SetChecked(filterName);
         if (filterName != "Ratings")
         {
             _isShowingFilterOptions = true;
             switch (filterName)
             {
                 case "Tags":
+                    _selectedFilterOptions = _tagsToSend;
+                    
                     ReplaceListWithBackup(ref _showCollection, _tags);
                     break;
                 case "Levels":
+                    _selectedFilterOptions = _levelsToSend;
                     ReplaceListWithBackup(ref _showCollection, _levels);
                     break;
                 case "Programming Languages":
+                    _selectedFilterOptions = _programmingLanguagesToSend;
                     ReplaceListWithBackup(ref _showCollection, _programmingLanguages);
                     break;
                 case "Languages":
+                    _selectedFilterOptions = _languagesToSend;
                     ReplaceListWithBackup(ref _showCollection, _language);
                     break;
                 case "Medias":
+                    _selectedFilterOptions = _mediasToSend;
                     ReplaceListWithBackup(ref _showCollection, _medias);
                     break;
             }
@@ -294,6 +339,37 @@ else
         else
         {
             _isShowingFilterOptions = false;
+        }
+    }
+
+    void SetChecked(string filterName)
+    {
+        tagStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+        levelStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+        programmingLanguageStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+        languageStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+        ratingStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+
+        switch (filterName)
+        {
+            case "Tags":
+                tagStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                break;
+            case "Levels":
+                levelStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                break;
+            case "Programming Languages":
+                programmingLanguageStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                break;
+            case "Languages":
+                languageStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                break;
+            case "Medias":
+                ratingStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                break;
+            case "Ratings":
+                ratingStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                break;
         }
     }
 
@@ -323,7 +399,7 @@ else
             case "Levels":
                 ToggleFilter(ref _levelsToSend, toAdd);
                 break;
-            case "programming Languages":
+            case "Programming Languages":
                 ToggleFilter(ref _programmingLanguagesToSend, toAdd);
                 break;
             case "Languages":

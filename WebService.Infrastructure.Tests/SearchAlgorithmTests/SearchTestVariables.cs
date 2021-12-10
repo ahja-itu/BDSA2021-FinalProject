@@ -37,6 +37,40 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 context.AddRange(tags[i]);
             }
 
+            //makes Reviewer 1-10 for all Ratings 1-10
+            Rating[,] ratings = new Rating[11,11];
+
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 1; j < 11; j++)
+                {
+                    ratings[i,j] = new Rating(i, ("Reviewer" + j));
+                    //context.AddRange(ratings[i,j]);
+                }
+            }
+
+
+            /*
+            //Makes weight 1-10 for all 3 test tags
+            WeightedTag[][] weightedTags = new WeightedTag[3][];
+            Tag[] tags = new Tag[] {
+                new Tag(1, "SOLID"),
+                new Tag(2, "RAD"),
+                new Tag(3, "API")};
+
+            for(int i = 0; i<3 ; i++){
+                for (int j = 1; j < 11; i++){
+                    weightedTags[i] = new WeightedTag[10];
+                    weightedTags[i][j] = (new WeightedTag(tags[i].Name, j));
+                }
+            }
+            */
+
+            var author1 = new Author("Rasmus", "Kristensen");
+            var author2 = new Author("Alex", "Su");
+            var author3 = new Author("Thor", "Lind");
+
+
 
             //Varying tag weight - Tag1
             Tag1Materials = new List<Material>();
@@ -184,7 +218,12 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                 TimeStamp = new DateTime(2011, 1, 1)
             };
+
+            context.AddRange(material4_1);
+            context.AddRange(material4_2);
             context.AddRange(material4_3);
+            Tag4Materials.Add(material4_1);
+            Tag4Materials.Add(material4_2);
             Tag4Materials.Add(material4_3);
 
 
@@ -334,7 +373,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 "Lorem ipsum dolor sit amet",
                 "Lorem ipsum dolor sit",
                 "Lorem ipsum dolor",
-                "Lorem ipsum",
+                "Lorem ipsum",    
                 "Lorem",
                 "consectetuer adipiscing elit",
                 "CONSECTETUER ADIPISCING ELIT",

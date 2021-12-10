@@ -2,9 +2,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebService.Entities;
 
 #nullable disable
@@ -12,25 +12,25 @@ using WebService.Entities;
 namespace WebService.Entities.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20211208193039_reset")]
-    partial class reset
+    [Migration("20211210091654_add_material_to_language_relation")]
+    partial class add_material_to_language_relation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.0")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("LevelMaterial", b =>
                 {
                     b.Property<int>("LevelsId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("MaterialsId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("LevelsId", "MaterialsId");
 
@@ -42,10 +42,10 @@ namespace WebService.Entities.Migrations
             modelBuilder.Entity("MaterialMedia", b =>
                 {
                     b.Property<int>("MaterialsId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("MediasId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("MaterialsId", "MediasId");
 
@@ -57,10 +57,10 @@ namespace WebService.Entities.Migrations
             modelBuilder.Entity("MaterialProgrammingLanguage", b =>
                 {
                     b.Property<int>("MaterialsId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("ProgrammingLanguagesId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("MaterialsId", "ProgrammingLanguagesId");
 
@@ -73,14 +73,14 @@ namespace WebService.Entities.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -94,14 +94,14 @@ namespace WebService.Entities.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -115,42 +115,37 @@ namespace WebService.Entities.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LanguageId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("Summary")
                         .IsRequired()
                         .HasMaxLength(400)
-                        .HasColumnType("character varying(400)");
-
-                    b.Property<int?>("TagId")
-                        .HasColumnType("integer");
+                        .HasColumnType("nvarchar(400)");
 
                     b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("URL")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LanguageId");
-
-                    b.HasIndex("TagId");
 
                     b.HasIndex("Title")
                         .IsUnique();
@@ -162,14 +157,14 @@ namespace WebService.Entities.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -183,14 +178,14 @@ namespace WebService.Entities.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -204,14 +199,14 @@ namespace WebService.Entities.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -274,25 +269,21 @@ namespace WebService.Entities.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebService.Entities.Tag", null)
-                        .WithMany("Materials")
-                        .HasForeignKey("TagId");
-
                     b.OwnsMany("WebService.Entities.Author", "Authors", b1 =>
                         {
                             b1.Property<int>("MaterialId")
-                                .HasColumnType("integer");
+                                .HasColumnType("int");
 
                             b1.Property<string>("FirstName")
                                 .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
+                                .HasColumnType("nvarchar(50)");
 
                             b1.Property<string>("SurName")
                                 .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
+                                .HasColumnType("nvarchar(50)");
 
                             b1.Property<int>("Id")
-                                .HasColumnType("integer");
+                                .HasColumnType("int");
 
                             b1.HasKey("MaterialId", "FirstName", "SurName");
 
@@ -305,20 +296,20 @@ namespace WebService.Entities.Migrations
                     b.OwnsMany("WebService.Entities.Rating", "Ratings", b1 =>
                         {
                             b1.Property<int>("MaterialId")
-                                .HasColumnType("integer");
+                                .HasColumnType("int");
 
                             b1.Property<string>("Reviewer")
                                 .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
+                                .HasColumnType("nvarchar(50)");
 
                             b1.Property<int>("Id")
-                                .HasColumnType("integer");
+                                .HasColumnType("int");
 
                             b1.Property<DateTime>("TimeStamp")
-                                .HasColumnType("timestamp without time zone");
+                                .HasColumnType("datetime2");
 
                             b1.Property<int>("Value")
-                                .HasColumnType("integer");
+                                .HasColumnType("int");
 
                             b1.HasKey("MaterialId", "Reviewer");
 
@@ -331,17 +322,17 @@ namespace WebService.Entities.Migrations
                     b.OwnsMany("WebService.Entities.WeightedTag", "WeightedTags", b1 =>
                         {
                             b1.Property<int>("MaterialId")
-                                .HasColumnType("integer");
+                                .HasColumnType("int");
 
                             b1.Property<string>("Name")
                                 .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
+                                .HasColumnType("nvarchar(50)");
 
                             b1.Property<int>("Id")
-                                .HasColumnType("integer");
+                                .HasColumnType("int");
 
                             b1.Property<int>("Weight")
-                                .HasColumnType("integer");
+                                .HasColumnType("int");
 
                             b1.HasKey("MaterialId", "Name");
 
@@ -361,11 +352,6 @@ namespace WebService.Entities.Migrations
                 });
 
             modelBuilder.Entity("WebService.Entities.Language", b =>
-                {
-                    b.Navigation("Materials");
-                });
-
-            modelBuilder.Entity("WebService.Entities.Tag", b =>
                 {
                     b.Navigation("Materials");
                 });

@@ -14,8 +14,6 @@ public class Tag
     }
 
     public int Id { get; set; }
-    public ICollection<Material> Materials { get; set; } = new List<Material>();
-
 
     [StringLength(50)] public string Name { get; set; }
 }
