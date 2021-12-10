@@ -45,8 +45,8 @@ namespace WebService.Infrastructure
 
         private ICollection<MaterialDTO> FilterMaterials(ICollection<MaterialDTO> materials)
         {
-            materials = new List<MaterialDTO>(FilterLanguage(materials));
-            materials = new List<MaterialDTO>(FilterTags(materials));
+            materials = FilterLanguage(materials);
+            materials = FilterTags(materials);
             return materials;
         }
 
@@ -57,20 +57,29 @@ namespace WebService.Infrastructure
             return materials;
         }
 
-        private IEnumerable<MaterialDTO> FilterLanguage(ICollection<MaterialDTO> materials)
+        private ICollection<MaterialDTO> FilterLanguage(ICollection<MaterialDTO> materials)
         {
+           
+            if (!_searchForm.Languages.Any()) { return materials;};
 
+            List<MaterialDTO> temp = new List<MaterialDTO>();
+            
             foreach (MaterialDTO m in materials)
             {
                 if (_searchForm.Languages.Contains(m.Language))
                 {
-                    yield return m;
+                    temp.Add(m);
                 }
             }
+
+            return temp;
         }
 
-        private IEnumerable<MaterialDTO> FilterTags(ICollection<MaterialDTO> materials)
+        private ICollection<MaterialDTO> FilterTags(ICollection<MaterialDTO> materials)
         {
+            if (!_searchForm.Tags.Any()) { return materials;};
+
+            List<MaterialDTO> temp = new List<MaterialDTO>();
             materialLoop:
             foreach (MaterialDTO m in materials)
             {  
@@ -80,13 +89,14 @@ namespace WebService.Infrastructure
                     {
                         if (wt.Name == t.Name)
                         {
-                            yield return m;
+                            temp.Add(m);
                             goto materialLoop;
                         }
                     }
                 }
-                  
-            }
+  
+            }                
+            return temp;
         }
     }
 }
