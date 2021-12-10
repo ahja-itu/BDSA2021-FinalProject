@@ -33,6 +33,7 @@
             else return NotFound(result);
         }
 
+        [HttpPost("PostSearchForm")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MaterialDTO>> Post(SearchForm searchForm)
