@@ -88,8 +88,8 @@ namespace WebService.Core.Server.Model
             // Lets create a material for each author
             foreach (var author in authors)
             {
-                var tagCount = rand.Next(5); // number 1 -> 4
-                var ratingsCount = rand.Next(21) - 1; // 0 -> 20
+                var tagCount = 1 + rand.Next(4); // number 1 -> 4
+                var ratingsCount = rand.Next(21); // 0 -> 20
 
                 // ratings, weighted tags, author are owned properties of a material,
                 // so we need to create them on a per material basis
@@ -135,9 +135,10 @@ namespace WebService.Core.Server.Model
                 
                 // Ensure title will be created
                 var (ok, title) = ContentGenerator.GenerateTitle(weightedTags);
-                while (!ok)
+                if (!ok)
                 {
-                    (ok, title) = ContentGenerator.GenerateTitle(weightedTags);
+                    Console.WriteLine("Failed to generate title with given input. Skipping this material");
+                    continue;
                 }
 
                 var authorsList = new List<CreateAuthorDTO>();
