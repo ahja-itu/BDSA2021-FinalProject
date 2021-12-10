@@ -99,23 +99,29 @@ namespace WebService.Infrastructure
                 }
             } 
         }
-
+        }
         private void SetScoreProgrammingLanguage(SearchForm searchform)
         {
-              foreach(CreateProgrammingLanguageDTO level in entry.Key.ProgrammingLanguages){
-                foreach(LevelDTO searchLevel in searchform.Levels){
-                    if(level == searchLevel){
-                        _map[entry.Key]+= LevelScore;
+            foreach (MaterialDTO material in _map.Keys)
+              foreach(CreateProgrammingLanguageDTO programmingLanguage in material.ProgrammingLanguages){
+                foreach(ProgrammingLanguageDTO searchProgrmamingLanguage in searchform.ProgrammingLanguages){
+                    if(programmingLanguage == searchProgrmamingLanguage){
+                        _map[material]+= ProgrammingLanguageScore;
                     }
                 }
             } 
-
-            
         }
         
-        private void SetScoreMedia()
+        private void SetScoreMedia(SearchForm searchform)
         {
-            
+            foreach (MaterialDTO material in _map.Keys)
+              foreach(CreateMediaDTO medias in material.Medias){
+                foreach(MediaDTO searchMedias in searchform.Medias){
+                    if(medias == searchMedias){
+                        _map[material]+= MediaScore;
+                    }
+                }
+            } 
         }
 
         private void SetScoreTitle()
