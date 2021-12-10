@@ -88,7 +88,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = "Blazor for beginners"+i,
+                    Title = "Blazor for experts "+i,
                     Authors = new HashSet<Author> { author1 },
                     TimeStamp = System.DateTime.UtcNow
                 };
@@ -105,7 +105,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 {
                     Id = MaterialID++,
                     WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag2", 5) },
-                    Ratings = new HashSet<Rating> { ratings[i,1] },
+                    Ratings = new HashSet<Rating> { new Rating(i, "reviewer"+i) },
                     Levels = new HashSet<Level> { masters },
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
                     Medias = new HashSet<Media> { report },
@@ -113,7 +113,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = "Blazor for experts"+i,
+                    Title = "Blazor for kids "+i,
                     Authors = new HashSet<Author> { author1 },
                     TimeStamp = System.DateTime.UtcNow
                 };
@@ -147,7 +147,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = ".NET Framework tutorial"+i,
+                    Title = ".NET Framework tutorial "+i,
                     Authors = new HashSet<Author> { author1 },
                     TimeStamp = System.DateTime.UtcNow
                 };
@@ -172,7 +172,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 Summary = "Lorem ipsum",
                 URL = "iamaURL",
                 Content = "I am content",
-                Title = "En titel på dansk",
+                Title = "En titel pï¿½ dansk",
                 Authors = new HashSet<Author> { author1 },
                 TimeStamp = new DateTime(2011, 1, 1)
             };
@@ -208,7 +208,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 Summary = "Lorem ipsum",
                 URL = "iamaURL",
                 Content = "I am content",
-                Title = "Un título en español",
+                Title = "Un tï¿½tulo en espaï¿½ol",
                 Authors = new HashSet<Author> { author1 },
                 TimeStamp = new DateTime(2011, 1, 1)
             };
@@ -247,7 +247,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = ".NET Framework guide"+i,
+                    Title = ".NET Framework guide "+i,
                     Authors = new HashSet<Author> { author1 },
                     TimeStamp = System.DateTime.UtcNow
                 };
@@ -290,7 +290,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 Summary = "Lorem ipsum",
                 URL = "iamaURL",
                 Content = "I am content",
-                Title = "Dockerize your life",
+                Title = "Dockerize your life II",
                 Authors = new HashSet<Author> { author1 },
                 TimeStamp = new DateTime(2013, 1,1)
             };
@@ -328,7 +328,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = ".NET Framework introduction"+i,
+                    Title = ".NET Framework intro "+i,
                     Authors = Tag7Authors[i],
                     TimeStamp = System.DateTime.UtcNow
                 };
@@ -352,7 +352,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = "The lastest news about C#",
+                    Title = "The lastest news about C# "+i,
                     Authors = new HashSet<Author> { author1 },
                     TimeStamp = new DateTime(i, 1, 1)
                 };
@@ -412,7 +412,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = "Blazor for beginners",
+                    Title = "Blazor for beginners "+i,
                     Authors = new HashSet<Author> { author1 },
                     TimeStamp = System.DateTime.UtcNow
                 };
