@@ -37,40 +37,6 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 context.AddRange(tags[i]);
             }
 
-            //makes Reviewer 1-10 for all Ratings 1-10
-            Rating[,] ratings = new Rating[11,11];
-
-            for (int i = 1; i < 11; i++)
-            {
-                for (int j = 1; j < 11; j++)
-                {
-                    ratings[i,j] = new Rating(i, ("Reviewer" + j));
-                    //context.AddRange(ratings[i,j]);
-                }
-            }
-
-
-            /*
-            //Makes weight 1-10 for all 3 test tags
-            WeightedTag[][] weightedTags = new WeightedTag[3][];
-            Tag[] tags = new Tag[] {
-                new Tag(1, "SOLID"),
-                new Tag(2, "RAD"),
-                new Tag(3, "API")};
-
-            for(int i = 0; i<3 ; i++){
-                for (int j = 1; j < 11; i++){
-                    weightedTags[i] = new WeightedTag[10];
-                    weightedTags[i][j] = (new WeightedTag(tags[i].Name, j));
-                }
-            }
-            */
-
-            var author1 = new Author("Rasmus", "Kristensen");
-            var author2 = new Author("Alex", "Su");
-            var author3 = new Author("Thor", "Lind");
-
-
 
             //Varying tag weight - Tag1
             Tag1Materials = new List<Material>();
@@ -80,7 +46,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 {
                     Id = MaterialID++,
                     WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag1", i) },
-                    Ratings = new HashSet<Rating> { ratings[5,1] },
+                    Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
                     Levels = new HashSet<Level> { masters },
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
                     Medias = new HashSet<Media> { book },
@@ -88,8 +54,8 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = "Blazor for experts "+i,
-                    Authors = new HashSet<Author> { author1 },
+                    Title = "Blazor for experts " + i,
+                    Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                     TimeStamp = System.DateTime.UtcNow
                 };
                 context.AddRange(material1);
@@ -105,7 +71,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 {
                     Id = MaterialID++,
                     WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag2", 5) },
-                    Ratings = new HashSet<Rating> { new Rating(i, "reviewer"+i) },
+                    Ratings = new HashSet<Rating> { new Rating(i, "reviewer" + i) },
                     Levels = new HashSet<Level> { masters },
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
                     Medias = new HashSet<Media> { report },
@@ -113,8 +79,8 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = "Blazor for kids "+i,
-                    Authors = new HashSet<Author> { author1 },
+                    Title = "Blazor for kids " + i,
+                    Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                     TimeStamp = System.DateTime.UtcNow
                 };
 
@@ -139,7 +105,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 {
                     Id = MaterialID++,
                     WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag3", 5) },
-                    Ratings = new HashSet<Rating> { ratings[5,1] },
+                    Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
                     Levels = Tag3Levels[i],
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
                     Medias = new HashSet<Media> { book },
@@ -147,8 +113,8 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = ".NET Framework tutorial "+i,
-                    Authors = new HashSet<Author> { author1 },
+                    Title = ".NET Framework tutorial " + i,
+                    Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                     TimeStamp = System.DateTime.UtcNow
                 };
                 context.AddRange(material3);
@@ -164,7 +130,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             {
                 Id = MaterialID++,
                 WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag4", 5) },
-                Ratings = new HashSet<Rating> { ratings[6,1] },
+                Ratings = new HashSet<Rating> { new Rating(6, "Reviewer") },
                 Levels = new HashSet<Level> { bachelor },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
                 Medias = new HashSet<Media> { video },
@@ -173,15 +139,17 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 URL = "iamaURL",
                 Content = "I am content",
                 Title = "En titel p� dansk",
-                Authors = new HashSet<Author> { author1 },
+                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                 TimeStamp = new DateTime(2011, 1, 1)
             };
+            context.AddRange(material4_1);
+            Tag4Materials.Add(material4_1);
 
             var material4_2 = new Material()
             {
                 Id = MaterialID++,
                 WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag4", 5) },
-                Ratings = new HashSet<Rating> { ratings[6,1] },
+                Ratings = new HashSet<Rating> { new Rating(6, "Reviewer") },
                 Levels = new HashSet<Level> { bachelor },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
                 Medias = new HashSet<Media> { video },
@@ -190,9 +158,13 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 URL = "iamaURL",
                 Content = "I am content",
                 Title = "A title in English",
-                Authors = new HashSet<Author> { author1 },
+                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                 TimeStamp = new DateTime(2011, 1, 1)
             };
+            context.AddRange(material4_2);
+
+            Tag4Materials.Add(material4_2);
+
 
 
 
@@ -200,7 +172,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             {
                 Id = MaterialID++,
                 WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag4", 5) },
-                Ratings = new HashSet<Rating> { ratings[6,1] },
+                Ratings = new HashSet<Rating> { new Rating(6, "Reviewer") },
                 Levels = new HashSet<Level> { bachelor },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
                 Medias = new HashSet<Media> { video },
@@ -209,16 +181,13 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 URL = "iamaURL",
                 Content = "I am content",
                 Title = "Un t�tulo en espa�ol",
-                Authors = new HashSet<Author> { author1 },
+                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                 TimeStamp = new DateTime(2011, 1, 1)
             };
-
-            context.AddRange(material4_1);
-            context.AddRange(material4_2);
             context.AddRange(material4_3);
-            Tag4Materials.Add(material4_1);
-            Tag4Materials.Add(material4_2);
             Tag4Materials.Add(material4_3);
+
+
 
             //Varying programming Languages - Tag5
             List<HashSet<ProgrammingLanguage>> Tag5PLanguages = new List<HashSet<ProgrammingLanguage>>(){
@@ -239,7 +208,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 {
                     Id = MaterialID++,
                     WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag5", 5) },
-                    Ratings = new HashSet<Rating> { ratings[5,1] },
+                    Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
                     Levels = new HashSet<Level>() { bachelor },
                     ProgrammingLanguages = Tag5PLanguages[i],
                     Medias = new HashSet<Media> { book },
@@ -247,8 +216,8 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = ".NET Framework guide "+i,
-                    Authors = new HashSet<Author> { author1 },
+                    Title = ".NET Framework guide " + i,
+                    Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                     TimeStamp = System.DateTime.UtcNow
                 };
                 context.AddRange(material5);
@@ -263,7 +232,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             {
                 Id = MaterialID++,
                 WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag6", 5) },
-                Ratings = new HashSet<Rating> { ratings[4,1] },
+                Ratings = new HashSet<Rating> { new Rating(4, "Reviewer") },
                 Levels = new HashSet<Level> { bachelor },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
                 Medias = new HashSet<Media> { video },
@@ -272,7 +241,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 URL = "iamaURL",
                 Content = "I am content",
                 Title = "Dockerize your life",
-                Authors = new HashSet<Author> { author1 },
+                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                 TimeStamp = new DateTime(2013, 1, 1)
             };
 
@@ -282,7 +251,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             {
                 Id = MaterialID++,
                 WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag6", 5) },
-                Ratings = new HashSet<Rating> { ratings[4,1] },
+                Ratings = new HashSet<Rating> { new Rating(4, "Reviewer") },
                 Levels = new HashSet<Level> { bachelor },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
                 Medias = new HashSet<Media> { report },
@@ -291,8 +260,8 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 URL = "iamaURL",
                 Content = "I am content",
                 Title = "Dockerize your life II",
-                Authors = new HashSet<Author> { author1 },
-                TimeStamp = new DateTime(2013, 1,1)
+                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
+                TimeStamp = new DateTime(2013, 1, 1)
             };
 
             context.AddRange(material6_1);
@@ -304,13 +273,13 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
 
             //Varying author - Tag7
             List<HashSet<Author>> Tag7Authors = new List<HashSet<Author>>(){
-                new HashSet<Author>(){author1},
-                 new HashSet<Author>(){author2},
-                new HashSet<Author>(){author3},
-                new HashSet<Author>(){author1, author2},
-                new HashSet<Author>(){author1, author3},
-                new HashSet<Author>(){author2, author3},
-                new HashSet<Author>(){author1, author2, author3}
+                new HashSet<Author>(){new Author("Alfa", "Alfason")},
+                 new HashSet<Author>(){new Author("Bravo", "Bravoson")},
+                new HashSet<Author>(){new Author("Charlie", "Charleston")},
+                new HashSet<Author>(){new Author("Alfa", "Alfason"), new Author("Bravo", "Bravoson")},
+                new HashSet<Author>(){new Author("Alfa", "Alfason"), new Author("Charlie", "Charleston")},
+                new HashSet<Author>(){new Author("Bravo", "Bravoson"), new Author("Charlie", "Charleston")},
+                new HashSet<Author>(){new Author("Alfa", "Alfason"), new Author("Bravo", "Bravoson"), new Author("Charlie", "Charleston")}
             };
 
             Tag7Materials = new List<Material>();
@@ -320,7 +289,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 {
                     Id = MaterialID++,
                     WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag5", 5) },
-                    Ratings = new HashSet<Rating> { ratings[5,1] },
+                    Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
                     Levels = new HashSet<Level>() { bachelor },
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage>() { java },
                     Medias = new HashSet<Media> { book },
@@ -328,7 +297,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = ".NET Framework intro "+i,
+                    Title = ".NET Framework intro " + i,
                     Authors = Tag7Authors[i],
                     TimeStamp = System.DateTime.UtcNow
                 };
@@ -344,7 +313,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 {
                     Id = MaterialID++,
                     WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag8", 5) },
-                    Ratings = new HashSet<Rating> { ratings[5,1] },
+                    Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
                     Levels = new HashSet<Level> { masters },
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
                     Medias = new HashSet<Media> { video },
@@ -352,8 +321,8 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = "The lastest news about C# "+i,
-                    Authors = new HashSet<Author> { author1 },
+                    Title = "The lastest news about C# " + i,
+                    Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                     TimeStamp = new DateTime(i, 1, 1)
                 };
                 context.AddRange(material8);
@@ -365,7 +334,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 "Lorem ipsum dolor sit amet",
                 "Lorem ipsum dolor sit",
                 "Lorem ipsum dolor",
-                "Lorem ipsum",    
+                "Lorem ipsum",
                 "Lorem",
                 "consectetuer adipiscing elit",
                 "CONSECTETUER ADIPISCING ELIT",
@@ -379,7 +348,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 {
                     Id = MaterialID++,
                     WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag5", 5) },
-                    Ratings = new HashSet<Rating> { ratings[5,1] },
+                    Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
                     Levels = new HashSet<Level>() { bachelor },
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage>() { java },
                     Medias = new HashSet<Media> { book },
@@ -388,7 +357,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     URL = "iamaURL",
                     Content = "I am content",
                     Title = Tag7Titles[i],
-                    Authors = new HashSet<Author> { author1 },
+                    Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                     TimeStamp = System.DateTime.UtcNow
                 };
                 context.AddRange(material5);
@@ -403,8 +372,8 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 var material1011 = new Material() //
                 {
                     Id = MaterialID++,
-                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag10", i), new WeightedTag("Tag11", 11-i) },
-                    Ratings = new HashSet<Rating> { ratings[5,1] },
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag10", i), new WeightedTag("Tag11", 11 - i) },
+                    Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
                     Levels = new HashSet<Level> { masters },
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
                     Medias = new HashSet<Media> { report },
@@ -412,8 +381,8 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = "Blazor for beginners "+i,
-                    Authors = new HashSet<Author> { author1 },
+                    Title = "Blazor for beginners " + i,
+                    Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                     TimeStamp = System.DateTime.UtcNow
                 };
                 context.AddRange(material1011);
