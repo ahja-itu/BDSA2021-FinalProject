@@ -23,7 +23,7 @@ var configuration = new ConfigurationBuilder()
         .Build();
 
 var connectionString = configuration.GetConnectionString("btg");
-builder.Services.AddDbContext<Context>(options => options.UseNpgsql(connectionString));
+builder.Services.AddDbContext<Context>(options => options.UseSqlServer(connectionString));
 builder.Services.AddScoped<IContext, Context>();
 builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
 builder.Services.AddScoped<ILevelRespository, LevelRepository>();
@@ -32,8 +32,6 @@ builder.Services.AddScoped<IProgrammingLanguageRespository, ProgrammingLanguageR
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 builder.Services.AddScoped<ISearch, SearchAlgorithm>();
-
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var app = builder.Build();
 

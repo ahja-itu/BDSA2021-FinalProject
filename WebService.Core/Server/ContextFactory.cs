@@ -11,7 +11,7 @@ public class ContextFactory : IDesignTimeDbContextFactory<Context>
 
         var connectionString = configuration.GetConnectionString("btg");
 
-        var optionsBuilder = new DbContextOptionsBuilder<Context>().UseNpgsql(connectionString);
+        var optionsBuilder = new DbContextOptionsBuilder<Context>().UseSqlServer(connectionString);
 
         return new Context(optionsBuilder.Options);
     }

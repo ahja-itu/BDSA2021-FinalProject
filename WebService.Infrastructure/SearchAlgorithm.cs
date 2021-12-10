@@ -33,12 +33,12 @@ namespace WebService.Infrastructure
         public SearchForm TextFieldParse(SearchForm searchForm)
         {
             return searchForm;
-            //string[] text = searchForm.TextField.Split(' ');
+            // string[] text = searchForm.TextField.Split(' ');
         }
 
         private async Task<(Status, ICollection<MaterialDTO>)> FindMaterials(SearchForm searchForm)
         {
-            var result = _repository.ReadAsync(searchForm).Result;
+            var result = await _repository.ReadAsync(searchForm);
 
             return (result.Item1, new List<MaterialDTO>(result.Item2));
         }
