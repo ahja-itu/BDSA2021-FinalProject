@@ -4,7 +4,7 @@ namespace WebService.Infrastructure.Tests
 {
     public class SearchAlgorithmTest
     {
-
+        /*
         private SearchTestVariables _v;
         private MaterialRepository _materialRepository;
         private SearchAlgorithm _searchAlgorithm;
@@ -81,7 +81,7 @@ namespace WebService.Infrastructure.Tests
 
             //assert
            Assert.IsType<SearchForm>(actual);
-                } */
+                } 
         #endregion
 
 
@@ -443,5 +443,6 @@ namespace WebService.Infrastructure.Tests
 
 
     }
+    */
 
 }
