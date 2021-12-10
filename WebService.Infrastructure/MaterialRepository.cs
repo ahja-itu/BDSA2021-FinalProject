@@ -91,44 +91,6 @@
             );
         }
 
-             public static MaterialDTO ConvertMaterialToMaterialDTOHashSet(Material entity)
-        {
-            return new MaterialDTO(
-                                entity.Id,
-                                entity.WeightedTags.Select(e => new CreateWeightedTagDTO(e.Name, e.Weight)).ToHashSet(),
-                                entity.Ratings.Select(e => new CreateRatingDTO(e.Value, e.Reviewer)).ToHashSet(),
-                                entity.Levels.Select(e => new CreateLevelDTO(e.Name)).ToHashSet(),
-                                entity.ProgrammingLanguages.Select(e => new CreateProgrammingLanguageDTO(e.Name)).ToHashSet(),
-                                entity.Medias.Select(e => new CreateMediaDTO(e.Name)).ToHashSet(),
-                                new CreateLanguageDTO(entity.Language.Name),
-                                entity.Summary,
-                                entity.URL,
-                                entity.Content,
-                                entity.Title,
-                                entity.Authors.Select(e => new CreateAuthorDTO(e.FirstName, e.SurName)).ToHashSet(),
-                                entity.TimeStamp
-                                );
-        }
-
-             public static MaterialDTO ConvertMaterialToMaterialDTOHashSet(Material entity)
-        {
-            return new MaterialDTO(
-                                entity.Id,
-                                entity.WeightedTags.Select(e => new CreateWeightedTagDTO(e.Name, e.Weight)).ToHashSet(),
-                                entity.Ratings.Select(e => new CreateRatingDTO(e.Value, e.Reviewer)).ToHashSet(),
-                                entity.Levels.Select(e => new CreateLevelDTO(e.Name)).ToHashSet(),
-                                entity.ProgrammingLanguages.Select(e => new CreateProgrammingLanguageDTO(e.Name)).ToHashSet(),
-                                entity.Medias.Select(e => new CreateMediaDTO(e.Name)).ToHashSet(),
-                                new CreateLanguageDTO(entity.Language.Name),
-                                entity.Summary,
-                                entity.URL,
-                                entity.Content,
-                                entity.Title,
-                                entity.Authors.Select(e => new CreateAuthorDTO(e.FirstName, e.SurName)).ToHashSet(),
-                                entity.TimeStamp
-                                );
-        }
-
         private async Task<Material> ConvertCreateMaterialDTOToMaterial(CreateMaterialDTO createMaterialDTO)
         {
             return new Material(
