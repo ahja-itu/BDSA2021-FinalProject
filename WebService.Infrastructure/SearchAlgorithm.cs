@@ -17,25 +17,21 @@ namespace WebService.Infrastructure
         }
 
         public async Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm)
-        {          
-            var databaseMaterials = await FindMaterials(SearchFormParse(searchForm));
-
-            if (databaseMaterials.Item1 == Status.NotFound)
-            {
-                return databaseMaterials;
-            };
-            
-            ICollection<MaterialDTO> materialDTOs = new List<MaterialDTO>(FilterLanguage(databaseMaterials.Item2, searchForm));
-
-            return (Status.Found, PrioritizeMaterials(materialDTOs));
-        }
-
-        public SearchForm SearchFormParse(SearchForm searchForm)
         {
-            return TextFieldParse(searchForm);
-        }
+            searchForm = await AddTagsToSearchFromTextField(searchForm);
+            var response = await _repository.ReadAsync(searchForm);
+            var status = response.Item1;
+            ICollection<MaterialDTO> materials = new List<MaterialDTO>(response.Item2);
 
-        public async Task<SearchForm> TextFieldParse(SearchForm searchForm)
+            if (status == Status.NotFound) return (Status.NotFound,materials);
+
+            materials = FilterLanguage(materials, searchForm);
+
+            materials = PrioritizeMaterials(materials);
+
+            return (Status.Found, materials);
+        }
+        public async Task<SearchForm> AddTagsToSearchFromTextField(SearchForm searchForm)
         {
             var tags = await _tagRepository.ReadAsync();
             var foundWordsToTags = new List<TagDTO>(searchForm.Tags);
@@ -44,34 +40,24 @@ namespace WebService.Infrastructure
             {
                 if (tags.Select(e => e.Name).Contains(word)) foundWordsToTags.Add(tags.Where(e => e.Name == word).First());
             }
-            searchForm.Tags.Join(foundWordsToTags);
+            searchForm.Tags = foundWordsToTags;
             return searchForm;
         }
 
-        private async Task<(Status, ICollection<MaterialDTO>)> FindMaterials(SearchForm searchForm)
-        {
-            var result = _repository.ReadAsync(searchForm).Result;
-
-            return (result.Item1, new List<MaterialDTO>(result.Item2));
-        }
-
-        private IEnumerable<MaterialDTO> PrioritizeMaterials(IEnumerable<MaterialDTO> materials)
+        private ICollection<MaterialDTO> PrioritizeMaterials(ICollection<MaterialDTO> materials)
         {
             //TODO this
             return materials;
         }
 
-        private IEnumerable<MaterialDTO> FilterLanguage(ICollection<MaterialDTO> materials, SearchForm searchForm)
-        {
-           
+        private ICollection<MaterialDTO> FilterLanguage(ICollection<MaterialDTO> materials, SearchForm searchForm)
+        {          
             if (!searchForm.Languages.Any()) return materials;
 
-            IEnumerable<MaterialDTO> filtered = materials.Where(m => searchForm.Languages.Contains(m.Language));
-
-            return filtered;
+            return materials.Where(m => searchForm.Languages.Contains(m.Language)).ToList();
         }
 
-        private void SetScoreWeigthedTags(this MaterialDTO material, SearchForm searchform)
+        private void SetScoreWeigthedTags(MaterialDTO material, SearchForm searchform)
         {
                 
         }    
