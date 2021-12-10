@@ -67,36 +67,49 @@ namespace WebService.Infrastructure
             return materials.Where(m => searchForm.Languages.Contains(m.Language)).ToList();
         }
 
-        private void SetScoreWeigthedTags(this KeyValuePair<MaterialDTO, float> entry, SearchForm searchform)
+        private void SetScoreWeigthedTags( SearchForm searchform)
         {
-            foreach(CreateWeightedTagDTO tag in entry.Key.Tags){
+            foreach (MaterialDTO material in _map.Keys){
+            foreach(CreateWeightedTagDTO tag in material.Tags){
                 foreach(TagDTO searchTag in searchform.Tags){
                     if(tag.Name == searchTag.Name){
-                        _map[entry.Key]+= tag.Weight*WeightedTagScore;
+                        _map[material]+= tag.Weight*WeightedTagScore;
                     }
                 }
             }       
+            }
         }    
-           
-
-        private void SetScoreRating(this KeyValuePair<MaterialDTO, float> entry, SearchForm searchform)
+        private void SetScoreRating()
         {
-            _map[entry.Key] = entry.Value + entry.Key.AverageRating * RatingScore;
+            foreach (MaterialDTO material in _map.Keys)
+            {
+                _map[material] += material.AverageRating() * RatingScore;
+            }
         }
         
-        private void SetScoreLevel(this KeyValuePair<MaterialDTO, float> entry, SearchForm searchform)
+        private void SetScoreLevel(SearchForm searchform)
         {
-            foreach(CreateLevelDTO level in entry.Key.Levels){
+            foreach (MaterialDTO material in _map.Keys)
+            {
+            foreach(CreateLevelDTO level in material.Levels){
+                foreach(LevelDTO searchLevel in searchform.Levels){
+                    if(level == searchLevel){
+                        _map[material]+= LevelScore;
+                    }
+                }
+            } 
+        }
+
+        private void SetScoreProgrammingLanguage(SearchForm searchform)
+        {
+              foreach(CreateProgrammingLanguageDTO level in entry.Key.ProgrammingLanguages){
                 foreach(LevelDTO searchLevel in searchform.Levels){
                     if(level == searchLevel){
                         _map[entry.Key]+= LevelScore;
                     }
                 }
             } 
-        }
 
-        private void SetScoreProgrammingLanguage()
-        {
             
         }
         
