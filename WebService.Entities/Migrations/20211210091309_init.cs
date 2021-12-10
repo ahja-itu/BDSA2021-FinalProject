@@ -1,12 +1,11 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace WebService.Entities.Migrations
 {
-    public partial class reset : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,9 +13,9 @@ namespace WebService.Entities.Migrations
                 name: "Languages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,9 +26,9 @@ namespace WebService.Entities.Migrations
                 name: "Levels",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,9 +39,9 @@ namespace WebService.Entities.Migrations
                 name: "Medias",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,9 +52,9 @@ namespace WebService.Entities.Migrations
                 name: "ProgrammingLanguages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,9 +65,9 @@ namespace WebService.Entities.Migrations
                 name: "Tags",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,15 +78,14 @@ namespace WebService.Entities.Migrations
                 name: "Materials",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    LanguageId = table.Column<int>(type: "integer", nullable: false),
-                    Summary = table.Column<string>(type: "character varying(400)", maxLength: 400, nullable: false),
-                    URL = table.Column<string>(type: "text", nullable: false),
-                    Content = table.Column<string>(type: "text", nullable: false),
-                    Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    TimeStamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    TagId = table.Column<int>(type: "integer", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LanguageId = table.Column<int>(type: "int", nullable: false),
+                    Summary = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
+                    URL = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -98,21 +96,16 @@ namespace WebService.Entities.Migrations
                         principalTable: "Languages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Materials_Tags_TagId",
-                        column: x => x.TagId,
-                        principalTable: "Tags",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Author",
                 columns: table => new
                 {
-                    FirstName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    SurName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    MaterialId = table.Column<int>(type: "integer", nullable: false),
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    SurName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    MaterialId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -129,8 +122,8 @@ namespace WebService.Entities.Migrations
                 name: "LevelMaterial",
                 columns: table => new
                 {
-                    LevelsId = table.Column<int>(type: "integer", nullable: false),
-                    MaterialsId = table.Column<int>(type: "integer", nullable: false)
+                    LevelsId = table.Column<int>(type: "int", nullable: false),
+                    MaterialsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -153,8 +146,8 @@ namespace WebService.Entities.Migrations
                 name: "MaterialMedia",
                 columns: table => new
                 {
-                    MaterialsId = table.Column<int>(type: "integer", nullable: false),
-                    MediasId = table.Column<int>(type: "integer", nullable: false)
+                    MaterialsId = table.Column<int>(type: "int", nullable: false),
+                    MediasId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -177,8 +170,8 @@ namespace WebService.Entities.Migrations
                 name: "MaterialProgrammingLanguage",
                 columns: table => new
                 {
-                    MaterialsId = table.Column<int>(type: "integer", nullable: false),
-                    ProgrammingLanguagesId = table.Column<int>(type: "integer", nullable: false)
+                    MaterialsId = table.Column<int>(type: "int", nullable: false),
+                    ProgrammingLanguagesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -190,7 +183,7 @@ namespace WebService.Entities.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MaterialProgrammingLanguage_ProgrammingLanguages_Programmin~",
+                        name: "FK_MaterialProgrammingLanguage_ProgrammingLanguages_ProgrammingLanguagesId",
                         column: x => x.ProgrammingLanguagesId,
                         principalTable: "ProgrammingLanguages",
                         principalColumn: "Id",
@@ -201,11 +194,11 @@ namespace WebService.Entities.Migrations
                 name: "Rating",
                 columns: table => new
                 {
-                    Reviewer = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    MaterialId = table.Column<int>(type: "integer", nullable: false),
-                    Id = table.Column<int>(type: "integer", nullable: false),
-                    Value = table.Column<int>(type: "integer", nullable: false),
-                    TimeStamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Reviewer = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    MaterialId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Value = table.Column<int>(type: "int", nullable: false),
+                    TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -222,10 +215,10 @@ namespace WebService.Entities.Migrations
                 name: "WeightedTag",
                 columns: table => new
                 {
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    MaterialId = table.Column<int>(type: "integer", nullable: false),
-                    Weight = table.Column<int>(type: "integer", nullable: false),
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    MaterialId = table.Column<int>(type: "int", nullable: false),
+                    Weight = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -271,11 +264,6 @@ namespace WebService.Entities.Migrations
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Materials_TagId",
-                table: "Materials",
-                column: "TagId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Materials_Title",
                 table: "Materials",
                 column: "Title",
@@ -318,6 +306,9 @@ namespace WebService.Entities.Migrations
                 name: "Rating");
 
             migrationBuilder.DropTable(
+                name: "Tags");
+
+            migrationBuilder.DropTable(
                 name: "WeightedTag");
 
             migrationBuilder.DropTable(
@@ -334,9 +325,6 @@ namespace WebService.Entities.Migrations
 
             migrationBuilder.DropTable(
                 name: "Languages");
-
-            migrationBuilder.DropTable(
-                name: "Tags");
         }
     }
 }

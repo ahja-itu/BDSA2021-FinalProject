@@ -66,7 +66,5 @@ public class Context : DbContext, IContext
         modelBuilder.Entity<Tag>()
             .HasIndex(s => s.Name)
             .IsUnique();
-
-      
     }
 }

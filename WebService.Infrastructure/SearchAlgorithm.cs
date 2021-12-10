@@ -1,16 +1,92 @@
-﻿namespace WebService.Core.Server
+﻿using WebService.Core;
+
+namespace WebService.Infrastructure
 {
     public class SearchAlgorithm : ISearch
     {
-        public List<int> Search(List<string> inputWords, List<int> tagIDs, List<List<int>> filterIDs)
-        {
-            throw new NotImplementedException();
+        private readonly IMaterialRepository _repository;
+        private SearchForm _searchForm; //SPØRG
 
-            //return new List<int>();
-        }
-        public Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm)
+        public SearchAlgorithm(IMaterialRepository materialRepository)
         {
-            throw new NotImplementedException();
+            _repository = materialRepository;
+        }
+
+        public async Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm)
+        {
+            _searchForm = searchForm;
+            var databaseMaterials = await FindMaterials(SearchFormParse(_searchForm));
+            if (databaseMaterials.Item1 == Status.NotFound)
+            {
+                return databaseMaterials;
+            };
+
+            //var materialDTOs = FilterMaterials(databaseMaterials.Item2);
+            var materialDTOs = databaseMaterials.Item2;
+            return (Status.Found, PrioritizeMaterials(materialDTOs));
+        }
+
+        public SearchForm SearchFormParse(SearchForm searchForm)
+        {
+            return TextFieldParse(searchForm);
+        }
+
+        public SearchForm TextFieldParse(SearchForm searchForm)
+        {
+            return searchForm;
+            // string[] text = searchForm.TextField.Split(' ');
+        }
+
+        private async Task<(Status, ICollection<MaterialDTO>)> FindMaterials(SearchForm searchForm)
+        {
+            var result = await _repository.ReadAsync(searchForm);
+
+            return (result.Item1, new List<MaterialDTO>(result.Item2));
+        }
+
+        private ICollection<MaterialDTO> FilterMaterials(ICollection<MaterialDTO> materials)
+        {
+            materials = new List<MaterialDTO>(FilterLanguage(materials));
+            materials = new List<MaterialDTO>(FilterTags(materials));
+            return materials;
+        }
+
+
+        private ICollection<MaterialDTO> PrioritizeMaterials(ICollection<MaterialDTO> materials)
+        {
+            //TODO this
+            return materials;
+        }
+
+        private IEnumerable<MaterialDTO> FilterLanguage(ICollection<MaterialDTO> materials)
+        {
+            foreach (MaterialDTO m in materials)
+            {
+                if (_searchForm.Languages.Contains(m.Language))
+                {
+                    yield return m;
+                }
+            }
+        }
+
+        private IEnumerable<MaterialDTO> FilterTags(ICollection<MaterialDTO> materials)
+        {
+            materialLoop:
+            foreach (MaterialDTO m in materials)
+            {  
+                foreach (WeightedTagDTO wt in m.Tags)
+                {
+                    foreach (TagDTO t in _searchForm.Tags)
+                    {
+                        if (wt.Name == t.Name)
+                        {
+                            yield return m;
+                            goto materialLoop;
+                        }
+                    }
+                }
+                  
+            }
         }
     }
 }
