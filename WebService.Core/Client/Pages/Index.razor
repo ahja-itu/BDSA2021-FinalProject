@@ -44,6 +44,13 @@
         height: 500px;
         overflow: auto;
     }
+    .mini-scroller {
+            background-color: transparent;
+            width: 100%;
+            max-height: 250px;
+            height: auto;
+            overflow: auto;
+    }
     .result{
         background: transparent;
         padding-top: 25px;
@@ -73,8 +80,12 @@
     <!-- Search bar -->
     <div class="row" style="border-bottom:solid;border-color:#7765E3;padding-top: 20%">
         <div class="col d-flex justify-content-center align-item-center" style="width:100%">
-            <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" @bind-value="_searchInput" Style="width:100%;font-size:2em"/>
-            <RadzenButton class="btgIconButton" Click="Search" Icon="search"/>
+            <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" @bind-value="_searchInput" Style="width:100%;font-size:2em;"/>
+            <RadzenButton class="btgIconButton" Click="Search" style="padding:0px 0px;width:40px;height:40px;">
+                <i class="rzi" style="font-size:2em;">
+                search
+                </i>
+            </RadzenButton>
         </div>
     </div>
     <!-- Filter box -->
@@ -95,6 +106,7 @@
         {
             @if (_isShowingFilterOptions)
             {
+                
                 <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
                     <div class="col">
                         <!-- SearchFilters() is null safe! -->
@@ -103,6 +115,12 @@
                     </div>
                 </div>
                 <div class="row">
+                    @foreach (var str in _selectedFilterOptions)
+                    {
+                        <RadzenButton id="@FilterOptionIdGenerator()" Click=@(_ => AddFilterToList(str)) Style="font-size:12px; border-radius: 24px; background: #FF9F1C; margin:10px; color:#FFFFFF; width: auto; padding:2px 5px;" Text="@str" Icon="close"/>
+                    }
+                </div>
+                <div class="row mini-scroller">
                     @foreach (var str in _showCollection)
                     {
                         <RadzenButton id="@FilterOptionIdGenerator()" Click=@(_ => AddFilterToList(str)) Style="border-radius: 24px; background: #fff; margin:10px; color:#7765E3; width: auto;" Text="@str"/>
@@ -120,9 +138,14 @@
     </div>
 }
     <!-- Show Filter Button -->
-    <div class="row d-flex justify-content-center align-item-center">
+    <div class="row d-flex justify-content-left align-item-left">
         <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@_displayIcon"/>
+        
     </div>
+    <div class="row d-flex justify-content-center align-item-center">
+        <RadzenButton Click="Search" Text="Search" Style="font-size: 20px; border-radius: 24px; background: #fff; margin:10px; color:#7765E3; width: auto;"/>
+    </div>
+    
     <!-- Results Box -->
     @if (_noResultsFound)
     {
@@ -139,11 +162,14 @@
                 <div style="border-left: 6px solid #7765E3; !important;">
                     <div class="row" style="margin-left: 5px">
                         <div class="col">
-                            <a href="#" style="color:white;">
+                            <a href="@material.URL" style="color:rgba(255, 255, 255, 0.5);">
                                 @material.URL
                             </a>
                         </div>
                         <div class="col" style="text-align: right">
+                            <span class="material-icons">
+                                language
+                            </span>
                             <p>
                                 @material.Language.Name
                             </p>
@@ -151,11 +177,19 @@
                     </div>
                     <div class="row" style="margin-left: 5px">
                         <div class="col">
+                            <span class="material-icons">
+                                school
+                            </span>
+                        </div>
+                        <div class="col">
                             <RadzenButton class="btgIconButton" Click="@(_ => ShowSelectedMaterial(material.Id))" Style="font-size: 20px; padding: 0">
                                 @material.Title
                             </RadzenButton>
                         </div>
                         <div class="col" style="text-align: right">
+                            <span class="material-icons">
+                                star_rate
+                            </span>
                             <p>
                                 @material.AverageRating()
                             </p>
@@ -196,10 +230,16 @@ else
                     <p>@_selectedMaterial.AuthorsToString()</p>
                 </div>
                 <div class="col-6">
+                   <span class="material-icons">
+                        language
+                   </span> 
                     <p style="text-align: right">@_selectedMaterial.Language.Name</p>
                 </div>
             </div>
             <div class="row">
+                <span class="material-icons">
+                    school
+                </span>
                 <p style="text-align: right">@_selectedMaterial.LevelsToString()</p>
             </div>
             <div class="row" style="border-bottom: solid 6px #9586E9">
@@ -210,6 +250,9 @@ else
                     }
                 </div>
                 <div class="col-6">
+                    <span class="material-icons">
+                        star_rate
+                    </span>
                     <p style="text-align: right">@_selectedMaterial.AverageRating()</p>
                 </div>
             </div>
@@ -262,6 +305,7 @@ else
     ICollection<string> _programmingLanguages = new List<string>();
     ICollection<string> _language = new List<string>();
     ICollection<string> _medias = new List<string>();
+    ICollection<string> _selectedFilterOptions = new List<string>();
 
     void ChangeFilter(string filterName)
     {
@@ -274,18 +318,23 @@ else
             switch (filterName)
             {
                 case "Tags":
+                    _selectedFilterOptions = _tagsToSend;
                     ReplaceListWithBackup(ref _showCollection, _tags);
                     break;
                 case "Levels":
+                    _selectedFilterOptions = _levelsToSend;
                     ReplaceListWithBackup(ref _showCollection, _levels);
                     break;
                 case "Programming Languages":
+                    _selectedFilterOptions = _programmingLanguagesToSend;
                     ReplaceListWithBackup(ref _showCollection, _programmingLanguages);
                     break;
                 case "Languages":
+                    _selectedFilterOptions = _languagesToSend;
                     ReplaceListWithBackup(ref _showCollection, _language);
                     break;
                 case "Medias":
+                    _selectedFilterOptions = _mediasToSend;
                     ReplaceListWithBackup(ref _showCollection, _medias);
                     break;
             }
@@ -323,7 +372,7 @@ else
             case "Levels":
                 ToggleFilter(ref _levelsToSend, toAdd);
                 break;
-            case "programming Languages":
+            case "Programming Languages":
                 ToggleFilter(ref _programmingLanguagesToSend, toAdd);
                 break;
             case "Languages":
