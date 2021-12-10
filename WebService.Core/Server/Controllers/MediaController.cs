@@ -28,7 +28,7 @@
             var result = await _mediaRepository.ReadAsync(id);
             var response = result.Item1;
 
-            if (response == Status.Found) return Ok(result);
+            if (response == Status.Found) return Ok(result.Item2);
             else return NotFound();
         }
 
