@@ -803,11 +803,6 @@ namespace WebService.Infrastructure.Tests
         //Tag 12 + 13, Tags in title
         #endregion
 
-
-
-
-
-
         #region UpperLower
         [Fact]
         public async Task Search_with_tag_lower_case_returns_material_with_tag()
@@ -818,7 +813,7 @@ namespace WebService.Infrastructure.Tests
             var materials = response.Item2;
             var actual = materials.First().Title;
 
-            var expected = _v.BaseMaterial.Title;
+            var expected = _v.UpperLowerMaterial.Title;
 
             Assert.Equal(expected,actual);
         }
@@ -832,7 +827,7 @@ namespace WebService.Infrastructure.Tests
             var materials = response.Item2;
             var actual = materials.First().Title;
 
-            var expected = _v.BaseMaterial.Title;
+            var expected = _v.UpperLowerMaterial.Title;
 
             Assert.Equal(expected, actual);
         }
@@ -846,7 +841,7 @@ namespace WebService.Infrastructure.Tests
             var materials = response.Item2;
             var actual = materials.First().Title;
 
-            var expected = _v.BaseMaterial.Title;
+            var expected = _v.UpperLowerMaterial.Title;
 
             Assert.Equal(expected, actual);
         }
@@ -860,7 +855,7 @@ namespace WebService.Infrastructure.Tests
             var materials = response.Item2;
             var actual = materials.First().Title;
 
-            var expected = _v.BaseMaterial.Title;
+            var expected = _v.UpperLowerMaterial.Title;
 
             Assert.Equal(expected, actual);
         }
@@ -874,14 +869,80 @@ namespace WebService.Infrastructure.Tests
             var materials = response.Item2;
             var actual = materials.First().Title;
 
-            var expected = _v.BaseMaterial.Title;
+            var expected = _v.UpperLowerMaterial.Title;
 
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task Search_with_textfield_containing_tag_lower_case_returns_material_with_tag()
+        {
+            var searchform = new SearchForm("Something something doTNet test", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+
+            var response = await _searchAlgorithm.Search(searchform);
+            var materials = response.Item2;
+            var actual = materials.First().Title;
+
+            var expected = _v.UpperLowerMaterial.Title;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task Search_with_textfield_containing_author_lower_case_returns_material_with_author()
+        {
+            var searchform = new SearchForm("Something something some author and or auTHOrSON ", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+
+            var response = await _searchAlgorithm.Search(searchform);
+            var materials = response.Item2;
+            var actual = materials.First().Title;
+
+            var expected = _v.UpperLowerMaterial.Title;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task Search_with_textfield_containing_title_lower_case_returns_material_with_title()
+        {
+            var searchform = new SearchForm("HALLELUJA", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+
+            var response = await _searchAlgorithm.Search(searchform);
+            var materials = response.Item2;
+            var actual = materials.First().Title;
+
+            var expected = _v.UpperLowerMaterial.Title;
+
+            Assert.Equal(expected, actual);
+        }
         #endregion
 
+        #region NotFound
+        [Fact]
+        public async Task Search_with_language_non_existing_on_any_materials_returns_notFound()
+        {
+            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>() { new LanguageDTO(0, "German")}, new List<MediaDTO>(), 0);
 
+            var response = await _searchAlgorithm.Search(searchform);
+            var actual = response.Item1;
 
+            var expected = Status.NotFound;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task Search_with_parameters_on_no_materials_returns_notFound()
+        {
+            var searchform = new SearchForm("", new List<TagDTO>() { new TagDTO(0, "ThisDoesNotExists")}, new List<LevelDTO>() { new LevelDTO(0, "ThisDoesNotExists") }, new List<ProgrammingLanguageDTO>() { new ProgrammingLanguageDTO(0, "ThisDoesNotExists") }, new List<LanguageDTO>() { new LanguageDTO(0, "ThisDoesNotExists") }, new List<MediaDTO>() { new MediaDTO(0, "ThisDoesNotExists") }, 0);
+
+            var response = await _searchAlgorithm.Search(searchform);
+            var actual = response.Item1;
+
+            var expected = Status.NotFound;
+
+            Assert.Equal(expected, actual);
+        }
+        #endregion
     }
 }

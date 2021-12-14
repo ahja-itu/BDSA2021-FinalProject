@@ -428,11 +428,11 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             }
             #endregion
             //material for upper lower case
-            BaseMaterial = new Material() //
+            UpperLowerMaterial = new Material() //
             {
                 Id = MaterialID++,
                 WeightedTags = new HashSet<WeightedTag> { new WeightedTag("DOTNET", 10) },
-                Ratings = new HashSet<Rating> { new Rating(5,"Reviewer") },
+                Ratings = new HashSet<Rating> { new Rating(10,"Reviewer") },
                 Levels = new HashSet<Level> { new Level(4,"School") },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { new ProgrammingLanguage(4,"Go") },
                 Medias = new HashSet<Media> { new Media(4,"Youtube") },
@@ -440,12 +440,15 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 Summary = "Lorem ipsum",
                 URL = "iamaURL",
                 Content = "I am content",
-                Title = "Blazor for beginners for upper lower case material",
-                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
+                Title = "I am a very special title with halleluja",
+                Authors = new HashSet<Author> { new Author("Author", "Authorson") },
                 TimeStamp = System.DateTime.UtcNow
-            };    
-            
-            context.Add(BaseMaterial);
+            };
+
+            var dotnetTag = new Tag(0, "DOTNET");
+            context.Add(dotnetTag);
+
+            context.Add(UpperLowerMaterial);
 
             context.AddRange(danish, english, spanish, bachelor, masters, phd, book, report, video, csharp, java, fsharp);
 
@@ -480,7 +483,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
         public List<Material> Tag8Materials { get; }
         public List<Material> Tag9Materials { get; }
         public List<Material> Tag1011Materials { get; }
-        public Material BaseMaterial { get; }
+        public Material UpperLowerMaterial { get; }
 
         #endregion
 
