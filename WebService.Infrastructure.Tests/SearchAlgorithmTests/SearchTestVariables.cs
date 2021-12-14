@@ -426,6 +426,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 context.AddRange(material1011);
                 Tag1011Materials.Add(material1011);
             }
+            #endregion
 
             //material for upper lower case
             UpperLowerMaterial = new Material() //
@@ -440,8 +441,8 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 Summary = "Lorem ipsum",
                 URL = "iamaURL",
                 Content = "I am content",
-                Title = "Blazor for beginners for upper lower case material",
-                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
+                Title = "I am a very special title with halleluja",
+                Authors = new HashSet<Author> { new Author("Author", "Authorson") },
                 TimeStamp = System.DateTime.UtcNow
             };
 

@@ -766,7 +766,7 @@ namespace WebService.Infrastructure.Tests
         #region Tag10Tag11-WeightTwoTags
         //Tag 10 + 11, Varying weight, two tags
         [Fact]
-        public void Search_given_SearchForm_containing_textinput_lorem_returns_list_of_material_prioritized_by_titles_containing_lorem()
+        public void Search_given_SearchForm_containing_textinput_lorem_returns_list_of_material_prioritized_by_titles_containing_lorem2()
         {
 
             //Arrange
@@ -879,7 +879,7 @@ namespace WebService.Infrastructure.Tests
         [Fact]
         public async Task Search_with_textfield_containing_tag_lower_case_returns_material_with_tag()
         {
-            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+            var searchform = new SearchForm("Something something doTNet test", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
 
             var response = await _searchAlgorithm.Search(searchform);
             var materials = response.Item2;
@@ -890,9 +890,33 @@ namespace WebService.Infrastructure.Tests
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task Search_with_textfield_containing_author_lower_case_returns_material_with_author()
+        {
+            var searchform = new SearchForm("Something something some author and or auTHOrSON ", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+
+            var response = await _searchAlgorithm.Search(searchform);
+            var materials = response.Item2;
+            var actual = materials.First().Title;
+
+            var expected = _v.UpperLowerMaterial.Title;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task Search_with_textfield_containing_title_lower_case_returns_material_with_title()
+        {
+            var searchform = new SearchForm("HALLELUJA", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+
+            var response = await _searchAlgorithm.Search(searchform);
+            var materials = response.Item2;
+            var actual = materials.First().Title;
+
+            var expected = _v.UpperLowerMaterial.Title;
+
+            Assert.Equal(expected, actual);
+        }
         #endregion
-
-
-
     }
 }
