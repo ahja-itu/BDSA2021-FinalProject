@@ -83,7 +83,7 @@
             <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" @bind-value="_searchInput" Style="width:100%;font-size:2em;"/>
             <RadzenButton class="btgIconButton" Click="Search" style="padding:0px 0px;width:40px;height:40px;">
                 <i class="rzi" style="font-size:2em;">
-                search
+                    search
                 </i>
             </RadzenButton>
         </div>
@@ -106,7 +106,6 @@
         {
             @if (_isShowingFilterOptions)
             {
-                
                 <div class="row" style="border-bottom:solid;border-color:#7765E3;width:auto;padding:0;">
                     <div class="col">
                         <!-- SearchFilters() is null safe! -->
@@ -140,12 +139,11 @@
     <!-- Show Filter Button -->
     <div class="row d-flex justify-content-left align-item-left">
         <RadzenButton id="filterButton" class="btgIconButton mediumIcon" Click="ShowFilters" Icon="@_displayIcon"/>
-        
     </div>
     <div class="row d-flex justify-content-center align-item-center">
         <RadzenButton Click="Search" Text="Search" Style="font-size: 20px; border-radius: 24px; background: #fff; margin:10px; color:#7765E3; width: auto;"/>
     </div>
-    
+
     <!-- Results Box -->
     @if (_noResultsFound)
     {
@@ -184,7 +182,6 @@
                         <div class="col" style="text-align: right">
                             <RadzenButton class="btgIconButton" Disabled="true" Icon="school" Text=@material.LevelsToString()></RadzenButton>
                         </div>
-                        
                     </div>
                     <div style="color: white; margin-left: 5px">
                         <p>
@@ -221,14 +218,13 @@ else
                     <p>@_selectedMaterial.AuthorsToString()</p>
                 </div>
                 <div class="col-6" style="text-align: right">
-                   <RadzenButton class="btgIconButton" Disabled="true" Icon="language" Text=@_selectedMaterial.Language.Name></RadzenButton>
+                    <RadzenButton class="btgIconButton" Disabled="true" Icon="language" Text=@_selectedMaterial.Language.Name></RadzenButton>
                 </div>
             </div>
             <div class="row">
                 <div class="col" style="text-align: right">
                     <RadzenButton class="btgIconButton" Disabled="true" Icon="school" Text=@_selectedMaterial.LevelsToString()></RadzenButton>
                 </div>
-                
             </div>
             <div class="row" style="border-bottom: solid 6px #9586E9; padding-bottom: 5px">
                 <div class="col-6">
@@ -282,8 +278,6 @@ else
 
     #region ChangeFilter
 
-    
-
     bool _filterSelected;
     bool _isShowingFilterOptions;
     string _collectionToSaveTo = "Tags";
@@ -300,7 +294,6 @@ else
     string languageStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
     string mediaStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
     string ratingStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
-    
     void ChangeFilter(string filterName)
     {
         _filterSelected = true;
@@ -314,7 +307,6 @@ else
             {
                 case "Tags":
                     _selectedFilterOptions = _tagsToSend;
-                    
                     ReplaceListWithBackup(ref _showCollection, _tags);
                     break;
                 case "Levels":
@@ -447,7 +439,7 @@ else
         _noResultsFound = false;
         var searchForm = new SearchForm(
             _searchInput,
-            _tagsToSend.Select(e => new TagDTO(0,e)).ToList(),
+            _tagsToSend.Select(e => new TagDTO(0, e)).ToList(),
             _levelsToSend.Select(e => new LevelDTO(0, e)).ToList(),
             _programmingLanguagesToSend.Select(e => new ProgrammingLanguageDTO(0, e)).ToList(),
             _languagesToSend.Select(e => new LanguageDTO(0, e)).ToList(),
@@ -463,7 +455,6 @@ else
         {
             _searchResults = await response.Content.ReadFromJsonAsync<ICollection<MaterialDTO>>();
         }
-        
     }
 
     #endregion
@@ -533,4 +524,5 @@ else
     }
 
     #endregion
+
 }

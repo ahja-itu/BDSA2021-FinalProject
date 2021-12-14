@@ -1,28 +1,26 @@
-﻿namespace WebService.Core.Server.Controllers
+﻿namespace WebService.Core.Server.Controllers;
+
+[Authorize]
+[ApiController]
+[Route("[controller]")]
+[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+public class SearchController : ControllerBase
 {
-    [Authorize]
-    [ApiController]
-    [Route("[controller]")]
-    [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
-    public class SearchController : ControllerBase
+    private readonly ISearch _search;
+
+    public SearchController(ISearch search)
     {
-        private readonly ISearch _search;
+        _search = search;
+    }
 
-        public SearchController(ISearch search)
-        {
-            _search = search;
-        }
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ICollection<MaterialDTO>>> Post(SearchForm searchForm)
+    {
+        var (response, materialDTOs) = await _search.Search(searchForm);
 
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ICollection<MaterialDTO>>> Post(SearchForm searchForm)
-        {
-            var result = await _search.Search(searchForm);
-            var response = result.Item1;
-
-            if (response == Status.Found) return Ok(result.Item2);
-            else return NotFound();
-        }
+        if (response == Status.Found) return Ok(materialDTOs);
+        return NotFound();
     }
 }
