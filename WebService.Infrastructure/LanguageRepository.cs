@@ -9,6 +9,11 @@ public class LanguageRepository : ILanguageRepository
         _context = context;
     }
 
+    /// <summary>
+    /// Create a Language entry in the database provided a CreateLanguageDTO
+    /// </summary>
+    /// <param name="language">A CreateLanguageDTO containing the name of the language to store</param>
+    /// <returns>A status describing the result of the operation, and possibly a DTO representing the (maybe) saved database entry</returns>
     public async Task<(Status, LanguageDTO)> CreateAsync(CreateLanguageDTO language)
     {
         if (InvalidInput(language)) return (Status.BadRequest, new LanguageDTO(-1, language.Name));
@@ -29,6 +34,11 @@ public class LanguageRepository : ILanguageRepository
         return (Status.Created, new LanguageDTO(entity.Id, entity.Name));
     }
 
+    /// <summary>
+    /// Delete a language entry in the database given its id.
+    /// </summary>
+    /// <param name="languageId">ID of the given language.</param>
+    /// <returns>A status object indicating how the operation went.</returns>
     public async Task<Status> DeleteAsync(int languageId)
     {
         var language = await _context.Languages.FindAsync(languageId);
@@ -42,6 +52,11 @@ public class LanguageRepository : ILanguageRepository
         return Status.Deleted;
     }
 
+    /// <summary>
+    /// Read an entry from the database given its ID
+    /// </summary>
+    /// <param name="languageId">The ID of the given entry in the database</param>
+    /// <returns>A status showing if the entry was found or not, and maybe the language entry as a DTO if there were an entry with the given ID</returns>
     public async Task<(Status, LanguageDTO)> ReadAsync(int languageId)
     {
         var query = from l in _context.Languages
@@ -53,11 +68,20 @@ public class LanguageRepository : ILanguageRepository
         return category == null ? (Status.NotFound, new LanguageDTO(-1, "")) : (Status.Found, category);
     }
 
+    /// <summary>
+    /// Read all of the language entries from the database
+    /// </summary>
+    /// <returns>A list of language DTOs that were present in the database</returns>
     public async Task<IReadOnlyCollection<LanguageDTO>> ReadAsync()
     {
         return await _context.Languages.Select(l => new LanguageDTO(l.Id, l.Name)).ToListAsync();
     }
 
+    /// <summary>
+    /// Updates a given language entry, in the database, with new field(s).
+    /// </summary>
+    /// <param name="languageDTO">A DTO containing updated fields and a valid ID to find the entry in the database</param>
+    /// <returns>A status indication of how the update went.</returns>
     public async Task<Status> UpdateAsync(LanguageDTO languageDTO)
     {
         if (InvalidInput(languageDTO)) return Status.BadRequest;
