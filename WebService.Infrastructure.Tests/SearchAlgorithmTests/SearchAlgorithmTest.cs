@@ -640,7 +640,7 @@ namespace WebService.Infrastructure.Tests
             var materials = response.Item2;
             var actual = materials.First().Title;
 
-            var expected = _v.BaseMaterial.Title;
+            var expected = _v.UpperLowerMaterial.Title;
 
             Assert.Equal(expected,actual);
         }
@@ -654,7 +654,7 @@ namespace WebService.Infrastructure.Tests
             var materials = response.Item2;
             var actual = materials.First().Title;
 
-            var expected = _v.BaseMaterial.Title;
+            var expected = _v.UpperLowerMaterial.Title;
 
             Assert.Equal(expected, actual);
         }
@@ -668,7 +668,7 @@ namespace WebService.Infrastructure.Tests
             var materials = response.Item2;
             var actual = materials.First().Title;
 
-            var expected = _v.BaseMaterial.Title;
+            var expected = _v.UpperLowerMaterial.Title;
 
             Assert.Equal(expected, actual);
         }
@@ -682,7 +682,7 @@ namespace WebService.Infrastructure.Tests
             var materials = response.Item2;
             var actual = materials.First().Title;
 
-            var expected = _v.BaseMaterial.Title;
+            var expected = _v.UpperLowerMaterial.Title;
 
             Assert.Equal(expected, actual);
         }
@@ -696,7 +696,7 @@ namespace WebService.Infrastructure.Tests
             var materials = response.Item2;
             var actual = materials.First().Title;
 
-            var expected = _v.BaseMaterial.Title;
+            var expected = _v.UpperLowerMaterial.Title;
 
             Assert.Equal(expected, actual);
         }

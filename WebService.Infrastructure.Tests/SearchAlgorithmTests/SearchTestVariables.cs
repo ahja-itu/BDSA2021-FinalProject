@@ -451,7 +451,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             }
 
             //material for upper lower case
-            BaseMaterial = new Material() //
+            UpperLowerMaterial = new Material() //
             {
                 Id = MaterialID++,
                 WeightedTags = new HashSet<WeightedTag> { new WeightedTag("DOTNET", 10) },
@@ -468,7 +468,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 TimeStamp = System.DateTime.UtcNow
             };    
             
-            context.Add(BaseMaterial);
+            context.Add(UpperLowerMaterial);
 
             context.AddRange(danish, english, spanish, bachelor, masters, phd, book, report, video, csharp, java, fsharp);
 
@@ -502,7 +502,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
         public List<Material> Tag7Materials { get; }
         public List<Material> Tag8Materials { get; }
         public List<Material> Tag1011Materials { get; }
-        public Material BaseMaterial { get; }
+        public Material UpperLowerMaterial { get; }
 
 
     }
