@@ -104,7 +104,7 @@ namespace WebService.Infrastructure
         {
             foreach (var material in _map.Keys)
             {
-                var count = material.Levels.Where(e => searchform.Levels.Contains(e)).Count();
+                var count = material.Levels.Where(e => searchform.Levels.Select(e => e.Name).Contains(e.Name)).Count();
                 _map[material] += count * LevelScore;
             }
         }
@@ -113,7 +113,7 @@ namespace WebService.Infrastructure
         {
             foreach (var material in _map.Keys)
             {
-                var count = material.ProgrammingLanguages.Where(e => searchform.ProgrammingLanguages.Contains(e)).Count();
+                var count = material.ProgrammingLanguages.Where(e => searchform.ProgrammingLanguages.Select(e => e.Name).Contains(e.Name)).Count();
                 _map[material] += count * ProgrammingLanguageScore;
             }
         }
@@ -122,7 +122,7 @@ namespace WebService.Infrastructure
         {
             foreach (var material in _map.Keys)
             {
-                var count = material.Medias.Where(e => searchform.Medias.Contains(e)).Count();
+                var count = material.Medias.Where(e => searchform.Medias.Select(e => e.Name).Contains(e.Name)).Count();
                 _map[material] += count * MediaScore;
             }
         }
