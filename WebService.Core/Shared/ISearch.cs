@@ -1,7 +1,6 @@
-﻿namespace WebService.Core.Shared
+﻿namespace WebService.Core.Shared;
+
+public interface ISearch
 {
-    public interface ISearch
-    {
-        Task<(Status,ICollection<MaterialDTO>)> Search(SearchForm searchForm);
-    }
+    Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm);
 }

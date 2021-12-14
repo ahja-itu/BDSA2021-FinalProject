@@ -1,1 +1,3 @@
-public interface IRepository { }
+public interface IRepository
+{
+}

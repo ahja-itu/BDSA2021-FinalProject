@@ -1,11 +1,10 @@
-﻿namespace WebService.Core.Shared
+﻿namespace WebService.Core.Shared;
+
+public interface IMediaRepository : IRepository
 {
-    public interface IMediaRepository : IRepository
-    {
-        Task<(Status, MediaDTO)> CreateAsync(CreateMediaDTO media);
-        Task<(Status, MediaDTO)> ReadAsync(int mediaId);
-        Task<IReadOnlyCollection<MediaDTO>> ReadAsync();
-        Task<Status> DeleteAsync(int mediaId);
-        Task<Status> UpdateAsync(MediaDTO mediaDTO);
-    }
+    Task<(Status, MediaDTO)> CreateAsync(CreateMediaDTO media);
+    Task<(Status, MediaDTO)> ReadAsync(int mediaId);
+    Task<IReadOnlyCollection<MediaDTO>> ReadAsync();
+    Task<Status> DeleteAsync(int mediaId);
+    Task<Status> UpdateAsync(MediaDTO mediaDTO);
 }

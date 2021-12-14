@@ -1,45 +1,41 @@
-﻿namespace WebService.Core.Shared
+﻿namespace WebService.Core.Shared;
+
+public record CreateTagDTO
 {
-    public record CreateTagDTO
+    public CreateTagDTO(string name)
     {
-        public CreateTagDTO(string name)
-        {
-            Name = name;
-        }
-
-        [StringLength(50)]
-        public string Name { get; init; }
+        Name = name;
     }
 
-    public record TagDTO : CreateTagDTO
-    {
-        public TagDTO(int id, string name) : base(name)
-        {
-            Id = id;
-        }
+    [StringLength(50)] public string Name { get; init; }
+}
 
-        public int Id { get; init; }
+public record TagDTO : CreateTagDTO
+{
+    public TagDTO(int id, string name) : base(name)
+    {
+        Id = id;
     }
 
-    public record CreateWeightedTagDTO : CreateTagDTO
-    {
-        public CreateWeightedTagDTO(string name, int weight) : base(name)
-        {
-            Weight = weight;
-        }
+    public int Id { get; init; }
+}
 
-        [Range(1, 100)]
-        public int Weight { get; init; }
+public record CreateWeightedTagDTO : CreateTagDTO
+{
+    public CreateWeightedTagDTO(string name, int weight) : base(name)
+    {
+        Weight = weight;
     }
 
-    public record WeightedTagDTO : CreateWeightedTagDTO
+    [Range(1, 100)] public int Weight { get; init; }
+}
+
+public record WeightedTagDTO : CreateWeightedTagDTO
+{
+    public WeightedTagDTO(int id, string name, int weight) : base(name, weight)
     {
-        public WeightedTagDTO(int id, string name, int weight) : base(name, weight)
-        {
-            Id = id;
-        }
-
-        public int Id { get; init; }
-
+        Id = id;
     }
+
+    private int Id { get; init; }
 }

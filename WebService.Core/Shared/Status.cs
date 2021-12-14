@@ -1,13 +1,12 @@
-﻿namespace WebService.Core.Shared
+﻿namespace WebService.Core.Shared;
+
+public enum Status
 {
-    public enum Status
-    {
-        Created,
-        Updated,
-        Deleted,
-        NotFound,
-        BadRequest,
-        Conflict,
-        Found
-    }
+    Created,
+    Updated,
+    Deleted,
+    NotFound,
+    BadRequest,
+    Conflict,
+    Found
 }

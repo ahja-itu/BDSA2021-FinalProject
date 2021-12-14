@@ -1,11 +1,10 @@
-﻿namespace WebService.Core.Shared
+﻿namespace WebService.Core.Shared;
+
+public interface ITagRepository : IRepository
 {
-    public interface ITagRepository : IRepository
-    {
-        Task<(Status, TagDTO)> CreateAsync(CreateTagDTO tag);
-        Task<(Status, TagDTO)> ReadAsync(int tagId);
-        Task<IReadOnlyCollection<TagDTO>> ReadAsync();
-        Task<Status> DeleteAsync(int tagId);
-        Task<Status> UpdateAsync(TagDTO tagDTO);
-    }
+    Task<(Status, TagDTO)> CreateAsync(CreateTagDTO tag);
+    Task<(Status, TagDTO)> ReadAsync(int tagId);
+    Task<IReadOnlyCollection<TagDTO>> ReadAsync();
+    Task<Status> DeleteAsync(int tagId);
+    Task<Status> UpdateAsync(TagDTO tagDTO);
 }
