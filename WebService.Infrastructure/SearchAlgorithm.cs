@@ -26,6 +26,7 @@ namespace WebService.Infrastructure
 
         public async Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm)
         {
+            searchForm.TextField = searchForm.TextField.Replace(",", "");
             searchForm = await AddTagsToSearchFromTextField(searchForm);
             var response = await _repository.ReadAsync(searchForm);
             var status = response.Item1;
@@ -132,8 +133,8 @@ namespace WebService.Infrastructure
         {
             foreach (MaterialDTO material in _map.Keys)
             {
-                var wordCount = 0;
-                var textFieldCount = searchForm.TextField.Split(" ").Count();
+                float wordCount = 0;
+                float textFieldCount = searchForm.TextField.Split(" ").Count();
                 foreach (var word in material.Title.Split(" "))
                 {
                     if (searchForm.TextField.ContainsIgnoreCasing(word)) wordCount++;
@@ -148,7 +149,7 @@ namespace WebService.Infrastructure
             {
                 var authorNameCount = 0;
 
-                foreach (var author in material.Authors)
+                foreach (CreateAuthorDTO author in material.Authors)
                 {
                     if(searchForm.TextField.ContainsIgnoreCasing(author.FirstName)) authorNameCount++;
                         

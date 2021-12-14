@@ -470,9 +470,9 @@ namespace WebService.Infrastructure.Tests
             var searchMedia = new List<MediaDTO>() { new MediaDTO(3, "Report") };
             SearchForm searchForm = new SearchForm("Dockerize your life", new List<TagDTO>() { new TagDTO(6, "Tag6") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), searchMedia, 0);
             List<MaterialDTO> expected = new List<MaterialDTO>() {
-                _tag6Materials.ElementAt(2).ConvertToMaterialDTO(),
-                _tag6Materials.ElementAt(0).ConvertToMaterialDTO(),
                 _tag6Materials.ElementAt(1).ConvertToMaterialDTO(),
+                _tag6Materials.ElementAt(0).ConvertToMaterialDTO(),
+                _tag6Materials.ElementAt(2).ConvertToMaterialDTO(),
             };
 
             //Act
@@ -619,6 +619,7 @@ namespace WebService.Infrastructure.Tests
             //Arrange
             SearchForm searchForm = new SearchForm("", new List<TagDTO>() { new TagDTO(8, "Tag8") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
             List<MaterialDTO> expected = new List<MaterialDTO>() {
+                _tag8Materials.ElementAt(7).ConvertToMaterialDTO(),
                 _tag8Materials.ElementAt(6).ConvertToMaterialDTO(),
                 _tag8Materials.ElementAt(5).ConvertToMaterialDTO(),
                 _tag8Materials.ElementAt(4).ConvertToMaterialDTO(),
