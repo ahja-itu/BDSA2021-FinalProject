@@ -60,21 +60,35 @@
 
         private static MaterialDTO ConvertMaterialToMaterialDTO(Material entity)
         {
+            int id = entity.Id;
+            var tags = entity.WeightedTags.Select(e => e == null ? new CreateWeightedTagDTO("", 0) : new CreateWeightedTagDTO(e.Name, e.Weight)).ToList();
+            var ratings = entity.Ratings.Select(e => e == null ? new CreateRatingDTO(0, "") : new CreateRatingDTO(e.Value, e.Reviewer)).ToList();
+            var levels = entity.Levels.Select(e => e == null ? new CreateLevelDTO("") : new CreateLevelDTO(e.Name)).ToList();
+            var pls = entity.ProgrammingLanguages.Select(e => e == null ? new CreateProgrammingLanguageDTO("") : new CreateProgrammingLanguageDTO(e.Name)).ToList();
+            var medias = entity.Medias.Select(e => e == null ? new CreateMediaDTO("") : new CreateMediaDTO(e.Name)).ToList();
+            var lang = new CreateLanguageDTO(entity.Language.Name ?? "");
+            var summary = entity.Summary;
+            var url = entity.URL;
+            var content= entity.Content;
+            var title = entity.Title;
+            var authors = entity.Authors.Select(e => e == null ? new CreateAuthorDTO("", "") : new CreateAuthorDTO(e.FirstName, e.SurName)).ToList();
+            var timestamp = entity.TimeStamp;
+
             return new MaterialDTO(
-                                entity.Id,
-                                entity.WeightedTags.Select(e => new CreateWeightedTagDTO(e.Name, e.Weight)).ToList(),
-                                entity.Ratings.Select(e => new CreateRatingDTO(e.Value, e.Reviewer)).ToList(),
-                                entity.Levels.Select(e => new CreateLevelDTO(e.Name)).ToList(),
-                                entity.ProgrammingLanguages.Select(e => new CreateProgrammingLanguageDTO(e.Name)).ToList(),
-                                entity.Medias.Select(e => new CreateMediaDTO(e.Name)).ToList(),
-                                new CreateLanguageDTO(entity.Language.Name),
-                                entity.Summary,
-                                entity.URL,
-                                entity.Content,
-                                entity.Title,
-                                entity.Authors.Select(e => new CreateAuthorDTO(e.FirstName, e.SurName)).ToList(),
-                                entity.TimeStamp
-                                );
+                id,
+                tags,
+                ratings,
+                levels,
+                pls,
+                medias,
+                lang,
+                summary,
+                url,
+                content,
+                title,
+                authors,
+                timestamp
+            );
         }
 
         private async Task<Material> ConvertCreateMaterialDTOToMaterial(CreateMaterialDTO createMaterialDTO)
@@ -94,7 +108,6 @@
                 createMaterialDTO.TimeStamp
             );
         }
-
         public async Task<Status> DeleteAsync(int materialId)
         {
             var material = await _context.Materials.FindAsync(materialId);
@@ -110,6 +123,7 @@
 
         public async Task<(Status, MaterialDTO)> ReadAsync(int materialId)
         {
+
             var query = from m in _context.Materials
                         where m.Id == materialId
                         select m;
@@ -123,23 +137,43 @@
 
         public async Task<IReadOnlyCollection<MaterialDTO>> ReadAsync()
         {
-            return await _context.Materials.Select(m => ConvertMaterialToMaterialDTO(m)).ToListAsync();
+            var materials = await ReadAllMaterials();
+            return materials.Select(m => ConvertMaterialToMaterialDTO(m)).ToList();
+        }
+
+
+        public async Task<IList<Material>> ReadAllMaterials()
+            => await _context.Materials
+                    .Include(m => m.Language)
+                    .Include(m => m.Levels)
+                    .Include(m => m.Medias)
+                    .Include(m => m.ProgrammingLanguages)
+                    .ToListAsync();
+        
+        private double GetAverage(Material material)
+        {
+            return material.Ratings.Count != 0 ? material.Ratings.Average(rating => rating.Value) : 10;
         }
 
         public async Task<(Status, IReadOnlyCollection<MaterialDTO>)> ReadAsync(SearchForm searchInput)
         {
+
+            var allMaterials = await ReadAllMaterials();
             // We can't have the server translate our query where we do linq statements on searchInput :(
-            var materialsWhereRatingHolds = await _context.Materials
-                .Where(material => material.Ratings.Average(rating => rating.Value) >= searchInput.Rating)
-                .ToListAsync();
+            var materialsWhereRatingHolds = allMaterials
+                .Where(material => GetAverage(material) >= searchInput.Rating)
+                .ToList();
 
             // We're doing the following computations on the client, instead of the server
-            var materials = materialsWhereRatingHolds
+            var rawMaterials = materialsWhereRatingHolds
                 .Where(material => MayContainProgrammingLanguage(searchInput).Invoke(material))
                 .Where(material => MayContainLanguage(searchInput).Invoke(material))
                 .Where(material => MayContainMedia(searchInput).Invoke(material))
                 .Where(material => MayContainTag(searchInput).Invoke(material))
                 .Where(material => MayContainLevel(searchInput).Invoke(material))
+                .ToList();
+
+            var materials = rawMaterials
                 .Select(ConvertMaterialToMaterialDTO)
                 .ToList();
 

@@ -29,10 +29,11 @@
             var result = await _materialRepository.ReadAsync(id);
             var response = result.Item1;
 
-            if (response == Status.Found) return Ok(result);
+            if (response == Status.Found) return Ok(result.Item2);
             else return NotFound(result);
         }
 
+        [HttpPost("PostSearchForm")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MaterialDTO>> Post(SearchForm searchForm)
@@ -40,7 +41,7 @@
             var result = await _materialRepository.ReadAsync(searchForm);
             var response = result.Item1;
 
-            if (response == Status.Found) return Ok(result);
+            if (response == Status.Found) return Ok(result.Item2);
             else return NotFound();
         }
 

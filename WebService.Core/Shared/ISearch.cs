@@ -2,6 +2,6 @@
 {
     public interface ISearch
     {
-        Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm);
+        Task<(Status,ICollection<MaterialDTO>)> Search(SearchForm searchForm);
     }
 }

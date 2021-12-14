@@ -68,7 +68,7 @@
                                   where m.Name == mediaDTO.Name
                                   select new MediaDTO(m.Id, m.Name))
                                       .AnyAsync();
-
+            
             if (existing) return Status.Conflict;
 
             var entity = await _context.Medias.FindAsync(mediaDTO.Id);
