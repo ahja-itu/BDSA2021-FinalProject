@@ -663,9 +663,7 @@ namespace WebService.Infrastructure.Tests
                  _tag9Materials.ElementAt(3).ConvertToMaterialDTO(),
                  _tag9Materials.ElementAt(2).ConvertToMaterialDTO(),
                  _tag9Materials.ElementAt(1).ConvertToMaterialDTO(),
-                 _tag9Materials.ElementAt(0).ConvertToMaterialDTO(),
-                 _tag9Materials.ElementAt(5).ConvertToMaterialDTO(),
-                 _tag9Materials.ElementAt(6).ConvertToMaterialDTO()
+                 _tag9Materials.ElementAt(0).ConvertToMaterialDTO()
             };
 
             //Act
@@ -692,9 +690,7 @@ namespace WebService.Infrastructure.Tests
                  _tag9Materials.ElementAt(1).ConvertToMaterialDTO(),
                  _tag9Materials.ElementAt(2).ConvertToMaterialDTO(),
                  _tag9Materials.ElementAt(3).ConvertToMaterialDTO(),
-                 _tag9Materials.ElementAt(4).ConvertToMaterialDTO(),
-                 _tag9Materials.ElementAt(5).ConvertToMaterialDTO(),
-                 _tag9Materials.ElementAt(6).ConvertToMaterialDTO()
+                 _tag9Materials.ElementAt(4).ConvertToMaterialDTO()
             };
 
             //Act
