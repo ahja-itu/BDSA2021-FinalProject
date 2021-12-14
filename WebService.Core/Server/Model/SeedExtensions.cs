@@ -25,11 +25,13 @@ namespace WebService.Core.Server.Model
         /// </summary>
         /// <param name="host">The host object containing IoT containers such as the DbContext and repositories.</param>
         /// <returns></returns>
-        public static async Task<IHost> SeedAsync(this IHost host)
+        public static async Task<IHost> SeedAsync(this IHost host, IWebHostEnvironment environment)
         {
             using (var scope = host.Services.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<IContext>();
+
+                var contentGenerator = new ContentGenerator(environment);
 
                 var languageRepository = scope.ServiceProvider.GetRequiredService<ILanguageRepository>();
                 var levelRepository = scope.ServiceProvider.GetRequiredService<ILevelRespository>();
@@ -53,7 +55,7 @@ namespace WebService.Core.Server.Model
                 await SeedMediaAsync(mediaRepository);
                 await SeedProgrmamingLanguagesAsync(plRepository);
                 await SeedTagsAsync(tagRepository);
-                await SeedMaterial(repos);
+                await SeedMaterial(repos, contentGenerator);
             }
 
             return host;
@@ -70,7 +72,7 @@ namespace WebService.Core.Server.Model
             await context.SaveChangesAsync();
         }
 
-        private static async Task SeedMaterial(Dictionary<RepoType, IRepository> repos)
+        private static async Task SeedMaterial(Dictionary<RepoType, IRepository> repos, ContentGenerator contentGenerator)
         {
             var tagRepo = GetRepo<ITagRepository>(repos, RepoType.TAG);
             var languageRepository = GetRepo<ILanguageRepository>(repos, RepoType.LANGUAGE);
@@ -88,9 +90,6 @@ namespace WebService.Core.Server.Model
             var programmingLanguages = await plRepository.ReadAsync();
             var medias = await mediaRepository.ReadAsync();
             var languages = await languageRepository.ReadAsync();
-
-
-            var contentGenerator = new ContentGenerator();
 
             // Lets create a material for each author
             foreach (var author in authors)
@@ -153,7 +152,7 @@ namespace WebService.Core.Server.Model
                 var url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
 
                 // Ensure title will be created
-                var (titleOk, title) = ContentGenerator.GenerateTitle(weightedTags);
+                var (titleOk, title) = contentGenerator.GenerateTitle(weightedTags);
                 if (!titleOk)
                 {
                     Console.WriteLine("Failed to generate title with given input. Skipping this material.");

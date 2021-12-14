@@ -4,6 +4,7 @@ using System.Linq;
 namespace WebService.Core.Server.Tests.ModelTests;
 public class ContentGeneratorTests
 {
+	private ContentGenerator _gen = new ContentGenerator();
 	public ContentGeneratorTests()
 	{
 	}
@@ -14,7 +15,7 @@ public class ContentGeneratorTests
     {
 		var tags = new List<CreateWeightedTagDTO>();
 
-		var (ok, _) = ContentGenerator.GenerateTitle(tags);
+		var (ok, _) = _gen.GenerateTitle(tags);
 
 		Assert.False(ok);
     }
@@ -26,7 +27,7 @@ public class ContentGeneratorTests
 		var tags = CreateTags(tagName);
 		Assert.Single(tags);
 
-		var (ok, title) = ContentGenerator.GenerateTitle(tags);
+		var (ok, title) = _gen.GenerateTitle(tags);
 
 		Assert.True(ok);
 		Assert.Contains(tagName, title);
@@ -43,7 +44,7 @@ public class ContentGeneratorTests
 		};
 		var tags = CreateTags(tagNames);
 
-		var (ok, title) = ContentGenerator.GenerateTitle(tags);
+		var (ok, title) = _gen.GenerateTitle(tags);
 
 		Assert.True(ok);
 		Assert.True(tagNames.Sum(n => n.Length) < title.Length);
@@ -66,7 +67,7 @@ public class ContentGeneratorTests
 		};
 		var tags = CreateTags(tagNames);
 
-		var (ok, title) = ContentGenerator.GenerateTitle(tags);
+		var (ok, title) = _gen.GenerateTitle(tags);
 
 		Assert.True(ok);
 		Assert.True(tagNames.Sum(n => n.Length) < title.Length);
@@ -81,9 +82,7 @@ public class ContentGeneratorTests
 	[InlineData(ContentGenerator.Language.ITALIAN, "italian")]
 	public void LanguageToString_converts_correctly_from_language_to_string(ContentGenerator.Language lang, string expected)
     {
-		var gen = new ContentGenerator();
-		
-		var (ok, actual) = gen.LanguageToString(lang);
+		var (ok, actual) = _gen.LanguageToString(lang);
 
 		Assert.True(ok);
 		Assert.Equal(expected, actual);
@@ -96,9 +95,7 @@ public class ContentGeneratorTests
 	[InlineData("russian", ContentGenerator.Language.RUSSIAN)]
 	public void StringToLanguage_converts_magical_strings_to_languages(string input, ContentGenerator.Language expected)
     {
-		var gen = new ContentGenerator();
-
-		var (ok, actual) = gen.StringToLanguage(input);
+		var (ok, actual) = _gen.StringToLanguage(input);
 
 		Assert.True(ok);
 		Assert.Equal(expected, actual);
@@ -112,9 +109,7 @@ public class ContentGeneratorTests
 	[InlineData(null)]
 	public void StringToLanguage_does_not_convert_wrong_magical_strings_to_languages(string input)
     {
-		var gen = new ContentGenerator();
-
-		var (ok, _) = gen.StringToLanguage(input);
+		var (ok, _) = _gen.StringToLanguage(input);
 
 		Assert.False(ok);
     }

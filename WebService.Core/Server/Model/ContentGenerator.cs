@@ -24,6 +24,8 @@ public class ContentGenerator
 
     private Dictionary<Language, TextGenerator> _textGenerators;
 
+    private IWebHostEnvironment _environment;
+
     // Special thanks to https://www.nichelaboratory.com/Home/BlogTitleGenerator for generated clickbait titles
     private static string[] _templateTitles = new string[]
     {
@@ -68,8 +70,10 @@ public class ContentGenerator
         "Take Advantage Of $1 - Read These 9 Tips",
     };
 
-    public ContentGenerator()
+
+    public ContentGenerator(IWebHostEnvironment? environment = null)
     {
+        _environment = environment;
         _textGenerators = new Dictionary<Language, TextGenerator>();
 
         var languages = Enum.GetValues(typeof(Language)).Cast<Language>().ToList();
@@ -91,8 +95,6 @@ public class ContentGenerator
         var corpus = Corpus.CreateFromText(corpusContent);
         return new TextGenerator(corpus);
     }
-    private static string GetDataFileLocation(string filename)
-            => $"{Directory.GetCurrentDirectory()}\\..\\..\\..\\..\\data\\{filename}";
 
     /// <summary>
     /// Converts a language to its string representation.
@@ -146,7 +148,7 @@ public class ContentGenerator
     /// </summary>
     /// <param name="tags">A list of tags containing non-empty names. Has to contain either one or many tags.</param>
     /// <returns>(bool, string): the boolean indicates if the operation was successful. The string may contain the title if the operation was successfull. Otherwise it will be empty.</returns>
-    public static (bool, string) GenerateTitle(IList<CreateWeightedTagDTO> tags)
+    public (bool, string) GenerateTitle(IList<CreateWeightedTagDTO> tags)
     {
         if (tags == null || !tags.Any())
         {
@@ -161,7 +163,7 @@ public class ContentGenerator
         return (true, CreateTitleWithOneTag(tags[0]));
     }
 
-    private static string CreateTitleWithManyTags(IList<CreateWeightedTagDTO> tags)
+    private string CreateTitleWithManyTags(IList<CreateWeightedTagDTO> tags)
     {
         var accumulatedTagNames = "";
         var separator = "";
@@ -181,9 +183,16 @@ public class ContentGenerator
         return CreateTitleWithOneTag(new CreateWeightedTagDTO(accumulatedTagNames, 0));
     }
 
-    private static string CreateTitleWithOneTag(CreateWeightedTagDTO tag)
+    private string CreateTitleWithOneTag(CreateWeightedTagDTO tag)
          => GetRandomTitle().Replace("$1", tag.Name);
 
-    private static string GetRandomTitle()
+    private string GetRandomTitle()
         => _templateTitles[_rand.Next(_templateTitles.Length)];
+
+    private string GetDataFileLocation(string filename)
+        => _environment == null
+            ? $"{Directory.GetCurrentDirectory()}\\..\\..\\..\\..\\data\\{filename}" // Directory for when testing
+            : $"{Directory.GetCurrentDirectory()}\\..\\..\\data\\{filename}"; // Directory when app is running
+
+
 }
