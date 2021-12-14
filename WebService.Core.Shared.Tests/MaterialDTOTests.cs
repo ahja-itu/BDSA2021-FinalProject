@@ -94,7 +94,7 @@ public class MaterialDTOTests
                 new MediaDTO(0, "Media0"),
                 new MediaDTO(1, "Media1")
             },
-            new LanguageDTO(0,"language"),
+            new CreateLanguageDTO("language"),
             "Summary",
             "URL.com",
             "Content",
