@@ -170,7 +170,7 @@ namespace WebService.Infrastructure
 
     }
 
-    public static class Extensions
+    public static class StringExtensions
     {
         public static bool IsEqualIgnoreCasing(this string source, string toCheck)
         {
