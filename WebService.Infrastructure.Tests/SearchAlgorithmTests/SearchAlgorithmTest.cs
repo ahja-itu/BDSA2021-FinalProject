@@ -36,7 +36,7 @@ namespace WebService.Infrastructure.Tests
             _tag5Materials = _v.Tag5Materials;
             _tag6Materials = _v.Tag6Materials;
             _tag7Materials = _v.Tag7Materials;
-            _tag8Materials = _v.Tag8Materials; 
+            _tag8Materials = _v.Tag8Materials;
             _tag9Materials = _v.Tag9Materials;
         }
 
@@ -133,23 +133,25 @@ namespace WebService.Infrastructure.Tests
         public void Search_given_SearchForm_returns_list_of_materials_prioritized_by_tag_weight()
         {
             //Arrange
-            SearchForm searchForm = new SearchForm("ELI5: Induction Proofs", new List<TagDTO>() { new TagDTO(1, "Tag1")}, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
-
-
-            List<MaterialDTO> expected = new List<MaterialDTO>();
-            for (int i = _tag1Materials.Count - 1; i > 0; i--) //check indices
-            {
-                expected.Add(_tag1Materials[i].ConvertToMaterialDTO());
-            }
+            SearchForm searchForm = new SearchForm("ELI5: Induction Proofs", new List<TagDTO>() { new TagDTO(1, "Tag1") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
 
             //Act
-            var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
+            var actual = _searchAlgorithm.Search(searchForm).Result.Item2.Take(10);
+
 
             //Assert
-            for (int i = 0; i < actual.Count - 1; i++)
-            {
-                Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
-            }
+            Assert.Collection(actual,
+                item => Assert.Equal(_tag1Materials[9].Title, item.Title),
+                item => Assert.Equal(_tag1Materials[8].Title, item.Title),
+                item => Assert.Equal(_tag1Materials[7].Title, item.Title),
+                item => Assert.Equal(_tag1Materials[6].Title, item.Title),
+                item => Assert.Equal(_tag1Materials[5].Title, item.Title),
+                item => Assert.Equal(_tag1Materials[4].Title, item.Title),
+                item => Assert.Equal(_tag1Materials[3].Title, item.Title),
+                item => Assert.Equal(_tag1Materials[2].Title, item.Title),
+                item => Assert.Equal(_tag1Materials[1].Title, item.Title),
+                item => Assert.Equal(_tag1Materials[0].Title, item.Title)
+                );
 
 
 
@@ -368,7 +370,7 @@ namespace WebService.Infrastructure.Tests
         {
 
             //Arrange
-            var searchLevels = new List<LevelDTO> { new LevelDTO(1, "Bachelor"), new LevelDTO(2, "Master"), new LevelDTO(3,"PHD") };
+            var searchLevels = new List<LevelDTO> { new LevelDTO(1, "Bachelor"), new LevelDTO(2, "Master"), new LevelDTO(3, "PHD") };
             SearchForm searchForm = new SearchForm("", new List<TagDTO>() { new TagDTO(3, "Tag3") }, searchLevels, new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
 
             var expected = new List<MaterialDTO>()
@@ -386,7 +388,7 @@ namespace WebService.Infrastructure.Tests
             var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
 
             //Assert
-          
+
             for (int i = 0; i < expected.Count - 1; i++)
             {
                 Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
@@ -394,25 +396,25 @@ namespace WebService.Infrastructure.Tests
         }
         #endregion
 
-  
+
         #region Tag4-Language
         //tag4 - varying Language
 
-    [Fact]
-       
+        [Fact]
+
         public void Search_given_SearchForm_containing_language_returns_list_of_material_only_with_given_language()
-    {
+        {
 
             //Arrange
             var searchLanguage = new List<LanguageDTO>() { new LanguageDTO(1, "Danish") };
-            SearchForm searchForm = new SearchForm("", new List<TagDTO>() { new TagDTO(4, "Tag4")}, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), searchLanguage, new List<MediaDTO>(), 0);
+            SearchForm searchForm = new SearchForm("", new List<TagDTO>() { new TagDTO(4, "Tag4") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), searchLanguage, new List<MediaDTO>(), 0);
             var expected = new List<MaterialDTO>()
             {
                  _tag4Materials.ElementAt(0).ConvertToMaterialDTO(),
             };
 
             //Act
-           
+
             var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
 
             //Assert
@@ -455,14 +457,14 @@ namespace WebService.Infrastructure.Tests
         }
 
 
-            [Fact]
-            public void Search_given_SearchForm_containing_two_programminglanguage_returns_list_of_material_prioritized_by_programminglanguage()
-            {
+        [Fact]
+        public void Search_given_SearchForm_containing_two_programminglanguage_returns_list_of_material_prioritized_by_programminglanguage()
+        {
 
-                //Arrange
-                var searchProgrammingLanguages = new List<ProgrammingLanguageDTO>() { new ProgrammingLanguageDTO(1, "C#"), new ProgrammingLanguageDTO(3, "F#") };
-                SearchForm searchForm = new SearchForm("", new List<TagDTO>() { new TagDTO(5, "Tag5") }, new List<LevelDTO>() { }, searchProgrammingLanguages, new List<LanguageDTO>(), new List<MediaDTO>(), 0);
-                var expected = new List<MaterialDTO>()
+            //Arrange
+            var searchProgrammingLanguages = new List<ProgrammingLanguageDTO>() { new ProgrammingLanguageDTO(1, "C#"), new ProgrammingLanguageDTO(3, "F#") };
+            SearchForm searchForm = new SearchForm("", new List<TagDTO>() { new TagDTO(5, "Tag5") }, new List<LevelDTO>() { }, searchProgrammingLanguages, new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+            var expected = new List<MaterialDTO>()
             {
                  _tag5Materials.ElementAt(3).ConvertToMaterialDTO(),
                  _tag5Materials.ElementAt(6).ConvertToMaterialDTO(),
@@ -472,17 +474,17 @@ namespace WebService.Infrastructure.Tests
                  _tag5Materials.ElementAt(5).ConvertToMaterialDTO(),
             };
 
-                //Act
+            //Act
 
-                var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
+            var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
 
-                //Assert
-                for (int i = 0; i < expected.Count - 1; i++)
-                {
-                    Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
-                }
-
+            //Assert
+            for (int i = 0; i < expected.Count - 1; i++)
+            {
+                Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
             }
+
+        }
 
 
         [Fact]
@@ -515,25 +517,25 @@ namespace WebService.Infrastructure.Tests
         }
         #endregion
 
-        
+
         #region Tag6-Media
         //tag6, varying media
 
 
 
-    [Fact]
-    public void Search_given_SearchForm_containing_media_returns_list_of_material_only_with_given_media()
-    {
+        [Fact]
+        public void Search_given_SearchForm_containing_media_returns_list_of_material_only_with_given_media()
+        {
             //Arrange
             var searchMedia = new List<MediaDTO>() { new MediaDTO(3, "Report") };
-        SearchForm searchForm = new SearchForm("Dockerize your life", new List<TagDTO>() { new TagDTO(6, "Tag6")}, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), searchMedia, 0);
-            List<MaterialDTO> expected = new List<MaterialDTO>() { 
+            SearchForm searchForm = new SearchForm("Dockerize your life", new List<TagDTO>() { new TagDTO(6, "Tag6") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), searchMedia, 0);
+            List<MaterialDTO> expected = new List<MaterialDTO>() {
                 _tag6Materials.ElementAt(2).ConvertToMaterialDTO(),
                 _tag6Materials.ElementAt(0).ConvertToMaterialDTO(),
                 _tag6Materials.ElementAt(1).ConvertToMaterialDTO(),
             };
-      
-        //Act
+
+            //Act
             var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
 
             //Assert
@@ -576,7 +578,7 @@ namespace WebService.Infrastructure.Tests
             var searchMedia = new List<MediaDTO>() { new MediaDTO(3, "Report"), new MediaDTO(1, "Book"), new MediaDTO(2, "Video") };
             SearchForm searchForm = new SearchForm("Dockerize your life", new List<TagDTO>() { new TagDTO(6, "Tag6") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), searchMedia, 0);
             List<MaterialDTO> expected = new List<MaterialDTO>() {
-                _tag6Materials.ElementAt(0).ConvertToMaterialDTO(),  
+                _tag6Materials.ElementAt(0).ConvertToMaterialDTO(),
                 _tag6Materials.ElementAt(1).ConvertToMaterialDTO(),
                    _tag6Materials.ElementAt(2).ConvertToMaterialDTO(),
             };
@@ -601,7 +603,7 @@ namespace WebService.Infrastructure.Tests
         public void Search_given_SearchForm_containing_author_in_textfield_returns_materials_prioritized_by_author()
         {
             //Arrange
-            
+
             SearchForm searchForm = new SearchForm("Alfa Alfason", new List<TagDTO>() { new TagDTO(7, "Tag7") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
             List<MaterialDTO> expected = new List<MaterialDTO>() {
                 _tag7Materials.ElementAt(0).ConvertToMaterialDTO(),
@@ -815,13 +817,13 @@ namespace WebService.Infrastructure.Tests
 
             var expected = _v.UpperLowerMaterial.Title;
 
-            Assert.Equal(expected,actual);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
         public async Task Search_with_level_lower_case_returns_material_with_level()
         {
-            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>() { new LevelDTO(0,"school")}, new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>() { new LevelDTO(0, "school") }, new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
 
             var response = await _searchAlgorithm.Search(searchform);
             var materials = response.Item2;
@@ -835,7 +837,7 @@ namespace WebService.Infrastructure.Tests
         [Fact]
         public async Task Search_with_programmingLanguage_lower_case_returns_material_with_programmingLanguage()
         {
-            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>() { new ProgrammingLanguageDTO(0, "go")}, new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>() { new ProgrammingLanguageDTO(0, "go") }, new List<LanguageDTO>(), new List<MediaDTO>(), 0);
 
             var response = await _searchAlgorithm.Search(searchform);
             var materials = response.Item2;
@@ -849,7 +851,7 @@ namespace WebService.Infrastructure.Tests
         [Fact]
         public async Task Search_with_media_lower_case_returns_material_with_media()
         {
-            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>() { new MediaDTO(0,"youTUBE")}, 0);
+            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>() { new MediaDTO(0, "youTUBE") }, 0);
 
             var response = await _searchAlgorithm.Search(searchform);
             var materials = response.Item2;
@@ -863,7 +865,7 @@ namespace WebService.Infrastructure.Tests
         [Fact]
         public async Task Search_with_language_lower_case_returns_language_with_media()
         {
-            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>() { new LanguageDTO(0,"sWeDiSh")}, new List<MediaDTO>(), 0);
+            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>() { new LanguageDTO(0, "sWeDiSh") }, new List<MediaDTO>(), 0);
 
             var response = await _searchAlgorithm.Search(searchform);
             var materials = response.Item2;
@@ -921,7 +923,7 @@ namespace WebService.Infrastructure.Tests
         [Fact]
         public async Task Search_with_language_non_existing_on_any_materials_returns_notFound()
         {
-            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>() { new LanguageDTO(0, "German")}, new List<MediaDTO>(), 0);
+            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>() { new LanguageDTO(0, "German") }, new List<MediaDTO>(), 0);
 
             var response = await _searchAlgorithm.Search(searchform);
             var actual = response.Item1;
@@ -934,7 +936,7 @@ namespace WebService.Infrastructure.Tests
         [Fact]
         public async Task Search_with_parameters_on_no_materials_returns_notFound()
         {
-            var searchform = new SearchForm("", new List<TagDTO>() { new TagDTO(0, "ThisDoesNotExists")}, new List<LevelDTO>() { new LevelDTO(0, "ThisDoesNotExists") }, new List<ProgrammingLanguageDTO>() { new ProgrammingLanguageDTO(0, "ThisDoesNotExists") }, new List<LanguageDTO>() { new LanguageDTO(0, "ThisDoesNotExists") }, new List<MediaDTO>() { new MediaDTO(0, "ThisDoesNotExists") }, 0);
+            var searchform = new SearchForm("", new List<TagDTO>() { new TagDTO(0, "ThisDoesNotExists") }, new List<LevelDTO>() { new LevelDTO(0, "ThisDoesNotExists") }, new List<ProgrammingLanguageDTO>() { new ProgrammingLanguageDTO(0, "ThisDoesNotExists") }, new List<LanguageDTO>() { new LanguageDTO(0, "ThisDoesNotExists") }, new List<MediaDTO>() { new MediaDTO(0, "ThisDoesNotExists") }, 0);
 
             var response = await _searchAlgorithm.Search(searchform);
             var actual = response.Item1;

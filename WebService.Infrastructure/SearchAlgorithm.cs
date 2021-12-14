@@ -15,13 +15,13 @@ namespace WebService.Infrastructure
         private const float AuthorScore = 300;
         private const float TimestampScore = -5;
 
-        private ConcurrentDictionary<MaterialDTO, float> _map;
+        private Dictionary<MaterialDTO, float> _map;
 
         public SearchAlgorithm(IMaterialRepository materialRepository, ITagRepository tagRepository)
         {
             _repository = materialRepository;
             _tagRepository = tagRepository;
-            _map = new ConcurrentDictionary<MaterialDTO, float>();
+            _map = new Dictionary<MaterialDTO, float>();
         }
 
         public async Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm)
@@ -64,16 +64,16 @@ namespace WebService.Infrastructure
 
         private void PrioritizeMaterials(SearchForm searchForm)
         {
-            Parallel.Invoke(
-                () => SetScoreRating(),
-                () => SetScoreAuthor(searchForm),
-                () => SetScoreLevel(searchForm),
-                () => SetScoreMedia(searchForm),
-                () => SetScoreProgrammingLanguage(searchForm),
-                () => SetScoreTimestamp(),
-                () => SetScoreTitle(searchForm),
-                () => SetScoreWeigthedTags(searchForm)
-            );
+
+            SetScoreRating();
+            SetScoreAuthor(searchForm);
+            SetScoreLevel(searchForm);
+            SetScoreMedia(searchForm);
+            SetScoreProgrammingLanguage(searchForm);
+            SetScoreTimestamp();
+            SetScoreTitle(searchForm);
+            SetScoreWeigthedTags(searchForm);
+            
         }
 
         private ICollection<MaterialDTO> FilterLanguage(ICollection<MaterialDTO> materials, SearchForm searchForm)
@@ -90,7 +90,7 @@ namespace WebService.Infrastructure
             {
                 var weightSum = material.Tags.Where(materialTag => searchform.Tags.Select(searchformTag => searchformTag.Name).ContainsIgnoreCasing(materialTag.Name)).ToList().Select(tag => tag.Weight).Sum();
                 var tagCount = material.Tags.Where(materialTag => searchform.Tags.Select(searchformTag => searchformTag.Name).ContainsIgnoreCasing(materialTag.Name)).Count();
-                _map[material] = weightSum * WeightedTagScore * tagCount;
+                _map[material] += weightSum * WeightedTagScore * tagCount;
 
             }
         }
