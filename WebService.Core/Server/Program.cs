@@ -12,24 +12,23 @@ builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo {Title = "WebService.Core.Server", Version = "v1"});
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebService.Core.Server", Version = "v1" });
     c.UseInlineDefinitionsForEnums();
 });
 
 var configuration = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddUserSecrets<Program>()
-    // ReSharper disable once StringLiteralTypo
-    .AddJsonFile("appsettings.json")
-    .Build();
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddUserSecrets<Program>()
+        .AddJsonFile("appsettings.json")
+        .Build();
 
 var connectionString = configuration.GetConnectionString("btg");
 builder.Services.AddDbContext<Context>(options => options.UseSqlServer(connectionString));
 builder.Services.AddScoped<IContext, Context>();
 builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
-builder.Services.AddScoped<ILevelRepository, LevelRepository>();
+builder.Services.AddScoped<ILevelRespository, LevelRepository>();
 builder.Services.AddScoped<IMediaRepository, MediaRepository>();
-builder.Services.AddScoped<IProgrammingLanguageRepository, ProgrammingLanguageRepository>();
+builder.Services.AddScoped<IProgrammingLanguageRespository, ProgrammingLanguageRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 builder.Services.AddScoped<ISearch, SearchAlgorithm>();
@@ -66,6 +65,9 @@ app.MapControllers();
 app.MapFallbackToFile("index.html");
 
 
-if (!app.Environment.IsEnvironment("integration")) await app.SeedAsync();
+if (!app.Environment.IsEnvironment("integration"))
+{
+    await app.SeedAsync(app.Environment);
+}
 
 app.Run();
