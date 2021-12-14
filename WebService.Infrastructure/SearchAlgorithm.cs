@@ -89,8 +89,9 @@ namespace WebService.Infrastructure
             foreach (var material in _map.Keys)
             {
                 var weightSum = material.Tags.Where(materialTag => searchform.Tags.Select(searchformTag => searchformTag.Name).ContainsIgnoreCasing(materialTag.Name)).ToList().Select(tag => tag.Weight).Sum();
-                _map[material] += weightSum * WeightedTagScore;
-                
+                var tagCount = material.Tags.Where(materialTag => searchform.Tags.Select(searchformTag => searchformTag.Name).ContainsIgnoreCasing(materialTag.Name)).Count();
+                _map[material] = weightSum * WeightedTagScore * tagCount;
+
             }
         }
         private void SetScoreRating()

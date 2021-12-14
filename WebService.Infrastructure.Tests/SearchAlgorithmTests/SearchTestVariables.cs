@@ -52,7 +52,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = "Blazor for experts " + i,
+                    Title = "ELI5: Induction Proofs " + i,
                     Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                     TimeStamp = System.DateTime.UtcNow
                 };
@@ -426,7 +426,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 context.AddRange(material1011);
                 Tag1011Materials.Add(material1011);
             }
-
+            #endregion
             //material for upper lower case
             BaseMaterial = new Material() //
             {
