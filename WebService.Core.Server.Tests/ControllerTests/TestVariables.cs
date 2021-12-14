@@ -113,6 +113,7 @@
             MediaRepository = new MediaRepository(context);
             ProgrammingLanguageRepository = new ProgrammingLanguageRepository(context);
             TagRepository = new TagRepository(context);
+            SearchAlgorithm = new SearchAlgorithm(MaterialRepository, TagRepository);
         }
         public IContext Context { get; }
         public LanguageRepository LanguageRepository { get; }
@@ -121,5 +122,6 @@
         public MediaRepository MediaRepository { get; }
         public ProgrammingLanguageRepository ProgrammingLanguageRepository { get; }
         public TagRepository TagRepository { get; }
+        public SearchAlgorithm SearchAlgorithm { get; }
     }
 }
