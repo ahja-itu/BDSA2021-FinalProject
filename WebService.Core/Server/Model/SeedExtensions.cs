@@ -1,5 +1,4 @@
-﻿using WebService.Entities;
-using Microsoft.VisualBasic.FileIO;
+﻿using Microsoft.VisualBasic.FileIO;
 
 namespace WebService.Core.Server.Model
 {
@@ -8,9 +7,11 @@ namespace WebService.Core.Server.Model
      *  Idea taken from https://github.com/ondfisk/BDSA2021/blob/3fe02352710a920bfb874ed1b219d273a26a92d2/MyApp.Server/Model/SeedExtensions.cs#L3
      *  Thank you, Ondfisk
      */
+
     public static class SeedExtensions
     {
-        private enum RepoType {
+        private enum RepoType
+        {
             LANGUAGE,
             LEVEL,
             MEDIA,
@@ -19,11 +20,18 @@ namespace WebService.Core.Server.Model
             MATERIAL
         }
 
-        public static async Task<IHost> SeedAsync(this IHost host)
+        /// <summary>
+        /// Removes all items from the database and reseeds it with randomly generated materials from specific tags saved in the data files found in the data directory.
+        /// </summary>
+        /// <param name="host">The host object containing IoT containers such as the DbContext and repositories.</param>
+        /// <returns></returns>
+        public static async Task<IHost> SeedAsync(this IHost host, IWebHostEnvironment environment)
         {
             using (var scope = host.Services.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<IContext>();
+
+                var contentGenerator = new ContentGenerator(environment);
 
                 var languageRepository = scope.ServiceProvider.GetRequiredService<ILanguageRepository>();
                 var levelRepository = scope.ServiceProvider.GetRequiredService<ILevelRespository>();
@@ -47,7 +55,7 @@ namespace WebService.Core.Server.Model
                 await SeedMediaAsync(mediaRepository);
                 await SeedProgrmamingLanguagesAsync(plRepository);
                 await SeedTagsAsync(tagRepository);
-                await SeedMaterial(repos);
+                await SeedMaterial(repos, contentGenerator);
             }
 
             return host;
@@ -64,7 +72,7 @@ namespace WebService.Core.Server.Model
             await context.SaveChangesAsync();
         }
 
-        private static async Task SeedMaterial(Dictionary<RepoType, IRepository> repos)
+        private static async Task SeedMaterial(Dictionary<RepoType, IRepository> repos, ContentGenerator contentGenerator)
         {
             var tagRepo = GetRepo<ITagRepository>(repos, RepoType.TAG);
             var languageRepository = GetRepo<ILanguageRepository>(repos, RepoType.LANGUAGE);
@@ -77,19 +85,17 @@ namespace WebService.Core.Server.Model
             var authors = LoadAuthors();
             var names = LoadNames();
 
-            Console.WriteLine("Going for ReadAsync in SeedMaterial");
-
             var tags = await tagRepo.ReadAsync();
             var level = await levelRepository.ReadAsync();
             var programmingLanguages = await plRepository.ReadAsync();
             var medias = await mediaRepository.ReadAsync();
             var languages = await languageRepository.ReadAsync();
-            
+
             // Lets create a material for each author
             foreach (var author in authors)
             {
-                var tagCount = rand.Next(5); // number 1 -> 4
-                var ratingsCount = rand.Next(21) - 1; // 0 -> 20
+                var tagCount = 1 + rand.Next(4); // number 1 -> 4
+                var ratingsCount = rand.Next(21); // 0 -> 20
 
                 // ratings, weighted tags, author are owned properties of a material,
                 // so we need to create them on a per material basis
@@ -114,12 +120,12 @@ namespace WebService.Core.Server.Model
                 if (assignedLanguage == null)
                 {
                     int safetyCounter = 0;
-                    while(assignedLanguage == null || safetyCounter++ < 100)
+                    while (assignedLanguage == null || safetyCounter++ < 100)
                     {
                         assignedLanguage = GetSingleRandomEntry<CreateLanguageDTO>(languages);
                     }
 
-                    if(safetyCounter >= 100)
+                    if (safetyCounter >= 100)
                     {
                         // We must have exited the while loop above due to the safetyCounter
                         // reaching its limit. 
@@ -127,14 +133,31 @@ namespace WebService.Core.Server.Model
                     }
                 }
 
-                // Generate content and summary
-                var theRandomNumber = rand.Next(1000);
-                var summary = $"This person generated a random number, and you wont believe what number they generated!";
-                var content = $"The number that was generated was \"{theRandomNumber}\"";
+                var (convertOk, lang) = contentGenerator.StringToLanguage(assignedLanguage.Name);
+                if (!convertOk || lang == null)
+                {
+                    Console.WriteLine("Could not convert given language for the material to the ENUM representation. Skipping this material");
+                }
+
+
+                var (contentOk, content) = contentGenerator.GenerateText(lang, 100 + rand.Next(300));
+                if (!contentOk)
+                {
+                    Console.WriteLine("Failed to generate text for a material. Skipping this material.");
+                    continue;
+                }
+
+                var summaryWords = content.Split(' ').Take(30).ToList();
+                var summary = string.Join(' ', summaryWords) + "...";
                 var url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
 
-                // The title has a uniqueness constraint, so this is how we get around it for now
-                var title = $"Title:{Guid.NewGuid()}";
+                // Ensure title will be created
+                var (titleOk, title) = contentGenerator.GenerateTitle(weightedTags);
+                if (!titleOk)
+                {
+                    Console.WriteLine("Failed to generate title with given input. Skipping this material.");
+                    continue;
+                }
 
                 var authorsList = new List<CreateAuthorDTO>();
                 authorsList.Add(new CreateAuthorDTO(author.FirstName, author.SurName));
@@ -158,7 +181,7 @@ namespace WebService.Core.Server.Model
                 await materialRepository.CreateAsync(material);
             }
         }
-        
+
         private static List<string> LoadNames()
             => ReadCSV("names.csv", 2)
                 .Select(fields => fields[1])
@@ -233,7 +256,7 @@ namespace WebService.Core.Server.Model
 
         private static T GetRepo<T>(Dictionary<RepoType, IRepository> repos, RepoType type)
             => repos.Where(kv => kv.Key == type).Select(kv => (T)kv.Value).First();
- 
+
         private static IEnumerable<string[]> ReadCSV(string filename, uint fieldCount)
         {
             using TextFieldParser csvParser = new TextFieldParser(GetDataFileLocation(filename));
@@ -256,6 +279,6 @@ namespace WebService.Core.Server.Model
             => fields.All(field => field != null && field.Trim().Length > 0);
 
         private static string GetDataFileLocation(string filename)
-            => $"{Directory.GetCurrentDirectory()}\\..\\..\\data\\{filename}";
+            => $"{Directory.GetCurrentDirectory()}/../../data/{filename}";
     }
 }
