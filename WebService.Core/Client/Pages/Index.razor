@@ -453,6 +453,7 @@ else
             _languagesToSend.Select(e => new LanguageDTO(0, e)).ToList(),
             _mediasToSend.Select(e => new MediaDTO(0, e)).ToList(),
             _rating);
+        _searchResults = null;
         var response = await _http.PostAsJsonAsync("Search", searchForm);
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
