@@ -701,6 +701,20 @@ namespace WebService.Infrastructure.Tests
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task Search_with_textfield_containing_tag_lower_case_returns_material_with_tag()
+        {
+            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+
+            var response = await _searchAlgorithm.Search(searchform);
+            var materials = response.Item2;
+            var actual = materials.First().Title;
+
+            var expected = _v.UpperLowerMaterial.Title;
+
+            Assert.Equal(expected, actual);
+        }
+
         #endregion
 
 

@@ -466,8 +466,11 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 Title = "Blazor for beginners for upper lower case material",
                 Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                 TimeStamp = System.DateTime.UtcNow
-            };    
-            
+            };
+
+            var dotnetTag = new Tag(0, "DOTNET");
+            context.Add(dotnetTag);
+
             context.Add(UpperLowerMaterial);
 
             context.AddRange(danish, english, spanish, bachelor, masters, phd, book, report, video, csharp, java, fsharp);
