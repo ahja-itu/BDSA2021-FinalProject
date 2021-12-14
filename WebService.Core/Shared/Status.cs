@@ -1,13 +1,56 @@
-﻿namespace WebService.Core.Shared
+﻿// ***********************************************************************
+// Assembly         : WebService.Core.Shared
+// Author           : thorl
+// Created          : 11-29-2021
+//
+// Last Modified By : thorl
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="Status.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
+namespace WebService.Core.Shared;
+
+/// <summary>
+///     Enum Status
+/// </summary>
+public enum Status
 {
-    public enum Status
-    {
-        Created,
-        Updated,
-        Deleted,
-        NotFound,
-        BadRequest,
-        Conflict,
-        Found
-    }
+    /// <summary>
+    ///     The created http status
+    /// </summary>
+    Created,
+
+    /// <summary>
+    ///     The updated http status
+    /// </summary>
+    Updated,
+
+    /// <summary>
+    ///     The deleted http status
+    /// </summary>
+    Deleted,
+
+    /// <summary>
+    ///     The not found http status
+    /// </summary>
+    NotFound,
+
+    /// <summary>
+    ///     The bad request http status
+    /// </summary>
+    BadRequest,
+
+    /// <summary>
+    ///     The conflict http status
+    /// </summary>
+    Conflict,
+
+    /// <summary>
+    ///     The found http status
+    /// </summary>
+    Found
 }

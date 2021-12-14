@@ -6,7 +6,7 @@
 // Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
-// <copyright file="IMediaRepository.cs" company="BTG">
+// <copyright file="ILevelRepository.cs" company="BTG">
 //     Copyright (c) . All rights reserved.
 // </copyright>
 // <summary></summary>
@@ -15,43 +15,43 @@
 namespace WebService.Core.Shared;
 
 /// <summary>
-///     Interface IMediaRepository
+///     Interface ILevelRepository
 ///     Implements the <see cref="IRepository" />
 /// </summary>
 /// <seealso cref="IRepository" />
-public interface IMediaRepository : IRepository
+public interface ILevelRepository : IRepository
 {
     /// <summary>
     ///     Creates asynchronously.
     /// </summary>
-    /// <param name="media">The media.</param>
-    /// <returns>Task&lt;System.ValueTuple&lt;Status, MediaDTO&gt;&gt;.</returns>
-    Task<(Status, MediaDTO)> CreateAsync(CreateMediaDTO media);
+    /// <param name="level">The level.</param>
+    /// <returns>Task&lt;System.ValueTuple&lt;Status, LevelDTO&gt;&gt;.</returns>
+    Task<(Status, LevelDTO)> CreateAsync(CreateLevelDTO level);
 
     /// <summary>
     ///     Reads asynchronously.
     /// </summary>
-    /// <param name="mediaId">The media identifier.</param>
-    /// <returns>Task&lt;System.ValueTuple&lt;Status, MediaDTO&gt;&gt;.</returns>
-    Task<(Status, MediaDTO)> ReadAsync(int mediaId);
+    /// <param name="levelId">The level identifier.</param>
+    /// <returns>Task&lt;System.ValueTuple&lt;Status, LevelDTO&gt;&gt;.</returns>
+    Task<(Status, LevelDTO)> ReadAsync(int levelId);
 
     /// <summary>
     ///     Reads all asynchronously.
     /// </summary>
-    /// <returns>Task&lt;IReadOnlyCollection&lt;MediaDTO&gt;&gt;.</returns>
-    Task<IReadOnlyCollection<MediaDTO>> ReadAsync();
+    /// <returns>Task&lt;IReadOnlyCollection&lt;LevelDTO&gt;&gt;.</returns>
+    Task<IReadOnlyCollection<LevelDTO>> ReadAsync();
 
     /// <summary>
     ///     Deletes asynchronously.
     /// </summary>
-    /// <param name="mediaId">The media identifier.</param>
+    /// <param name="levelId">The level identifier.</param>
     /// <returns>Task&lt;Status&gt;.</returns>
-    Task<Status> DeleteAsync(int mediaId);
+    Task<Status> DeleteAsync(int levelId);
 
     /// <summary>
     ///     Updates asynchronously.
     /// </summary>
-    /// <param name="mediaDTO">The media dto.</param>
+    /// <param name="levelDTO">The level dto.</param>
     /// <returns>Task&lt;Status&gt;.</returns>
-    Task<Status> UpdateAsync(MediaDTO mediaDTO);
+    Task<Status> UpdateAsync(LevelDTO levelDTO);
 }
