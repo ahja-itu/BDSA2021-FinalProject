@@ -1,7 +1,26 @@
-﻿namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
+﻿// ***********************************************************************
+// Assembly         : WebService.Infrastructure.Tests
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="TestVariables.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
 
+/// <summary>
+/// Class TestVariables.
+/// </summary>
 internal class TestVariables
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TestVariables"/> class.
+    /// </summary>
     public TestVariables()
     {
         var connection = new SqliteConnection("Filename=:memory:");
@@ -130,11 +149,39 @@ internal class TestVariables
         TagRepository = new TagRepository(context);
     }
 
+    /// <summary>
+    /// Gets the context.
+    /// </summary>
+    /// <value>The context.</value>
     public IContext Context { get; }
+    /// <summary>
+    /// Gets the language repository.
+    /// </summary>
+    /// <value>The language repository.</value>
     public LanguageRepository LanguageRepository { get; }
+    /// <summary>
+    /// Gets the level repository.
+    /// </summary>
+    /// <value>The level repository.</value>
     public LevelRepository LevelRepository { get; }
+    /// <summary>
+    /// Gets the material repository.
+    /// </summary>
+    /// <value>The material repository.</value>
     public MaterialRepository MaterialRepository { get; }
+    /// <summary>
+    /// Gets the media repository.
+    /// </summary>
+    /// <value>The media repository.</value>
     public MediaRepository MediaRepository { get; }
+    /// <summary>
+    /// Gets the programming language repository.
+    /// </summary>
+    /// <value>The programming language repository.</value>
     public ProgrammingLanguageRepository ProgrammingLanguageRepository { get; }
+    /// <summary>
+    /// Gets the tag repository.
+    /// </summary>
+    /// <value>The tag repository.</value>
     public TagRepository TagRepository { get; }
 }

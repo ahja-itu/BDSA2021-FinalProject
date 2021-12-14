@@ -1,18 +1,47 @@
-﻿namespace WebService.Core.Server.Controllers;
+﻿// ***********************************************************************
+// Assembly         : WebService.Core.Server
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="MediaController.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+namespace WebService.Core.Server.Controllers;
 
+/// <summary>
+/// Class MediaController.
+/// Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+/// </summary>
+/// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 [Authorize]
 [ApiController]
 [Route("[controller]")]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class MediaController : ControllerBase
 {
+    /// <summary>
+    /// The media repository
+    /// </summary>
     private readonly IMediaRepository _mediaRepository;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MediaController"/> class.
+    /// </summary>
+    /// <param name="mediaRepository">The media repository.</param>
     public MediaController(IMediaRepository mediaRepository)
     {
         _mediaRepository = mediaRepository;
     }
 
+    /// <summary>
+    /// Gets all mediaDTOs.
+    /// </summary>
+    /// <returns>ActionResult&lt;ICollection&lt;MediaDTO&gt;&gt;.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ICollection<MediaDTO>>> Get()
@@ -21,6 +50,11 @@ public class MediaController : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Gets a specified media.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <returns>ActionResult&lt;MediaDTO&gt;.</returns>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -32,6 +66,11 @@ public class MediaController : ControllerBase
         return NotFound();
     }
 
+    /// <summary>
+    /// Posts the specified media.
+    /// </summary>
+    /// <param name="media">The media.</param>
+    /// <returns>IActionResult.</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -48,6 +87,11 @@ public class MediaController : ControllerBase
         };
     }
 
+    /// <summary>
+    /// Puts the specified media.
+    /// </summary>
+    /// <param name="media">The media.</param>
+    /// <returns>IActionResult.</returns>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -66,6 +110,11 @@ public class MediaController : ControllerBase
         };
     }
 
+    /// <summary>
+    /// Deletes the specified media.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <returns>IActionResult.</returns>
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

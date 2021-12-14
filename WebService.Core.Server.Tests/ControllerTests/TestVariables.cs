@@ -1,7 +1,22 @@
-﻿namespace WebService.Core.Server.Tests.ControllerTests;
+﻿// ***********************************************************************
+// Assembly         : WebService.Core.Server.Tests
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : thorl
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="TestVariables.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+namespace WebService.Core.Server.Tests.ControllerTests;
 
+/// <summary>Class TestVariables.</summary>
 internal class TestVariables
 {
+    /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Server.Tests.ControllerTests.TestVariables" /> class.</summary>
     public TestVariables()
     {
         var connection = new SqliteConnection("Filename=:memory:");

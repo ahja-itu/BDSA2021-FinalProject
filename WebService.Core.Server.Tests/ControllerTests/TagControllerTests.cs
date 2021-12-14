@@ -1,9 +1,31 @@
-﻿namespace WebService.Core.Server.Tests.ControllerTests;
+﻿// ***********************************************************************
+// Assembly         : WebService.Core.Server.Tests
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="TagControllerTests.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+namespace WebService.Core.Server.Tests.ControllerTests;
 
+/// <summary>
+/// Class TagControllerTests.
+/// </summary>
 public class TagControllerTests
 {
+    /// <summary>
+    /// The tag controller
+    /// </summary>
     private readonly TagController _tagController;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TagControllerTests"/> class.
+    /// </summary>
     public TagControllerTests()
     {
         var v = new TestVariables();
@@ -11,6 +33,9 @@ public class TagControllerTests
     }
 
     #region Post/Create
+    /// <summary>
+    /// Defines the test method Post_tag_returns_status_created.
+    /// </summary>
     [Fact]
     public async Task Post_tag_returns_status_created()
     {
@@ -21,6 +46,9 @@ public class TagControllerTests
         Assert.Equal((int)HttpStatusCode.Created, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Post_tag_returns_status_conflict.
+    /// </summary>
     [Fact]
     public async Task Post_tag_returns_status_conflict()
     {
@@ -31,6 +59,9 @@ public class TagControllerTests
         Assert.Equal((int)HttpStatusCode.Conflict, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Post_tag_returns_status_badRequest.
+    /// </summary>
     [Fact]
     public async Task Post_tag_returns_status_badRequest()
     {
@@ -43,6 +74,9 @@ public class TagControllerTests
     #endregion
 
     #region Get/Read
+    /// <summary>
+    /// Defines the test method Get_all_tags_returns_status_ok.
+    /// </summary>
     [Fact]
     public async Task Get_all_tags_returns_status_ok()
     {
@@ -52,6 +86,9 @@ public class TagControllerTests
         Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Get_tag_returns_status_ok.
+    /// </summary>
     [Fact]
     public async Task Get_tag_returns_status_ok()
     {
@@ -61,6 +98,9 @@ public class TagControllerTests
         Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Get_tag_returns_status_notFound.
+    /// </summary>
     [Fact]
     public async Task Get_tag_returns_status_notFound()
     {
@@ -72,6 +112,9 @@ public class TagControllerTests
     #endregion
 
     #region Delete
+    /// <summary>
+    /// Defines the test method Delete_tag_returns_status_noContent.
+    /// </summary>
     [Fact]
     public async Task Delete_tag_returns_status_noContent()
     {
@@ -81,6 +124,9 @@ public class TagControllerTests
         Assert.Equal((int)HttpStatusCode.NoContent, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Delete_tag_returns_status_notFound.
+    /// </summary>
     [Fact]
     public async Task Delete_tag_returns_status_notFound()
     {
@@ -92,6 +138,9 @@ public class TagControllerTests
     #endregion
 
     #region Put/Update
+    /// <summary>
+    /// Defines the test method Put_tag_returns_status_noContent.
+    /// </summary>
     [Fact]
     public async Task Put_tag_returns_status_noContent()
     {
@@ -102,6 +151,9 @@ public class TagControllerTests
         Assert.Equal((int)HttpStatusCode.NoContent, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Put_tag_returns_status_conflict.
+    /// </summary>
     [Fact]
     public async Task Put_tag_returns_status_conflict()
     {
@@ -112,6 +164,9 @@ public class TagControllerTests
         Assert.Equal((int)HttpStatusCode.Conflict, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Put_tag_returns_status_badRequest.
+    /// </summary>
     [Fact]
     public async Task Put_tag_returns_status_badRequest()
     {
@@ -122,6 +177,9 @@ public class TagControllerTests
         Assert.Equal((int)HttpStatusCode.BadRequest, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Put_tag_returns_status_notFound.
+    /// </summary>
     [Fact]
     public async Task Put_tag_returns_status_notFound()
     {

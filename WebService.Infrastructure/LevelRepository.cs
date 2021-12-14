@@ -1,9 +1,26 @@
-﻿namespace WebService.Infrastructure;
+﻿// ***********************************************************************
+// Assembly         : WebService.Infrastructure
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="LevelRepository.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+namespace WebService.Infrastructure;
 
+/// <summary>Class LevelRepository.
+/// Implements the <see cref="WebService.Core.Shared.ILevelRepository" /></summary>
 public class LevelRepository : ILevelRepository
 {
     private readonly IContext _context;
 
+    /// <summary>Initializes a new instance of the <see cref="T:WebService.Infrastructure.LevelRepository" /> class.</summary>
+    /// <param name="context">The context.</param>
     public LevelRepository(IContext context)
     {
         _context = context;
@@ -104,6 +121,10 @@ public class LevelRepository : ILevelRepository
         return Status.Updated;
     }
 
+    /// <summary>Valids the input.</summary>
+    /// <param name="level">The level.</param>
+    /// <returns>
+    ///   <c>true</c> if XXXX, <c>false</c> otherwise.</returns>
     private static bool InvalidInput(CreateLevelDTO level)
     {
         return level.Name.Length is > 50 or > 50 

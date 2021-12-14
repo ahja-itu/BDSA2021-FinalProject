@@ -1,4 +1,17 @@
-﻿using Microsoft.VisualBasic.FileIO;
+﻿// ***********************************************************************
+// Assembly         : WebService.Core.Server
+// Author           : thorl
+// Created          : 12-10-2021
+//
+// Last Modified By : thorl
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="SeedExtensions.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using Microsoft.VisualBasic.FileIO;
 
 namespace WebService.Core.Server.Model;
 
@@ -6,15 +19,18 @@ namespace WebService.Core.Server.Model;
  * Idea taken from https://github.com/ondfisk/BDSA2021/blob/3fe02352710a920bfb874ed1b219d273a26a92d2/MyApp.Server/Model/SeedExtensions.cs#L3
  * Thank you, OndFisk
  */
+/// <summary>
+/// Class SeedExtensions.
+/// </summary>
 public static class SeedExtensions
 {
     /// <summary>
-    ///     Removes all items from the database and reseeds it with randomly generated materials from specific tags saved in
-    ///     the data files found in the data directory.
+    /// Removes all items from the database and reseeds it with randomly generated materials from specific tags saved in
+    /// the data files found in the data directory.
     /// </summary>
     /// <param name="host">The host object containing IoT containers such as the DbContext and repositories.</param>
-    /// <param name="environment"></param>
-    /// <returns></returns>
+    /// <param name="environment">The environment.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     public static async Task SeedAsync(this IHost host, IWebHostEnvironment environment)
     {
         using var scope = host.Services.CreateScope();
@@ -49,6 +65,10 @@ public static class SeedExtensions
         await SeedMaterial(repos, contentGenerator);
     }
 
+    /// <summary>
+    /// Cleans the database.
+    /// </summary>
+    /// <param name="context">The context.</param>
     private static async Task CleanDB(IContext context)
     {
         context.Languages.RemoveRange(context.Languages);
@@ -60,6 +80,11 @@ public static class SeedExtensions
         await context.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// Seeds the material.
+    /// </summary>
+    /// <param name="repos">The repos.</param>
+    /// <param name="contentGenerator">The content generator.</param>
     private static async Task SeedMaterial(Dictionary<RepoType, IRepository> repos, ContentGenerator contentGenerator)
     {
         var tagRepo = GetRepo<ITagRepository>(repos, RepoType.Tag);
@@ -164,6 +189,10 @@ public static class SeedExtensions
         }
     }
 
+    /// <summary>
+    /// Loads the names.
+    /// </summary>
+    /// <returns>List&lt;System.String&gt;.</returns>
     private static List<string> LoadNames()
     {
         return ReadCSV("names.csv", 2)
@@ -171,13 +200,22 @@ public static class SeedExtensions
             .ToList();
     }
 
+    /// <summary>
+    /// Loads the authors.
+    /// </summary>
+    /// <returns>List&lt;Author&gt;.</returns>
     private static List<Author> LoadAuthors()
     {
         return ReadCSV("authors.csv", 2)
             .Select(fields => new Author(fields[0], fields[1]))
             .ToList();
     }
-    
+
+    /// <summary>
+    /// Seed languages as an asynchronous operation.
+    /// </summary>
+    /// <param name="repo">The repo.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     private static async Task SeedLanguagesAsync(ILanguageRepository repo)
     {
         foreach (var fields in ReadCSV("languages.csv", 2))
@@ -188,7 +226,12 @@ public static class SeedExtensions
             await repo.CreateAsync(language);
         }
     }
-    
+
+    /// <summary>
+    /// Seed levels as an asynchronous operation.
+    /// </summary>
+    /// <param name="repo">The repo.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     private static async Task SeedLevelsAsync(ILevelRepository repo)
     {
         foreach (var fields in ReadCSV("levels.csv", 2))
@@ -201,6 +244,11 @@ public static class SeedExtensions
     }
 
 
+    /// <summary>
+    /// Seed media as an asynchronous operation.
+    /// </summary>
+    /// <param name="repo">The repo.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     private static async Task SeedMediaAsync(IMediaRepository repo)
     {
         foreach (var fields in ReadCSV("media.csv", 2))
@@ -212,6 +260,11 @@ public static class SeedExtensions
         }
     }
 
+    /// <summary>
+    /// Seed programming languages as an asynchronous operation.
+    /// </summary>
+    /// <param name="repo">The repo.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     private static async Task SeedProgrammingLanguagesAsync(IProgrammingLanguageRepository repo)
     {
         // ReSharper disable once StringLiteralTypo
@@ -224,6 +277,11 @@ public static class SeedExtensions
         }
     }
 
+    /// <summary>
+    /// Seed tags as an asynchronous operation.
+    /// </summary>
+    /// <param name="repo">The repo.</param>
+    /// <returns>A Task representing the asynchronous operation.</returns>
     private static async Task SeedTagsAsync(ITagRepository repo)
     {
         foreach (var fields in ReadCSV("tags.csv", 1))
@@ -235,21 +293,47 @@ public static class SeedExtensions
         }
     }
 
+    /// <summary>
+    /// Gets the n random entries.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="entries">The entries.</param>
+    /// <param name="n">The n.</param>
+    /// <returns>ICollection&lt;T&gt;.</returns>
     private static ICollection<T> GetNRandomEntries<T>(IEnumerable<T> entries, int n)
     {
         return entries.OrderBy(_ => Guid.NewGuid()).Take(n).ToList();
     }
 
+    /// <summary>
+    /// Gets the single random entry.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="entries">The entries.</param>
+    /// <returns>System.Nullable&lt;T&gt;.</returns>
     private static T? GetSingleRandomEntry<T>(IEnumerable<T> entries)
     {
         return entries.OrderBy(_ => Guid.NewGuid()).FirstOrDefault();
     }
 
+    /// <summary>
+    /// Gets the repo.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="repos">The repos.</param>
+    /// <param name="type">The type.</param>
+    /// <returns>T.</returns>
     private static T GetRepo<T>(Dictionary<RepoType, IRepository> repos, RepoType type)
     {
         return repos.Where(kv => kv.Key == type).Select(kv => (T) kv.Value).First();
     }
 
+    /// <summary>
+    /// Reads the CSV.
+    /// </summary>
+    /// <param name="filename">The filename.</param>
+    /// <param name="fieldCount">The field count.</param>
+    /// <returns>IEnumerable&lt;System.String[]&gt;.</returns>
     private static IEnumerable<string[]> ReadCSV(string filename, uint fieldCount)
     {
         using var csvParser = new TextFieldParser(GetDataFileLocation(filename));
@@ -265,23 +349,54 @@ public static class SeedExtensions
         }
     }
 
+    /// <summary>
+    /// Determines whether [is all non empty] [the specified fields].
+    /// </summary>
+    /// <param name="fields">The fields.</param>
+    /// <returns><c>true</c> if [is all non empty] [the specified fields]; otherwise, <c>false</c>.</returns>
     private static bool IsAllNonEmpty(params string[] fields)
     {
         return fields.All(field => field.Trim().Length > 0);
     }
 
+    /// <summary>
+    /// Gets the data file location.
+    /// </summary>
+    /// <param name="filename">The filename.</param>
+    /// <returns>System.String.</returns>
     private static string GetDataFileLocation(string filename)
     {
         return $"{Directory.GetCurrentDirectory()}/../../data/{filename}";
     }
 
+    /// <summary>
+    /// Enum RepoType
+    /// </summary>
     private enum RepoType
     {
+        /// <summary>
+        /// The language
+        /// </summary>
         Language,
+        /// <summary>
+        /// The level
+        /// </summary>
         Level,
+        /// <summary>
+        /// The media
+        /// </summary>
         Media,
+        /// <summary>
+        /// The programming language
+        /// </summary>
         ProgrammingLanguage,
+        /// <summary>
+        /// The tag
+        /// </summary>
         Tag,
+        /// <summary>
+        /// The material
+        /// </summary>
         Material
     }
 }

@@ -1,18 +1,47 @@
-﻿namespace WebService.Core.Server.Controllers;
+﻿// ***********************************************************************
+// Assembly         : WebService.Core.Server
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : thorl
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="ProgrammingLanguageController.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+namespace WebService.Core.Server.Controllers;
 
+/// <summary>
+/// Class ProgrammingLanguageController.
+/// Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+/// </summary>
+/// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 [Authorize]
 [ApiController]
 [Route("[controller]")]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class ProgrammingLanguageController : ControllerBase
 {
+    /// <summary>
+    /// The programming language repository
+    /// </summary>
     private readonly IProgrammingLanguageRepository _programmingLanguageRepository;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ProgrammingLanguageController"/> class.
+    /// </summary>
+    /// <param name="programmingLanguageRepository">The programming language repository.</param>
     public ProgrammingLanguageController(IProgrammingLanguageRepository programmingLanguageRepository)
     {
         _programmingLanguageRepository = programmingLanguageRepository;
     }
 
+    /// <summary>
+    /// Gets all ProgrammingLanguageDTOs.
+    /// </summary>
+    /// <returns>ActionResult&lt;ICollection&lt;ProgrammingLanguageDTO&gt;&gt;.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ICollection<ProgrammingLanguageDTO>>> Get()
@@ -21,6 +50,11 @@ public class ProgrammingLanguageController : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Gets the specified ProgrammingLanguageDTO.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <returns>ActionResult&lt;ProgrammingLanguageDTO&gt;.</returns>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -32,6 +66,11 @@ public class ProgrammingLanguageController : ControllerBase
         return NotFound();
     }
 
+    /// <summary>
+    /// Posts the specified programming language.
+    /// </summary>
+    /// <param name="programmingLanguage">The programming language.</param>
+    /// <returns>IActionResult.</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -48,6 +87,11 @@ public class ProgrammingLanguageController : ControllerBase
         };
     }
 
+    /// <summary>
+    /// Puts the specified programming language.
+    /// </summary>
+    /// <param name="programmingLanguage">The programming language.</param>
+    /// <returns>IActionResult.</returns>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -66,6 +110,11 @@ public class ProgrammingLanguageController : ControllerBase
         };
     }
 
+    /// <summary>
+    /// Deletes the specified ProgrammingLanguageDTO.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <returns>IActionResult.</returns>
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

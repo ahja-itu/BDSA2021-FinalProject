@@ -1,12 +1,34 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿// ***********************************************************************
+// Assembly         : WebService.Infrastructure.Tests
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="LevelRepositoryTests.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System.Diagnostics.CodeAnalysis;
 
 namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
 
+/// <summary>
+/// Class LevelRepositoryTests.
+/// </summary>
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class LevelRepositoryTests
 {
+    /// <summary>
+    /// The v
+    /// </summary>
     private readonly TestVariables _v;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LevelRepositoryTests"/> class.
+    /// </summary>
     public LevelRepositoryTests()
     {
         _v = new TestVariables();
@@ -14,6 +36,9 @@ public class LevelRepositoryTests
 
     #region Create
 
+    /// <summary>
+    /// Defines the test method CreateAsync_level_returns_new_level_with_id.
+    /// </summary>
     [Fact]
     public async Task CreateAsync_level_returns_new_level_with_id()
     {
@@ -26,6 +51,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method CreateAsync_level_returns_conflict_and_existing_level.
+    /// </summary>
     [Fact]
     public async Task CreateAsync_level_returns_conflict_and_existing_level()
     {
@@ -38,6 +66,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method CreateAsync_level_returns_count_one_more.
+    /// </summary>
     [Fact]
     public async Task CreateAsync_level_returns_count_one_more()
     {
@@ -52,6 +83,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method CreateAsync_level_returns_bad_request_on_name_tooLong.
+    /// </summary>
     [Fact]
     public async Task CreateAsync_level_returns_bad_request_on_name_tooLong()
     {
@@ -64,6 +98,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method CreateAsync_level_returns_bad_request_on_name_empty.
+    /// </summary>
     [Fact]
     public async Task CreateAsync_level_returns_bad_request_on_name_empty()
     {
@@ -77,6 +114,9 @@ public class LevelRepositoryTests
     }
 
 
+    /// <summary>
+    /// Defines the test method CreateAsync_level_returns_bad_request_on_name_whitespace.
+    /// </summary>
     [Fact]
     public async Task CreateAsync_level_returns_bad_request_on_name_whitespace()
     {
@@ -89,6 +129,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method CreateAsync_level_with_max_length_returns_new_language_with_id.
+    /// </summary>
     [Fact]
     public async Task CreateAsync_level_with_max_length_returns_new_language_with_id()
     {
@@ -105,6 +148,9 @@ public class LevelRepositoryTests
 
     #region Read
 
+    /// <summary>
+    /// Defines the test method ReadAsync_level_by_id_returns_level_and_status_found.
+    /// </summary>
     [Fact]
     public async Task ReadAsync_level_by_id_returns_level_and_status_found()
     {
@@ -115,6 +161,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method ReadAsync_level_by_id_returns_empty_level_and_status_notFound.
+    /// </summary>
     [Fact]
     public async Task ReadAsync_level_by_id_returns_empty_level_and_status_notFound()
     {
@@ -125,6 +174,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method ReadAllAsync_returns_all_levels.
+    /// </summary>
     [Fact]
     public async Task ReadAllAsync_returns_all_levels()
     {
@@ -144,6 +196,9 @@ public class LevelRepositoryTests
 
     #region Delete
 
+    /// <summary>
+    /// Defines the test method DeleteAsync_level_by_id_returns_status_deleted.
+    /// </summary>
     [Fact]
     public async Task DeleteAsync_level_by_id_returns_status_deleted()
     {
@@ -154,6 +209,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method DeleteAsync_level_by_id_returns_status_notFound.
+    /// </summary>
     [Fact]
     public async Task DeleteAsync_level_by_id_returns_status_notFound()
     {
@@ -164,6 +222,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method DeleteAsync_level_by_id_returns_count_one_less.
+    /// </summary>
     [Fact]
     public async Task DeleteAsync_level_by_id_returns_count_one_less()
     {
@@ -180,6 +241,9 @@ public class LevelRepositoryTests
 
     #region Update
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_level_by_id_returns_status_updated.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_level_by_id_returns_status_updated()
     {
@@ -192,6 +256,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_level_by_id_read_updated_returns_status_found_and_updated_level.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_level_by_id_read_updated_returns_status_found_and_updated_level()
     {
@@ -206,6 +273,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_level_by_id_returns_status_notFound.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_level_by_id_returns_status_notFound()
     {
@@ -218,6 +288,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_level_by_id_returns_status_conflict.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_level_by_id_returns_status_conflict()
     {
@@ -230,6 +303,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_level_returns_bad_request_on_name_tooLong.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_level_returns_bad_request_on_name_tooLong()
     {
@@ -242,6 +318,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_level_returns_bad_request_on_name_empty.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_level_returns_bad_request_on_name_empty()
     {
@@ -255,6 +334,9 @@ public class LevelRepositoryTests
     }
 
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_level_returns_bad_request_on_name_whitespace.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_level_returns_bad_request_on_name_whitespace()
     {
@@ -267,6 +349,9 @@ public class LevelRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_level_with_max_length_returns_updated.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_level_with_max_length_returns_updated()
     {

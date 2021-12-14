@@ -1,11 +1,30 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : WebService.Core.Server.Tests
+// Author           : Group BTG
+// Created          : 12-14-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="ContentGeneratorTests.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System;
 using System.Linq;
 using WebService.Core.Server.Model;
 
 namespace WebService.Core.Server.Tests.ModelTests;
 
+/// <summary>
+/// Class ContentGeneratorTests.
+/// </summary>
 public class ContentGeneratorTests
 {
+    /// <summary>
+    /// Defines the test method GenerateTitle_given_no_tags_should_return_success_false.
+    /// </summary>
     [Fact]
     public void GenerateTitle_given_no_tags_should_return_success_false()
     {
@@ -16,6 +35,9 @@ public class ContentGeneratorTests
         Assert.False(ok);
     }
 
+    /// <summary>
+    /// Defines the test method GenerateTitle_given_tag_docker_should_return_title_containing_docker.
+    /// </summary>
     [Fact]
     public void GenerateTitle_given_tag_docker_should_return_title_containing_docker()
     {
@@ -30,6 +52,9 @@ public class ContentGeneratorTests
         Assert.True(tagName.Length < title.Length);
     }
 
+    /// <summary>
+    /// Defines the test method GenerateTitle_given_tags_docker_kubernetes_return_title_containing_both.
+    /// </summary>
     [Fact]
     public void GenerateTitle_given_tags_docker_kubernetes_return_title_containing_both()
     {
@@ -49,6 +74,9 @@ public class ContentGeneratorTests
         Assert.Contains("docker and kubernetes", title);
     }
 
+    /// <summary>
+    /// Defines the test method GenerateTitle_given_tags_docker_kubernetes_azure_return_title_containing_all_with_comma_and_and_separation.
+    /// </summary>
     [Fact]
     public void
         GenerateTitle_given_tags_docker_kubernetes_azure_return_title_containing_all_with_comma_and_and_separation()
@@ -69,6 +97,11 @@ public class ContentGeneratorTests
     }
 
 
+    /// <summary>
+    /// Defines the test method LanguageToString_converts_correctly_from_language_to_string.
+    /// </summary>
+    /// <param name="lang">The language.</param>
+    /// <param name="expected">The expected.</param>
     [Theory]
     [InlineData(ContentGenerator.Language.English, "english")]
     [InlineData(ContentGenerator.Language.Russian, "russian")]
@@ -83,6 +116,11 @@ public class ContentGeneratorTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method StringToLanguage_converts_magical_strings_to_languages.
+    /// </summary>
+    /// <param name="input">The input.</param>
+    /// <param name="expected">The expected.</param>
     [Theory]
     [InlineData("danish", ContentGenerator.Language.Danish)]
     [InlineData("english", ContentGenerator.Language.English)]
@@ -97,6 +135,10 @@ public class ContentGeneratorTests
     }
 
 
+    /// <summary>
+    /// Defines the test method StringToLanguage_does_not_convert_wrong_magical_strings_to_languages.
+    /// </summary>
+    /// <param name="input">The input.</param>
     [Theory]
     [InlineData("")]
     [InlineData("     ")]
@@ -109,6 +151,11 @@ public class ContentGeneratorTests
         Assert.False(ok);
     }
 
+    /// <summary>
+    /// Creates the tags.
+    /// </summary>
+    /// <param name="tagNames">The tag names.</param>
+    /// <returns>IList&lt;CreateWeightedTagDTO&gt;.</returns>
     private static IList<CreateWeightedTagDTO> CreateTags(params string[] tagNames)
     {
         return Array.ConvertAll(tagNames, tag => new CreateWeightedTagDTO(tag, 0));

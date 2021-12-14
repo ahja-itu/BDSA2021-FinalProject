@@ -1,4 +1,17 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : WebService.Core.Shared.Tests
+// Author           : thorl
+// Created          : 12-08-2021
+//
+// Last Modified By : thorl
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="MaterialDTOTests.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -7,10 +20,19 @@ using Xunit;
 
 namespace WebService.Core.Shared.Tests;
 
+/// <summary>
+/// Class MaterialDTOTests.
+/// </summary>
 public class MaterialDTOTests
 {
+    /// <summary>
+    /// The material
+    /// </summary>
     private readonly Material _material;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MaterialDTOTests"/> class.
+    /// </summary>
     public MaterialDTOTests()
     {
         _material = new Material(
@@ -59,6 +81,9 @@ public class MaterialDTOTests
         );
     }
 
+    /// <summary>
+    /// Defines the test method ConvertToMaterialDTOReturnsIdenticalMaterialDTO.
+    /// </summary>
     [Fact]
     public void ConvertToMaterialDTOReturnsIdenticalMaterialDTO()
     {
@@ -135,6 +160,9 @@ public class MaterialDTOTests
             expected.TimeStamp.ToString(CultureInfo.CurrentCulture));
     }
 
+    /// <summary>
+    /// Defines the test method AverageRatingReturns7_8.
+    /// </summary>
     [Fact]
     public void AverageRatingReturns7_8()
     {
@@ -145,6 +173,9 @@ public class MaterialDTOTests
         Assert.Equal(expected, actual, 5);
     }
 
+    /// <summary>
+    /// Defines the test method LevelsToStringReturnsLevelNamesSeperatedBySpaces.
+    /// </summary>
     [Fact]
     public void LevelsToStringReturnsLevelNamesSeperatedBySpaces()
     {
@@ -155,6 +186,9 @@ public class MaterialDTOTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method AuthorsToStringReturnFullNamesSeperatedByComma.
+    /// </summary>
     [Fact]
     public void AuthorsToStringReturnFullNamesSeperatedByComma()
     {

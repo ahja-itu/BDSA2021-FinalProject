@@ -1,18 +1,47 @@
-﻿namespace WebService.Core.Server.Controllers;
+﻿// ***********************************************************************
+// Assembly         : WebService.Core.Server
+// Author           : Group BTG
+// Created          : 12-03-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="MaterialController.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+namespace WebService.Core.Server.Controllers;
 
+/// <summary>
+/// Class MaterialController.
+/// Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+/// </summary>
+/// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 [Authorize]
 [ApiController]
 [Route("[controller]")]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class MaterialController : ControllerBase
 {
+    /// <summary>
+    /// The material repository
+    /// </summary>
     private readonly IMaterialRepository _materialRepository;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MaterialController"/> class.
+    /// </summary>
+    /// <param name="materialRepository">The material repository.</param>
     public MaterialController(IMaterialRepository materialRepository)
     {
         _materialRepository = materialRepository;
     }
 
+    /// <summary>
+    /// Gets all materialDTOs.
+    /// </summary>
+    /// <returns>ActionResult&lt;ICollection&lt;MaterialDTO&gt;&gt;.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ICollection<MaterialDTO>>> Get()
@@ -21,6 +50,11 @@ public class MaterialController : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Gets a specified materialDTO.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <returns>ActionResult&lt;MaterialDTO&gt;.</returns>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -32,6 +66,11 @@ public class MaterialController : ControllerBase
         return NotFound(materialDTO);
     }
 
+    /// <summary>
+    /// Posts a specified search form and returns a materialDTO matching the search from.
+    /// </summary>
+    /// <param name="searchForm">The search form.</param>
+    /// <returns>ActionResult&lt;MaterialDTO&gt;.</returns>
     [HttpPost("PostSearchForm")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -43,6 +82,11 @@ public class MaterialController : ControllerBase
         return NotFound();
     }
 
+    /// <summary>
+    /// Posts the specified material.
+    /// </summary>
+    /// <param name="material">The material.</param>
+    /// <returns>IActionResult.</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -59,6 +103,11 @@ public class MaterialController : ControllerBase
         };
     }
 
+    /// <summary>
+    /// Puts the specified material.
+    /// </summary>
+    /// <param name="material">The material.</param>
+    /// <returns>IActionResult.</returns>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -77,6 +126,11 @@ public class MaterialController : ControllerBase
         };
     }
 
+    /// <summary>
+    /// Deletes the specified identifier.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <returns>IActionResult.</returns>
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

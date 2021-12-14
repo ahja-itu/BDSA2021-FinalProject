@@ -1,12 +1,34 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿// ***********************************************************************
+// Assembly         : WebService.Infrastructure.Tests
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="MediaRepositoryTests.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System.Diagnostics.CodeAnalysis;
 
 namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
 
+/// <summary>
+/// Class MediaRepositoryTests.
+/// </summary>
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class MediaRepositoryTests
 {
+    /// <summary>
+    /// The v
+    /// </summary>
     private readonly TestVariables _v;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MediaRepositoryTests"/> class.
+    /// </summary>
     public MediaRepositoryTests()
     {
         _v = new TestVariables();
@@ -14,6 +36,9 @@ public class MediaRepositoryTests
 
     #region Create
 
+    /// <summary>
+    /// Defines the test method CreateAsync_media_returns_new_media_with_id.
+    /// </summary>
     [Fact]
     public async Task CreateAsync_media_returns_new_media_with_id()
     {
@@ -26,6 +51,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method CreateAsync_media_returns_conflict_and_existing_media.
+    /// </summary>
     [Fact]
     public async Task CreateAsync_media_returns_conflict_and_existing_media()
     {
@@ -38,6 +66,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method CreateAsync_media_returns_count_one_more.
+    /// </summary>
     [Fact]
     public async Task CreateAsync_media_returns_count_one_more()
     {
@@ -52,6 +83,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method CreateAsync_media_returns_bad_request_on_name_tooLong.
+    /// </summary>
     [Fact]
     public async Task CreateAsync_media_returns_bad_request_on_name_tooLong()
     {
@@ -64,6 +98,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method CreateAsync_media_returns_bad_request_on_name_empty.
+    /// </summary>
     [Fact]
     public async Task CreateAsync_media_returns_bad_request_on_name_empty()
     {
@@ -77,6 +114,9 @@ public class MediaRepositoryTests
     }
 
 
+    /// <summary>
+    /// Defines the test method CreateAsync_media_returns_bad_request_on_name_whitespace.
+    /// </summary>
     [Fact]
     public async Task CreateAsync_media_returns_bad_request_on_name_whitespace()
     {
@@ -89,6 +129,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method CreateAsync_media_with_max_length_returns_new_language_with_id.
+    /// </summary>
     [Fact]
     public async Task CreateAsync_media_with_max_length_returns_new_language_with_id()
     {
@@ -105,6 +148,9 @@ public class MediaRepositoryTests
 
     #region Read
 
+    /// <summary>
+    /// Defines the test method ReadAsync_media_by_id_returns_media_and_status_found.
+    /// </summary>
     [Fact]
     public async Task ReadAsync_media_by_id_returns_media_and_status_found()
     {
@@ -115,6 +161,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method ReadAsync_media_by_id_returns_empty_media_and_status_notFound.
+    /// </summary>
     [Fact]
     public async Task ReadAsync_media_by_id_returns_empty_media_and_status_notFound()
     {
@@ -125,6 +174,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method ReadAllAsync_returns_all_medias.
+    /// </summary>
     [Fact]
     public async Task ReadAllAsync_returns_all_medias()
     {
@@ -144,6 +196,9 @@ public class MediaRepositoryTests
 
     #region Delete
 
+    /// <summary>
+    /// Defines the test method DeleteAsync_media_by_id_returns_status_deleted.
+    /// </summary>
     [Fact]
     public async Task DeleteAsync_media_by_id_returns_status_deleted()
     {
@@ -154,6 +209,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method DeleteAsync_media_by_id_returns_status_notFound.
+    /// </summary>
     [Fact]
     public async Task DeleteAsync_media_by_id_returns_status_notFound()
     {
@@ -164,6 +222,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method DeleteAsync_media_by_id_returns_count_one_less.
+    /// </summary>
     [Fact]
     public async Task DeleteAsync_media_by_id_returns_count_one_less()
     {
@@ -180,6 +241,9 @@ public class MediaRepositoryTests
 
     #region Update
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_media_by_id_returns_status_updated.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_media_by_id_returns_status_updated()
     {
@@ -192,6 +256,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_media_by_id_read_updated_returns_status_found_and_updated_media.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_media_by_id_read_updated_returns_status_found_and_updated_media()
     {
@@ -206,6 +273,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_media_by_id_returns_status_notFound.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_media_by_id_returns_status_notFound()
     {
@@ -218,6 +288,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_media_by_id_returns_status_conflict.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_media_by_id_returns_status_conflict()
     {
@@ -230,6 +303,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_media_returns_bad_request_on_name_tooLong.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_media_returns_bad_request_on_name_tooLong()
     {
@@ -242,6 +318,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_media_returns_bad_request_on_name_empty.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_media_returns_bad_request_on_name_empty()
     {
@@ -255,6 +334,9 @@ public class MediaRepositoryTests
     }
 
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_media_returns_bad_request_on_name_whitespace.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_media_returns_bad_request_on_name_whitespace()
     {
@@ -267,6 +349,9 @@ public class MediaRepositoryTests
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    /// Defines the test method UpdateAsync_media_with_max_length_returns_updated.
+    /// </summary>
     [Fact]
     public async Task UpdateAsync_media_with_max_length_returns_updated()
     {

@@ -1,18 +1,47 @@
-﻿namespace WebService.Core.Server.Controllers;
+﻿// ***********************************************************************
+// Assembly         : WebService.Core.Server
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="TagController.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+namespace WebService.Core.Server.Controllers;
 
+/// <summary>
+/// Class TagController.
+/// Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+/// </summary>
+/// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 [Authorize]
 [ApiController]
 [Route("[controller]")]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class TagController : ControllerBase
 {
+    /// <summary>
+    /// The tag repository
+    /// </summary>
     private readonly ITagRepository _tagRepository;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TagController"/> class.
+    /// </summary>
+    /// <param name="tagRepository">The tag repository.</param>
     public TagController(ITagRepository tagRepository)
     {
         _tagRepository = tagRepository;
     }
 
+    /// <summary>
+    /// Gets all tagDTOs.
+    /// </summary>
+    /// <returns>ActionResult&lt;ICollection&lt;TagDTO&gt;&gt;.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ICollection<TagDTO>>> Get()
@@ -21,6 +50,11 @@ public class TagController : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Gets the specified tagDTO.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <returns>ActionResult&lt;TagDTO&gt;.</returns>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -32,6 +66,11 @@ public class TagController : ControllerBase
         return NotFound();
     }
 
+    /// <summary>
+    /// Posts the specified tag.
+    /// </summary>
+    /// <param name="tag">The tag.</param>
+    /// <returns>IActionResult.</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -48,6 +87,11 @@ public class TagController : ControllerBase
         };
     }
 
+    /// <summary>
+    /// Puts the specified tag.
+    /// </summary>
+    /// <param name="tag">The tag.</param>
+    /// <returns>IActionResult.</returns>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -66,6 +110,11 @@ public class TagController : ControllerBase
         };
     }
 
+    /// <summary>
+    /// Deletes the specified tagDTO.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <returns>IActionResult.</returns>
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

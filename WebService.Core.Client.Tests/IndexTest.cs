@@ -1,3 +1,16 @@
+// ***********************************************************************
+// Assembly         : WebService.Core.Client.Tests
+// Author           : thorl
+// Created          : 11-29-2021
+//
+// Last Modified By : thorl
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="IndexTest.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -16,8 +29,16 @@ namespace WebService.Core.Client.Tests;
 
 #region MockHttpClient
 
+/// <summary>
+/// Class MockHttpClientBUnitHelpers.
+/// </summary>
 public static class MockHttpClientBUnitHelpers
 {
+    /// <summary>
+    /// Adds the mock HTTP client.
+    /// </summary>
+    /// <param name="services">The services.</param>
+    /// <returns>MockHttpMessageHandler.</returns>
     public static MockHttpMessageHandler AddMockHttpClient(this TestServiceProvider services)
     {
         var mockHttpHandler = new MockHttpMessageHandler();
@@ -27,6 +48,12 @@ public static class MockHttpClientBUnitHelpers
         return mockHttpHandler;
     }
 
+    /// <summary>
+    /// Responds the json.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="request">The request.</param>
+    /// <param name="content">The content.</param>
     public static void RespondJson<T>(this MockedRequest request, T content)
     {
         request.Respond(_ =>
@@ -41,10 +68,21 @@ public static class MockHttpClientBUnitHelpers
 
 #endregion
 
+/// <summary>
+/// Class IndexTest.
+/// Implements the <see cref="System.IDisposable" />
+/// </summary>
+/// <seealso cref="System.IDisposable" />
 public class IndexTest : IDisposable
 {
+    /// <summary>
+    /// The page cut
+    /// </summary>
     private readonly IRenderedComponent<Index> _cut;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="IndexTest"/> class.
+    /// </summary>
     public IndexTest()
     {
         var languages = new List<LanguageDTO>
@@ -88,7 +126,10 @@ public class IndexTest : IDisposable
 
         _cut = ctx.RenderComponent<Index>();
     }
-    
+
+    /// <summary>
+    /// Defines the test method IndexFilterButtonShowsFilterOptions.
+    /// </summary>
     [Fact]
     public void IndexFilterButtonShowsFilterOptions()
     {
@@ -112,6 +153,9 @@ public class IndexTest : IDisposable
         Assert.Equal(6, countOfFilterOptions);
     }
 
+    /// <summary>
+    /// Defines the test method IndexFilterButtonAgainHidesFilterOptions.
+    /// </summary>
     [Fact]
     public void IndexFilterButtonAgainHidesFilterOptions()
     {
@@ -129,6 +173,11 @@ public class IndexTest : IDisposable
         Assert.Equal(buttonsBefore.Count, buttonsAfter.Count);
     }
 
+    /// <summary>
+    /// Defines the test method PressOfFilterButtonShowsExpectedNumberOfFilterButtons.
+    /// </summary>
+    /// <param name="expectedNumberOfButtons">The expected number of buttons.</param>
+    /// <param name="buttonId">The button identifier.</param>
     [Theory]
     [InlineData(13, "tags")]
     [InlineData(13, "levels")]
@@ -158,6 +207,9 @@ public class IndexTest : IDisposable
             Assert.Equal(expectedNumberOfButtons, actual);
         }
     }
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
     public void Dispose()
     {
         _cut.Dispose();

@@ -1,9 +1,31 @@
-﻿namespace WebService.Core.Server.Tests.ControllerTests;
+﻿// ***********************************************************************
+// Assembly         : WebService.Core.Server.Tests
+// Author           : Group BTG
+// Created          : 12-03-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="MaterialControllerTests .cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+namespace WebService.Core.Server.Tests.ControllerTests;
 
+/// <summary>
+/// Class MaterialControllerTests.
+/// </summary>
 public class MaterialControllerTests
 {
+    /// <summary>
+    /// The material controller
+    /// </summary>
     private readonly MaterialController _materialController;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MaterialControllerTests"/> class.
+    /// </summary>
     public MaterialControllerTests()
     {
         var v = new TestVariables();
@@ -11,6 +33,9 @@ public class MaterialControllerTests
     }
 
     #region Post/Create
+    /// <summary>
+    /// Defines the test method Post_material_returns_status_created.
+    /// </summary>
     [Fact]
     public async Task Post_material_returns_status_created()
     {
@@ -21,6 +46,9 @@ public class MaterialControllerTests
         Assert.Equal((int)HttpStatusCode.Created, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Post_material_returns_status_conflict.
+    /// </summary>
     [Fact]
     public async Task Post_material_returns_status_conflict()
     {
@@ -31,6 +59,9 @@ public class MaterialControllerTests
         Assert.Equal((int)HttpStatusCode.Conflict, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Post_material_returns_status_badRequest.
+    /// </summary>
     [Fact]
     public async Task Post_material_returns_status_badRequest()
     {
@@ -43,6 +74,9 @@ public class MaterialControllerTests
     #endregion
 
     #region Get/Read
+    /// <summary>
+    /// Defines the test method Get_all_materials_returns_status_ok.
+    /// </summary>
     [Fact]
     public async Task Get_all_materials_returns_status_ok()
     {
@@ -52,6 +86,9 @@ public class MaterialControllerTests
         Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Get_material_returns_status_ok.
+    /// </summary>
     [Fact]
     public async Task Get_material_returns_status_ok()
     {
@@ -61,6 +98,9 @@ public class MaterialControllerTests
         Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Get_material_returns_status_notFound.
+    /// </summary>
     [Fact]
     public async Task Get_material_returns_status_notFound()
     {
@@ -70,6 +110,9 @@ public class MaterialControllerTests
         Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Get_material_returns_from_searchForm_status_ok.
+    /// </summary>
     [Fact]
     public async Task Get_material_returns_from_searchForm_status_ok()
     {
@@ -80,6 +123,9 @@ public class MaterialControllerTests
         Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Get_material_returns_from_searchForm_status_notFound.
+    /// </summary>
     [Fact]
     public async Task Get_material_returns_from_searchForm_status_notFound()
     {
@@ -92,6 +138,9 @@ public class MaterialControllerTests
     #endregion
 
     #region Delete
+    /// <summary>
+    /// Defines the test method Delete_material_returns_status_noContent.
+    /// </summary>
     [Fact]
     public async Task Delete_material_returns_status_noContent()
     {
@@ -101,6 +150,9 @@ public class MaterialControllerTests
         Assert.Equal((int)HttpStatusCode.NoContent, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Delete_material_returns_status_notFound.
+    /// </summary>
     [Fact]
     public async Task Delete_material_returns_status_notFound()
     {
@@ -112,6 +164,9 @@ public class MaterialControllerTests
     #endregion
 
     #region Put/Update
+    /// <summary>
+    /// Defines the test method Put_material_returns_status_noContent.
+    /// </summary>
     [Fact]
     public async Task Put_material_returns_status_noContent()
     {
@@ -122,6 +177,9 @@ public class MaterialControllerTests
         Assert.Equal((int)HttpStatusCode.NoContent, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Put_material_returns_status_conflict.
+    /// </summary>
     [Fact]
     public async Task Put_material_returns_status_conflict()
     {
@@ -132,6 +190,9 @@ public class MaterialControllerTests
         Assert.Equal((int)HttpStatusCode.Conflict, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Put_material_returns_status_badRequest.
+    /// </summary>
     [Fact]
     public async Task Put_material_returns_status_badRequest()
     {
@@ -142,6 +203,9 @@ public class MaterialControllerTests
         Assert.Equal((int)HttpStatusCode.BadRequest, actual?.StatusCode);
     }
 
+    /// <summary>
+    /// Defines the test method Put_material_returns_status_notFound.
+    /// </summary>
     [Fact]
     public async Task Put_material_returns_status_notFound()
     {
