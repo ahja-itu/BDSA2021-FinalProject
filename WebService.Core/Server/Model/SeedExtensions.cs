@@ -11,22 +11,21 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using Microsoft.VisualBasic.FileIO;
 
 namespace WebService.Core.Server.Model;
 
-/**
- * Idea taken from https://github.com/ondfisk/BDSA2021/blob/3fe02352710a920bfb874ed1b219d273a26a92d2/MyApp.Server/Model/SeedExtensions.cs#L3
- * Thank you, OndFisk
- */
+/// Idea taken from https://github.com/ondfisk/BDSA2021/blob/3fe02352710a920bfb874ed1b219d273a26a92d2/MyApp.Server/Model/SeedExtensions.cs#L3
+/// Thank you, OndFisk
 /// <summary>
-/// Class SeedExtensions.
+///     Class SeedExtensions.
 /// </summary>
 public static class SeedExtensions
 {
     /// <summary>
-    /// Removes all items from the database and reseeds it with randomly generated materials from specific tags saved in
-    /// the data files found in the data directory.
+    ///     Removes all items from the database and reseeds it with randomly generated materials from specific tags saved in
+    ///     the data files found in the data directory.
     /// </summary>
     /// <param name="host">The host object containing IoT containers such as the DbContext and repositories.</param>
     /// <param name="environment">The environment.</param>
@@ -66,7 +65,7 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Cleans the database.
+    ///     Cleans the database.
     /// </summary>
     /// <param name="context">The context.</param>
     private static async Task CleanDB(IContext context)
@@ -81,7 +80,7 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Seeds the material.
+    ///     Seeds the material.
     /// </summary>
     /// <param name="repos">The repos.</param>
     /// <param name="contentGenerator">The content generator.</param>
@@ -190,7 +189,7 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Loads the names.
+    ///     Loads the names.
     /// </summary>
     /// <returns>List&lt;System.String&gt;.</returns>
     private static List<string> LoadNames()
@@ -201,7 +200,7 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Loads the authors.
+    ///     Loads the authors.
     /// </summary>
     /// <returns>List&lt;Author&gt;.</returns>
     private static List<Author> LoadAuthors()
@@ -212,7 +211,7 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Seed languages as an asynchronous operation.
+    ///     Seed languages as an asynchronous operation.
     /// </summary>
     /// <param name="repo">The repo.</param>
     /// <returns>A Task representing the asynchronous operation.</returns>
@@ -228,7 +227,7 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Seed levels as an asynchronous operation.
+    ///     Seed levels as an asynchronous operation.
     /// </summary>
     /// <param name="repo">The repo.</param>
     /// <returns>A Task representing the asynchronous operation.</returns>
@@ -245,7 +244,7 @@ public static class SeedExtensions
 
 
     /// <summary>
-    /// Seed media as an asynchronous operation.
+    ///     Seed media as an asynchronous operation.
     /// </summary>
     /// <param name="repo">The repo.</param>
     /// <returns>A Task representing the asynchronous operation.</returns>
@@ -261,7 +260,7 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Seed programming languages as an asynchronous operation.
+    ///     Seed programming languages as an asynchronous operation.
     /// </summary>
     /// <param name="repo">The repo.</param>
     /// <returns>A Task representing the asynchronous operation.</returns>
@@ -278,7 +277,7 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Seed tags as an asynchronous operation.
+    ///     Seed tags as an asynchronous operation.
     /// </summary>
     /// <param name="repo">The repo.</param>
     /// <returns>A Task representing the asynchronous operation.</returns>
@@ -294,7 +293,7 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Gets the n random entries.
+    ///     Gets the n random entries.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="entries">The entries.</param>
@@ -306,7 +305,7 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Gets the single random entry.
+    ///     Gets the single random entry.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="entries">The entries.</param>
@@ -317,7 +316,7 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Gets the repo.
+    ///     Gets the repo.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="repos">The repos.</param>
@@ -329,7 +328,7 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Reads the CSV.
+    ///     Reads the CSV.
     /// </summary>
     /// <param name="filename">The filename.</param>
     /// <param name="fieldCount">The field count.</param>
@@ -350,7 +349,7 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Determines whether [is all non empty] [the specified fields].
+    ///     Determines whether [is all non empty] [the specified fields].
     /// </summary>
     /// <param name="fields">The fields.</param>
     /// <returns><c>true</c> if [is all non empty] [the specified fields]; otherwise, <c>false</c>.</returns>
@@ -360,7 +359,7 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Gets the data file location.
+    ///     Gets the data file location.
     /// </summary>
     /// <param name="filename">The filename.</param>
     /// <returns>System.String.</returns>
@@ -370,32 +369,37 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    /// Enum RepoType
+    ///     Enum RepoType
     /// </summary>
     private enum RepoType
     {
         /// <summary>
-        /// The language
+        ///     The language
         /// </summary>
         Language,
+
         /// <summary>
-        /// The level
+        ///     The level
         /// </summary>
         Level,
+
         /// <summary>
-        /// The media
+        ///     The media
         /// </summary>
         Media,
+
         /// <summary>
-        /// The programming language
+        ///     The programming language
         /// </summary>
         ProgrammingLanguage,
+
         /// <summary>
-        /// The tag
+        ///     The tag
         /// </summary>
         Tag,
+
         /// <summary>
-        /// The material
+        ///     The material
         /// </summary>
         Material
     }

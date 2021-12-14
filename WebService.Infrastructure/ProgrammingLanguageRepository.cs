@@ -11,22 +11,23 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Infrastructure;
 
 /// <summary>
-/// Class ProgrammingLanguageRepository.
-/// Implements the <see cref="WebService.Core.Shared.IProgrammingLanguageRepository" />
+///     Class ProgrammingLanguageRepository.
+///     Implements the <see cref="WebService.Core.Shared.IProgrammingLanguageRepository" />
 /// </summary>
 /// <seealso cref="WebService.Core.Shared.IProgrammingLanguageRepository" />
 public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
 {
     /// <summary>
-    /// The context
+    ///     The context
     /// </summary>
     private readonly IContext _context;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ProgrammingLanguageRepository"/> class.
+    ///     Initializes a new instance of the <see cref="ProgrammingLanguageRepository" /> class.
     /// </summary>
     /// <param name="context">The context.</param>
     public ProgrammingLanguageRepository(IContext context)
@@ -35,7 +36,7 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     }
 
     /// <summary>
-    /// Creates a programming language asynchronously.
+    ///     Creates a programming language asynchronously.
     /// </summary>
     /// <param name="programmingLanguage">The programming language.</param>
     /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
@@ -61,7 +62,7 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     }
 
     /// <summary>
-    /// Deletes a programming language asynchronously.
+    ///     Deletes a programming language asynchronously.
     /// </summary>
     /// <param name="programmingLanguageId">The programming language identifier.</param>
     /// <returns>A Task&lt;Status&gt; representing the asynchronous operation.</returns>
@@ -79,7 +80,7 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     }
 
     /// <summary>
-    /// Reads a programming language asynchronously and a http status.
+    ///     Reads a programming language asynchronously and a http status.
     /// </summary>
     /// <param name="programmingLanguageId">The programming language identifier.</param>
     /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
@@ -95,7 +96,7 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     }
 
     /// <summary>
-    /// Reads all programming languages asynchronously.
+    ///     Reads all programming languages asynchronously.
     /// </summary>
     /// <returns>A Task&lt;IReadOnlyCollection`1&gt; representing the asynchronous operation.</returns>
     public async Task<IReadOnlyCollection<ProgrammingLanguageDTO>> ReadAsync()
@@ -104,7 +105,7 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     }
 
     /// <summary>
-    /// Update a programming language asynchronously.
+    ///     Update a programming language asynchronously.
     /// </summary>
     /// <param name="programmingProgrammingLanguageDTO">The programming programming language dto.</param>
     /// <returns>A Task&lt;Status&gt; representing the asynchronous operation.</returns>
@@ -132,13 +133,16 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     }
 
     /// <summary>
-    /// Valids the input.
+    ///     Valids the input.
     /// </summary>
     /// <param name="programmingLanguage">The programming language.</param>
     /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-    private static bool InvalidInput(CreateProgrammingLanguageDTO programmingLanguage) => programmingLanguage.Name.Length is > 50 or > 50
-                                                                                          || string.IsNullOrEmpty(programmingLanguage.Name) 
-                                                                                          || string.IsNullOrEmpty(programmingLanguage.Name) 
-                                                                                          || string.IsNullOrWhiteSpace(programmingLanguage.Name) 
-                                                                                          || string.IsNullOrWhiteSpace(programmingLanguage.Name);
+    private static bool InvalidInput(CreateProgrammingLanguageDTO programmingLanguage)
+    {
+        return programmingLanguage.Name.Length is > 50 or > 50
+               || string.IsNullOrEmpty(programmingLanguage.Name)
+               || string.IsNullOrEmpty(programmingLanguage.Name)
+               || string.IsNullOrWhiteSpace(programmingLanguage.Name)
+               || string.IsNullOrWhiteSpace(programmingLanguage.Name);
+    }
 }

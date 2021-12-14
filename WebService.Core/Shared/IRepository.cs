@@ -11,8 +11,9 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 /// <summary>
-/// Interface IRepository
+///     Interface IRepository
 /// </summary>
 public interface IRepository
 {

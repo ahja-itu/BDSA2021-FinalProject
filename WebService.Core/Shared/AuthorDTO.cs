@@ -11,10 +11,13 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Shared;
 
-/// <summary>Class CreateAuthorDTO.
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateAuthorDTO}" /></summary>
+/// <summary>
+///     Class CreateAuthorDTO.
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateAuthorDTO}" />
+/// </summary>
 public record CreateAuthorDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.CreateAuthorDTO" /> class.</summary>
@@ -32,10 +35,11 @@ public record CreateAuthorDTO
 }
 
 /// <summary>
-/// Class AuthorDTO.
-/// Implements the <see cref="T:WebService.Core.Shared.CreateAuthorDTO" />
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateAuthorDTO}" />
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.AuthorDTO}" /></summary>
+///     Class AuthorDTO.
+///     Implements the <see cref="T:WebService.Core.Shared.CreateAuthorDTO" />
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateAuthorDTO}" />
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.AuthorDTO}" />
+/// </summary>
 public record AuthorDTO : CreateAuthorDTO
 {
     public AuthorDTO(int id, string firstName, string surName) : base(firstName, surName)

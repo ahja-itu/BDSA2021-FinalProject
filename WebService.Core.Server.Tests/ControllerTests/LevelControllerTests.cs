@@ -11,20 +11,21 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Server.Tests.ControllerTests;
 
 /// <summary>
-/// Class LevelControllerTests.
+///     Class LevelControllerTests.
 /// </summary>
 public class LevelControllerTests
 {
     /// <summary>
-    /// The level controller
+    ///     The level controller
     /// </summary>
     private readonly LevelController _levelController;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LevelControllerTests"/> class.
+    ///     Initializes a new instance of the <see cref="LevelControllerTests" /> class.
     /// </summary>
     public LevelControllerTests()
     {
@@ -33,8 +34,9 @@ public class LevelControllerTests
     }
 
     #region Post/Create
+
     /// <summary>
-    /// Defines the test method Post_level_returns_status_created.
+    ///     Defines the test method Post_level_returns_status_created.
     /// </summary>
     [Fact]
     public async Task Post_level_returns_status_created()
@@ -43,11 +45,11 @@ public class LevelControllerTests
 
         var actual = await _levelController.Post(level) as CreatedResult;
 
-        Assert.Equal((int)HttpStatusCode.Created, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.Created, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Post_level_returns_status_conflict.
+    ///     Defines the test method Post_level_returns_status_conflict.
     /// </summary>
     [Fact]
     public async Task Post_level_returns_status_conflict()
@@ -56,11 +58,11 @@ public class LevelControllerTests
 
         var actual = await _levelController.Post(level) as ConflictResult;
 
-        Assert.Equal((int)HttpStatusCode.Conflict, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.Conflict, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Post_level_returns_status_badRequest.
+    ///     Defines the test method Post_level_returns_status_badRequest.
     /// </summary>
     [Fact]
     public async Task Post_level_returns_status_badRequest()
@@ -69,13 +71,15 @@ public class LevelControllerTests
 
         var actual = await _levelController.Post(level) as BadRequestResult;
 
-        Assert.Equal((int)HttpStatusCode.BadRequest, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.BadRequest, actual?.StatusCode);
     }
+
     #endregion
 
     #region Get/Read
+
     /// <summary>
-    /// Defines the test method Get_all_levels_returns_status_ok.
+    ///     Defines the test method Get_all_levels_returns_status_ok.
     /// </summary>
     [Fact]
     public async Task Get_all_levels_returns_status_ok()
@@ -83,11 +87,11 @@ public class LevelControllerTests
         var response = await _levelController.Get();
         var actual = response.Result as OkObjectResult;
 
-        Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.OK, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Get_level_returns_status_ok.
+    ///     Defines the test method Get_level_returns_status_ok.
     /// </summary>
     [Fact]
     public async Task Get_level_returns_status_ok()
@@ -95,11 +99,11 @@ public class LevelControllerTests
         var response = await _levelController.Get(1);
         var actual = response.Result as OkObjectResult;
 
-        Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.OK, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Get_level_returns_status_notFound.
+    ///     Defines the test method Get_level_returns_status_notFound.
     /// </summary>
     [Fact]
     public async Task Get_level_returns_status_notFound()
@@ -107,13 +111,15 @@ public class LevelControllerTests
         var response = await _levelController.Get(4);
         var actual = response.Result as NotFoundResult;
 
-        Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
     }
+
     #endregion
 
     #region Delete
+
     /// <summary>
-    /// Defines the test method Delete_level_returns_status_noContent.
+    ///     Defines the test method Delete_level_returns_status_noContent.
     /// </summary>
     [Fact]
     public async Task Delete_level_returns_status_noContent()
@@ -121,11 +127,11 @@ public class LevelControllerTests
         var response = await _levelController.Delete(3);
         var actual = response as NoContentResult;
 
-        Assert.Equal((int)HttpStatusCode.NoContent, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.NoContent, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Delete_level_returns_status_notFound.
+    ///     Defines the test method Delete_level_returns_status_notFound.
     /// </summary>
     [Fact]
     public async Task Delete_level_returns_status_notFound()
@@ -133,13 +139,15 @@ public class LevelControllerTests
         var response = await _levelController.Delete(4);
         var actual = response as NotFoundResult;
 
-        Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
     }
+
     #endregion
 
     #region Put/Update
+
     /// <summary>
-    /// Defines the test method Put_level_returns_status_noContent.
+    ///     Defines the test method Put_level_returns_status_noContent.
     /// </summary>
     [Fact]
     public async Task Put_level_returns_status_noContent()
@@ -148,11 +156,11 @@ public class LevelControllerTests
         var response = await _levelController.Put(level);
         var actual = response as NoContentResult;
 
-        Assert.Equal((int)HttpStatusCode.NoContent, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.NoContent, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Put_level_returns_status_conflict.
+    ///     Defines the test method Put_level_returns_status_conflict.
     /// </summary>
     [Fact]
     public async Task Put_level_returns_status_conflict()
@@ -161,11 +169,11 @@ public class LevelControllerTests
         var response = await _levelController.Put(level);
         var actual = response as ConflictResult;
 
-        Assert.Equal((int)HttpStatusCode.Conflict, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.Conflict, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Put_level_returns_status_badRequest.
+    ///     Defines the test method Put_level_returns_status_badRequest.
     /// </summary>
     [Fact]
     public async Task Put_level_returns_status_badRequest()
@@ -174,11 +182,11 @@ public class LevelControllerTests
         var response = await _levelController.Put(level);
         var actual = response as BadRequestResult;
 
-        Assert.Equal((int)HttpStatusCode.BadRequest, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.BadRequest, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Put_level_returns_status_notFound.
+    ///     Defines the test method Put_level_returns_status_notFound.
     /// </summary>
     [Fact]
     public async Task Put_level_returns_status_notFound()
@@ -187,9 +195,8 @@ public class LevelControllerTests
         var response = await _levelController.Put(level);
         var actual = response as NotFoundResult;
 
-        Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
     }
 
     #endregion
-
 }

@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Linq;
 using WebService.Core.Server.Model;
@@ -18,12 +19,12 @@ using WebService.Core.Server.Model;
 namespace WebService.Core.Server.Tests.ModelTests;
 
 /// <summary>
-/// Class ContentGeneratorTests.
+///     Class ContentGeneratorTests.
 /// </summary>
 public class ContentGeneratorTests
 {
     /// <summary>
-    /// Defines the test method GenerateTitle_given_no_tags_should_return_success_false.
+    ///     Defines the test method GenerateTitle_given_no_tags_should_return_success_false.
     /// </summary>
     [Fact]
     public void GenerateTitle_given_no_tags_should_return_success_false()
@@ -36,7 +37,7 @@ public class ContentGeneratorTests
     }
 
     /// <summary>
-    /// Defines the test method GenerateTitle_given_tag_docker_should_return_title_containing_docker.
+    ///     Defines the test method GenerateTitle_given_tag_docker_should_return_title_containing_docker.
     /// </summary>
     [Fact]
     public void GenerateTitle_given_tag_docker_should_return_title_containing_docker()
@@ -53,7 +54,7 @@ public class ContentGeneratorTests
     }
 
     /// <summary>
-    /// Defines the test method GenerateTitle_given_tags_docker_kubernetes_return_title_containing_both.
+    ///     Defines the test method GenerateTitle_given_tags_docker_kubernetes_return_title_containing_both.
     /// </summary>
     [Fact]
     public void GenerateTitle_given_tags_docker_kubernetes_return_title_containing_both()
@@ -75,7 +76,8 @@ public class ContentGeneratorTests
     }
 
     /// <summary>
-    /// Defines the test method GenerateTitle_given_tags_docker_kubernetes_azure_return_title_containing_all_with_comma_and_and_separation.
+    ///     Defines the test method
+    ///     GenerateTitle_given_tags_docker_kubernetes_azure_return_title_containing_all_with_comma_and_and_separation.
     /// </summary>
     [Fact]
     public void
@@ -98,7 +100,7 @@ public class ContentGeneratorTests
 
 
     /// <summary>
-    /// Defines the test method LanguageToString_converts_correctly_from_language_to_string.
+    ///     Defines the test method LanguageToString_converts_correctly_from_language_to_string.
     /// </summary>
     /// <param name="lang">The language.</param>
     /// <param name="expected">The expected.</param>
@@ -117,7 +119,7 @@ public class ContentGeneratorTests
     }
 
     /// <summary>
-    /// Defines the test method StringToLanguage_converts_magical_strings_to_languages.
+    ///     Defines the test method StringToLanguage_converts_magical_strings_to_languages.
     /// </summary>
     /// <param name="input">The input.</param>
     /// <param name="expected">The expected.</param>
@@ -136,7 +138,7 @@ public class ContentGeneratorTests
 
 
     /// <summary>
-    /// Defines the test method StringToLanguage_does_not_convert_wrong_magical_strings_to_languages.
+    ///     Defines the test method StringToLanguage_does_not_convert_wrong_magical_strings_to_languages.
     /// </summary>
     /// <param name="input">The input.</param>
     [Theory]
@@ -152,7 +154,7 @@ public class ContentGeneratorTests
     }
 
     /// <summary>
-    /// Creates the tags.
+    ///     Creates the tags.
     /// </summary>
     /// <param name="tagNames">The tag names.</param>
     /// <returns>IList&lt;CreateWeightedTagDTO&gt;.</returns>

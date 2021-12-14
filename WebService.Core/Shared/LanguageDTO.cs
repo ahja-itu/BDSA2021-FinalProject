@@ -11,10 +11,13 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Shared;
 
-/// <summary>Class CreateLanguageDTO.
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateLanguageDTO}" /></summary>
+/// <summary>
+///     Class CreateLanguageDTO.
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateLanguageDTO}" />
+/// </summary>
 public record CreateLanguageDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.CreateLanguageDTO" /> class.</summary>
@@ -24,15 +27,15 @@ public record CreateLanguageDTO
         Name = name;
     }
 
-    [StringLength(50)]
-    public string Name { get; }
+    [StringLength(50)] public string Name { get; }
 }
 
 /// <summary>
-/// Class LanguageDTO.
-/// Implements the <see cref="T:WebService.Core.Shared.CreateLanguageDTO" />
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateLanguageDTO}" />
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.LanguageDTO}" /></summary>
+///     Class LanguageDTO.
+///     Implements the <see cref="T:WebService.Core.Shared.CreateLanguageDTO" />
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateLanguageDTO}" />
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.LanguageDTO}" />
+/// </summary>
 public record LanguageDTO : CreateLanguageDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.LanguageDTO" /> class.</summary>

@@ -11,10 +11,13 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Shared;
 
-/// <summary>Class CreateMediaDTO.
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateMediaDTO}" /></summary>
+/// <summary>
+///     Class CreateMediaDTO.
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateMediaDTO}" />
+/// </summary>
 public record CreateMediaDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.CreateMediaDTO" /> class.</summary>
@@ -28,10 +31,11 @@ public record CreateMediaDTO
 }
 
 /// <summary>
-/// Class MediaDTO.
-/// Implements the <see cref="T:WebService.Core.Shared.CreateMediaDTO" />
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateMediaDTO}" />
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.MediaDTO}" /></summary>
+///     Class MediaDTO.
+///     Implements the <see cref="T:WebService.Core.Shared.CreateMediaDTO" />
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateMediaDTO}" />
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.MediaDTO}" />
+/// </summary>
 public record MediaDTO : CreateMediaDTO
 {
     public MediaDTO(int id, string name) : base(name)

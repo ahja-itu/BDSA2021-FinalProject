@@ -11,53 +11,58 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using ET.FakeText;
 
 namespace WebService.Core.Server.Model;
 
 /// <summary>
-/// Generate titles and bodies of text.
-/// Title generation is done without dependencies, all from within this class.
-/// Text body generation leverages the FakeTextGenerator by etc coding. You can find the remote repository for this
-/// Library here: https://github.com/etcoding/FakeTextGenerator
+///     Generate titles and bodies of text.
+///     Title generation is done without dependencies, all from within this class.
+///     Text body generation leverages the FakeTextGenerator by etc coding. You can find the remote repository for this
+///     Library here: https://github.com/etcoding/FakeTextGenerator
 /// </summary>
 public class ContentGenerator
 {
     /// <summary>
-    /// Enum Language
+    ///     Enum Language
     /// </summary>
     public enum Language
     {
         /// <summary>
-        /// The russian language
+        ///     The russian language
         /// </summary>
         Russian,
+
         /// <summary>
-        /// The english language
+        ///     The english language
         /// </summary>
         English,
+
         /// <summary>
-        /// The italian language
+        ///     The italian language
         /// </summary>
         Italian,
+
         /// <summary>
-        /// The danish language
+        ///     The danish language
         /// </summary>
         Danish,
+
         /// <summary>
-        /// The unknown language
+        ///     The unknown language
         /// </summary>
         Unknown
     }
 
     /// <summary>
-    /// The random instance
+    ///     The random instance
     /// </summary>
     private static readonly Random Rand = new();
 
     // Special thanks to https://www.nichelaboratory.com/Home/BlogTitleGenerator for generated clickbait titles
     /// <summary>
-    /// Template titles
+    ///     Template titles
     /// </summary>
     private static readonly string[] TemplateTitles =
     {
@@ -103,18 +108,18 @@ public class ContentGenerator
     };
 
     /// <summary>
-    /// The environment
+    ///     The environment
     /// </summary>
     private readonly IWebHostEnvironment? _environment;
 
     /// <summary>
-    /// The text generators
+    ///     The text generators
     /// </summary>
     private readonly Dictionary<Language, TextGenerator> _textGenerators;
 
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ContentGenerator"/> class.
+    ///     Initializes a new instance of the <see cref="ContentGenerator" /> class.
     /// </summary>
     /// <param name="environment">The environment.</param>
     public ContentGenerator(IWebHostEnvironment? environment = null)
@@ -133,7 +138,7 @@ public class ContentGenerator
     }
 
     /// <summary>
-    /// Gets the text generator.
+    ///     Gets the text generator.
     /// </summary>
     /// <param name="filename">The filename.</param>
     /// <returns>TextGenerator.</returns>
@@ -146,7 +151,7 @@ public class ContentGenerator
     }
 
     /// <summary>
-    /// Converts a language to its string representation.
+    ///     Converts a language to its string representation.
     /// </summary>
     /// <param name="lang">The language.</param>
     /// <returns>System.ValueTuple&lt;System.Boolean, System.String&gt;.</returns>
@@ -163,8 +168,8 @@ public class ContentGenerator
     }
 
     /// <summary>
-    /// Will convert a string to a language enum. If it was not understood or "russian", the language will be returned as
-    /// russian (lol)
+    ///     Will convert a string to a language enum. If it was not understood or "russian", the language will be returned as
+    ///     russian (lol)
     /// </summary>
     /// <param name="lang">The language.</param>
     /// <returns>System.ValueTuple&lt;System.Boolean, Language&gt;.</returns>
@@ -181,12 +186,14 @@ public class ContentGenerator
     }
 
     /// <summary>
-    /// Generate a body of text with a default length of 20 words. The length can be overridden to your liking.
+    ///     Generate a body of text with a default length of 20 words. The length can be overridden to your liking.
     /// </summary>
     /// <param name="language">The language.</param>
     /// <param name="length">The number of words in the generated body of text.</param>
-    /// <returns>(bool, string): bool: was the operation successful. The string with content if the text generation was
-    /// successful.</returns>
+    /// <returns>
+    ///     (bool, string): bool: was the operation successful. The string with content if the text generation was
+    ///     successful.
+    /// </returns>
     public (bool, string) GenerateText(Language language, int length = 20)
     {
         var generator = _textGenerators.GetValueOrDefault(language);
@@ -197,11 +204,13 @@ public class ContentGenerator
 
 
     /// <summary>
-    /// Generates a title from any given number of tags.
+    ///     Generates a title from any given number of tags.
     /// </summary>
     /// <param name="tags">A list of tags containing non-empty names. Has to contain either one or many tags.</param>
-    /// <returns>(bool, string): the boolean indicates if the operation was successful. The string may contain the title if the
-    /// operation was success full. Otherwise it will be empty.</returns>
+    /// <returns>
+    ///     (bool, string): the boolean indicates if the operation was successful. The string may contain the title if the
+    ///     operation was success full. Otherwise it will be empty.
+    /// </returns>
     public static (bool, string) GenerateTitle(IList<CreateWeightedTagDTO> tags)
     {
         if (!tags.Any()) return (false, "");
@@ -210,7 +219,7 @@ public class ContentGenerator
     }
 
     /// <summary>
-    /// Creates the title with many tags.
+    ///     Creates the title with many tags.
     /// </summary>
     /// <param name="tags">The tags.</param>
     /// <returns>System.String.</returns>
@@ -235,7 +244,7 @@ public class ContentGenerator
     }
 
     /// <summary>
-    /// Creates the title with one tag.
+    ///     Creates the title with one tag.
     /// </summary>
     /// <param name="tag">The tag.</param>
     /// <returns>System.String.</returns>
@@ -245,7 +254,7 @@ public class ContentGenerator
     }
 
     /// <summary>
-    /// Gets the random title.
+    ///     Gets the random title.
     /// </summary>
     /// <returns>System.String.</returns>
     private static string GetRandomTitle()
@@ -254,7 +263,7 @@ public class ContentGenerator
     }
 
     /// <summary>
-    /// Gets the data file location.
+    ///     Gets the data file location.
     /// </summary>
     /// <param name="filename">The filename.</param>
     /// <returns>System.String.</returns>

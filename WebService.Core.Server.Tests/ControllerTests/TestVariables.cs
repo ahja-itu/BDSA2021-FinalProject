@@ -11,12 +11,18 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
+using System;
+
 namespace WebService.Core.Server.Tests.ControllerTests;
 
 /// <summary>Class TestVariables.</summary>
 internal class TestVariables
 {
-    /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Server.Tests.ControllerTests.TestVariables" /> class.</summary>
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="T:WebService.Core.Server.Tests.ControllerTests.TestVariables" />
+    ///     class.
+    /// </summary>
     public TestVariables()
     {
         var connection = new SqliteConnection("Filename=:memory:");
@@ -72,51 +78,53 @@ internal class TestVariables
         const string content3 = "null";
 
         var material1 = new Material(
-            new List<WeightedTag> { weightedTag1 },
-            new List<Rating> { rating1 },
-            new List<Level> { level1 },
-            new List<ProgrammingLanguage> { programmingLanguage1 },
-            new List<Media> { media1 },
+            new List<WeightedTag> {weightedTag1},
+            new List<Rating> {rating1},
+            new List<Level> {level1},
+            new List<ProgrammingLanguage> {programmingLanguage1},
+            new List<Media> {media1},
             language1,
             summary1,
             url1,
             content1,
             "Material 1",
-            new List<Author> { author1 },
-            System.DateTime.UtcNow
+            new List<Author> {author1},
+            DateTime.UtcNow
         );
         var material2 = new Material
         (
-            new List<WeightedTag> { weightedTag3, weightedTag1 },
-            new List<Rating> { rating3, rating1 },
-            new List<Level> { level3, level1 },
-            new List<ProgrammingLanguage> { programmingLanguage3, programmingLanguage1 },
-            new List<Media> { media3, media1 },
+            new List<WeightedTag> {weightedTag3, weightedTag1},
+            new List<Rating> {rating3, rating1},
+            new List<Level> {level3, level1},
+            new List<ProgrammingLanguage> {programmingLanguage3, programmingLanguage1},
+            new List<Media> {media3, media1},
             language3,
             summary2,
             url2,
             content3,
             "Material 2",
-            new List<Author> { author3, author1 },
-            System.DateTime.UtcNow.AddYears(-11).AddDays(10)
+            new List<Author> {author3, author1},
+            DateTime.UtcNow.AddYears(-11).AddDays(10)
         );
 
         var material3 = new Material(
-            new List<WeightedTag> { weightedTag3, weightedTag2, weightedTag1 },
-            new List<Rating> { rating3, rating2, rating1 },
-            new List<Level> { level3, level2, level1 },
-            new List<ProgrammingLanguage> { programmingLanguage3, programmingLanguage2, programmingLanguage1 },
-            new List<Media> { media3, media2, media1 },
+            new List<WeightedTag> {weightedTag3, weightedTag2, weightedTag1},
+            new List<Rating> {rating3, rating2, rating1},
+            new List<Level> {level3, level2, level1},
+            new List<ProgrammingLanguage> {programmingLanguage3, programmingLanguage2, programmingLanguage1},
+            new List<Media> {media3, media2, media1},
             language3,
             summary3,
             url3,
             content2,
             "Material 3",
-            new List<Author> { author3, author2, author1 },
-            System.DateTime.UtcNow
+            new List<Author> {author3, author2, author1},
+            DateTime.UtcNow
         );
 
-        context.AddRange(language1, language2, language3, level1, level2, level3, media1, media2, media3, programmingLanguage1, programmingLanguage2, programmingLanguage3, rating1, rating2, rating3, tag1, tag2, tag3, material1, material2, material3);
+        context.AddRange(language1, language2, language3, level1, level2, level3, media1, media2, media3,
+            programmingLanguage1, programmingLanguage2, programmingLanguage3, rating1, rating2, rating3, tag1, tag2,
+            tag3, material1, material2, material3);
 
         context.SaveChanges();
 

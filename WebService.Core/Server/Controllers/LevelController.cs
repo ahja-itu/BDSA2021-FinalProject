@@ -11,11 +11,12 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Server.Controllers;
 
 /// <summary>
-/// Class LevelController.
-/// Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+///     Class LevelController.
+///     Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 [Authorize]
@@ -25,12 +26,12 @@ namespace WebService.Core.Server.Controllers;
 public class LevelController : ControllerBase
 {
     /// <summary>
-    /// The level repository
+    ///     The level repository
     /// </summary>
     private readonly ILevelRepository _levelRepository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LevelController"/> class.
+    ///     Initializes a new instance of the <see cref="LevelController" /> class.
     /// </summary>
     /// <param name="levelRepository">The level repository.</param>
     public LevelController(ILevelRepository levelRepository)
@@ -39,7 +40,7 @@ public class LevelController : ControllerBase
     }
 
     /// <summary>
-    /// Gets all LevelDTOs
+    ///     Gets all LevelDTOs
     /// </summary>
     /// <returns>ActionResult&lt;ICollection&lt;LevelDTO&gt;&gt;.</returns>
     [HttpGet]
@@ -51,7 +52,7 @@ public class LevelController : ControllerBase
     }
 
     /// <summary>
-    /// Gets a specified levelDTO.
+    ///     Gets a specified levelDTO.
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>ActionResult&lt;LevelDTO&gt;.</returns>
@@ -67,7 +68,7 @@ public class LevelController : ControllerBase
     }
 
     /// <summary>
-    /// Posts a new level.
+    ///     Posts a new level.
     /// </summary>
     /// <param name="level">The level.</param>
     /// <returns>IActionResult.</returns>
@@ -88,7 +89,7 @@ public class LevelController : ControllerBase
     }
 
     /// <summary>
-    /// Puts a specified level.
+    ///     Puts a specified level.
     /// </summary>
     /// <param name="level">The level.</param>
     /// <returns>IActionResult.</returns>
@@ -111,7 +112,7 @@ public class LevelController : ControllerBase
     }
 
     /// <summary>
-    /// Deletes a specified level.
+    ///     Deletes a specified level.
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>IActionResult.</returns>

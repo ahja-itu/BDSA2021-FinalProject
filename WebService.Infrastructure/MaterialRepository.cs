@@ -11,12 +11,15 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Diagnostics.CodeAnalysis;
 
 namespace WebService.Infrastructure;
 
-/// <summary>Class MaterialRepository.
-/// Implements the <see cref="WebService.Core.Shared.IMaterialRepository" /></summary>
+/// <summary>
+///     Class MaterialRepository.
+///     Implements the <see cref="WebService.Core.Shared.IMaterialRepository" />
+/// </summary>
 public class MaterialRepository : IMaterialRepository
 {
     private readonly IContext _context;
@@ -280,13 +283,16 @@ public class MaterialRepository : IMaterialRepository
     }
 
     /// <summary>
-    ///   <para>
-    ///     average rating.
-    /// </para>
+    ///     <para>
+    ///         average rating.
+    ///     </para>
     /// </summary>
     /// <param name="material">The material.</param>
     /// <returns>System.Double.</returns>
-    private static double GetAverage(Material material) => material.Ratings.Count != 0 ? material.Ratings.Average(rating => rating.Value) : 10;
+    private static double GetAverage(Material material)
+    {
+        return material.Ratings.Count != 0 ? material.Ratings.Average(rating => rating.Value) : 10;
+    }
 
     /// <summary>Check if it contains the level.</summary>
     /// <param name="searchInput">The search input.</param>
@@ -309,9 +315,9 @@ public class MaterialRepository : IMaterialRepository
 
 
     /// <summary>
-    ///   <para>
-    ///      Check if it contains the media.
-    /// </para>
+    ///     <para>
+    ///         Check if it contains the media.
+    ///     </para>
     /// </summary>
     /// <param name="searchInput">The search input.</param>
     /// <returns>Func&lt;Material, System.Boolean&gt;.</returns>
@@ -339,7 +345,8 @@ public class MaterialRepository : IMaterialRepository
     {
         return material => !searchInput.ProgrammingLanguages.Any() || material.ProgrammingLanguages
             .Select(pl => pl.Name)
-            .Any(pl => searchInput.ProgrammingLanguages.Select(searchInputProgrammingLanguageDTO => searchInputProgrammingLanguageDTO.Name)
+            .Any(pl => searchInput.ProgrammingLanguages
+                .Select(searchInputProgrammingLanguageDTO => searchInputProgrammingLanguageDTO.Name)
                 .Any(searchInputProgrammingLanguageDTO => pl == searchInputProgrammingLanguageDTO));
     }
 
@@ -406,7 +413,8 @@ public class MaterialRepository : IMaterialRepository
     /// <summary>Valids the tags.</summary>
     /// <param name="tags">The tags.</param>
     /// <returns>
-    ///   <c>true</c> if tags exist, <c>false</c> otherwise.</returns>
+    ///     <c>true</c> if tags exist, <c>false</c> otherwise.
+    /// </returns>
     private async Task<bool> ValidTags(IEnumerable<CreateWeightedTagDTO> tags)
     {
         var existingTags = await (from t in _context.Tags
@@ -425,7 +433,8 @@ public class MaterialRepository : IMaterialRepository
     /// <summary>Invalids the input.</summary>
     /// <param name="material">The material.</param>
     /// <returns>
-    ///   <c>true</c> if input is valid, <c>false</c> otherwise.</returns>
+    ///     <c>true</c> if input is valid, <c>false</c> otherwise.
+    /// </returns>
     private static bool InvalidInput(CreateMaterialDTO material)
     {
         var stringList = new List<string>

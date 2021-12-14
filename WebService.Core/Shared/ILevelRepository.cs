@@ -11,40 +11,45 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Shared;
 
 /// <summary>
-/// Interface ILevelRepository
-/// Implements the <see cref="IRepository" />
+///     Interface ILevelRepository
+///     Implements the <see cref="IRepository" />
 /// </summary>
 /// <seealso cref="IRepository" />
 public interface ILevelRepository : IRepository
 {
     /// <summary>
-    /// Creates asynchronously.
+    ///     Creates asynchronously.
     /// </summary>
     /// <param name="level">The level.</param>
     /// <returns>Task&lt;System.ValueTuple&lt;Status, LevelDTO&gt;&gt;.</returns>
     Task<(Status, LevelDTO)> CreateAsync(CreateLevelDTO level);
+
     /// <summary>
-    /// Reads asynchronously.
+    ///     Reads asynchronously.
     /// </summary>
     /// <param name="levelId">The level identifier.</param>
     /// <returns>Task&lt;System.ValueTuple&lt;Status, LevelDTO&gt;&gt;.</returns>
     Task<(Status, LevelDTO)> ReadAsync(int levelId);
+
     /// <summary>
-    /// Reads all asynchronously.
+    ///     Reads all asynchronously.
     /// </summary>
     /// <returns>Task&lt;IReadOnlyCollection&lt;LevelDTO&gt;&gt;.</returns>
     Task<IReadOnlyCollection<LevelDTO>> ReadAsync();
+
     /// <summary>
-    /// Deletes asynchronously.
+    ///     Deletes asynchronously.
     /// </summary>
     /// <param name="levelId">The level identifier.</param>
     /// <returns>Task&lt;Status&gt;.</returns>
     Task<Status> DeleteAsync(int levelId);
+
     /// <summary>
-    /// Updates asynchronously.
+    ///     Updates asynchronously.
     /// </summary>
     /// <param name="levelDTO">The level dto.</param>
     /// <returns>Task&lt;Status&gt;.</returns>

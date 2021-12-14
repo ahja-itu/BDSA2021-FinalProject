@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 global using Microsoft.EntityFrameworkCore;
 global using System.Collections.ObjectModel;
 global using WebService.Core.Shared;

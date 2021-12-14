@@ -11,40 +11,45 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Shared;
 
 /// <summary>
-/// Interface ILanguageRepository
-/// Implements the <see cref="IRepository" />
+///     Interface ILanguageRepository
+///     Implements the <see cref="IRepository" />
 /// </summary>
 /// <seealso cref="IRepository" />
 public interface ILanguageRepository : IRepository
 {
     /// <summary>
-    /// Creates asynchronously.
+    ///     Creates asynchronously.
     /// </summary>
     /// <param name="language">The language.</param>
     /// <returns>Task&lt;System.ValueTuple&lt;Status, LanguageDTO&gt;&gt;.</returns>
     Task<(Status, LanguageDTO)> CreateAsync(CreateLanguageDTO language);
+
     /// <summary>
-    /// Reads asynchronously.
+    ///     Reads asynchronously.
     /// </summary>
     /// <param name="languageId">The language identifier.</param>
     /// <returns>Task&lt;System.ValueTuple&lt;Status, LanguageDTO&gt;&gt;.</returns>
     Task<(Status, LanguageDTO)> ReadAsync(int languageId);
+
     /// <summary>
-    /// Reads all asynchronously.
+    ///     Reads all asynchronously.
     /// </summary>
     /// <returns>Task&lt;IReadOnlyCollection&lt;LanguageDTO&gt;&gt;.</returns>
     Task<IReadOnlyCollection<LanguageDTO>> ReadAsync();
+
     /// <summary>
-    /// Deletes asynchronously.
+    ///     Deletes asynchronously.
     /// </summary>
     /// <param name="languageId">The language identifier.</param>
     /// <returns>Task&lt;Status&gt;.</returns>
     Task<Status> DeleteAsync(int languageId);
+
     /// <summary>
-    /// Updates asynchronously.
+    ///     Updates asynchronously.
     /// </summary>
     /// <param name="languageDTO">The language dto.</param>
     /// <returns>Task&lt;Status&gt;.</returns>

@@ -11,10 +11,13 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Shared;
 
-/// <summary>Class CreateLevelDTO.
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateLevelDTO}" /></summary>
+/// <summary>
+///     Class CreateLevelDTO.
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateLevelDTO}" />
+/// </summary>
 public record CreateLevelDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.CreateLevelDTO" /> class.</summary>
@@ -24,15 +27,15 @@ public record CreateLevelDTO
         Name = name;
     }
 
-    [StringLength(50)]
-    public string Name { get; }
+    [StringLength(50)] public string Name { get; }
 }
 
 /// <summary>
-/// Class LevelDTO.
-/// Implements the <see cref="T:WebService.Core.Shared.CreateLevelDTO" />
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateLevelDTO}" />
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.LevelDTO}" /></summary>
+///     Class LevelDTO.
+///     Implements the <see cref="T:WebService.Core.Shared.CreateLevelDTO" />
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateLevelDTO}" />
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.LevelDTO}" />
+/// </summary>
 public record LevelDTO : CreateLevelDTO
 {
     public LevelDTO(int id, string name) : base(name)

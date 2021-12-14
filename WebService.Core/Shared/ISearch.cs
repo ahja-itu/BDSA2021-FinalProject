@@ -11,15 +11,16 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Shared;
 
 /// <summary>
-/// Interface ISearch
+///     Interface ISearch
 /// </summary>
 public interface ISearch
 {
     /// <summary>
-    /// Searches the specified search form and gets matching material.
+    ///     Searches the specified search form and gets matching material.
     /// </summary>
     /// <param name="searchForm">The search form.</param>
     /// <returns>Task&lt;System.ValueTuple&lt;Status, ICollection&lt;MaterialDTO&gt;&gt;&gt;.</returns>

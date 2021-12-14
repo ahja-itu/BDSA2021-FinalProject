@@ -11,10 +11,13 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Shared;
 
-/// <summary>Class CreateProgrammingLanguageDTO.
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateProgrammingLanguageDTO}" /></summary>
+/// <summary>
+///     Class CreateProgrammingLanguageDTO.
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateProgrammingLanguageDTO}" />
+/// </summary>
 public record CreateProgrammingLanguageDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.CreateProgrammingLanguageDTO" /> class.</summary>
@@ -28,10 +31,11 @@ public record CreateProgrammingLanguageDTO
 }
 
 /// <summary>
-/// Class ProgrammingLanguageDTO.
-/// Implements the <see cref="T:WebService.Core.Shared.CreateProgrammingLanguageDTO" />
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateProgrammingLanguageDTO}" />
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.ProgrammingLanguageDTO}" /></summary>
+///     Class ProgrammingLanguageDTO.
+///     Implements the <see cref="T:WebService.Core.Shared.CreateProgrammingLanguageDTO" />
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateProgrammingLanguageDTO}" />
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.ProgrammingLanguageDTO}" />
+/// </summary>
 public record ProgrammingLanguageDTO : CreateProgrammingLanguageDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.ProgrammingLanguageDTO" /> class.</summary>

@@ -11,11 +11,12 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Server.Controllers;
 
 /// <summary>
-/// Class LanguageController.
-/// Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+///     Class LanguageController.
+///     Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 [Authorize]
@@ -25,12 +26,12 @@ namespace WebService.Core.Server.Controllers;
 public class LanguageController : ControllerBase
 {
     /// <summary>
-    /// The language repository
+    ///     The language repository
     /// </summary>
     private readonly ILanguageRepository _languageRepository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LanguageController"/> class.
+    ///     Initializes a new instance of the <see cref="LanguageController" /> class.
     /// </summary>
     /// <param name="languageRepository">The language repository.</param>
     public LanguageController(ILanguageRepository languageRepository)
@@ -39,7 +40,7 @@ public class LanguageController : ControllerBase
     }
 
     /// <summary>
-    /// Gets all LanguageDTOs.
+    ///     Gets all LanguageDTOs.
     /// </summary>
     /// <returns>ActionResult&lt;ICollection&lt;LanguageDTO&gt;&gt;.</returns>
     [HttpGet]
@@ -51,7 +52,7 @@ public class LanguageController : ControllerBase
     }
 
     /// <summary>
-    /// Gets a specified LanguageDTO.
+    ///     Gets a specified LanguageDTO.
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>ActionResult&lt;LanguageDTO&gt;.</returns>
@@ -67,7 +68,7 @@ public class LanguageController : ControllerBase
     }
 
     /// <summary>
-    /// Posts a new language.
+    ///     Posts a new language.
     /// </summary>
     /// <param name="language">The language.</param>
     /// <returns>IActionResult.</returns>
@@ -88,7 +89,7 @@ public class LanguageController : ControllerBase
     }
 
     /// <summary>
-    /// Puts a specific language.
+    ///     Puts a specific language.
     /// </summary>
     /// <param name="language">The language.</param>
     /// <returns>IActionResult.</returns>
@@ -111,7 +112,7 @@ public class LanguageController : ControllerBase
     }
 
     /// <summary>
-    /// Deletes a specified language.
+    ///     Deletes a specified language.
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>IActionResult.</returns>

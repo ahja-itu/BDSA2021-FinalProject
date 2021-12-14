@@ -11,11 +11,12 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Server.Controllers;
 
 /// <summary>
-/// Class SearchController.
-/// Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+///     Class SearchController.
+///     Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 [Authorize]
@@ -25,12 +26,12 @@ namespace WebService.Core.Server.Controllers;
 public class SearchController : ControllerBase
 {
     /// <summary>
-    /// The search
+    ///     The search
     /// </summary>
     private readonly ISearch _search;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SearchController"/> class.
+    ///     Initializes a new instance of the <see cref="SearchController" /> class.
     /// </summary>
     /// <param name="search">The search.</param>
     public SearchController(ISearch search)
@@ -39,7 +40,7 @@ public class SearchController : ControllerBase
     }
 
     /// <summary>
-    /// Posts the specified search form and gets all material matching it using the search algorithem
+    ///     Posts the specified search form and gets all material matching it using the search algorithem
     /// </summary>
     /// <param name="searchForm">The search form.</param>
     /// <returns>ActionResult&lt;ICollection&lt;MaterialDTO&gt;&gt;.</returns>

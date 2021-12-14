@@ -11,11 +11,12 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Server.Controllers;
 
 /// <summary>
-/// Class MaterialController.
-/// Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+///     Class MaterialController.
+///     Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 [Authorize]
@@ -25,12 +26,12 @@ namespace WebService.Core.Server.Controllers;
 public class MaterialController : ControllerBase
 {
     /// <summary>
-    /// The material repository
+    ///     The material repository
     /// </summary>
     private readonly IMaterialRepository _materialRepository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MaterialController"/> class.
+    ///     Initializes a new instance of the <see cref="MaterialController" /> class.
     /// </summary>
     /// <param name="materialRepository">The material repository.</param>
     public MaterialController(IMaterialRepository materialRepository)
@@ -39,7 +40,7 @@ public class MaterialController : ControllerBase
     }
 
     /// <summary>
-    /// Gets all materialDTOs.
+    ///     Gets all materialDTOs.
     /// </summary>
     /// <returns>ActionResult&lt;ICollection&lt;MaterialDTO&gt;&gt;.</returns>
     [HttpGet]
@@ -51,7 +52,7 @@ public class MaterialController : ControllerBase
     }
 
     /// <summary>
-    /// Gets a specified materialDTO.
+    ///     Gets a specified materialDTO.
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>ActionResult&lt;MaterialDTO&gt;.</returns>
@@ -67,7 +68,7 @@ public class MaterialController : ControllerBase
     }
 
     /// <summary>
-    /// Posts a specified search form and returns a materialDTO matching the search from.
+    ///     Posts a specified search form and returns a materialDTO matching the search from.
     /// </summary>
     /// <param name="searchForm">The search form.</param>
     /// <returns>ActionResult&lt;MaterialDTO&gt;.</returns>
@@ -83,7 +84,7 @@ public class MaterialController : ControllerBase
     }
 
     /// <summary>
-    /// Posts the specified material.
+    ///     Posts the specified material.
     /// </summary>
     /// <param name="material">The material.</param>
     /// <returns>IActionResult.</returns>
@@ -104,7 +105,7 @@ public class MaterialController : ControllerBase
     }
 
     /// <summary>
-    /// Puts the specified material.
+    ///     Puts the specified material.
     /// </summary>
     /// <param name="material">The material.</param>
     /// <returns>IActionResult.</returns>
@@ -127,7 +128,7 @@ public class MaterialController : ControllerBase
     }
 
     /// <summary>
-    /// Deletes the specified identifier.
+    ///     Deletes the specified identifier.
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>IActionResult.</returns>

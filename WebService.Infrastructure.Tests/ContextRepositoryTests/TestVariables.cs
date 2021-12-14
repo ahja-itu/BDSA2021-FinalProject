@@ -11,15 +11,16 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
 
 /// <summary>
-/// Class TestVariables.
+///     Class TestVariables.
 /// </summary>
 internal class TestVariables
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="TestVariables"/> class.
+    ///     Initializes a new instance of the <see cref="TestVariables" /> class.
     /// </summary>
     public TestVariables()
     {
@@ -150,37 +151,43 @@ internal class TestVariables
     }
 
     /// <summary>
-    /// Gets the context.
+    ///     Gets the context.
     /// </summary>
     /// <value>The context.</value>
     public IContext Context { get; }
+
     /// <summary>
-    /// Gets the language repository.
+    ///     Gets the language repository.
     /// </summary>
     /// <value>The language repository.</value>
     public LanguageRepository LanguageRepository { get; }
+
     /// <summary>
-    /// Gets the level repository.
+    ///     Gets the level repository.
     /// </summary>
     /// <value>The level repository.</value>
     public LevelRepository LevelRepository { get; }
+
     /// <summary>
-    /// Gets the material repository.
+    ///     Gets the material repository.
     /// </summary>
     /// <value>The material repository.</value>
     public MaterialRepository MaterialRepository { get; }
+
     /// <summary>
-    /// Gets the media repository.
+    ///     Gets the media repository.
     /// </summary>
     /// <value>The media repository.</value>
     public MediaRepository MediaRepository { get; }
+
     /// <summary>
-    /// Gets the programming language repository.
+    ///     Gets the programming language repository.
     /// </summary>
     /// <value>The programming language repository.</value>
     public ProgrammingLanguageRepository ProgrammingLanguageRepository { get; }
+
     /// <summary>
-    /// Gets the tag repository.
+    ///     Gets the tag repository.
     /// </summary>
     /// <value>The tag repository.</value>
     public TagRepository TagRepository { get; }

@@ -12,15 +12,15 @@ builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebService.Core.Server", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo {Title = "WebService.Core.Server", Version = "v1"});
     c.UseInlineDefinitionsForEnums();
 });
 
 var configuration = new ConfigurationBuilder()
-        .SetBasePath(Directory.GetCurrentDirectory())
-        .AddUserSecrets<Program>()
-        .AddJsonFile("appsettings.json")
-        .Build();
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddUserSecrets<Program>()
+    .AddJsonFile("appsettings.json")
+    .Build();
 
 var connectionString = configuration.GetConnectionString("btg");
 builder.Services.AddDbContext<Context>(options => options.UseSqlServer(connectionString));
@@ -65,9 +65,6 @@ app.MapControllers();
 app.MapFallbackToFile("index.html");
 
 
-if (!app.Environment.IsEnvironment("integration"))
-{
-    await app.SeedAsync(app.Environment);
-}
+if (!app.Environment.IsEnvironment("integration")) await app.SeedAsync(app.Environment);
 
 app.Run();

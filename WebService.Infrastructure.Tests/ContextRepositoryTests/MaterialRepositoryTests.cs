@@ -11,153 +11,173 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
 
 /// <summary>
-/// Class MaterialRepositoryTests.
+///     Class MaterialRepositoryTests.
 /// </summary>
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class MaterialRepositoryTests
 {
     // Create material test variables
     /// <summary>
-    /// The create material dto
+    ///     The create material dto
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTO;
+
     /// <summary>
-    /// The create material dto conflict
+    ///     The create material dto conflict
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOConflict;
+
     /// <summary>
-    /// The create material dto duplicate author
+    ///     The create material dto duplicate author
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTODuplicateAuthor;
+
     /// <summary>
-    /// The create material dto duplicate level
+    ///     The create material dto duplicate level
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTODuplicateLevel;
 
     /// <summary>
-    /// The create material dto duplicate media
+    ///     The create material dto duplicate media
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTODuplicateMedia;
+
     /// <summary>
-    /// The create material dto duplicate programming language
+    ///     The create material dto duplicate programming language
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTODuplicateProgrammingLanguage;
+
     /// <summary>
-    /// The create material dto duplicate tag
+    ///     The create material dto duplicate tag
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTODuplicateTag;
 
     /// <summary>
-    /// The create material dto language not existing
+    ///     The create material dto language not existing
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOLanguageNotExisting;
 
     /// <summary>
-    /// The create material dto level not existing
+    ///     The create material dto level not existing
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOLevelNotExisting;
+
     /// <summary>
-    /// The create material dto media not existing
+    ///     The create material dto media not existing
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOMediaNotExisting;
+
     /// <summary>
-    /// The create material dto multiple ratings from same user
+    ///     The create material dto multiple ratings from same user
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOMultipleRatingsFromSameUser;
 
     /// <summary>
-    /// The create material dto programming language not existing
+    ///     The create material dto programming language not existing
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOProgrammingLanguageNotExisting;
 
     /// <summary>
-    /// The create material dto rating wrong weight
+    ///     The create material dto rating wrong weight
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTORatingWrongWeight;
+
     /// <summary>
-    /// The create material dto tag not existing
+    ///     The create material dto tag not existing
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOTagNotExisting;
+
     /// <summary>
-    /// The create material dto tag weight too high
+    ///     The create material dto tag weight too high
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOTagWeightTooHigh;
 
     /// <summary>
-    /// The create material dto too long author first name
+    ///     The create material dto too long author first name
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOTooLongAuthorFirstName;
+
     /// <summary>
-    /// The create material dto too long author sur name
+    ///     The create material dto too long author sur name
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOTooLongAuthorSurName;
+
     /// <summary>
-    /// The create material dto too long language name
+    ///     The create material dto too long language name
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOTooLongLanguageName;
+
     /// <summary>
-    /// The create material dto too long level name
+    ///     The create material dto too long level name
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOTooLongLevelName;
+
     /// <summary>
-    /// The create material dto too long media name
+    ///     The create material dto too long media name
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOTooLongMediaName;
+
     /// <summary>
-    /// The create material dto too long programming language name
+    ///     The create material dto too long programming language name
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOTooLongProgrammingLanguageName;
+
     /// <summary>
-    /// The create material dto too long rating name
+    ///     The create material dto too long rating name
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOTooLongRatingName;
 
     /// <summary>
-    /// The create material dto too long summary
+    ///     The create material dto too long summary
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOTooLongSummary;
+
     /// <summary>
-    /// The create material dto too long tag name
+    ///     The create material dto too long tag name
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOTooLongTagName;
+
     /// <summary>
-    /// The create material dto too long title
+    ///     The create material dto too long title
     /// </summary>
     private readonly CreateMaterialDTO _createMaterialDTOTooLongTitle;
 
     /// <summary>
-    /// The update material dto
+    ///     The update material dto
     /// </summary>
     private readonly MaterialDTO _updateMaterialDTO;
+
     /// <summary>
-    /// The update material dto bad request
+    ///     The update material dto bad request
     /// </summary>
     private readonly MaterialDTO _updateMaterialDTOBadRequest;
+
     /// <summary>
-    /// The update material dto conflict
+    ///     The update material dto conflict
     /// </summary>
     private readonly MaterialDTO _updateMaterialDTOConflict;
 
     /// <summary>
-    /// The update material dto not found
+    ///     The update material dto not found
     /// </summary>
     private readonly MaterialDTO _updateMaterialDTONotFound;
 
     // Mock Repository
     /// <summary>
-    /// The v
+    ///     The v
     /// </summary>
     private readonly TestVariables _v;
 
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MaterialRepositoryTests"/> class.
+    ///     Initializes a new instance of the <see cref="MaterialRepositoryTests" /> class.
     /// </summary>
     public MaterialRepositoryTests()
     {
@@ -383,7 +403,7 @@ public class MaterialRepositoryTests
     #region Create
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_new_material_with_id.
+    ///     Defines the test method CreateAsync_material_returns_new_material_with_id.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -399,7 +419,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_conflict_with_existing_id.
+    ///     Defines the test method CreateAsync_material_returns_conflict_with_existing_id.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -415,7 +435,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_too_long_title.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_too_long_title.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -433,7 +453,7 @@ public class MaterialRepositoryTests
     // Tags
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_tag_not_existing.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_tag_not_existing.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -449,7 +469,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_wrong_tag_weight.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_wrong_tag_weight.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -465,7 +485,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_too_long_tag_name.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_too_long_tag_name.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -481,7 +501,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_duplicate_tag.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_duplicate_tag.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -499,7 +519,7 @@ public class MaterialRepositoryTests
     // media
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_duplicate_media.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_duplicate_media.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -515,7 +535,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_media_not_existing.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_media_not_existing.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -531,7 +551,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_too_long_media_name.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_too_long_media_name.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -549,7 +569,7 @@ public class MaterialRepositoryTests
     // Ratings
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_wrong_rating_weight.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_wrong_rating_weight.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -565,7 +585,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_too_long_rating_name.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_too_long_rating_name.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -581,7 +601,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_duplicate_user_with_different_ratings.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_duplicate_user_with_different_ratings.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -600,7 +620,7 @@ public class MaterialRepositoryTests
     // Authors
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_too_long_author_first_name.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_too_long_author_first_name.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -616,7 +636,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_too_long_author_sur_name.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_too_long_author_sur_name.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -632,7 +652,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_duplicate_author.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_duplicate_author.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -650,7 +670,7 @@ public class MaterialRepositoryTests
     // Levels
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_level_not_existing.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_level_not_existing.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -666,7 +686,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_too_long_level_name.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_too_long_level_name.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -682,7 +702,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_created_on_duplicate_level.
+    ///     Defines the test method CreateAsync_material_returns_created_on_duplicate_level.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -700,7 +720,7 @@ public class MaterialRepositoryTests
     // Language
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_language_not_existing.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_language_not_existing.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -716,7 +736,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_too_long_language_name.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_too_long_language_name.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -734,7 +754,7 @@ public class MaterialRepositoryTests
     // Programming Language
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_programming_language_not_existing.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_programming_language_not_existing.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -751,7 +771,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_too_long_programming_language_name.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_too_long_programming_language_name.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -768,7 +788,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_created_on_duplicate_programming_language.
+    ///     Defines the test method CreateAsync_material_returns_created_on_duplicate_programming_language.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -787,7 +807,7 @@ public class MaterialRepositoryTests
     // Summary
 
     /// <summary>
-    /// Defines the test method CreateAsync_material_returns_bad_request_on_too_long_summary.
+    ///     Defines the test method CreateAsync_material_returns_bad_request_on_too_long_summary.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -807,7 +827,7 @@ public class MaterialRepositoryTests
     #region Read
 
     /// <summary>
-    /// Defines the test method ReadAsync_material_by_id_returns_material_check_title_and_status_found.
+    ///     Defines the test method ReadAsync_material_by_id_returns_material_check_title_and_status_found.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -823,7 +843,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_material_by_id_returns_empty_material_check_title_and_status_notFound.
+    ///     Defines the test method ReadAsync_material_by_id_returns_empty_material_check_title_and_status_notFound.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -839,7 +859,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_material_by_id_returns_material_check_tags_and_status_found.
+    ///     Defines the test method ReadAsync_material_by_id_returns_material_check_tags_and_status_found.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -862,7 +882,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_material_by_id_returns_material_check_ratings_and_status_found.
+    ///     Defines the test method ReadAsync_material_by_id_returns_material_check_ratings_and_status_found.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -885,7 +905,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_material_by_id_returns_material_check_levels_and_status_found.
+    ///     Defines the test method ReadAsync_material_by_id_returns_material_check_levels_and_status_found.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -908,7 +928,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_material_by_id_returns_material_check_programming_language_and_status_found.
+    ///     Defines the test method ReadAsync_material_by_id_returns_material_check_programming_language_and_status_found.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -927,7 +947,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_material_by_id_returns_material_check_media_and_status_found.
+    ///     Defines the test method ReadAsync_material_by_id_returns_material_check_media_and_status_found.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -946,7 +966,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_material_by_id_returns_material_check_authors_and_status_found.
+    ///     Defines the test method ReadAsync_material_by_id_returns_material_check_authors_and_status_found.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -969,7 +989,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_material_by_id_returns_material_check_language_and_status_found.
+    ///     Defines the test method ReadAsync_material_by_id_returns_material_check_language_and_status_found.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -985,7 +1005,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_material_by_id_returns_material_check_summary_and_status_found.
+    ///     Defines the test method ReadAsync_material_by_id_returns_material_check_summary_and_status_found.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1001,7 +1021,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_material_by_id_returns_material_check_url_and_status_found.
+    ///     Defines the test method ReadAsync_material_by_id_returns_material_check_url_and_status_found.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1017,7 +1037,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_material_by_id_returns_material_check_content_and_status_found.
+    ///     Defines the test method ReadAsync_material_by_id_returns_material_check_content_and_status_found.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1033,7 +1053,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAllAsync_returns_all_material_check_titles.
+    ///     Defines the test method ReadAllAsync_returns_all_material_check_titles.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1053,7 +1073,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAllAsync_returns_all_material_check_tags.
+    ///     Defines the test method ReadAllAsync_returns_all_material_check_tags.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1073,7 +1093,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAllAsync_returns_all_material_check_ratings.
+    ///     Defines the test method ReadAllAsync_returns_all_material_check_ratings.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1088,28 +1108,31 @@ public class MaterialRepositoryTests
 
         var expectedCounter1 = expected1.Sum(
             expectedCreateRating => actual.ElementAt(0).Ratings.Count(
-                actualRatingDTO1 => 
-                    expectedCreateRating.Value == actualRatingDTO1.Value 
-                    && expectedCreateRating.Reviewer == actualRatingDTO1.Reviewer 
-                    && expectedCreateRating.TimeStamp.ToString(CultureInfo.CurrentCulture) == actualRatingDTO1.TimeStamp.ToString(CultureInfo.CurrentCulture)
+                actualRatingDTO1 =>
+                    expectedCreateRating.Value == actualRatingDTO1.Value
+                    && expectedCreateRating.Reviewer == actualRatingDTO1.Reviewer
+                    && expectedCreateRating.TimeStamp.ToString(CultureInfo.CurrentCulture) ==
+                    actualRatingDTO1.TimeStamp.ToString(CultureInfo.CurrentCulture)
             )
         );
 
         var expectedCounter2 = expected2.Sum(
             expectedCreateRating => actual.ElementAt(1).Ratings.Count(
-                actualRatingDTO1 => 
-                    expectedCreateRating.Value == actualRatingDTO1.Value 
-                    && expectedCreateRating.Reviewer == actualRatingDTO1.Reviewer 
-                    && expectedCreateRating.TimeStamp.ToString(CultureInfo.CurrentCulture) == actualRatingDTO1.TimeStamp.ToString(CultureInfo.CurrentCulture)
+                actualRatingDTO1 =>
+                    expectedCreateRating.Value == actualRatingDTO1.Value
+                    && expectedCreateRating.Reviewer == actualRatingDTO1.Reviewer
+                    && expectedCreateRating.TimeStamp.ToString(CultureInfo.CurrentCulture) ==
+                    actualRatingDTO1.TimeStamp.ToString(CultureInfo.CurrentCulture)
             )
         );
 
         var expectedCounter3 = expected3.Sum(
             expectedCreateRating => actual.ElementAt(2).Ratings.Count(
-                actualRatingDTO1 => 
-                    expectedCreateRating.Value == actualRatingDTO1.Value 
-                    && expectedCreateRating.Reviewer == actualRatingDTO1.Reviewer 
-                    && expectedCreateRating.TimeStamp.ToString(CultureInfo.CurrentCulture) == actualRatingDTO1.TimeStamp.ToString(CultureInfo.CurrentCulture)
+                actualRatingDTO1 =>
+                    expectedCreateRating.Value == actualRatingDTO1.Value
+                    && expectedCreateRating.Reviewer == actualRatingDTO1.Reviewer
+                    && expectedCreateRating.TimeStamp.ToString(CultureInfo.CurrentCulture) ==
+                    actualRatingDTO1.TimeStamp.ToString(CultureInfo.CurrentCulture)
             )
         );
 
@@ -1119,7 +1142,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAllAsync_returns_all_material_check_levels.
+    ///     Defines the test method ReadAllAsync_returns_all_material_check_levels.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1139,7 +1162,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAllAsync_returns_all_material_check_authors.
+    ///     Defines the test method ReadAllAsync_returns_all_material_check_authors.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1159,7 +1182,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAllAsync_returns_all_material_check_programming_languages.
+    ///     Defines the test method ReadAllAsync_returns_all_material_check_programming_languages.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1179,7 +1202,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAllAsync_returns_all_material_check_medias.
+    ///     Defines the test method ReadAllAsync_returns_all_material_check_medias.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1199,7 +1222,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAllAsync_returns_all_material_check_language.
+    ///     Defines the test method ReadAllAsync_returns_all_material_check_language.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1219,7 +1242,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAllAsync_returns_all_material_check_summary.
+    ///     Defines the test method ReadAllAsync_returns_all_material_check_summary.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1239,7 +1262,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAllAsync_returns_all_material_check_url.
+    ///     Defines the test method ReadAllAsync_returns_all_material_check_url.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1259,7 +1282,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAllAsync_returns_all_material_check_content.
+    ///     Defines the test method ReadAllAsync_returns_all_material_check_content.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1279,7 +1302,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_given_search_form_input_with_rating_above_average_of_10_should_return_material.
+    ///     Defines the test method ReadAsync_given_search_form_input_with_rating_above_average_of_10_should_return_material.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1299,7 +1322,8 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_given_search_material_form_input_with_rating_above_average_of_0_should_return_all_materials.
+    ///     Defines the test method
+    ///     ReadAsync_given_search_material_form_input_with_rating_above_average_of_0_should_return_all_materials.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1322,7 +1346,8 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_given_search_material_form_input_with_rating_above_average_of_3_should_return_two_materials.
+    ///     Defines the test method
+    ///     ReadAsync_given_search_material_form_input_with_rating_above_average_of_3_should_return_two_materials.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1345,7 +1370,8 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_given_programming_language_filter_c_sharp_should_only_return_materials_with_csharp.
+    ///     Defines the test method
+    ///     ReadAsync_given_programming_language_filter_c_sharp_should_only_return_materials_with_csharp.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1366,7 +1392,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method ReadAsync_given_programming_language_filter_than_doesnt_exist_return_no_materials.
+    ///     Defines the test method ReadAsync_given_programming_language_filter_than_doesnt_exist_return_no_materials.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1391,7 +1417,7 @@ public class MaterialRepositoryTests
     #region Delete
 
     /// <summary>
-    /// Defines the test method DeleteAsync_material_by_id_returns_status_deleted.
+    ///     Defines the test method DeleteAsync_material_by_id_returns_status_deleted.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1405,7 +1431,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method DeleteAsync_material_by_id_returns_status_notFound.
+    ///     Defines the test method DeleteAsync_material_by_id_returns_status_notFound.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1419,7 +1445,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method DeleteAsync_material_by_id_returns_count_one_less.
+    ///     Defines the test method DeleteAsync_material_by_id_returns_count_one_less.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1439,7 +1465,7 @@ public class MaterialRepositoryTests
     #region Update
 
     /// <summary>
-    /// Defines the test method UpdateAsync_material_by_id_returns_status_updated.
+    ///     Defines the test method UpdateAsync_material_by_id_returns_status_updated.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1453,7 +1479,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method UpdateAsync_material_by_id_returns_new_title.
+    ///     Defines the test method UpdateAsync_material_by_id_returns_new_title.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1469,7 +1495,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method UpdateAsync_material_by_id_returns_material_returns_new_tags.
+    ///     Defines the test method UpdateAsync_material_by_id_returns_material_returns_new_tags.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1488,7 +1514,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method UpdateAsync_material_by_id_returns_material_returns_new_ratings.
+    ///     Defines the test method UpdateAsync_material_by_id_returns_material_returns_new_ratings.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1507,7 +1533,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method UpdateAsync_material_by_id_returns_material_returns_new_levels.
+    ///     Defines the test method UpdateAsync_material_by_id_returns_material_returns_new_levels.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1526,7 +1552,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method UpdateAsync_material_by_id_returns_material_returns_new_programming_languages.
+    ///     Defines the test method UpdateAsync_material_by_id_returns_material_returns_new_programming_languages.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1545,7 +1571,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method UpdateAsync_material_by_id_returns_material_returns_new_medias.
+    ///     Defines the test method UpdateAsync_material_by_id_returns_material_returns_new_medias.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1562,7 +1588,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method UpdateAsync_material_by_id_returns_new_language.
+    ///     Defines the test method UpdateAsync_material_by_id_returns_new_language.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1578,7 +1604,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method UpdateAsync_material_by_id_returns_new_content.
+    ///     Defines the test method UpdateAsync_material_by_id_returns_new_content.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1594,7 +1620,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method UpdateAsync_material_by_id_returns_new_summary.
+    ///     Defines the test method UpdateAsync_material_by_id_returns_new_summary.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1610,7 +1636,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method UpdateAsync_material_by_id_returns_new_url.
+    ///     Defines the test method UpdateAsync_material_by_id_returns_new_url.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1626,7 +1652,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method UpdateAsync_material_by_id_returns_status_notFound.
+    ///     Defines the test method UpdateAsync_material_by_id_returns_status_notFound.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1640,7 +1666,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method UpdateAsync_material_by_id_returns_status_Conflict.
+    ///     Defines the test method UpdateAsync_material_by_id_returns_status_Conflict.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1654,7 +1680,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method UpdateAsync_material_by_id_returns_status_BadRequest.
+    ///     Defines the test method UpdateAsync_material_by_id_returns_status_BadRequest.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1672,7 +1698,7 @@ public class MaterialRepositoryTests
     #region Helpers
 
     /// <summary>
-    /// Defines the test method MayContainProgrammingLanguage_given_materials_with_c_sharp_pl_should_find_materials.
+    ///     Defines the test method MayContainProgrammingLanguage_given_materials_with_c_sharp_pl_should_find_materials.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1695,7 +1721,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method MayContainProgrammingLanguage_given_materials_with_no_pls_should_find_materials.
+    ///     Defines the test method MayContainProgrammingLanguage_given_materials_with_no_pls_should_find_materials.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1719,7 +1745,8 @@ public class MaterialRepositoryTests
 
 
     /// <summary>
-    /// Defines the test method MayContainProgrammingLanguage_given_search_input_with_programming_language_clojure_should_not_find_materials.
+    ///     Defines the test method
+    ///     MayContainProgrammingLanguage_given_search_input_with_programming_language_clojure_should_not_find_materials.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1740,7 +1767,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method MayContainLanguage_given_material_with_language_danish_should_find_material.
+    ///     Defines the test method MayContainLanguage_given_material_with_language_danish_should_find_material.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1763,7 +1790,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method MayContainLanguage_given_material_with_no_language_given_should_find_materials.
+    ///     Defines the test method MayContainLanguage_given_material_with_no_language_given_should_find_materials.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1786,7 +1813,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method MayContainLanguage_given_material_with_language_volapük_should_not_find_material.
+    ///     Defines the test method MayContainLanguage_given_material_with_language_volapük_should_not_find_material.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1809,7 +1836,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method MayContainMedia_search_with_no_given_media_should_find_material.
+    ///     Defines the test method MayContainMedia_search_with_no_given_media_should_find_material.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1832,7 +1859,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method MayContainMedia_search_with_media_book_should_return_1_material.
+    ///     Defines the test method MayContainMedia_search_with_media_book_should_return_1_material.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1855,7 +1882,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method MayContainMedia_search_with_media_mysterious_format_should_return_no_materials.
+    ///     Defines the test method MayContainMedia_search_with_media_mysterious_format_should_return_no_materials.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1878,7 +1905,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method MayContainTag_search_with_no_tags_should_return_all_materials.
+    ///     Defines the test method MayContainTag_search_with_no_tags_should_return_all_materials.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1901,7 +1928,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method MayContainTag_search_with_tag_solid_should_return_1_element.
+    ///     Defines the test method MayContainTag_search_with_tag_solid_should_return_1_element.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1924,7 +1951,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method MayContainTag_search_with_tag_mystery_tag_should_return_no_element.
+    ///     Defines the test method MayContainTag_search_with_tag_mystery_tag_should_return_no_element.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1947,7 +1974,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method MayContainLevel_search_with_no_level_returns_all_materials.
+    ///     Defines the test method MayContainLevel_search_with_no_level_returns_all_materials.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1970,7 +1997,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method MayContainLevel_search_with_level_phd_returns_1_materials.
+    ///     Defines the test method MayContainLevel_search_with_level_phd_returns_1_materials.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
@@ -1993,7 +2020,7 @@ public class MaterialRepositoryTests
     }
 
     /// <summary>
-    /// Defines the test method MayContainLevel_search_with_level_mysterious_degree_should_return_no_materials.
+    ///     Defines the test method MayContainLevel_search_with_level_mysterious_degree_should_return_no_materials.
     /// </summary>
     /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]

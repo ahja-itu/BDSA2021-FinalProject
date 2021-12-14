@@ -11,20 +11,21 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Server.Tests.ControllerTests;
 
 /// <summary>
-/// Class LanguageControllerTests.
+///     Class LanguageControllerTests.
 /// </summary>
 public class LanguageControllerTests
 {
     /// <summary>
-    /// The language controller
+    ///     The language controller
     /// </summary>
     private readonly LanguageController _languageController;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LanguageControllerTests"/> class.
+    ///     Initializes a new instance of the <see cref="LanguageControllerTests" /> class.
     /// </summary>
     public LanguageControllerTests()
     {
@@ -33,8 +34,9 @@ public class LanguageControllerTests
     }
 
     #region Post/Create
+
     /// <summary>
-    /// Defines the test method Post_language_returns_status_created.
+    ///     Defines the test method Post_language_returns_status_created.
     /// </summary>
     [Fact]
     public async Task Post_language_returns_status_created()
@@ -43,11 +45,11 @@ public class LanguageControllerTests
 
         var actual = await _languageController.Post(language) as CreatedResult;
 
-        Assert.Equal((int)HttpStatusCode.Created, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.Created, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Post_language_returns_status_conflict.
+    ///     Defines the test method Post_language_returns_status_conflict.
     /// </summary>
     [Fact]
     public async Task Post_language_returns_status_conflict()
@@ -56,11 +58,11 @@ public class LanguageControllerTests
 
         var actual = await _languageController.Post(language) as ConflictResult;
 
-        Assert.Equal((int)HttpStatusCode.Conflict, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.Conflict, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Post_language_returns_status_badRequest.
+    ///     Defines the test method Post_language_returns_status_badRequest.
     /// </summary>
     [Fact]
     public async Task Post_language_returns_status_badRequest()
@@ -69,13 +71,15 @@ public class LanguageControllerTests
 
         var actual = await _languageController.Post(language) as BadRequestResult;
 
-        Assert.Equal((int)HttpStatusCode.BadRequest, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.BadRequest, actual?.StatusCode);
     }
+
     #endregion
 
     #region Get/Read
+
     /// <summary>
-    /// Defines the test method Get_all_languages_returns_status_ok.
+    ///     Defines the test method Get_all_languages_returns_status_ok.
     /// </summary>
     [Fact]
     public async Task Get_all_languages_returns_status_ok()
@@ -83,11 +87,11 @@ public class LanguageControllerTests
         var response = await _languageController.Get();
         var actual = response.Result as OkObjectResult;
 
-        Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.OK, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Get_language_returns_status_ok.
+    ///     Defines the test method Get_language_returns_status_ok.
     /// </summary>
     [Fact]
     public async Task Get_language_returns_status_ok()
@@ -95,11 +99,11 @@ public class LanguageControllerTests
         var response = await _languageController.Get(1);
         var actual = response.Result as OkObjectResult;
 
-        Assert.Equal((int)HttpStatusCode.OK, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.OK, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Get_language_returns_status_notFound.
+    ///     Defines the test method Get_language_returns_status_notFound.
     /// </summary>
     [Fact]
     public async Task Get_language_returns_status_notFound()
@@ -107,13 +111,15 @@ public class LanguageControllerTests
         var response = await _languageController.Get(4);
         var actual = response.Result as NotFoundResult;
 
-        Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
     }
+
     #endregion
 
     #region Delete
+
     /// <summary>
-    /// Defines the test method Delete_language_returns_status_noContent.
+    ///     Defines the test method Delete_language_returns_status_noContent.
     /// </summary>
     [Fact]
     public async Task Delete_language_returns_status_noContent()
@@ -121,11 +127,11 @@ public class LanguageControllerTests
         var response = await _languageController.Delete(3);
         var actual = response as NoContentResult;
 
-        Assert.Equal((int)HttpStatusCode.NoContent, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.NoContent, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Delete_language_returns_status_notFound.
+    ///     Defines the test method Delete_language_returns_status_notFound.
     /// </summary>
     [Fact]
     public async Task Delete_language_returns_status_notFound()
@@ -133,13 +139,15 @@ public class LanguageControllerTests
         var response = await _languageController.Delete(4);
         var actual = response as NotFoundResult;
 
-        Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
     }
+
     #endregion
 
     #region Put/Update
+
     /// <summary>
-    /// Defines the test method Put_language_returns_status_noContent.
+    ///     Defines the test method Put_language_returns_status_noContent.
     /// </summary>
     [Fact]
     public async Task Put_language_returns_status_noContent()
@@ -148,11 +156,11 @@ public class LanguageControllerTests
         var response = await _languageController.Put(language);
         var actual = response as NoContentResult;
 
-        Assert.Equal((int)HttpStatusCode.NoContent, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.NoContent, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Put_language_returns_status_conflict.
+    ///     Defines the test method Put_language_returns_status_conflict.
     /// </summary>
     [Fact]
     public async Task Put_language_returns_status_conflict()
@@ -161,11 +169,11 @@ public class LanguageControllerTests
         var response = await _languageController.Put(language);
         var actual = response as ConflictResult;
 
-        Assert.Equal((int)HttpStatusCode.Conflict, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.Conflict, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Put_language_returns_status_badRequest.
+    ///     Defines the test method Put_language_returns_status_badRequest.
     /// </summary>
     [Fact]
     public async Task Put_language_returns_status_badRequest()
@@ -174,11 +182,11 @@ public class LanguageControllerTests
         var response = await _languageController.Put(language);
         var actual = response as BadRequestResult;
 
-        Assert.Equal((int)HttpStatusCode.BadRequest, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.BadRequest, actual?.StatusCode);
     }
 
     /// <summary>
-    /// Defines the test method Put_language_returns_status_notFound.
+    ///     Defines the test method Put_language_returns_status_notFound.
     /// </summary>
     [Fact]
     public async Task Put_language_returns_status_notFound()
@@ -187,9 +195,8 @@ public class LanguageControllerTests
         var response = await _languageController.Put(language);
         var actual = response as NotFoundResult;
 
-        Assert.Equal((int)HttpStatusCode.NotFound, actual?.StatusCode);
+        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
     }
 
     #endregion
-
 }

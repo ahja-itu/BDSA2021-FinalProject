@@ -11,15 +11,17 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System.Globalization;
 
 namespace WebService.Core.Shared
 {
     /// <summary>
-    /// Class MaterialDTO.
-    /// Implements the <see cref="T:WebService.Core.Shared.CreateMaterialDTO" />
-    /// Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateMaterialDTO}" />
-    /// Implements the <see cref="System.IEquatable{WebService.Core.Shared.MaterialDTO}" /></summary>
+    ///     Class MaterialDTO.
+    ///     Implements the <see cref="T:WebService.Core.Shared.CreateMaterialDTO" />
+    ///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateMaterialDTO}" />
+    ///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.MaterialDTO}" />
+    /// </summary>
     public record MaterialDTO : CreateMaterialDTO
     {
         public MaterialDTO(int id, ICollection<CreateWeightedTagDTO> tags, ICollection<CreateRatingDTO> ratings,
@@ -34,8 +36,10 @@ namespace WebService.Core.Shared
         public int Id { get; init; }
     }
 
-    /// <summary>Class CreateMaterialDTO.
-    /// Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateMaterialDTO}" /></summary>
+    /// <summary>
+    ///     Class CreateMaterialDTO.
+    ///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateMaterialDTO}" />
+    /// </summary>
     public record CreateMaterialDTO
     {
         /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.CreateMaterialDTO" /> class.</summary>
@@ -106,7 +110,10 @@ namespace WebService.Core.Shared
         /// <summary>Average rating to string.</summary>
         /// <param name="material">The material.</param>
         /// <returns>System.String.</returns>
-        public static string AverageRatingToString(this CreateMaterialDTO material) => AverageRating(material).ToString(CultureInfo.CurrentCulture);
+        public static string AverageRatingToString(this CreateMaterialDTO material)
+        {
+            return AverageRating(material).ToString(CultureInfo.CurrentCulture);
+        }
 
         /// <summary>Levels to string.</summary>
         /// <param name="material">The material.</param>

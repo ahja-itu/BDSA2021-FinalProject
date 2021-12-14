@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -30,12 +31,12 @@ namespace WebService.Core.Client.Tests;
 #region MockHttpClient
 
 /// <summary>
-/// Class MockHttpClientBUnitHelpers.
+///     Class MockHttpClientBUnitHelpers.
 /// </summary>
 public static class MockHttpClientBUnitHelpers
 {
     /// <summary>
-    /// Adds the mock HTTP client.
+    ///     Adds the mock HTTP client.
     /// </summary>
     /// <param name="services">The services.</param>
     /// <returns>MockHttpMessageHandler.</returns>
@@ -49,7 +50,7 @@ public static class MockHttpClientBUnitHelpers
     }
 
     /// <summary>
-    /// Responds the json.
+    ///     Responds the json.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="request">The request.</param>
@@ -69,19 +70,19 @@ public static class MockHttpClientBUnitHelpers
 #endregion
 
 /// <summary>
-/// Class IndexTest.
-/// Implements the <see cref="System.IDisposable" />
+///     Class IndexTest.
+///     Implements the <see cref="System.IDisposable" />
 /// </summary>
 /// <seealso cref="System.IDisposable" />
 public class IndexTest : IDisposable
 {
     /// <summary>
-    /// The page cut
+    ///     The page cut
     /// </summary>
     private readonly IRenderedComponent<Index> _cut;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="IndexTest"/> class.
+    ///     Initializes a new instance of the <see cref="IndexTest" /> class.
     /// </summary>
     public IndexTest()
     {
@@ -128,7 +129,15 @@ public class IndexTest : IDisposable
     }
 
     /// <summary>
-    /// Defines the test method IndexFilterButtonShowsFilterOptions.
+    ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
+    public void Dispose()
+    {
+        _cut.Dispose();
+    }
+
+    /// <summary>
+    ///     Defines the test method IndexFilterButtonShowsFilterOptions.
     /// </summary>
     [Fact]
     public void IndexFilterButtonShowsFilterOptions()
@@ -154,7 +163,7 @@ public class IndexTest : IDisposable
     }
 
     /// <summary>
-    /// Defines the test method IndexFilterButtonAgainHidesFilterOptions.
+    ///     Defines the test method IndexFilterButtonAgainHidesFilterOptions.
     /// </summary>
     [Fact]
     public void IndexFilterButtonAgainHidesFilterOptions()
@@ -174,7 +183,7 @@ public class IndexTest : IDisposable
     }
 
     /// <summary>
-    /// Defines the test method PressOfFilterButtonShowsExpectedNumberOfFilterButtons.
+    ///     Defines the test method PressOfFilterButtonShowsExpectedNumberOfFilterButtons.
     /// </summary>
     /// <param name="expectedNumberOfButtons">The expected number of buttons.</param>
     /// <param name="buttonId">The button identifier.</param>
@@ -206,12 +215,5 @@ public class IndexTest : IDisposable
             // Assert
             Assert.Equal(expectedNumberOfButtons, actual);
         }
-    }
-    /// <summary>
-    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-    /// </summary>
-    public void Dispose()
-    {
-        _cut.Dispose();
     }
 }

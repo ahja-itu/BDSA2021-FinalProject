@@ -11,11 +11,12 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Server.Controllers;
 
 /// <summary>
-/// Class MediaController.
-/// Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+///     Class MediaController.
+///     Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 [Authorize]
@@ -25,12 +26,12 @@ namespace WebService.Core.Server.Controllers;
 public class MediaController : ControllerBase
 {
     /// <summary>
-    /// The media repository
+    ///     The media repository
     /// </summary>
     private readonly IMediaRepository _mediaRepository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MediaController"/> class.
+    ///     Initializes a new instance of the <see cref="MediaController" /> class.
     /// </summary>
     /// <param name="mediaRepository">The media repository.</param>
     public MediaController(IMediaRepository mediaRepository)
@@ -39,7 +40,7 @@ public class MediaController : ControllerBase
     }
 
     /// <summary>
-    /// Gets all mediaDTOs.
+    ///     Gets all mediaDTOs.
     /// </summary>
     /// <returns>ActionResult&lt;ICollection&lt;MediaDTO&gt;&gt;.</returns>
     [HttpGet]
@@ -51,7 +52,7 @@ public class MediaController : ControllerBase
     }
 
     /// <summary>
-    /// Gets a specified media.
+    ///     Gets a specified media.
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>ActionResult&lt;MediaDTO&gt;.</returns>
@@ -67,7 +68,7 @@ public class MediaController : ControllerBase
     }
 
     /// <summary>
-    /// Posts the specified media.
+    ///     Posts the specified media.
     /// </summary>
     /// <param name="media">The media.</param>
     /// <returns>IActionResult.</returns>
@@ -88,7 +89,7 @@ public class MediaController : ControllerBase
     }
 
     /// <summary>
-    /// Puts the specified media.
+    ///     Puts the specified media.
     /// </summary>
     /// <param name="media">The media.</param>
     /// <returns>IActionResult.</returns>
@@ -111,7 +112,7 @@ public class MediaController : ControllerBase
     }
 
     /// <summary>
-    /// Deletes the specified media.
+    ///     Deletes the specified media.
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>IActionResult.</returns>

@@ -11,22 +11,23 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Infrastructure;
 
 /// <summary>
-/// Class TagRepository.
-/// Implements the <see cref="WebService.Core.Shared.ITagRepository" />
+///     Class TagRepository.
+///     Implements the <see cref="WebService.Core.Shared.ITagRepository" />
 /// </summary>
 /// <seealso cref="WebService.Core.Shared.ITagRepository" />
 public class TagRepository : ITagRepository
 {
     /// <summary>
-    /// The context
+    ///     The context
     /// </summary>
     private readonly IContext _context;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TagRepository"/> class.
+    ///     Initializes a new instance of the <see cref="TagRepository" /> class.
     /// </summary>
     /// <param name="context">The context.</param>
     public TagRepository(IContext context)
@@ -35,7 +36,7 @@ public class TagRepository : ITagRepository
     }
 
     /// <summary>
-    /// Creates a tag asynchronously.
+    ///     Creates a tag asynchronously.
     /// </summary>
     /// <param name="tag">The tag.</param>
     /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
@@ -60,7 +61,7 @@ public class TagRepository : ITagRepository
     }
 
     /// <summary>
-    /// Deletes a tag asynchronously.
+    ///     Deletes a tag asynchronously.
     /// </summary>
     /// <param name="tagId">The tag identifier.</param>
     /// <returns>A Task&lt;Status&gt; representing the asynchronous operation.</returns>
@@ -78,7 +79,7 @@ public class TagRepository : ITagRepository
     }
 
     /// <summary>
-    /// Reads a tag asynchronously and returns a http status.
+    ///     Reads a tag asynchronously and returns a http status.
     /// </summary>
     /// <param name="tagId">The tag identifier.</param>
     /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
@@ -94,7 +95,7 @@ public class TagRepository : ITagRepository
     }
 
     /// <summary>
-    /// Reads all tags asynchronously.
+    ///     Reads all tags asynchronously.
     /// </summary>
     /// <returns>A Task&lt;IReadOnlyCollection`1&gt; representing the asynchronous operation.</returns>
     public async Task<IReadOnlyCollection<TagDTO>> ReadAsync()
@@ -103,7 +104,7 @@ public class TagRepository : ITagRepository
     }
 
     /// <summary>
-    /// Update a tag asynchronously.
+    ///     Update a tag asynchronously.
     /// </summary>
     /// <param name="tagDTO">The tag dto.</param>
     /// <returns>A Task&lt;Status&gt; representing the asynchronous operation.</returns>
@@ -131,7 +132,7 @@ public class TagRepository : ITagRepository
     }
 
     /// <summary>
-    /// Valids the input.
+    ///     Valids the input.
     /// </summary>
     /// <param name="tag">The tag.</param>
     /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>

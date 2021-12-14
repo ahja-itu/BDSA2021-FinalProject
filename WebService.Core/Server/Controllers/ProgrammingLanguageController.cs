@@ -11,11 +11,12 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Server.Controllers;
 
 /// <summary>
-/// Class ProgrammingLanguageController.
-/// Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+///     Class ProgrammingLanguageController.
+///     Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 [Authorize]
@@ -25,12 +26,12 @@ namespace WebService.Core.Server.Controllers;
 public class ProgrammingLanguageController : ControllerBase
 {
     /// <summary>
-    /// The programming language repository
+    ///     The programming language repository
     /// </summary>
     private readonly IProgrammingLanguageRepository _programmingLanguageRepository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ProgrammingLanguageController"/> class.
+    ///     Initializes a new instance of the <see cref="ProgrammingLanguageController" /> class.
     /// </summary>
     /// <param name="programmingLanguageRepository">The programming language repository.</param>
     public ProgrammingLanguageController(IProgrammingLanguageRepository programmingLanguageRepository)
@@ -39,7 +40,7 @@ public class ProgrammingLanguageController : ControllerBase
     }
 
     /// <summary>
-    /// Gets all ProgrammingLanguageDTOs.
+    ///     Gets all ProgrammingLanguageDTOs.
     /// </summary>
     /// <returns>ActionResult&lt;ICollection&lt;ProgrammingLanguageDTO&gt;&gt;.</returns>
     [HttpGet]
@@ -51,7 +52,7 @@ public class ProgrammingLanguageController : ControllerBase
     }
 
     /// <summary>
-    /// Gets the specified ProgrammingLanguageDTO.
+    ///     Gets the specified ProgrammingLanguageDTO.
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>ActionResult&lt;ProgrammingLanguageDTO&gt;.</returns>
@@ -67,7 +68,7 @@ public class ProgrammingLanguageController : ControllerBase
     }
 
     /// <summary>
-    /// Posts the specified programming language.
+    ///     Posts the specified programming language.
     /// </summary>
     /// <param name="programmingLanguage">The programming language.</param>
     /// <returns>IActionResult.</returns>
@@ -88,7 +89,7 @@ public class ProgrammingLanguageController : ControllerBase
     }
 
     /// <summary>
-    /// Puts the specified programming language.
+    ///     Puts the specified programming language.
     /// </summary>
     /// <param name="programmingLanguage">The programming language.</param>
     /// <returns>IActionResult.</returns>
@@ -111,7 +112,7 @@ public class ProgrammingLanguageController : ControllerBase
     }
 
     /// <summary>
-    /// Deletes the specified ProgrammingLanguageDTO.
+    ///     Deletes the specified ProgrammingLanguageDTO.
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>IActionResult.</returns>

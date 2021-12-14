@@ -11,22 +11,23 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Infrastructure;
 
 /// <summary>
-/// Class MediaRepository.
-/// Implements the <see cref="WebService.Core.Shared.IMediaRepository" />
+///     Class MediaRepository.
+///     Implements the <see cref="WebService.Core.Shared.IMediaRepository" />
 /// </summary>
 /// <seealso cref="WebService.Core.Shared.IMediaRepository" />
 public class MediaRepository : IMediaRepository
 {
     /// <summary>
-    /// The context
+    ///     The context
     /// </summary>
     private readonly IContext _context;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MediaRepository"/> class.
+    ///     Initializes a new instance of the <see cref="MediaRepository" /> class.
     /// </summary>
     /// <param name="context">The context.</param>
     public MediaRepository(IContext context)
@@ -35,7 +36,7 @@ public class MediaRepository : IMediaRepository
     }
 
     /// <summary>
-    /// Create a media asynchronously.
+    ///     Create a media asynchronously.
     /// </summary>
     /// <param name="media">The media.</param>
     /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
@@ -60,7 +61,7 @@ public class MediaRepository : IMediaRepository
     }
 
     /// <summary>
-    /// Delete a media asynchronously.
+    ///     Delete a media asynchronously.
     /// </summary>
     /// <param name="mediaId">The media identifier.</param>
     /// <returns>A Task&lt;Status&gt; representing the asynchronous operation.</returns>
@@ -78,7 +79,7 @@ public class MediaRepository : IMediaRepository
     }
 
     /// <summary>
-    /// Read a media asynchronously and returns a http status.
+    ///     Read a media asynchronously and returns a http status.
     /// </summary>
     /// <param name="mediaId">The media identifier.</param>
     /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
@@ -94,7 +95,7 @@ public class MediaRepository : IMediaRepository
     }
 
     /// <summary>
-    /// Reads all medias asynchronously.
+    ///     Reads all medias asynchronously.
     /// </summary>
     /// <returns>A Task&lt;IReadOnlyCollection`1&gt; representing the asynchronous operation.</returns>
     public async Task<IReadOnlyCollection<MediaDTO>> ReadAsync()
@@ -103,7 +104,7 @@ public class MediaRepository : IMediaRepository
     }
 
     /// <summary>
-    /// Update a media asynchronously.
+    ///     Update a media asynchronously.
     /// </summary>
     /// <param name="mediaDTO">The media dto.</param>
     /// <returns>A Task&lt;Status&gt; representing the asynchronous operation.</returns>
@@ -131,13 +132,16 @@ public class MediaRepository : IMediaRepository
     }
 
     /// <summary>
-    /// Valids the input.
+    ///     Valids the input.
     /// </summary>
     /// <param name="media">The media.</param>
     /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-    private static bool InvalidInput(CreateMediaDTO media) => media.Name.Length is > 50 or > 50 
-                                                              || string.IsNullOrEmpty(media.Name) 
-                                                              || string.IsNullOrEmpty(media.Name) 
-                                                              || string.IsNullOrWhiteSpace(media.Name) 
-                                                              || string.IsNullOrWhiteSpace(media.Name);
+    private static bool InvalidInput(CreateMediaDTO media)
+    {
+        return media.Name.Length is > 50 or > 50
+               || string.IsNullOrEmpty(media.Name)
+               || string.IsNullOrEmpty(media.Name)
+               || string.IsNullOrWhiteSpace(media.Name)
+               || string.IsNullOrWhiteSpace(media.Name);
+    }
 }

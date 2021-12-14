@@ -11,10 +11,13 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Shared;
 
-/// <summary>Class CreateRatingDTO.
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateRatingDTO}" /></summary>
+/// <summary>
+///     Class CreateRatingDTO.
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateRatingDTO}" />
+/// </summary>
 public record CreateRatingDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.CreateRatingDTO" /> class.</summary>
@@ -34,10 +37,11 @@ public record CreateRatingDTO
 }
 
 /// <summary>
-/// Class RatingDTO.
-/// Implements the <see cref="T:WebService.Core.Shared.CreateRatingDTO" />
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateRatingDTO}" />
-/// Implements the <see cref="System.IEquatable{WebService.Core.Shared.RatingDTO}" /></summary>
+///     Class RatingDTO.
+///     Implements the <see cref="T:WebService.Core.Shared.CreateRatingDTO" />
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateRatingDTO}" />
+///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.RatingDTO}" />
+/// </summary>
 public record RatingDTO : CreateRatingDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.RatingDTO" /> class.</summary>

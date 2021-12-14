@@ -11,11 +11,12 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Core.Server.Controllers;
 
 /// <summary>
-/// Class TagController.
-/// Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+///     Class TagController.
+///     Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 [Authorize]
@@ -25,12 +26,12 @@ namespace WebService.Core.Server.Controllers;
 public class TagController : ControllerBase
 {
     /// <summary>
-    /// The tag repository
+    ///     The tag repository
     /// </summary>
     private readonly ITagRepository _tagRepository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TagController"/> class.
+    ///     Initializes a new instance of the <see cref="TagController" /> class.
     /// </summary>
     /// <param name="tagRepository">The tag repository.</param>
     public TagController(ITagRepository tagRepository)
@@ -39,7 +40,7 @@ public class TagController : ControllerBase
     }
 
     /// <summary>
-    /// Gets all tagDTOs.
+    ///     Gets all tagDTOs.
     /// </summary>
     /// <returns>ActionResult&lt;ICollection&lt;TagDTO&gt;&gt;.</returns>
     [HttpGet]
@@ -51,7 +52,7 @@ public class TagController : ControllerBase
     }
 
     /// <summary>
-    /// Gets the specified tagDTO.
+    ///     Gets the specified tagDTO.
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>ActionResult&lt;TagDTO&gt;.</returns>
@@ -67,7 +68,7 @@ public class TagController : ControllerBase
     }
 
     /// <summary>
-    /// Posts the specified tag.
+    ///     Posts the specified tag.
     /// </summary>
     /// <param name="tag">The tag.</param>
     /// <returns>IActionResult.</returns>
@@ -88,7 +89,7 @@ public class TagController : ControllerBase
     }
 
     /// <summary>
-    /// Puts the specified tag.
+    ///     Puts the specified tag.
     /// </summary>
     /// <param name="tag">The tag.</param>
     /// <returns>IActionResult.</returns>
@@ -111,7 +112,7 @@ public class TagController : ControllerBase
     }
 
     /// <summary>
-    /// Deletes the specified tagDTO.
+    ///     Deletes the specified tagDTO.
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>IActionResult.</returns>

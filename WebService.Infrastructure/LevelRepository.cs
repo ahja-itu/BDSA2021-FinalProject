@@ -11,10 +11,13 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Infrastructure;
 
-/// <summary>Class LevelRepository.
-/// Implements the <see cref="WebService.Core.Shared.ILevelRepository" /></summary>
+/// <summary>
+///     Class LevelRepository.
+///     Implements the <see cref="WebService.Core.Shared.ILevelRepository" />
+/// </summary>
 public class LevelRepository : ILevelRepository
 {
     private readonly IContext _context;
@@ -27,7 +30,7 @@ public class LevelRepository : ILevelRepository
     }
 
     /// <summary>
-    /// Create a Level entry in the database.
+    ///     Create a Level entry in the database.
     /// </summary>
     /// <param name="level">A CreateLevelDTO containing correctly valued/formatted fields to create a new Level entry</param>
     /// <returns>A status of how the create operation completed and a levelDTO to represent the created entry in the database.</returns>
@@ -51,7 +54,7 @@ public class LevelRepository : ILevelRepository
     }
 
     /// <summary>
-    /// Delete a level entry from the database.
+    ///     Delete a level entry from the database.
     /// </summary>
     /// <param name="levelId">The ID of a Level entry in the database</param>
     /// <returns>A status code indicating how the operation went.</returns>
@@ -69,7 +72,7 @@ public class LevelRepository : ILevelRepository
     }
 
     /// <summary>
-    /// Read a single Level entry from the database, with a given ID
+    ///     Read a single Level entry from the database, with a given ID
     /// </summary>
     /// <param name="levelId">The ID of an entry in the database</param>
     /// <returns>A status message of how the operation went and a LevelDTO object to represent the database entry.</returns>
@@ -85,7 +88,7 @@ public class LevelRepository : ILevelRepository
     }
 
     /// <summary>
-    /// Read all of the Level entries present in the database.
+    ///     Read all of the Level entries present in the database.
     /// </summary>
     /// <returns>A list of LevelDTOs representing all of the level entries in the database.</returns>
     public async Task<IReadOnlyCollection<LevelDTO>> ReadAsync()
@@ -94,7 +97,7 @@ public class LevelRepository : ILevelRepository
     }
 
     /// <summary>
-    /// Update a level entry in the database, by providing a LevelDTO with updated fields.
+    ///     Update a level entry in the database, by providing a LevelDTO with updated fields.
     /// </summary>
     /// <param name="levelDTO">A LevelDTO containing properly valued/formatted fields and a valid ID</param>
     /// <returns>A status message indicating how the update operation went.</returns>
@@ -124,13 +127,14 @@ public class LevelRepository : ILevelRepository
     /// <summary>Valids the input.</summary>
     /// <param name="level">The level.</param>
     /// <returns>
-    ///   <c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+    ///     <c>true</c> if XXXX, <c>false</c> otherwise.
+    /// </returns>
     private static bool InvalidInput(CreateLevelDTO level)
     {
-        return level.Name.Length is > 50 or > 50 
-               || string.IsNullOrEmpty(level.Name) 
-               || string.IsNullOrEmpty(level.Name) 
-               || string.IsNullOrWhiteSpace(level.Name) 
+        return level.Name.Length is > 50 or > 50
+               || string.IsNullOrEmpty(level.Name)
+               || string.IsNullOrEmpty(level.Name)
+               || string.IsNullOrWhiteSpace(level.Name)
                || string.IsNullOrWhiteSpace(level.Name);
     }
 }

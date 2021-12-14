@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -21,17 +22,17 @@ using Xunit;
 namespace WebService.Core.Shared.Tests;
 
 /// <summary>
-/// Class MaterialDTOTests.
+///     Class MaterialDTOTests.
 /// </summary>
 public class MaterialDTOTests
 {
     /// <summary>
-    /// The material
+    ///     The material
     /// </summary>
     private readonly Material _material;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MaterialDTOTests"/> class.
+    ///     Initializes a new instance of the <see cref="MaterialDTOTests" /> class.
     /// </summary>
     public MaterialDTOTests()
     {
@@ -82,7 +83,7 @@ public class MaterialDTOTests
     }
 
     /// <summary>
-    /// Defines the test method ConvertToMaterialDTOReturnsIdenticalMaterialDTO.
+    ///     Defines the test method ConvertToMaterialDTOReturnsIdenticalMaterialDTO.
     /// </summary>
     [Fact]
     public void ConvertToMaterialDTOReturnsIdenticalMaterialDTO()
@@ -161,7 +162,7 @@ public class MaterialDTOTests
     }
 
     /// <summary>
-    /// Defines the test method AverageRatingReturns7_8.
+    ///     Defines the test method AverageRatingReturns7_8.
     /// </summary>
     [Fact]
     public void AverageRatingReturns7_8()
@@ -174,7 +175,7 @@ public class MaterialDTOTests
     }
 
     /// <summary>
-    /// Defines the test method LevelsToStringReturnsLevelNamesSeperatedBySpaces.
+    ///     Defines the test method LevelsToStringReturnsLevelNamesSeperatedBySpaces.
     /// </summary>
     [Fact]
     public void LevelsToStringReturnsLevelNamesSeperatedBySpaces()
@@ -187,7 +188,7 @@ public class MaterialDTOTests
     }
 
     /// <summary>
-    /// Defines the test method AuthorsToStringReturnFullNamesSeperatedByComma.
+    ///     Defines the test method AuthorsToStringReturnFullNamesSeperatedByComma.
     /// </summary>
     [Fact]
     public void AuthorsToStringReturnFullNamesSeperatedByComma()
