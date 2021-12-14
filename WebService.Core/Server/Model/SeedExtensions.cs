@@ -1,5 +1,4 @@
-﻿using WebService.Entities;
-using Microsoft.VisualBasic.FileIO;
+﻿using Microsoft.VisualBasic.FileIO;
 
 namespace WebService.Core.Server.Model
 {
@@ -8,9 +7,11 @@ namespace WebService.Core.Server.Model
      *  Idea taken from https://github.com/ondfisk/BDSA2021/blob/3fe02352710a920bfb874ed1b219d273a26a92d2/MyApp.Server/Model/SeedExtensions.cs#L3
      *  Thank you, Ondfisk
      */
+
     public static class SeedExtensions
     {
-        private enum RepoType {
+        private enum RepoType
+        {
             LANGUAGE,
             LEVEL,
             MEDIA,
@@ -19,6 +20,11 @@ namespace WebService.Core.Server.Model
             MATERIAL
         }
 
+        /// <summary>
+        /// Removes all items from the database and reseeds it with randomly generated materials from specific tags saved in the data files found in the data directory.
+        /// </summary>
+        /// <param name="host">The host object containing IoT containers such as the DbContext and repositories.</param>
+        /// <returns></returns>
         public static async Task<IHost> SeedAsync(this IHost host)
         {
             using (var scope = host.Services.CreateScope())
@@ -77,14 +83,15 @@ namespace WebService.Core.Server.Model
             var authors = LoadAuthors();
             var names = LoadNames();
 
-            Console.WriteLine("Going for ReadAsync in SeedMaterial");
-
             var tags = await tagRepo.ReadAsync();
             var level = await levelRepository.ReadAsync();
             var programmingLanguages = await plRepository.ReadAsync();
             var medias = await mediaRepository.ReadAsync();
             var languages = await languageRepository.ReadAsync();
-            
+
+
+            var contentGenerator = new ContentGenerator();
+
             // Lets create a material for each author
             foreach (var author in authors)
             {
@@ -114,12 +121,12 @@ namespace WebService.Core.Server.Model
                 if (assignedLanguage == null)
                 {
                     int safetyCounter = 0;
-                    while(assignedLanguage == null || safetyCounter++ < 100)
+                    while (assignedLanguage == null || safetyCounter++ < 100)
                     {
                         assignedLanguage = GetSingleRandomEntry<CreateLanguageDTO>(languages);
                     }
 
-                    if(safetyCounter >= 100)
+                    if (safetyCounter >= 100)
                     {
                         // We must have exited the while loop above due to the safetyCounter
                         // reaching its limit. 
@@ -127,17 +134,22 @@ namespace WebService.Core.Server.Model
                     }
                 }
 
-                // Generate content and summary
-                var theRandomNumber = rand.Next(1000);
-                var summary = $"This person generated a random number, and you wont believe what number they generated!";
-                var content = $"The number that was generated was \"{theRandomNumber}\"";
-                var url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-                
-                // Ensure title will be created
-                var (ok, title) = ContentGenerator.GenerateTitle(weightedTags);
-                if (!ok)
+                var (contentOk, content) = contentGenerator.GenerateText(100 + rand.Next(300));
+                if (!contentOk)
                 {
-                    Console.WriteLine("Failed to generate title with given input. Skipping this material");
+                    Console.WriteLine("Faieled to generate text for a material. Skipping this material.");
+                    continue;
+                }
+
+                var summaryWords = content.Split(' ').Take(30).ToList();
+                var summary = string.Join(' ', summaryWords) + "...";
+                var url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+
+                // Ensure title will be created
+                var (titleOk, title) = ContentGenerator.GenerateTitle(weightedTags);
+                if (!titleOk)
+                {
+                    Console.WriteLine("Failed to generate title with given input. Skipping this material.");
                     continue;
                 }
 
@@ -163,7 +175,7 @@ namespace WebService.Core.Server.Model
                 await materialRepository.CreateAsync(material);
             }
         }
-        
+
         private static List<string> LoadNames()
             => ReadCSV("names.csv", 2)
                 .Select(fields => fields[1])
@@ -238,7 +250,7 @@ namespace WebService.Core.Server.Model
 
         private static T GetRepo<T>(Dictionary<RepoType, IRepository> repos, RepoType type)
             => repos.Where(kv => kv.Key == type).Select(kv => (T)kv.Value).First();
- 
+
         private static IEnumerable<string[]> ReadCSV(string filename, uint fieldCount)
         {
             using TextFieldParser csvParser = new TextFieldParser(GetDataFileLocation(filename));
