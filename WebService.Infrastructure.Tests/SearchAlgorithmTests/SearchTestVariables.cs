@@ -426,9 +426,26 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 context.AddRange(material1011);
                 Tag1011Materials.Add(material1011);
             }
-            #endregion
 
-
+            //material for upper lower case
+            BaseMaterial = new Material() //
+            {
+                Id = MaterialID++,
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("DOTNET", 10) },
+                Ratings = new HashSet<Rating> { new Rating(5,"Reviewer") },
+                Levels = new HashSet<Level> { new Level(4,"School") },
+                ProgrammingLanguages = new HashSet<ProgrammingLanguage> { new ProgrammingLanguage(4,"Go") },
+                Medias = new HashSet<Media> { new Media(4,"Youtube") },
+                Language = new Language(4,"Swedish"),
+                Summary = "Lorem ipsum",
+                URL = "iamaURL",
+                Content = "I am content",
+                Title = "Blazor for beginners for upper lower case material",
+                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
+                TimeStamp = System.DateTime.UtcNow
+            };    
+            
+            context.Add(BaseMaterial);
 
             context.AddRange(danish, english, spanish, bachelor, masters, phd, book, report, video, csharp, java, fsharp);
 
@@ -463,6 +480,8 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
         public List<Material> Tag8Materials { get; }
         public List<Material> Tag9Materials { get; }
         public List<Material> Tag1011Materials { get; }
+        public Material BaseMaterial { get; }
+
         #endregion
 
     }
