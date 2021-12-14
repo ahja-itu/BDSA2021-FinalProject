@@ -134,10 +134,17 @@ namespace WebService.Core.Server.Model
                     }
                 }
 
-                var (contentOk, content) = contentGenerator.GenerateText(100 + rand.Next(300));
+                var (convertOk, lang) = contentGenerator.StringToLanguage(assignedLanguage.Name);
+                if (!convertOk || lang == null)
+                {
+                    Console.WriteLine("Could not convert given language for the material to the ENUM representation. Skipping this material");
+                }
+
+
+                var (contentOk, content) = contentGenerator.GenerateText(lang, 100 + rand.Next(300));
                 if (!contentOk)
                 {
-                    Console.WriteLine("Faieled to generate text for a material. Skipping this material.");
+                    Console.WriteLine("Failed to generate text for a material. Skipping this material.");
                     continue;
                 }
 

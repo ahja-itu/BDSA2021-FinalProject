@@ -10,9 +10,19 @@
 public class ContentGenerator
 {
 
+
+    public enum Language
+    {
+        RUSSIAN,
+        ENGLISH,
+        ITALIAN,
+        DANISH,
+        UNKNOWN
+    }
+
     private static Random _rand = new Random();
 
-    private TextGenerator _textGenerator;
+    private Dictionary<Language, TextGenerator> _textGenerators;
 
     // Special thanks to https://www.nichelaboratory.com/Home/BlogTitleGenerator for generated clickbait titles
     private static string[] _templateTitles = new string[]
@@ -60,20 +70,74 @@ public class ContentGenerator
 
     public ContentGenerator()
     {
-        var corpusContent = File.ReadAllText(@"..\..\data\english.corpus.txt");
-        var corpus = Corpus.CreateFromText(corpusContent);
-        _textGenerator = new TextGenerator(corpus);
+        _textGenerators = new Dictionary<Language, TextGenerator>();
+
+        var languages = Enum.GetValues(typeof(Language)).Cast<Language>().ToList();
+        foreach (var language in languages)
+        {
+            var (ok, lang) = LanguageToString(language);
+            if (!ok)
+            {
+                continue;
+            }
+
+            _textGenerators.Add(language, GetTextGenerator(lang));
+        }
     }
+    private TextGenerator GetTextGenerator(string filename)
+    {
+        var fileLocation = GetDataFileLocation($"{filename}.corpus.txt");
+        var corpusContent = File.ReadAllText(fileLocation);
+        var corpus = Corpus.CreateFromText(corpusContent);
+        return new TextGenerator(corpus);
+    }
+    private static string GetDataFileLocation(string filename)
+            => $"{Directory.GetCurrentDirectory()}\\..\\..\\..\\..\\data\\{filename}";
+
+    /// <summary>
+    /// Converts a language to its string representation.
+    /// </summary>
+    /// <param name="lang"></param>
+    /// <returns></returns>
+    public (bool, string) LanguageToString(Language lang) => lang switch
+    {
+        Language.DANISH => (true, "danish"),
+        Language.ENGLISH => (true, "english"),
+        Language.ITALIAN => (true,"italian"),
+        Language.RUSSIAN => (true, "russian"),
+        _ => (false, "")
+    };
+
+    /// <summary>
+    /// Will convert a string to a language enum. If it wasnt understood or "russian", the language will be returned as russian (lol)
+    /// </summary>
+    /// <param name="lang"></param>
+    /// <returns></returns>
+    public (bool, Language) StringToLanguage(string lang) => lang switch
+    {
+        "danish" => (true, Language.DANISH),
+        "english" => (true, Language.ENGLISH),
+        "italian" => (true, Language.ITALIAN),
+        "russian" => (true, Language.RUSSIAN),
+        _ => (false, Language.UNKNOWN)
+    };
 
     /// <summary>
     /// Generate a body of text with a default length of 20 words. The length can be overridden to your liking.
     /// </summary>
     /// <param name="length">The number of words in the generated body of text.</param>
     /// <returns>(bool, string): bool: was the operation successful. The string with content if the text generation was succesfull.</returns>
-    public (bool, string) GenerateText(int length = 20)
+    public (bool, string) GenerateText(Language lang, int length = 20)
     {
-        var text = _textGenerator.GenerateText(length > 0 ? length : 20);
-        return (text != null, text ?? "");
+
+        var generator = _textGenerators.GetValueOrDefault(lang);
+        if (generator != null)
+        {
+            var text = _textGenerators.GetValueOrDefault(lang).GenerateText(length > 0 ? length : 20);
+            return (text != null, text ?? "");
+        }
+
+        return (false, "");
     }
 
 

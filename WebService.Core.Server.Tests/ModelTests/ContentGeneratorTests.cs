@@ -73,6 +73,52 @@ public class ContentGeneratorTests
 		Assert.Contains("docker, kubernetes and azure", title);
     }
 
+
+	[Theory]
+	[InlineData(ContentGenerator.Language.ENGLISH, "english")]
+	[InlineData(ContentGenerator.Language.RUSSIAN, "russian")]
+	[InlineData(ContentGenerator.Language.DANISH, "danish")]
+	[InlineData(ContentGenerator.Language.ITALIAN, "italian")]
+	public void LanguageToString_converts_correctly_from_language_to_string(ContentGenerator.Language lang, string expected)
+    {
+		var gen = new ContentGenerator();
+		
+		var (ok, actual) = gen.LanguageToString(lang);
+
+		Assert.True(ok);
+		Assert.Equal(expected, actual);
+    }
+
+	[Theory]
+	[InlineData("danish", ContentGenerator.Language.DANISH)]
+	[InlineData("english", ContentGenerator.Language.ENGLISH)]
+	[InlineData("italian", ContentGenerator.Language.ITALIAN)]
+	[InlineData("russian", ContentGenerator.Language.RUSSIAN)]
+	public void StringToLanguage_converts_magical_strings_to_languages(string input, ContentGenerator.Language expected)
+    {
+		var gen = new ContentGenerator();
+
+		var (ok, actual) = gen.StringToLanguage(input);
+
+		Assert.True(ok);
+		Assert.Equal(expected, actual);
+    }
+
+
+	[Theory]
+	[InlineData("")]
+	[InlineData("     ")]
+	[InlineData("Volapyk")]
+	[InlineData(null)]
+	public void StringToLanguage_does_not_convert_wrong_magical_strings_to_languages(string input)
+    {
+		var gen = new ContentGenerator();
+
+		var (ok, _) = gen.StringToLanguage(input);
+
+		Assert.False(ok);
+    }
+
 	private static IList<CreateWeightedTagDTO> CreateTags(params string[] tagNames)
 		=> Array.ConvertAll<string, CreateWeightedTagDTO>(tagNames, tag => new CreateWeightedTagDTO(tag, 0));
     
