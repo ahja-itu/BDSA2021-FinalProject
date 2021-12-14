@@ -257,6 +257,7 @@ else
         _advancedView = !_advancedView;
     }
 
+
     int _iDCounter;
 
     string FilterOptionIdGenerator()
@@ -273,6 +274,7 @@ else
     string _filterSearchInput = "";
     ICollection<string> _lastCalledCollection = new List<string>();
     ICollection<string> _showCollection = new List<string>();
+
 
     void SearchFilters(string val)
     {
@@ -300,6 +302,7 @@ else
     string _languageStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
     string _mediaStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
     string _ratingStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
+
 
     void ChangeFilter(string filterName)
     {
@@ -341,6 +344,7 @@ else
         }
     }
 
+
     void SetChecked(string filterName)
     {
         _tagStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
@@ -372,6 +376,7 @@ else
                 break;
         }
     }
+
 
     void ReplaceListWithBackup(ref ICollection<string> target, ICollection<string> source)
     {

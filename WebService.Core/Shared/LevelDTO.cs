@@ -8,7 +8,7 @@ public record CreateLevelDTO
     }
 
     [StringLength(50)]
-    public string Name { get; init; }
+    public string Name { get; }
 }
 
 public record LevelDTO : CreateLevelDTO
@@ -18,5 +18,5 @@ public record LevelDTO : CreateLevelDTO
         Id = id;
     }
 
-    public int Id { get; init; }
+    public int Id { get; }
 }

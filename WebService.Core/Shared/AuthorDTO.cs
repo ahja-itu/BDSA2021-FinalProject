@@ -8,9 +8,9 @@ public record CreateAuthorDTO
         SurName = surName;
     }
 
-    [StringLength(50)] public string FirstName { get; init; }
+    [StringLength(50)] public string FirstName { get; }
 
-    [StringLength(50)] public string SurName { get; init; }
+    [StringLength(50)] public string SurName { get; }
 }
 
 public record AuthorDTO : CreateAuthorDTO
@@ -20,5 +20,5 @@ public record AuthorDTO : CreateAuthorDTO
         Id = id;
     }
 
-    public int Id { get; init; }
+    public int Id { get; }
 }

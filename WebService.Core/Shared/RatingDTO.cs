@@ -9,10 +9,10 @@ public record CreateRatingDTO
         TimeStamp = DateTime.UtcNow;
     }
 
-    [Range(1, 10)] public int Value { get; init; }
+    [Range(1, 10)] public int Value { get; }
 
-    public string Reviewer { get; init; }
-    public DateTime TimeStamp { get; init; }
+    public string Reviewer { get; }
+    public DateTime TimeStamp { get; }
 }
 
 public record RatingDTO : CreateRatingDTO
@@ -22,5 +22,5 @@ public record RatingDTO : CreateRatingDTO
         Id = id;
     }
 
-    public int Id { get; init; }
+    public int Id { get; }
 }

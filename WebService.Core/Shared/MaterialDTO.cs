@@ -37,22 +37,22 @@ namespace WebService.Core.Shared
             TimeStamp = timeStamp;
         }
 
-        public ICollection<CreateWeightedTagDTO> Tags { get; init; }
-        public ICollection<CreateRatingDTO> Ratings { get; init; }
-        public ICollection<CreateLevelDTO> Levels { get; init; }
-        public ICollection<CreateProgrammingLanguageDTO> ProgrammingLanguages { get; init; }
-        public ICollection<CreateMediaDTO> Medias { get; init; }
-        public CreateLanguageDTO Language { get; init; }
+        public ICollection<CreateWeightedTagDTO> Tags { get; }
+        public ICollection<CreateRatingDTO> Ratings { get; }
+        public ICollection<CreateLevelDTO> Levels { get; }
+        public ICollection<CreateProgrammingLanguageDTO> ProgrammingLanguages { get; }
+        public ICollection<CreateMediaDTO> Medias { get; }
+        public CreateLanguageDTO Language { get; }
 
-        [StringLength(400)] public string Summary { get; init; }
+        [StringLength(400)] public string Summary { get; }
 
-        public string Url { get; init; }
-        public string Content { get; init; }
+        public string Url { get; }
+        public string Content { get; }
 
-        [StringLength(50)] public string Title { get; init; }
+        [StringLength(50)] public string Title { get; }
 
-        public ICollection<CreateAuthorDTO> Authors { get; init; }
-        public DateTime TimeStamp { get; init; }
+        public ICollection<CreateAuthorDTO> Authors { get; }
+        public DateTime TimeStamp { get; }
     }
 }
 

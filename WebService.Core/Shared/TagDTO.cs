@@ -7,7 +7,7 @@ public record CreateTagDTO
         Name = name;
     }
 
-    [StringLength(50)] public string Name { get; init; }
+    [StringLength(50)] public string Name { get; }
 }
 
 public record TagDTO : CreateTagDTO
@@ -17,7 +17,7 @@ public record TagDTO : CreateTagDTO
         Id = id;
     }
 
-    public int Id { get; init; }
+    public int Id { get; }
 }
 
 public record CreateWeightedTagDTO : CreateTagDTO
@@ -27,7 +27,7 @@ public record CreateWeightedTagDTO : CreateTagDTO
         Weight = weight;
     }
 
-    [Range(1, 100)] public int Weight { get; init; }
+    [Range(1, 100)] public int Weight { get; }
 }
 
 public record WeightedTagDTO : CreateWeightedTagDTO
@@ -37,5 +37,5 @@ public record WeightedTagDTO : CreateWeightedTagDTO
         Id = id;
     }
 
-    private int Id { get; init; }
+    private int Id { get; }
 }

@@ -8,7 +8,7 @@ public record CreateLanguageDTO
     }
 
     [StringLength(50)]
-    public string Name { get; init; }
+    public string Name { get; }
 }
 
 public record LanguageDTO : CreateLanguageDTO
@@ -18,5 +18,5 @@ public record LanguageDTO : CreateLanguageDTO
         Id = id;
     }
 
-    public int Id { get; init; }
+    public int Id { get; }
 }
