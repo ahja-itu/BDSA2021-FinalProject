@@ -40,7 +40,7 @@ public class SearchController : ControllerBase
     }
 
     /// <summary>
-    ///     Posts the specified search form and gets all material matching it using the search algorithem
+    ///     Posts the specified search form and gets all material matching it using the search algorithm
     /// </summary>
     /// <param name="searchForm">The search form.</param>
     /// <returns>ActionResult&lt;ICollection&lt;MaterialDTO&gt;&gt;.</returns>

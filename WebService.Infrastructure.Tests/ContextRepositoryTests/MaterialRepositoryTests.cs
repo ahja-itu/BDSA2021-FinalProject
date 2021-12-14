@@ -1369,16 +1369,16 @@ public class MaterialRepositoryTests
         Assert.Equal(2, response.Count);
     }
 
-        [Fact]
-        public async Task ReadAsync_given_programming_language_filter_c_sharp_should_only_return_materials_with_csharp()
-        {
-            SearchForm input = new SearchForm("",
-                new TagDTO[] { new TagDTO(1, "hathathat") },
-                new LevelDTO[] { new LevelDTO(1, "hathathat") },
-                new ProgrammingLanguageDTO[] { new ProgrammingLanguageDTO(1, "C#") },
-                new LanguageDTO[] { new LanguageDTO(1, "hathathat") },
-                new MediaDTO[] { new MediaDTO(1, "hathathat") },
-                1);
+    [Fact]
+    public async Task ReadAsync_given_programming_language_filter_c_sharp_should_only_return_materials_with_csharp()
+    {
+        var input = new SearchForm("",
+            new[] {new TagDTO(1, "hathathat")},
+            new[] {new LevelDTO(1, "hathathat")},
+            new[] {new ProgrammingLanguageDTO(1, "C#")},
+            new[] {new LanguageDTO(1, "hathathat")},
+            new[] {new MediaDTO(1, "hathathat")},
+            1);
 
         var (status, response) = await _v.MaterialRepository.ReadAsync(input);
 
@@ -1386,16 +1386,16 @@ public class MaterialRepositoryTests
         Assert.Equal(1, response.Count);
     }
 
-        [Fact]
-        public async Task ReadAsync_given_filter_than_doesnt_exist_return_no_materials()
-        {
-            SearchForm input = new SearchForm("",
-                new TagDTO[] { new TagDTO(1, "hathathat")},
-                new LevelDTO[] { new LevelDTO(1, "hathathat") },
-                new ProgrammingLanguageDTO[] { new ProgrammingLanguageDTO(1, "Lisp") },
-                new LanguageDTO[] { new LanguageDTO(1, "hathathat") },
-                new MediaDTO[] { new MediaDTO(1, "hathathat") },
-                1); 
+    [Fact]
+    public async Task ReadAsync_given_filter_than_doesnt_exist_return_no_materials()
+    {
+        var input = new SearchForm("",
+            new[] {new TagDTO(1, "hathathat")},
+            new[] {new LevelDTO(1, "hathathat")},
+            new[] {new ProgrammingLanguageDTO(1, "Lisp")},
+            new[] {new LanguageDTO(1, "hathathat")},
+            new[] {new MediaDTO(1, "hathathat")},
+            1);
 
         var (status, response) = await _v.MaterialRepository.ReadAsync(input);
 

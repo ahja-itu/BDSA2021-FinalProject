@@ -115,19 +115,19 @@ public class MaterialRepository : IMaterialRepository
             .Where(material => GetAverage(material) >= searchInput.Rating)
             .ToList();
 
-            // We're doing the following computations on the client, instead of the server
-            var rawMaterials = materialsWhereRatingHolds
-                .Where(material => MayContainProgrammingLanguage(searchInput).Invoke(material)
-                || MayContainLanguage(searchInput).Invoke(material)
-                || MayContainMedia(searchInput).Invoke(material)
-                || MayContainTag(searchInput).Invoke(material)
-                || MayContainLevel(searchInput).Invoke(material))
-                .ToList();
+        // We're doing the following computations on the client, instead of the server
+        var rawMaterials = materialsWhereRatingHolds
+            .Where(material => MayContainProgrammingLanguage(searchInput).Invoke(material)
+                               || MayContainLanguage(searchInput).Invoke(material)
+                               || MayContainMedia(searchInput).Invoke(material)
+                               || MayContainTag(searchInput).Invoke(material)
+                               || MayContainLevel(searchInput).Invoke(material))
+            .ToList();
 
 
-            var materials = rawMaterials
-                .Select(ConvertMaterialToMaterialDTO)
-                .ToList();
+        var materials = rawMaterials
+            .Select(ConvertMaterialToMaterialDTO)
+            .ToList();
 
         return materials.Count == 0
             ? (Status.NotFound, new ReadOnlyCollection<MaterialDTO>(new List<MaterialDTO>()))
@@ -181,7 +181,7 @@ public class MaterialRepository : IMaterialRepository
         }
     }
 
-    /// <summary>Converts the creatematerialdto to materialdto.</summary>
+    /// <summary>Converts the createMaterialDTO to materialDTO.</summary>
     /// <param name="createMaterialDTO">The create material dto.</param>
     /// <param name="id">The identifier.</param>
     /// <returns>MaterialDTO.</returns>
@@ -205,7 +205,7 @@ public class MaterialRepository : IMaterialRepository
         );
     }
 
-    /// <summary>Converts the material to materialdto.</summary>
+    /// <summary>Converts the material to materialDTO.</summary>
     /// <param name="entity">The entity.</param>
     /// <returns>MaterialDTO.</returns>
     [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
@@ -249,7 +249,7 @@ public class MaterialRepository : IMaterialRepository
         );
     }
 
-    /// <summary>Converts creatematerialdto to material.</summary>
+    /// <summary>Converts createMaterialDTO to material.</summary>
     /// <param name="createMaterialDTO">The create material dto.</param>
     /// <returns>Material.</returns>
     private async Task<Material> ConvertCreateMaterialDTOToMaterial(CreateMaterialDTO createMaterialDTO)
@@ -411,7 +411,7 @@ public class MaterialRepository : IMaterialRepository
         return programmingLanguages;
     }
 
-    /// <summary>Valids the tags.</summary>
+    /// <summary>Validates the tags.</summary>
     /// <param name="tags">The tags.</param>
     /// <returns>
     ///     <c>true</c> if tags exist, <c>false</c> otherwise.
@@ -431,7 +431,7 @@ public class MaterialRepository : IMaterialRepository
         return allTagsExists;
     }
 
-    /// <summary>Valids the input.</summary>
+    /// <summary>Validates the input.</summary>
     /// <param name="material">The material.</param>
     /// <returns>
     ///     <c>true</c> if input is valid, <c>false</c> otherwise.

@@ -16,7 +16,10 @@ namespace WebService.Core.Shared;
 
 /// <summary>
 ///     Class CreateTagDTO.
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateTagDTO}" />
+///     Implements the
+///     <see>
+///         <cref>System.IEquatable{WebService.Core.Shared.CreateTagDTO}</cref>
+///     </see>
 /// </summary>
 public record CreateTagDTO
 {
@@ -33,8 +36,14 @@ public record CreateTagDTO
 /// <summary>
 ///     Class TagDTO.
 ///     Implements the <see cref="T:WebService.Core.Shared.CreateTagDTO" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateTagDTO}" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.TagDTO}" />
+///     Implements the
+///     <see>
+///         <cref>System.IEquatable{WebService.Core.Shared.CreateTagDTO}</cref>
+///     </see>
+///     Implements the
+///     <see>
+///         <cref>System.IEquatable{WebService.Core.Shared.TagDTO}</cref>
+///     </see>
 /// </summary>
 public record TagDTO : CreateTagDTO
 {
@@ -52,8 +61,14 @@ public record TagDTO : CreateTagDTO
 /// <summary>
 ///     Class CreateWeightedTagDTO.
 ///     Implements the <see cref="T:WebService.Core.Shared.CreateTagDTO" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateTagDTO}" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateWeightedTagDTO}" />
+///     Implements the
+///     <see>
+///         <cref>System.IEquatable{WebService.Core.Shared.CreateTagDTO}</cref>
+///     </see>
+///     Implements the
+///     <see>
+///         <cref>System.IEquatable{WebService.Core.Shared.CreateWeightedTagDTO}</cref>
+///     </see>
 /// </summary>
 public record CreateWeightedTagDTO : CreateTagDTO
 {
@@ -69,22 +84,20 @@ public record CreateWeightedTagDTO : CreateTagDTO
 }
 
 /// <summary>
-///     Class WeightedTagDTO.
-///     Implements the <see cref="T:WebService.Core.Shared.CreateWeightedTagDTO" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateTagDTO}" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateWeightedTagDTO}" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.WeightedTagDTO}" />
+///     <para>
+///         Class WeightedTagDTO.
+///     </para>
+///     <para>     Implements the <see cref="T:WebService.Core.Shared.CreateWeightedTagDTO" /></para>
+///     <para>     Implements the <see cref="System.IEquatable{CreateTagDTO}" /></para>
+///     <para>     Implements the <see cref="System.IEquatable{CreateWeightedTagDTO}" /></para>
+///     <para>     Implements the <see cref="System.IEquatable{WeightedTagDTO}" /></para>
 /// </summary>
 public record WeightedTagDTO : CreateWeightedTagDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.WeightedTagDTO" /> class.</summary>
-    /// <param name="id">The identifier.</param>
     /// <param name="name">The name.</param>
     /// <param name="weight">The weight.</param>
-    public WeightedTagDTO(int id, string name, int weight) : base(name, weight)
+    public WeightedTagDTO(string name, int weight) : base(name, weight)
     {
-        Id = id;
     }
-
-    private int Id { get; }
 }

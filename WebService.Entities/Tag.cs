@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Entities;
 
 /// <summary>Class Tag.</summary>
@@ -37,8 +38,10 @@ public class Tag
     [StringLength(50)] public string Name { get; set; }
 }
 
-/// <summary>Class WeightedTag.
-/// Implements the <see cref="T:WebService.Entities.Tag" /></summary>
+/// <summary>
+///     Class WeightedTag.
+///     Implements the <see cref="T:WebService.Entities.Tag" />
+/// </summary>
 [Owned]
 public class WeightedTag : Tag
 {

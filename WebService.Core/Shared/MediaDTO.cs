@@ -1,9 +1,9 @@
 ﻿// ***********************************************************************
 // Assembly         : WebService.Core.Shared
-// Author           : thorl
+// Author           : Group BTG
 // Created          : 11-29-2021
 //
-// Last Modified By : thorl
+// Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
 // <copyright file="MediaDTO.cs" company="BTG">
@@ -16,7 +16,7 @@ namespace WebService.Core.Shared;
 
 /// <summary>
 ///     Class CreateMediaDTO.
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateMediaDTO}" />
+///     Implements the <see cref="System.IEquatable{CreateMediaDTO}" />
 /// </summary>
 public record CreateMediaDTO
 {
@@ -33,8 +33,8 @@ public record CreateMediaDTO
 /// <summary>
 ///     Class MediaDTO.
 ///     Implements the <see cref="T:WebService.Core.Shared.CreateMediaDTO" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateMediaDTO}" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.MediaDTO}" />
+///     Implements the <see cref="System.IEquatable{CreateMediaDTO}" />
+///     Implements the <see cref="System.IEquatable{MediaDTO}" />
 /// </summary>
 public record MediaDTO : CreateMediaDTO
 {

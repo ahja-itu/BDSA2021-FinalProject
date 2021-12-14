@@ -124,10 +124,10 @@ public class LevelRepository : ILevelRepository
         return Status.Updated;
     }
 
-    /// <summary>Valids the input.</summary>
+    /// <summary>Validates the input.</summary>
     /// <param name="level">The level.</param>
     /// <returns>
-    ///     <c>true</c> if XXXX, <c>false</c> otherwise.
+    ///     <c>true</c> if the input is valid, <c>false</c> otherwise.
     /// </returns>
     private static bool InvalidInput(CreateLevelDTO level)
     {

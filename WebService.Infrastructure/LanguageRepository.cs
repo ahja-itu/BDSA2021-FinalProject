@@ -111,10 +111,10 @@ public class LanguageRepository : ILanguageRepository
         return Status.Updated;
     }
 
-    /// <summary>Valids the input.</summary>
+    /// <summary>Validates the input.</summary>
     /// <param name="language">The language.</param>
     /// <returns>
-    ///     <c>true</c> if XXXX, <c>false</c> otherwise.
+    ///     <c>true</c> if input is valid, <c>false</c> otherwise.
     /// </returns>
     private static bool InvalidInput(CreateLanguageDTO language)
     {

@@ -16,7 +16,7 @@ namespace WebService.Core.Shared;
 
 /// <summary>
 ///     Class CreateProgrammingLanguageDTO.
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateProgrammingLanguageDTO}" />
+///     Implements the <see cref="System.IEquatable{CreateProgrammingLanguageDTO}" />
 /// </summary>
 public record CreateProgrammingLanguageDTO
 {
@@ -33,8 +33,8 @@ public record CreateProgrammingLanguageDTO
 /// <summary>
 ///     Class ProgrammingLanguageDTO.
 ///     Implements the <see cref="T:WebService.Core.Shared.CreateProgrammingLanguageDTO" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateProgrammingLanguageDTO}" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.ProgrammingLanguageDTO}" />
+///     Implements the <see cref="System.IEquatable{CreateProgrammingLanguageDTO}" />
+///     Implements the <see cref="System.IEquatable{ProgrammingLanguageDTO}" />
 /// </summary>
 public record ProgrammingLanguageDTO : CreateProgrammingLanguageDTO
 {

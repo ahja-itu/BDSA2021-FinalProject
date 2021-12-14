@@ -1,9 +1,9 @@
 // ***********************************************************************
 // Assembly         : WebService.Core.Client.Tests
-// Author           : thorl
+// Author           : BTG
 // Created          : 11-29-2021
 //
-// Last Modified By : thorl
+// Last Modified By : BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
 // <copyright file="IndexTest.cs" company="BTG">

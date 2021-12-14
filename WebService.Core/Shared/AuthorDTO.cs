@@ -1,9 +1,9 @@
 ﻿// ***********************************************************************
 // Assembly         : WebService.Core.Shared
-// Author           : thorl
+// Author           : Group BTG
 // Created          : 11-29-2021
 //
-// Last Modified By : thorl
+// Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
 // <copyright file="AuthorDTO.cs" company="BTG">
@@ -16,7 +16,7 @@ namespace WebService.Core.Shared;
 
 /// <summary>
 ///     Class CreateAuthorDTO.
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateAuthorDTO}" />
+///     Implements the <see cref="System.IEquatable{CreateAuthorDTO}" />
 /// </summary>
 public record CreateAuthorDTO
 {
@@ -37,15 +37,12 @@ public record CreateAuthorDTO
 /// <summary>
 ///     Class AuthorDTO.
 ///     Implements the <see cref="T:WebService.Core.Shared.CreateAuthorDTO" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateAuthorDTO}" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.AuthorDTO}" />
+///     Implements the <see cref="System.IEquatable{CreateAuthorDTO}" />
+///     Implements the <see cref="System.IEquatable{AuthorDTO}" />
 /// </summary>
 public record AuthorDTO : CreateAuthorDTO
 {
-    public AuthorDTO(int id, string firstName, string surName) : base(firstName, surName)
+    public AuthorDTO(string firstName, string surName) : base(firstName, surName)
     {
-        Id = id;
     }
-
-    public int Id { get; }
 }

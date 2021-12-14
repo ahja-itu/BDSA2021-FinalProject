@@ -1,9 +1,9 @@
 ﻿// ***********************************************************************
 // Assembly         : WebService.Core.Shared
-// Author           : thorl
+// Author           : Group BTG
 // Created          : 11-29-2021
 //
-// Last Modified By : thorl
+// Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
 // <copyright file="MaterialDTO.cs" company="BTG">
@@ -19,8 +19,8 @@ namespace WebService.Core.Shared
     /// <summary>
     ///     Class MaterialDTO.
     ///     Implements the <see cref="T:WebService.Core.Shared.CreateMaterialDTO" />
-    ///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateMaterialDTO}" />
-    ///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.MaterialDTO}" />
+    ///     Implements the <see cref="System.IEquatable{CreateMaterialDTO}" />
+    ///     Implements the <see cref="System.IEquatable{MaterialDTO}" />
     /// </summary>
     public record MaterialDTO : CreateMaterialDTO
     {
@@ -33,12 +33,12 @@ namespace WebService.Core.Shared
             Id = id;
         }
 
-        public int Id { get; init; }
+        public int Id { get; }
     }
 
     /// <summary>
     ///     Class CreateMaterialDTO.
-    ///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateMaterialDTO}" />
+    ///     Implements the <see cref="System.IEquatable{CreateMaterialDTO}" />
     /// </summary>
     public record CreateMaterialDTO
     {
@@ -141,17 +141,19 @@ namespace WebService.Core.Shared
         {
             return new MaterialDTO(
                 material.Id,
-                material.WeightedTags.Select(e => new WeightedTagDTO(e.Id, e.Name, e.Weight)).Cast<CreateWeightedTagDTO>().ToList(),
-                material.Ratings.Select(e => new RatingDTO(e.Id, e.Value,e.Reviewer)).Cast<CreateRatingDTO>().ToList(),
-                material.Levels.Select(e => new LevelDTO(e.Id,e.Name)).Cast<CreateLevelDTO>().ToList(),
-                material.ProgrammingLanguages.Select(e => new ProgrammingLanguageDTO(e.Id,e.Name)).Cast<CreateProgrammingLanguageDTO>().ToList(),
-                material.Medias.Select(e => new MediaDTO(e.Id,e.Name)).Cast<CreateMediaDTO>().ToList(),
+                material.WeightedTags.Select(e => new WeightedTagDTO(e.Name, e.Weight))
+                    .Cast<CreateWeightedTagDTO>().ToList(),
+                material.Ratings.Select(e => new RatingDTO(e.Id, e.Value, e.Reviewer)).Cast<CreateRatingDTO>().ToList(),
+                material.Levels.Select(e => new LevelDTO(e.Id, e.Name)).Cast<CreateLevelDTO>().ToList(),
+                material.ProgrammingLanguages.Select(e => new ProgrammingLanguageDTO(e.Id, e.Name))
+                    .Cast<CreateProgrammingLanguageDTO>().ToList(),
+                material.Medias.Select(e => new MediaDTO(e.Id, e.Name)).Cast<CreateMediaDTO>().ToList(),
                 new CreateLanguageDTO(material.Language.Name), //ANNE, changes from LanguageDTO
                 material.Summary,
                 material.URL,
                 material.Content,
                 material.Title,
-                material.Authors.Select(e => new AuthorDTO(e.Id, e.FirstName, e.SurName)).Cast<CreateAuthorDTO>()
+                material.Authors.Select(e => new AuthorDTO(e.FirstName, e.SurName)).Cast<CreateAuthorDTO>()
                     .ToList(),
                 material.TimeStamp
             );

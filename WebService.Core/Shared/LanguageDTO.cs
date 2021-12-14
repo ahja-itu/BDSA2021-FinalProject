@@ -1,9 +1,9 @@
 ﻿// ***********************************************************************
 // Assembly         : WebService.Core.Shared
-// Author           : thorl
+// Author           : Group BTG
 // Created          : 11-29-2021
 //
-// Last Modified By : thorl
+// Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
 // <copyright file="LanguageDTO.cs" company="BTG">
@@ -16,7 +16,7 @@ namespace WebService.Core.Shared;
 
 /// <summary>
 ///     Class CreateLanguageDTO.
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateLanguageDTO}" />
+///     Implements the <see cref="System.IEquatable{CreateLanguageDTO}" />
 /// </summary>
 public record CreateLanguageDTO
 {
@@ -33,8 +33,8 @@ public record CreateLanguageDTO
 /// <summary>
 ///     Class LanguageDTO.
 ///     Implements the <see cref="T:WebService.Core.Shared.CreateLanguageDTO" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateLanguageDTO}" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.LanguageDTO}" />
+///     Implements the <see cref="System.IEquatable{CreateLangageDTO}" />
+///     Implements the <see cref="System.IEquatable{LanguageDTO}" />
 /// </summary>
 public record LanguageDTO : CreateLanguageDTO
 {

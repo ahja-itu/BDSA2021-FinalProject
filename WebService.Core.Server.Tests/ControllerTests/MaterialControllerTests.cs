@@ -13,12 +13,14 @@
 // ***********************************************************************
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace WebService.Core.Server.Tests.ControllerTests;
 
 /// <summary>
 ///     Class MaterialControllerTests.
 /// </summary>
+[SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class MaterialControllerTests
 {
     /// <summary>
@@ -139,12 +141,15 @@ public class MaterialControllerTests
         Assert.Equal((int) HttpStatusCode.OK, actual?.StatusCode);
     }
 
-        [Fact]
-        public async Task Get_material_returns_from_searchForm_status_notFound()
-        {
-            var searchForm = new SearchForm("Hello", new TagDTO[] { new TagDTO(4, "DOTNET") }, new LevelDTO[] { new LevelDTO(1, "Kindergarden") }, new ProgrammingLanguageDTO[] { new ProgrammingLanguageDTO(1, "Cow") }, new LanguageDTO[] { new LanguageDTO(1, "ASL") }, new MediaDTO[] { new MediaDTO(1, "Comicbook") }, 10); ;
-            var response = await _materialController.Post(searchForm);
-            var actual = response.Result as NotFoundResult;
+    [Fact]
+    public async Task Get_material_returns_from_searchForm_status_notFound()
+    {
+        var searchForm = new SearchForm("Hello", new[] {new TagDTO(4, "DOTNET")},
+            new[] {new LevelDTO(1, "Kindergarden")},
+            new[] {new ProgrammingLanguageDTO(1, "Cow")}, new[] {new LanguageDTO(1, "ASL")},
+            new[] {new MediaDTO(1, "Comicbook")}, 10);
+        var response = await _materialController.Post(searchForm);
+        var actual = response.Result as NotFoundResult;
 
         Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
     }

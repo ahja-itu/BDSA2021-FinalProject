@@ -132,10 +132,10 @@ public class TagRepository : ITagRepository
     }
 
     /// <summary>
-    ///     Valids the input.
+    ///     Validates the input.
     /// </summary>
     /// <param name="tag">The tag.</param>
-    /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+    /// <returns><c>true</c> if the input is valid, <c>false</c> otherwise.</returns>
     private static bool InvalidInput(CreateTagDTO tag)
     {
         return tag.Name.Length is > 50 or > 50
