@@ -104,7 +104,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 var material2 = new Material() //
                 {
                     Id = MaterialID++,
-                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag2", 5) },
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag2", 10) },
                     Ratings = new HashSet<Rating> { new Rating(i, "reviewer" + i) },
                     Levels = new HashSet<Level> { masters },
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
@@ -163,7 +163,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             var material4_1 = new Material()
             {
                 Id = MaterialID++,
-                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag4", 5) },
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag4", 10) },
                 Ratings = new HashSet<Rating> { new Rating(6, "Reviewer") },
                 Levels = new HashSet<Level> { bachelor },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
@@ -182,7 +182,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             var material4_2 = new Material()
             {
                 Id = MaterialID++,
-                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag4", 5) },
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag4", 10) },
                 Ratings = new HashSet<Rating> { new Rating(6, "Reviewer") },
                 Levels = new HashSet<Level> { bachelor },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
@@ -205,7 +205,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             var material4_3 = new Material()
             {
                 Id = MaterialID++,
-                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag4", 5) },
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag4", 10) },
                 Ratings = new HashSet<Rating> { new Rating(6, "Reviewer") },
                 Levels = new HashSet<Level> { bachelor },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
@@ -246,7 +246,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 var material5 = new Material() //
                 {
                     Id = MaterialID++,
-                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag5", 5) },
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag5", 10) },
                     Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
                     Levels = new HashSet<Level>() { bachelor },
                     ProgrammingLanguages = Tag5PLanguages[i],
@@ -270,7 +270,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             var material6_1 = new Material()
             {
                 Id = MaterialID++,
-                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag6", 5) },
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag6", 10) },
                 Ratings = new HashSet<Rating> { new Rating(4, "Reviewer") },
                 Levels = new HashSet<Level> { bachelor },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
@@ -289,7 +289,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             var material6_2 = new Material()
             {
                 Id = MaterialID++,
-                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag6", 5) },
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag6", 10) },
                 Ratings = new HashSet<Rating> { new Rating(4, "Reviewer") },
                 Levels = new HashSet<Level> { bachelor },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
@@ -306,7 +306,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             var material6_3 = new Material()
             {
                 Id = MaterialID++,
-                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag6", 5) },
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag6", 10) },
                 Ratings = new HashSet<Rating> { new Rating(4, "Reviewer") },
                 Levels = new HashSet<Level> { bachelor },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
@@ -347,7 +347,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 var material7 = new Material() //
                 {
                     Id = MaterialID++,
-                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag5", 5) },
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag5", 10) },
                     Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
                     Levels = new HashSet<Level>() { bachelor },
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage>() { java },
@@ -371,7 +371,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 var material8 = new Material() //
                 {
                     Id = MaterialID++,
-                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag8", 5) },
+                    Tags = new HashSet<WeightedTag> { new WeightedTag("Tag8", 10) },
                     Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
                     Levels = new HashSet<Level> { masters },
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
@@ -406,7 +406,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 var material9 = new Material() //
                 {
                     Id = MaterialID++,
-                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag9", 5) },
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag9", 10) },
                     Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
                     Levels = new HashSet<Level>() { bachelor },
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage>() { java },

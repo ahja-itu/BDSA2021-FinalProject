@@ -66,6 +66,7 @@ namespace WebService.Infrastructure
 
         private string FirstLetterToUpper(string input)
         {
+            if (input.Length == 1) return input.ToUpper();
             return input[0].ToString().ToUpper() + input.Substring(1).ToLower();
         }
 
@@ -76,7 +77,7 @@ namespace WebService.Infrastructure
 
             foreach (string word in searchForm.TextField.Split(" "))
             {
-                if (tags.Select(e => e.Name).Contains(word)) foundWordsToTags.Add(tags.Where(e => e.Name == word).First());
+                if (tags.Select(e => e.Name).ContainsIgnoreCasing(word)) foundWordsToTags.Add(tags.Where(e => string.Equals(e.Name, word, StringComparison.OrdinalIgnoreCase)).First());
             }
             searchForm.Tags = foundWordsToTags.ToList();
             return searchForm;
@@ -101,7 +102,7 @@ namespace WebService.Infrastructure
         {
             if (!searchForm.Languages.Any()) return materials;
 
-            return materials.Where(m => searchForm.Languages.Select(e => e.Name).Contains(m.Language.Name)).ToList();
+            return materials.Where(m => searchForm.Languages.Select(e => e.Name).ContainsIgnoreCasing(m.Language.Name)).ToList();
 
         }
 
@@ -109,7 +110,7 @@ namespace WebService.Infrastructure
         {
             foreach (var material in _map.Keys)
             {
-                var weightSum = material.Tags.Where(materialTag => searchform.Tags.Select(searchformTag => searchformTag.Name).Contains(materialTag.Name)).ToList().Select(tag => tag.Weight).Sum();
+                var weightSum = material.Tags.Where(materialTag => searchform.Tags.Select(searchformTag => searchformTag.Name).ContainsIgnoreCasing(materialTag.Name)).ToList().Select(tag => tag.Weight).Sum();
                 _map[material] += weightSum * WeightedTagScore;
                 
             }
@@ -127,7 +128,7 @@ namespace WebService.Infrastructure
         {
             foreach (var material in _map.Keys)
             {
-                var count = material.Levels.Where(e => searchform.Levels.Select(e => e.Name).Contains(e.Name)).Count();
+                var count = material.Levels.Where(e => searchform.Levels.Select(e => e.Name).ContainsIgnoreCasing(e.Name)).Count();
                 _map[material] += count * LevelScore;
             }
         }
@@ -136,7 +137,7 @@ namespace WebService.Infrastructure
         {
             foreach (var material in _map.Keys)
             {
-                var count = material.ProgrammingLanguages.Where(e => searchform.ProgrammingLanguages.Select(e => e.Name).Contains(e.Name)).Count();
+                var count = material.ProgrammingLanguages.Where(e => searchform.ProgrammingLanguages.Select(e => e.Name).ContainsIgnoreCasing(e.Name)).Count();
                 _map[material] += count * ProgrammingLanguageScore;
             }
         }
@@ -145,7 +146,7 @@ namespace WebService.Infrastructure
         {
             foreach (var material in _map.Keys)
             {
-                var count = material.Medias.Where(e => searchform.Medias.Select(e => e.Name).Contains(e.Name)).Count();
+                var count = material.Medias.Where(e => searchform.Medias.Select(e => e.Name).Contains(e.Name, StringComparer.OrdinalIgnoreCase)).Count();
                 _map[material] += count * MediaScore;
             }
         }
@@ -158,7 +159,7 @@ namespace WebService.Infrastructure
                 var textFieldCount = searchForm.TextField.Split(" ").Count();
                 foreach (var word in material.Title.Split(" "))
                 {
-                    if (searchForm.TextField.Contains(word)) wordCount++;
+                    if (searchForm.TextField.ContainsIgnoreCasing(word)) wordCount++;
                 }
                 _map[material] += wordCount / textFieldCount * TitleScore;
             }
@@ -172,7 +173,7 @@ namespace WebService.Infrastructure
 
                 foreach (var author in material.Authors)
                 {
-                    if (searchForm.TextField.Contains(author.FirstName) || searchForm.TextField.Contains(author.SurName)) authorNameCount++;
+                    if (searchForm.TextField.ContainsIgnoreCasing(author.FirstName) || searchForm.TextField.ContainsIgnoreCasing(author.SurName)) authorNameCount++;
                 }
                 _map[material] += authorNameCount * AuthorScore;
             }
@@ -188,4 +189,13 @@ namespace WebService.Infrastructure
         }
 
     }
+
+    public static class StringExtensions
+    {
+        public static bool ContainsIgnoreCasing(this string source, string toCheck)
+        {
+            return string.Equals(source, toCheck, StringComparison.OrdinalIgnoreCase);
+        }
+    }
+    
 }
