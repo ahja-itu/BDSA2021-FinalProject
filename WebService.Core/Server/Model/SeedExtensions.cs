@@ -373,34 +373,11 @@ public static class SeedExtensions
     /// </summary>
     private enum RepoType
     {
-        /// <summary>
-        ///     The language
-        /// </summary>
         Language,
-
-        /// <summary>
-        ///     The level
-        /// </summary>
         Level,
-
-        /// <summary>
-        ///     The media
-        /// </summary>
         Media,
-
-        /// <summary>
-        ///     The programming language
-        /// </summary>
         ProgrammingLanguage,
-
-        /// <summary>
-        ///     The tag
-        /// </summary>
         Tag,
-
-        /// <summary>
-        ///     The material
-        /// </summary>
         Material
     }
 }

@@ -430,7 +430,7 @@ public class MaterialRepository : IMaterialRepository
         return allTagsExists;
     }
 
-    /// <summary>Invalids the input.</summary>
+    /// <summary>Valids the input.</summary>
     /// <param name="material">The material.</param>
     /// <returns>
     ///     <c>true</c> if input is valid, <c>false</c> otherwise.
