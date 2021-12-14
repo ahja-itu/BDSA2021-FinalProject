@@ -433,7 +433,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             {
                 Id = MaterialID++,
                 WeightedTags = new HashSet<WeightedTag> { new WeightedTag("DOTNET", 10) },
-                Ratings = new HashSet<Rating> { new Rating(5,"Reviewer") },
+                Ratings = new HashSet<Rating> { new Rating(10,"Reviewer") },
                 Levels = new HashSet<Level> { new Level(4,"School") },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { new ProgrammingLanguage(4,"Go") },
                 Medias = new HashSet<Media> { new Media(4,"Youtube") },
