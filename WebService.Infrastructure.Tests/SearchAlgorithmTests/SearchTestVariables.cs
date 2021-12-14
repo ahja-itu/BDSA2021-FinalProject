@@ -27,6 +27,8 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             var java = new ProgrammingLanguage(2, "JAVA");
             var fsharp = new ProgrammingLanguage(3, "F#");
 
+            var dockerTag = new Tag(1,"Docker");
+
             int MaterialID = 1;
 
             Tag[] tags = new Tag[13];
@@ -371,7 +373,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 var material8 = new Material() //
                 {
                     Id = MaterialID++,
-                    Tags = new HashSet<WeightedTag> { new WeightedTag("Tag8", 10) },
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag8", 10) },
                     Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
                     Levels = new HashSet<Level> { masters },
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },
@@ -448,8 +450,25 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 Tag1011Materials.Add(material1011);
             }
 
-
-
+            //material for upper lower case
+            BaseMaterial = new Material() //
+            {
+                Id = MaterialID++,
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("DOTNET", 10) },
+                Ratings = new HashSet<Rating> { new Rating(5,"Reviewer") },
+                Levels = new HashSet<Level> { new Level(4,"School") },
+                ProgrammingLanguages = new HashSet<ProgrammingLanguage> { new ProgrammingLanguage(4,"Go") },
+                Medias = new HashSet<Media> { new Media(4,"Youtube") },
+                Language = new Language(4,"Swedish"),
+                Summary = "Lorem ipsum",
+                URL = "iamaURL",
+                Content = "I am content",
+                Title = "Blazor for beginners for upper lower case material",
+                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
+                TimeStamp = System.DateTime.UtcNow
+            };    
+            
+            context.Add(BaseMaterial);
 
             context.AddRange(danish, english, spanish, bachelor, masters, phd, book, report, video, csharp, java, fsharp);
 
@@ -483,6 +502,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
         public List<Material> Tag7Materials { get; }
         public List<Material> Tag8Materials { get; }
         public List<Material> Tag1011Materials { get; }
+        public Material BaseMaterial { get; }
 
 
     }

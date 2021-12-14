@@ -630,7 +630,78 @@ namespace WebService.Infrastructure.Tests
 
 
 
+        #region UpperLower
+        [Fact]
+        public async Task Search_with_tag_lower_case_returns_material_with_tag()
+        {
+            var searchform = new SearchForm("", new List<TagDTO>() { new TagDTO(0, "dotnet") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
 
+            var response = await _searchAlgorithm.Search(searchform);
+            var materials = response.Item2;
+            var actual = materials.First().Title;
+
+            var expected = _v.BaseMaterial.Title;
+
+            Assert.Equal(expected,actual);
+        }
+
+        [Fact]
+        public async Task Search_with_level_lower_case_returns_material_with_level()
+        {
+            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>() { new LevelDTO(0,"school")}, new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+
+            var response = await _searchAlgorithm.Search(searchform);
+            var materials = response.Item2;
+            var actual = materials.First().Title;
+
+            var expected = _v.BaseMaterial.Title;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task Search_with_programmingLanguage_lower_case_returns_material_with_programmingLanguage()
+        {
+            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>() { new ProgrammingLanguageDTO(0, "go")}, new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+
+            var response = await _searchAlgorithm.Search(searchform);
+            var materials = response.Item2;
+            var actual = materials.First().Title;
+
+            var expected = _v.BaseMaterial.Title;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task Search_with_media_lower_case_returns_material_with_media()
+        {
+            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>() { new MediaDTO(0,"youTUBE")}, 0);
+
+            var response = await _searchAlgorithm.Search(searchform);
+            var materials = response.Item2;
+            var actual = materials.First().Title;
+
+            var expected = _v.BaseMaterial.Title;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task Search_with_language_lower_case_returns_language_with_media()
+        {
+            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>() { new LanguageDTO(0,"sWeDiSh")}, new List<MediaDTO>(), 0);
+
+            var response = await _searchAlgorithm.Search(searchform);
+            var materials = response.Item2;
+            var actual = materials.First().Title;
+
+            var expected = _v.BaseMaterial.Title;
+
+            Assert.Equal(expected, actual);
+        }
+
+        #endregion
 
 
 

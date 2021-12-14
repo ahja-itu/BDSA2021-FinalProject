@@ -15,7 +15,6 @@ namespace WebService.Infrastructure
         private const float AuthorScore = 300;
         private const float TimestampScore = -5;
 
-
         private ConcurrentDictionary<MaterialDTO, float> _map;
 
         public SearchAlgorithm(IMaterialRepository materialRepository, ITagRepository tagRepository)
@@ -75,7 +74,6 @@ namespace WebService.Infrastructure
                 () => SetScoreTitle(searchForm),
                 () => SetScoreWeigthedTags(searchForm)
             );
-
         }
 
         private ICollection<MaterialDTO> FilterLanguage(ICollection<MaterialDTO> materials, SearchForm searchForm)
