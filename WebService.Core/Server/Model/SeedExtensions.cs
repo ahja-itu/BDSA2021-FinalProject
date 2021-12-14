@@ -279,6 +279,6 @@ namespace WebService.Core.Server.Model
             => fields.All(field => field != null && field.Trim().Length > 0);
 
         private static string GetDataFileLocation(string filename)
-            => $"{Directory.GetCurrentDirectory()}\\..\\..\\data\\{filename}";
+            => $"{Directory.GetCurrentDirectory()}/../../data/{filename}";
     }
 }

@@ -191,8 +191,8 @@ public class ContentGenerator
 
     private string GetDataFileLocation(string filename)
         => _environment == null
-            ? $"{Directory.GetCurrentDirectory()}\\..\\..\\..\\..\\data\\{filename}" // Directory for when testing
-            : $"{Directory.GetCurrentDirectory()}\\..\\..\\data\\{filename}"; // Directory when app is running
+            ? $"{Directory.GetCurrentDirectory()}/../../../../data/{filename}" // Directory for when testing
+            : $"{Directory.GetCurrentDirectory()}/../../data/{filename}"; // Directory when app is running
 
 
 }
