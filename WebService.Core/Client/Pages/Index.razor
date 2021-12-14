@@ -246,8 +246,6 @@ else
 
 @code{
 
-    #region AdvancedSearchViewHandlers
-
     #region DisplayHandler
 
     bool _advancedView;
@@ -257,6 +255,14 @@ else
     {
         _displayIcon = !_advancedView ? "expand_less" : "expand_more";
         _advancedView = !_advancedView;
+    }
+
+    int _iDCounter;
+
+    string FilterOptionIdGenerator()
+    {
+        _iDCounter++;
+        return "FilterOption " + (_iDCounter - 1);
     }
 
     #endregion
@@ -409,16 +415,6 @@ else
     {
         if (list.Contains(val)) list.Remove(val);
         else list.Add(val);
-    }
-
-    #endregion
-
-    int _iDCounter;
-
-    string FilterOptionIdGenerator()
-    {
-        _iDCounter++;
-        return "FilterOption " + (_iDCounter - 1);
     }
 
     #endregion
