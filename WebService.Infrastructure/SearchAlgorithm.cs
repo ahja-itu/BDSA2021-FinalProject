@@ -15,13 +15,13 @@ namespace WebService.Infrastructure
         private const float AuthorScore = 300;
         private const float TimestampScore = -5;
 
-        private Dictionary<MaterialDTO, float> _map;
+        private ConcurrentDictionary<MaterialDTO, float> _map;
 
         public SearchAlgorithm(IMaterialRepository materialRepository, ITagRepository tagRepository)
         {
             _repository = materialRepository;
             _tagRepository = tagRepository;
-            _map = new Dictionary<MaterialDTO, float>();
+            _map = new ConcurrentDictionary<MaterialDTO, float>();
         }
 
         public async Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm)
@@ -65,14 +65,16 @@ namespace WebService.Infrastructure
 
         private void PrioritizeMaterials(SearchForm searchForm)
         {
-            SetScoreRating();
-            SetScoreAuthor(searchForm);
-            SetScoreLevel(searchForm);
-            SetScoreMedia(searchForm);
-            SetScoreProgrammingLanguage(searchForm);
-            SetScoreTimestamp();
-            SetScoreTitle(searchForm);
-            SetScoreWeigthedTags(searchForm);
+            Parallel.Invoke(
+                () => SetScoreRating(),
+                () => SetScoreAuthor(searchForm),
+                () => SetScoreLevel(searchForm),
+                () => SetScoreMedia(searchForm),
+                () => SetScoreProgrammingLanguage(searchForm),
+                () => SetScoreTimestamp(),
+                () => SetScoreTitle(searchForm),
+                () => SetScoreWeigthedTags(searchForm)
+            );
         }
 
         private ICollection<MaterialDTO> FilterLanguage(ICollection<MaterialDTO> materials, SearchForm searchForm)
@@ -89,15 +91,14 @@ namespace WebService.Infrastructure
             {
                 var weightSum = material.Tags.Where(materialTag => searchform.Tags.Select(searchformTag => searchformTag.Name).ContainsIgnoreCasing(materialTag.Name)).ToList().Select(tag => tag.Weight).Sum();
                 var tagCount = material.Tags.Where(materialTag => searchform.Tags.Select(searchformTag => searchformTag.Name).ContainsIgnoreCasing(materialTag.Name)).Count();
-                _map[material] += weightSum * WeightedTagScore * tagCount;
-
+                UpdateMap(material, weightSum * WeightedTagScore * tagCount);
             }
         }
         private void SetScoreRating()
         {
             foreach (MaterialDTO material in _map.Keys)
             {
-                _map[material] += material.AverageRating() * RatingScore;
+                UpdateMap(material, material.AverageRating() * RatingScore);
             }
 
         }
@@ -107,7 +108,7 @@ namespace WebService.Infrastructure
             foreach (var material in _map.Keys)
             {
                 var count = material.Levels.Where(e => searchform.Levels.Select(e => e.Name).ContainsIgnoreCasing(e.Name)).Count();
-                _map[material] += count * LevelScore;
+                UpdateMap(material, count * LevelScore);
             }
         }
 
@@ -116,7 +117,7 @@ namespace WebService.Infrastructure
             foreach (var material in _map.Keys)
             {
                 var count = material.ProgrammingLanguages.Where(e => searchform.ProgrammingLanguages.Select(e => e.Name).ContainsIgnoreCasing(e.Name)).Count();
-                _map[material] += count * ProgrammingLanguageScore;
+                UpdateMap(material, count * ProgrammingLanguageScore);
             }
         }
 
@@ -125,7 +126,7 @@ namespace WebService.Infrastructure
             foreach (var material in _map.Keys)
             {
                 var count = material.Medias.Where(e => searchform.Medias.Select(e => e.Name).ContainsIgnoreCasing(e.Name)).Count();
-                _map[material] += count * MediaScore;
+                UpdateMap(material, count * MediaScore);
             }
         }
 
@@ -139,7 +140,7 @@ namespace WebService.Infrastructure
                 {
                     if (searchForm.TextField.ContainsIgnoreCasing(word)) wordCount++;
                 }
-                _map[material] += wordCount / textFieldCount * TitleScore;
+                UpdateMap(material, wordCount / textFieldCount * TitleScore);
             }
         }
 
@@ -155,7 +156,7 @@ namespace WebService.Infrastructure
                         
                     if(searchForm.TextField.ContainsIgnoreCasing(author.SurName)) authorNameCount++;
                 }
-                _map[material] += authorNameCount * AuthorScore;
+                UpdateMap(material, authorNameCount * AuthorScore);
             }
         }
 
@@ -164,8 +165,13 @@ namespace WebService.Infrastructure
             foreach (var material in _map.Keys)
             {
                 var yearDifferece = DateTime.UtcNow.Year - material.TimeStamp.Year;
-                _map[material] += yearDifferece * TimestampScore;
+                UpdateMap(material, yearDifferece * TimestampScore);
             }
+        }
+
+        private void UpdateMap(MaterialDTO key, float addValue)
+        {
+            _map.AddOrUpdate(key, 0, (key, current) => current += addValue);
         }
 
     }
