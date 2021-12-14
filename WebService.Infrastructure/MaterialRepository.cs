@@ -1,4 +1,6 @@
-﻿namespace WebService.Infrastructure;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace WebService.Infrastructure;
 
 public class MaterialRepository : IMaterialRepository
 {
@@ -161,6 +163,7 @@ public class MaterialRepository : IMaterialRepository
         );
     }
 
+    [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
     private static MaterialDTO ConvertMaterialToMaterialDTO(Material entity)
     {
         var id = entity.Id;

@@ -81,7 +81,7 @@
     <div class="row" style="border-bottom:solid;border-color:#7765E3;padding-top: 20%">
         <div class="col d-flex justify-content-center align-item-center" style="width:100%">
             <RadzenTextBox class="btgInput" Placeholder="HelloWorld!" @bind-value="_searchInput" Style="width:100%;font-size:2em;"/>
-            <RadzenButton class="btgIconButton" Click="Search" style="padding:0px 0px;width:40px;height:40px;">
+            <RadzenButton class="btgIconButton" Click="Search" style="padding:0 0;width:40px;height:40px;">
                 <i class="rzi" style="font-size:2em;">
                     search
                 </i>
@@ -233,7 +233,7 @@ else
                         <RadzenButton Disabled="true" style="background: #fff;color: #9586E9;border-radius: 15px; font-size: 12px">@tag.Name</RadzenButton>
                     }
                 </div>
-                <div class="col-6"style="text-align: right">
+                <div class="col-6" style="text-align: right">
                     <RadzenButton class="btgIconButton" Disabled="true" Icon="star_rate" Text=@_selectedMaterial.AverageRatingToString()></RadzenButton>
                 </div>
             </div>
@@ -294,6 +294,7 @@ else
     string _languageStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
     string _mediaStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
     string _ratingStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
+
     void ChangeFilter(string filterName)
     {
         _filterSelected = true;
