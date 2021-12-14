@@ -1,6 +1,6 @@
 ﻿namespace WebService.Infrastructure;
 
-public class ProgrammingLanguageRepository : IProgrammingLanguageRespository
+public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
 {
     private readonly IContext _context;
 
@@ -82,11 +82,9 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRespository
         return Status.Updated;
     }
 
-    private bool InvalidInput(CreateProgrammingLanguageDTO programmingLanguage)
-    {
-        return programmingLanguage.Name.Length > 50 || programmingLanguage.Name.Length > 50 ||
-               string.IsNullOrEmpty(programmingLanguage.Name) || string.IsNullOrEmpty(programmingLanguage.Name) ||
-               string.IsNullOrWhiteSpace(programmingLanguage.Name) ||
-               string.IsNullOrWhiteSpace(programmingLanguage.Name);
-    }
+    private static bool InvalidInput(CreateProgrammingLanguageDTO programmingLanguage) => programmingLanguage.Name.Length is > 50 or > 50
+                                                                                          || string.IsNullOrEmpty(programmingLanguage.Name) 
+                                                                                          || string.IsNullOrEmpty(programmingLanguage.Name) 
+                                                                                          || string.IsNullOrWhiteSpace(programmingLanguage.Name) 
+                                                                                          || string.IsNullOrWhiteSpace(programmingLanguage.Name);
 }

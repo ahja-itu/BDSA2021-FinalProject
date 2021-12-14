@@ -1,23 +1,22 @@
-﻿namespace WebService.Core.Shared
+﻿namespace WebService.Core.Shared;
+
+public record CreateLevelDTO
 {
-    public record CreateLevelDTO
+    public CreateLevelDTO(string name)
     {
-        public CreateLevelDTO(string name)
-        {
-            Name = name;
-        }
-
-        [StringLength(50)]
-        public string Name { get; init; }
+        Name = name;
     }
 
-    public record LevelDTO : CreateLevelDTO
-    {
-        public LevelDTO(int id, string name) : base(name)
-        {
-            Id = id;
-        }
+    [StringLength(50)]
+    public string Name { get; init; }
+}
 
-        public int Id { get; init; }
+public record LevelDTO : CreateLevelDTO
+{
+    public LevelDTO(int id, string name) : base(name)
+    {
+        Id = id;
     }
+
+    public int Id { get; init; }
 }

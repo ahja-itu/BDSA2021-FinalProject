@@ -81,10 +81,9 @@ public class MediaRepository : IMediaRepository
         return Status.Updated;
     }
 
-    private bool InvalidInput(CreateMediaDTO media)
-    {
-        return media.Name.Length > 50 || media.Name.Length > 50 || string.IsNullOrEmpty(media.Name) ||
-               string.IsNullOrEmpty(media.Name) || string.IsNullOrWhiteSpace(media.Name) ||
-               string.IsNullOrWhiteSpace(media.Name);
-    }
+    private static bool InvalidInput(CreateMediaDTO media) => media.Name.Length is > 50 or > 50 
+                                                              || string.IsNullOrEmpty(media.Name) 
+                                                              || string.IsNullOrEmpty(media.Name) 
+                                                              || string.IsNullOrWhiteSpace(media.Name) 
+                                                              || string.IsNullOrWhiteSpace(media.Name);
 }

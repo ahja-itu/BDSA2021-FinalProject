@@ -1,5 +1,8 @@
-﻿namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
+
+[SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class LevelRepositoryTests
 {
     private readonly TestVariables _v;
@@ -44,7 +47,7 @@ public class LevelRepositoryTests
 
         var actual = _v.LevelRepository.ReadAsync().Result.Count;
 
-        var expected = 4;
+        const int expected = 4;
 
         Assert.Equal(expected, actual);
     }
@@ -125,16 +128,16 @@ public class LevelRepositoryTests
     [Fact]
     public async Task ReadAllAsync_returns_all_levels()
     {
-        var actuals = await _v.LevelRepository.ReadAsync();
+        var actual = await _v.LevelRepository.ReadAsync();
 
         var expected1 = new LevelDTO(1, "Bachelor");
         var expected2 = new LevelDTO(2, "Master");
         var expected3 = new LevelDTO(3, "PHD");
 
-        Assert.Collection(actuals,
-            actual => Assert.Equal(expected1, actual),
-            actual => Assert.Equal(expected2, actual),
-            actual => Assert.Equal(expected3, actual));
+        Assert.Collection(actual,
+            levelDTO => Assert.Equal(expected1, levelDTO),
+            levelDTO => Assert.Equal(expected2, levelDTO),
+            levelDTO => Assert.Equal(expected3, levelDTO));
     }
 
     #endregion
@@ -146,7 +149,7 @@ public class LevelRepositoryTests
     {
         var actual = await _v.LevelRepository.DeleteAsync(1);
 
-        var expected = Status.Deleted;
+        const Status expected = Status.Deleted;
 
         Assert.Equal(expected, actual);
     }
@@ -156,7 +159,7 @@ public class LevelRepositoryTests
     {
         var actual = await _v.LevelRepository.DeleteAsync(4);
 
-        var expected = Status.NotFound;
+        const Status expected = Status.NotFound;
 
         Assert.Equal(expected, actual);
     }
@@ -168,7 +171,7 @@ public class LevelRepositoryTests
 
         var actual = _v.LevelRepository.ReadAsync().Result.Count;
 
-        var expected = 2;
+        const int expected = 2;
 
         Assert.Equal(expected, actual);
     }
@@ -184,7 +187,7 @@ public class LevelRepositoryTests
 
         var actual = await _v.LevelRepository.UpdateAsync(updateLevelDTO);
 
-        var expected = Status.Updated;
+        const Status expected = Status.Updated;
 
         Assert.Equal(expected, actual);
     }
@@ -210,7 +213,7 @@ public class LevelRepositoryTests
 
         var actual = await _v.LevelRepository.UpdateAsync(updateLevelDTO);
 
-        var expected = Status.NotFound;
+        const Status expected = Status.NotFound;
 
         Assert.Equal(expected, actual);
     }
@@ -222,7 +225,7 @@ public class LevelRepositoryTests
 
         var actual = await _v.LevelRepository.UpdateAsync(updateLevelDTO);
 
-        var expected = Status.Conflict;
+        const Status expected = Status.Conflict;
 
         Assert.Equal(expected, actual);
     }
@@ -234,7 +237,7 @@ public class LevelRepositoryTests
 
         var actual = await _v.LevelRepository.UpdateAsync(level);
 
-        var expected = Status.BadRequest;
+        const Status expected = Status.BadRequest;
 
         Assert.Equal(expected, actual);
     }
@@ -246,7 +249,7 @@ public class LevelRepositoryTests
 
         var actual = await _v.LevelRepository.UpdateAsync(level);
 
-        var expected = Status.BadRequest;
+        const Status expected = Status.BadRequest;
 
         Assert.Equal(expected, actual);
     }
@@ -259,7 +262,7 @@ public class LevelRepositoryTests
 
         var actual = await _v.LevelRepository.UpdateAsync(level);
 
-        var expected = Status.BadRequest;
+        const Status expected = Status.BadRequest;
 
         Assert.Equal(expected, actual);
     }
@@ -271,7 +274,7 @@ public class LevelRepositoryTests
 
         var actual = await _v.LevelRepository.UpdateAsync(level);
 
-        var expected = Status.Updated;
+        const Status expected = Status.Updated;
 
         Assert.Equal(expected, actual);
     }

@@ -26,9 +26,9 @@ namespace WebService.Core.Server.Model
                 var context = scope.ServiceProvider.GetRequiredService<IContext>();
 
                 var languageRepository = scope.ServiceProvider.GetRequiredService<ILanguageRepository>();
-                var levelRepository = scope.ServiceProvider.GetRequiredService<ILevelRespository>();
+                var levelRepository = scope.ServiceProvider.GetRequiredService<ILevelRepository>();
                 var mediaRepository = scope.ServiceProvider.GetRequiredService<IMediaRepository>();
-                var plRepository = scope.ServiceProvider.GetRequiredService<IProgrammingLanguageRespository>();
+                var plRepository = scope.ServiceProvider.GetRequiredService<IProgrammingLanguageRepository>();
                 var tagRepository = scope.ServiceProvider.GetRequiredService<ITagRepository>();
                 var materialRepository = scope.ServiceProvider.GetRequiredService<IMaterialRepository>();
 
@@ -68,9 +68,9 @@ namespace WebService.Core.Server.Model
         {
             var tagRepo = GetRepo<ITagRepository>(repos, RepoType.TAG);
             var languageRepository = GetRepo<ILanguageRepository>(repos, RepoType.LANGUAGE);
-            var levelRepository = GetRepo<ILevelRespository>(repos, RepoType.LEVEL);
+            var levelRepository = GetRepo<ILevelRepository>(repos, RepoType.LEVEL);
             var mediaRepository = GetRepo<IMediaRepository>(repos, RepoType.MEDIA);
-            var plRepository = GetRepo<IProgrammingLanguageRespository>(repos, RepoType.PROGRAMMINGLANGUAGE);
+            var plRepository = GetRepo<IProgrammingLanguageRepository>(repos, RepoType.PROGRAMMINGLANGUAGE);
             var materialRepository = GetRepo<IMaterialRepository>(repos, RepoType.MATERIAL);
 
             var rand = new Random();
@@ -180,7 +180,7 @@ namespace WebService.Core.Server.Model
             }
         }
 
-        private static async Task SeedLevelsAsync(ILevelRespository repo)
+        private static async Task SeedLevelsAsync(ILevelRepository repo)
         {
             foreach (var fields in ReadCSV("levels.csv", 2))
             {
@@ -203,7 +203,7 @@ namespace WebService.Core.Server.Model
             }
         }
 
-        private static async Task SeedProgrmamingLanguagesAsync(IProgrammingLanguageRespository repo)
+        private static async Task SeedProgrmamingLanguagesAsync(IProgrammingLanguageRepository repo)
         {
             foreach (var fields in ReadCSV("programminglanguages.csv", 1))
             {

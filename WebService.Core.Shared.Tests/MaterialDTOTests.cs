@@ -127,7 +127,7 @@ public class MaterialDTOTests
         Assert.Equal(expected.Medias, actual.Medias);
         Assert.Equal(expected.Language, actual.Language);
         Assert.Equal(expected.Summary, actual.Summary);
-        Assert.Equal(expected.URL, actual.URL);
+        Assert.Equal(expected.Url, actual.Url);
         Assert.Equal(expected.Content, actual.Content);
         Assert.Equal(expected.Title, actual.Title);
         Assert.Equal(expected.Authors, actual.Authors);

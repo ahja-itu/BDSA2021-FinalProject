@@ -1,23 +1,22 @@
-﻿namespace WebService.Core.Shared
+﻿namespace WebService.Core.Shared;
+
+public record CreateLanguageDTO
 {
-    public record CreateLanguageDTO
+    public CreateLanguageDTO(string name)
     {
-        public CreateLanguageDTO(string name)
-        {
-            Name = name;
-        }
-
-        [StringLength(50)]
-        public string Name { get; init; }
+        Name = name;
     }
 
-    public record LanguageDTO : CreateLanguageDTO
-    {
-        public LanguageDTO(int id, string name) : base(name)
-        {
-            Id = id;
-        }
+    [StringLength(50)]
+    public string Name { get; init; }
+}
 
-        public int Id { get; init; }
+public record LanguageDTO : CreateLanguageDTO
+{
+    public LanguageDTO(int id, string name) : base(name)
+    {
+        Id = id;
     }
+
+    public int Id { get; init; }
 }

@@ -6,9 +6,9 @@
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class LevelController : ControllerBase
 {
-    private readonly ILevelRespository _levelRepository;
+    private readonly ILevelRepository _levelRepository;
 
-    public LevelController(ILevelRespository levelRepository)
+    public LevelController(ILevelRepository levelRepository)
     {
         _levelRepository = levelRepository;
     }

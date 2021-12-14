@@ -48,13 +48,13 @@ internal class TestVariables
         var tag2 = new Tag(2, "RAD");
         var tag3 = new Tag(3, "API");
 
-        var summary1 = "I am material 1";
-        var summary2 = "I am material 2";
-        var summary3 = "I am material 3";
+        const string summary1 = "I am material 1";
+        const string summary2 = "I am material 2";
+        const string summary3 = "I am material 3";
 
-        var url1 = "url1.com";
-        var url2 = "url2.com";
-        var url3 = "url3.com";
+        const string url1 = "url1.com";
+        const string url2 = "url2.com";
+        const string url3 = "url3.com";
 
         var author1 = new Author("Rasmus", "Kristensen");
         var author11 = new Author("Rasmus", "Kristensen");
@@ -65,9 +65,9 @@ internal class TestVariables
 
         var author3 = new Author("Thor", "Lind");
 
-        var content1 = "Content 1";
-        var content2 = "Content 2";
-        var content3 = "Content 3";
+        const string content1 = "Content 1";
+        const string content2 = "Content 2";
+        const string content3 = "Content 3";
 
         var material1 = new Material(
             new List<WeightedTag> {weightedTag11},

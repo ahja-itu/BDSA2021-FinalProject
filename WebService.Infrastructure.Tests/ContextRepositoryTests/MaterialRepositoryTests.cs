@@ -1,5 +1,9 @@
-﻿namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
+namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
+
+[SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class MaterialRepositoryTests
 {
     // Create material test variables
@@ -30,7 +34,7 @@ public class MaterialRepositoryTests
     private readonly CreateMaterialDTO _createMaterialDTOTooLongLevelName;
     private readonly CreateMaterialDTO _createMaterialDTOTooLongMediaName;
     private readonly CreateMaterialDTO _createMaterialDTOTooLongProgrammingLanguageName;
-    private readonly CreateMaterialDTO _createMaterialDTOToolongRatingName;
+    private readonly CreateMaterialDTO _createMaterialDTOTooLongRatingName;
 
     private readonly CreateMaterialDTO _createMaterialDTOTooLongSummary;
     private readonly CreateMaterialDTO _createMaterialDTOTooLongTagName;
@@ -50,8 +54,8 @@ public class MaterialRepositoryTests
     {
         _v = new TestVariables(); // A mock repository
 
-        var createWeightedTagDtos = new List<CreateWeightedTagDTO> {new("API", 10)};
-        var tags = createWeightedTagDtos;
+        var createWeightedTagDTOs = new List<CreateWeightedTagDTO> {new("API", 10)};
+        var tags = createWeightedTagDTOs;
         var ratings = new List<CreateRatingDTO> {new(5, "Me")};
         var levels = new List<CreateLevelDTO> {new("PHD")};
         var programmingLanguages = new List<CreateProgrammingLanguageDTO> {new("C#")};
@@ -104,7 +108,7 @@ public class MaterialRepositoryTests
             content, title, authors, dateTime);
         _createMaterialDTODuplicateTag = material;
 
-        tags = createWeightedTagDtos; // tags reset
+        tags = createWeightedTagDTOs; // tags reset
 
         // medias testing
         medias = new List<CreateMediaDTO> {new("Book"), new("Book")};
@@ -133,14 +137,14 @@ public class MaterialRepositoryTests
         ratings = new List<CreateRatingDTO> {new(8, "MyssenbergMyssenbergMyssenbergMyssenbergMyssenbergMyssenberg")};
         material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url,
             content, title, authors, dateTime);
-        _createMaterialDTOToolongRatingName = material;
+        _createMaterialDTOTooLongRatingName = material;
 
         ratings = new List<CreateRatingDTO> {new(10, "Me"), new(7, "Me")};
         material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url,
             content, title, authors, dateTime);
         _createMaterialDTOMultipleRatingsFromSameUser = material;
 
-        ratings = new List<CreateRatingDTO> {new(5, "Me")}; // ratings resest
+        ratings = new List<CreateRatingDTO> {new(5, "Me")}; // ratings reset
 
         // authors testing
         authors = new List<CreateAuthorDTO>
@@ -239,7 +243,7 @@ public class MaterialRepositoryTests
         _updateMaterialDTO = updateMaterial;
 
         title = "Title";
-        tags = createWeightedTagDtos;
+        tags = createWeightedTagDTOs;
         ratings = new List<CreateRatingDTO> {new(5, "Me")};
         levels = new List<CreateLevelDTO> {new("PHD")};
         programmingLanguages = new List<CreateProgrammingLanguageDTO> {new("C#")};
@@ -282,7 +286,7 @@ public class MaterialRepositoryTests
     }
 
     [Fact]
-    public async Task CreateAsync_material_returns_conflict_with_exisiting_id()
+    public async Task CreateAsync_material_returns_conflict_with_existing_id()
     {
         var (status, materialDTO) = await _v.MaterialRepository.CreateAsync(_createMaterialDTOConflict);
 
@@ -410,7 +414,7 @@ public class MaterialRepositoryTests
     [Fact]
     public async Task CreateAsync_material_returns_bad_request_on_too_long_rating_name()
     {
-        var (status, materialDTO) = await _v.MaterialRepository.CreateAsync(_createMaterialDTOToolongRatingName);
+        var (status, materialDTO) = await _v.MaterialRepository.CreateAsync(_createMaterialDTOTooLongRatingName);
 
         var actual = (status, materialDTO.Id);
 
@@ -606,7 +610,7 @@ public class MaterialRepositoryTests
     }
 
     [Fact]
-    public async Task ReadAsync_material_by_id_returns_empty_material_check_titel_and_status_notFound()
+    public async Task ReadAsync_material_by_id_returns_empty_material_check_title_and_status_notFound()
     {
         var (status, materialDTO) = await _v.MaterialRepository.ReadAsync(4);
 
@@ -631,9 +635,9 @@ public class MaterialRepositoryTests
 
         Assert.Equal(expectedStatus, actualStatus);
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, (actual.Name, actual.Weight)),
-            actual => Assert.Equal(expected2, (actual.Name, actual.Weight)),
-            actual => Assert.Equal(expected3, (actual.Name, actual.Weight)));
+            createWeightedTagDTO => Assert.Equal(expected1, (createWeightedTagDTO.Name, createWeightedTagDTO.Weight)),
+            createWeightedTagDTO => Assert.Equal(expected2, (createWeightedTagDTO.Name, createWeightedTagDTO.Weight)),
+            createWeightedTagDTO => Assert.Equal(expected3, (createWeightedTagDTO.Name, createWeightedTagDTO.Weight)));
     }
 
     [Fact]
@@ -650,9 +654,9 @@ public class MaterialRepositoryTests
 
         Assert.Equal(expectedStatus, actualStatus);
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, (actual.Value, actual.Reviewer)),
-            actual => Assert.Equal(expected2, (actual.Value, actual.Reviewer)),
-            actual => Assert.Equal(expected3, (actual.Value, actual.Reviewer)));
+            createRatingDTO => Assert.Equal(expected1, (createRatingDTO.Value, createRatingDTO.Reviewer)),
+            createRatingDTO => Assert.Equal(expected2, (createRatingDTO.Value, createRatingDTO.Reviewer)),
+            createRatingDTO => Assert.Equal(expected3, (createRatingDTO.Value, createRatingDTO.Reviewer)));
     }
 
     [Fact]
@@ -669,9 +673,9 @@ public class MaterialRepositoryTests
 
         Assert.Equal(expectedStatus, actualStatus);
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual.Name),
-            actual => Assert.Equal(expected2, actual.Name),
-            actual => Assert.Equal(expected3, actual.Name));
+            createLevelDTO => Assert.Equal(expected1, createLevelDTO.Name),
+            createLevelDTO => Assert.Equal(expected2, createLevelDTO.Name),
+            createLevelDTO => Assert.Equal(expected3, createLevelDTO.Name));
     }
 
     [Fact]
@@ -686,7 +690,7 @@ public class MaterialRepositoryTests
 
         Assert.Equal(expectedStatus, actualStatus);
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual.Name));
+            createProgrammingLanguageDTO => Assert.Equal(expected1, createProgrammingLanguageDTO.Name));
     }
 
     [Fact]
@@ -701,7 +705,7 @@ public class MaterialRepositoryTests
 
         Assert.Equal(expectedStatus, actualStatus);
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual.Name));
+            createMediaDTO => Assert.Equal(expected1, createMediaDTO.Name));
     }
 
     [Fact]
@@ -711,16 +715,16 @@ public class MaterialRepositoryTests
 
         var actual = materialDTO.Authors;
 
-        var expectedStatus = Status.Found;
+        const Status expectedStatus = Status.Found;
         var expected1 = ("Thor", "Lind");
         var expected2 = ("Alex", "Su");
         var expected3 = ("Rasmus", "Kristensen");
 
         Assert.Equal(expectedStatus, actualStatus);
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, (actual.FirstName, actual.SurName)),
-            actual => Assert.Equal(expected2, (actual.FirstName, actual.SurName)),
-            actual => Assert.Equal(expected3, (actual.FirstName, actual.SurName)));
+            createAuthorDTO => Assert.Equal(expected1, (createAuthorDTO.FirstName, createAuthorDTO.SurName)),
+            createAuthorDTO => Assert.Equal(expected2, (createAuthorDTO.FirstName, createAuthorDTO.SurName)),
+            createAuthorDTO => Assert.Equal(expected3, (createAuthorDTO.FirstName, createAuthorDTO.SurName)));
     }
 
     [Fact]
@@ -752,7 +756,7 @@ public class MaterialRepositoryTests
     {
         var (status, materialDTO) = await _v.MaterialRepository.ReadAsync(3);
 
-        var actual = (status, materialDTO.URL);
+        var actual = (status, URL: materialDTO.Url);
 
         var expected = (Status.Found, "url3.com");
 
@@ -775,16 +779,16 @@ public class MaterialRepositoryTests
     public async Task ReadAllAsync_returns_all_material_check_titles()
     {
         var response = await _v.MaterialRepository.ReadAsync();
-        var actual = response.Select(e => e.Title);
+        var materialNames = response.Select(e => e.Title);
 
         const string expected1 = "Material 1";
         const string expected2 = "Material 2";
         const string expected3 = "Material 3";
 
-        Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual),
-            actual => Assert.Equal(expected2, actual),
-            actual => Assert.Equal(expected3, actual));
+        Assert.Collection(materialNames,
+            materialName => Assert.Equal(expected1, materialName),
+            materialName => Assert.Equal(expected2, materialName),
+            materialName => Assert.Equal(expected3, materialName));
     }
 
     [Fact]
@@ -798,9 +802,9 @@ public class MaterialRepositoryTests
         var expected3 = new List<CreateWeightedTagDTO> {new("API", 90), new("RAD", 50), new("SOLID", 10)};
 
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual),
-            actual => Assert.Equal(expected2, actual),
-            actual => Assert.Equal(expected3, actual));
+            createWeightedTagDTOs => Assert.Equal(expected1, createWeightedTagDTOs),
+            createWeightedTagDTOs => Assert.Equal(expected2, createWeightedTagDTOs),
+            createWeightedTagDTOs => Assert.Equal(expected3, createWeightedTagDTOs));
     }
 
     [Fact]
@@ -813,36 +817,32 @@ public class MaterialRepositoryTests
         var expected2 = new List<CreateRatingDTO> {new(2, "Rasmus"), new(5, "Kim")};
         var expected3 = new List<CreateRatingDTO> {new(2, "Rasmus"), new(5, "Kim"), new(9, "Poul")};
 
-        var expectedCounter1 = 0;
-        var expectedCounter2 = 0;
-        var expectedCounter3 = 0;
-
-        foreach (var expectedCreateRating in expected1)
-        foreach (var actualRatingDTO1 in actual.ElementAt(0).Ratings)
-            if (
-                expectedCreateRating.Value == actualRatingDTO1.Value &&
-                expectedCreateRating.Reviewer == actualRatingDTO1.Reviewer &&
-                expectedCreateRating.TimeStamp.ToString() == actualRatingDTO1.TimeStamp.ToString()
+        var expectedCounter1 = expected1.Sum(
+            expectedCreateRating => actual.ElementAt(0).Ratings.Count(
+                actualRatingDTO1 => 
+                    expectedCreateRating.Value == actualRatingDTO1.Value 
+                    && expectedCreateRating.Reviewer == actualRatingDTO1.Reviewer 
+                    && expectedCreateRating.TimeStamp.ToString(CultureInfo.CurrentCulture) == actualRatingDTO1.TimeStamp.ToString(CultureInfo.CurrentCulture)
             )
-                expectedCounter1++;
+        );
 
-        foreach (var expectedCreateRating in expected2)
-        foreach (var actualRatingDTO1 in actual.ElementAt(1).Ratings)
-            if (
-                expectedCreateRating.Value == actualRatingDTO1.Value &&
-                expectedCreateRating.Reviewer == actualRatingDTO1.Reviewer &&
-                expectedCreateRating.TimeStamp.ToString() == actualRatingDTO1.TimeStamp.ToString()
+        var expectedCounter2 = expected2.Sum(
+            expectedCreateRating => actual.ElementAt(1).Ratings.Count(
+                actualRatingDTO1 => 
+                    expectedCreateRating.Value == actualRatingDTO1.Value 
+                    && expectedCreateRating.Reviewer == actualRatingDTO1.Reviewer 
+                    && expectedCreateRating.TimeStamp.ToString(CultureInfo.CurrentCulture) == actualRatingDTO1.TimeStamp.ToString(CultureInfo.CurrentCulture)
             )
-                expectedCounter2++;
+        );
 
-        foreach (var expectedCreateRating in expected3)
-        foreach (var actualRatingDTO1 in actual.ElementAt(2).Ratings)
-            if (
-                expectedCreateRating.Value == actualRatingDTO1.Value &&
-                expectedCreateRating.Reviewer == actualRatingDTO1.Reviewer &&
-                expectedCreateRating.TimeStamp.ToString() == actualRatingDTO1.TimeStamp.ToString()
+        var expectedCounter3 = expected3.Sum(
+            expectedCreateRating => actual.ElementAt(2).Ratings.Count(
+                actualRatingDTO1 => 
+                    expectedCreateRating.Value == actualRatingDTO1.Value 
+                    && expectedCreateRating.Reviewer == actualRatingDTO1.Reviewer 
+                    && expectedCreateRating.TimeStamp.ToString(CultureInfo.CurrentCulture) == actualRatingDTO1.TimeStamp.ToString(CultureInfo.CurrentCulture)
             )
-                expectedCounter3++;
+        );
 
         Assert.Equal(1, expectedCounter1);
         Assert.Equal(2, expectedCounter2);
@@ -860,9 +860,9 @@ public class MaterialRepositoryTests
         var expected3 = new List<CreateLevelDTO> {new("PHD"), new("Master"), new("Bachelor")};
 
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual),
-            actual => Assert.Equal(expected2, actual),
-            actual => Assert.Equal(expected3, actual));
+            createLevelDTOs => Assert.Equal(expected1, createLevelDTOs),
+            createLevelDTOs => Assert.Equal(expected2, createLevelDTOs),
+            createLevelDTOs => Assert.Equal(expected3, createLevelDTOs));
     }
 
     [Fact]
@@ -876,9 +876,9 @@ public class MaterialRepositoryTests
         var expected3 = new List<CreateAuthorDTO> {new("Thor", "Lind"), new("Alex", "Su"), new("Rasmus", "Kristensen")};
 
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual),
-            actual => Assert.Equal(expected2, actual),
-            actual => Assert.Equal(expected3, actual));
+            createAuthorDTOs => Assert.Equal(expected1, createAuthorDTOs),
+            createAuthorDTOs => Assert.Equal(expected2, createAuthorDTOs),
+            createAuthorDTOs => Assert.Equal(expected3, createAuthorDTOs));
     }
 
     [Fact]
@@ -892,9 +892,9 @@ public class MaterialRepositoryTests
         var expected3 = new List<CreateProgrammingLanguageDTO> {new("C++")};
 
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual),
-            actual => Assert.Equal(expected2, actual),
-            actual => Assert.Equal(expected3, actual));
+            createProgrammingLanguageDTOs => Assert.Equal(expected1, createProgrammingLanguageDTOs),
+            createProgrammingLanguageDTOs => Assert.Equal(expected2, createProgrammingLanguageDTOs),
+            createProgrammingLanguageDTOs => Assert.Equal(expected3, createProgrammingLanguageDTOs));
     }
 
     [Fact]
@@ -908,9 +908,9 @@ public class MaterialRepositoryTests
         var expected3 = new List<CreateMediaDTO> {new("Video")};
 
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual),
-            actual => Assert.Equal(expected2, actual),
-            actual => Assert.Equal(expected3, actual));
+            createMediaDTOs => Assert.Equal(expected1, createMediaDTOs),
+            createMediaDTOs => Assert.Equal(expected2, createMediaDTOs),
+            createMediaDTOs => Assert.Equal(expected3, createMediaDTOs));
     }
 
     [Fact]
@@ -924,61 +924,61 @@ public class MaterialRepositoryTests
         var expected3 = new CreateLanguageDTO("Swedish");
 
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual),
-            actual => Assert.Equal(expected2, actual),
-            actual => Assert.Equal(expected3, actual));
+            createLanguageDTO => Assert.Equal(expected1, createLanguageDTO),
+            createLanguageDTO => Assert.Equal(expected2, createLanguageDTO),
+            createLanguageDTO => Assert.Equal(expected3, createLanguageDTO));
     }
 
     [Fact]
     public async Task ReadAllAsync_returns_all_material_check_summary()
     {
         var response = await _v.MaterialRepository.ReadAsync();
-        var actual = response.Select(e => e.Summary);
+        var materialSummaries = response.Select(e => e.Summary);
 
         const string expected1 = "I am material 1";
         const string expected2 = "I am material 2";
         const string expected3 = "I am material 3";
 
-        Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual),
-            actual => Assert.Equal(expected2, actual),
-            actual => Assert.Equal(expected3, actual));
+        Assert.Collection(materialSummaries,
+            summary => Assert.Equal(expected1, summary),
+            summary => Assert.Equal(expected2, summary),
+            summary => Assert.Equal(expected3, summary));
     }
 
     [Fact]
     public async Task ReadAllAsync_returns_all_material_check_url()
     {
         var response = await _v.MaterialRepository.ReadAsync();
-        var actual = response.Select(e => e.URL);
+        var materialUrl = response.Select(e => e.Url);
 
         const string expected1 = "url1.com";
         const string expected2 = "url2.com";
         const string expected3 = "url3.com";
 
-        Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual),
-            actual => Assert.Equal(expected2, actual),
-            actual => Assert.Equal(expected3, actual));
+        Assert.Collection(materialUrl,
+            url => Assert.Equal(expected1, url),
+            url => Assert.Equal(expected2, url),
+            url => Assert.Equal(expected3, url));
     }
 
     [Fact]
     public async Task ReadAllAsync_returns_all_material_check_content()
     {
         var response = await _v.MaterialRepository.ReadAsync();
-        var actual = response.Select(e => e.Content);
+        var materialContent = response.Select(e => e.Content);
 
         const string expected1 = "Content 1";
         const string expected2 = "Content 2";
         const string expected3 = "Content 3";
 
-        Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual),
-            actual => Assert.Equal(expected2, actual),
-            actual => Assert.Equal(expected3, actual));
+        Assert.Collection(materialContent,
+            content => Assert.Equal(expected1, content),
+            content => Assert.Equal(expected2, content),
+            content => Assert.Equal(expected3, content));
     }
 
     [Fact]
-    public async Task ReadAsync_given_search_form_input_with_rating_above_avergage_of_10_should_return_material()
+    public async Task ReadAsync_given_search_form_input_with_rating_above_average_of_10_should_return_material()
     {
         var input = new SearchForm("",
             Array.Empty<TagDTO>(),
@@ -1009,7 +1009,7 @@ public class MaterialRepositoryTests
         var actualCount = _v.Context.Materials.Select(m => m).Count();
 
         Assert.Equal(Status.Found, status);
-        Assert.Equal(actualCount, response.Count());
+        Assert.Equal(actualCount, response.Count);
     }
 
     [Fact]
@@ -1028,7 +1028,7 @@ public class MaterialRepositoryTests
         var (status, response) = await _v.MaterialRepository.ReadAsync(input);
 
         Assert.Equal(Status.Found, status);
-        Assert.Equal(2, response.Count());
+        Assert.Equal(2, response.Count);
     }
 
     [Fact]
@@ -1138,8 +1138,8 @@ public class MaterialRepositoryTests
         var expected2 = ("RAD", 50);
 
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, (actual.Name, actual.Weight)),
-            actual => Assert.Equal(expected2, (actual.Name, actual.Weight)));
+            createWeightedTagDTO => Assert.Equal(expected1, (createWeightedTagDTO.Name, createWeightedTagDTO.Weight)),
+            createWeightedTagDTO => Assert.Equal(expected2, (createWeightedTagDTO.Name, createWeightedTagDTO.Weight)));
     }
 
     [Fact]
@@ -1153,8 +1153,8 @@ public class MaterialRepositoryTests
         var expected2 = (9, "Poul");
 
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, (actual.Value, actual.Reviewer)),
-            actual => Assert.Equal(expected2, (actual.Value, actual.Reviewer)));
+            createRatingDTO => Assert.Equal(expected1, (createRatingDTO.Value, createRatingDTO.Reviewer)),
+            createRatingDTO => Assert.Equal(expected2, (createRatingDTO.Value, createRatingDTO.Reviewer)));
     }
 
     [Fact]
@@ -1168,8 +1168,8 @@ public class MaterialRepositoryTests
         const string expected2 = "PHD";
 
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual.Name),
-            actual => Assert.Equal(expected2, actual.Name));
+            createLevelDTO => Assert.Equal(expected1, createLevelDTO.Name),
+            createLevelDTO => Assert.Equal(expected2, createLevelDTO.Name));
     }
 
     [Fact]
@@ -1183,8 +1183,8 @@ public class MaterialRepositoryTests
         const string expected2 = "F#";
 
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual.Name),
-            actual => Assert.Equal(expected2, actual.Name));
+            createProgrammingLanguageDTO => Assert.Equal(expected1, createProgrammingLanguageDTO.Name),
+            createProgrammingLanguageDTO => Assert.Equal(expected2, createProgrammingLanguageDTO.Name));
     }
 
     [Fact]
@@ -1197,7 +1197,7 @@ public class MaterialRepositoryTests
         const string expected1 = "Video";
 
         Assert.Collection(actual,
-            actual => Assert.Equal(expected1, actual.Name));
+            createMediaDTO => Assert.Equal(expected1, createMediaDTO.Name));
     }
 
     [Fact]
@@ -1241,7 +1241,7 @@ public class MaterialRepositoryTests
     {
         await _v.MaterialRepository.UpdateAsync(_updateMaterialDTO);
 
-        var actual = _v.MaterialRepository.ReadAsync(_updateMaterialDTO.Id).Result.Item2.URL;
+        var actual = _v.MaterialRepository.ReadAsync(_updateMaterialDTO.Id).Result.Item2.Url;
 
         const string expected = "anotherUrl.com";
 
@@ -1377,13 +1377,13 @@ public class MaterialRepositoryTests
     }
 
     [Fact]
-    public async Task MayContainLanguage_given_material_with_language_volapyk_should_not_find_material()
+    public async Task MayContainLanguage_given_material_with_language_volapük_should_not_find_material()
     {
         var input = new SearchForm("",
             Array.Empty<TagDTO>(),
             Array.Empty<LevelDTO>(),
             Array.Empty<ProgrammingLanguageDTO>(),
-            new LanguageDTO[] {new(1, "Volapyk")},
+            new LanguageDTO[] {new(1, "Volapük")},
             Array.Empty<MediaDTO>(),
             1);
 
@@ -1510,7 +1510,7 @@ public class MaterialRepositoryTests
     }
 
     [Fact]
-    public async Task MayContainLevel_search_with_no_level_returns_all_matrials()
+    public async Task MayContainLevel_search_with_no_level_returns_all_materials()
     {
         var input = new SearchForm("",
             Array.Empty<TagDTO>(),
@@ -1529,7 +1529,7 @@ public class MaterialRepositoryTests
     }
 
     [Fact]
-    public async Task MayContainLevel_search_with_level_phd_returns_1_matrials()
+    public async Task MayContainLevel_search_with_level_phd_returns_1_materials()
     {
         var input = new SearchForm("",
             Array.Empty<TagDTO>(),

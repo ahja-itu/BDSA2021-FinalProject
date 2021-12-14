@@ -68,7 +68,7 @@ public class MaterialRepository : IMaterialRepository
     public async Task<IReadOnlyCollection<MaterialDTO>> ReadAsync()
     {
         var materials = await ReadAllMaterials();
-        return materials.Select(m => ConvertMaterialToMaterialDTO(m)).ToList();
+        return materials.Select(ConvertMaterialToMaterialDTO).ToList();
     }
 
     public async Task<(Status, IReadOnlyCollection<MaterialDTO>)> ReadAsync(SearchForm searchInput)
@@ -153,7 +153,7 @@ public class MaterialRepository : IMaterialRepository
             createMaterialDTO.Medias,
             createMaterialDTO.Language,
             createMaterialDTO.Summary,
-            createMaterialDTO.URL,
+            createMaterialDTO.Url,
             createMaterialDTO.Content,
             createMaterialDTO.Title,
             createMaterialDTO.Authors,
@@ -174,7 +174,7 @@ public class MaterialRepository : IMaterialRepository
             e == null ? new CreateProgrammingLanguageDTO("") : new CreateProgrammingLanguageDTO(e.Name)).ToList();
         var medias = entity.Medias.Select(e => e == null ? new CreateMediaDTO("") : new CreateMediaDTO(e.Name))
             .ToList();
-        var lang = new CreateLanguageDTO(entity.Language.Name ?? "");
+        var lang = new CreateLanguageDTO(entity.Language.Name);
         var summary = entity.Summary;
         var url = entity.URL;
         var content = entity.Content;
@@ -211,7 +211,7 @@ public class MaterialRepository : IMaterialRepository
             await ReadMedias(createMaterialDTO.Medias),
             await _context.Languages.Where(e => e.Name == createMaterialDTO.Language.Name).SingleAsync(),
             createMaterialDTO.Summary,
-            createMaterialDTO.URL,
+            createMaterialDTO.Url,
             createMaterialDTO.Content,
             createMaterialDTO.Title,
             createMaterialDTO.Authors.Select(e => new Author(e.FirstName, e.SurName)).ToList(),
@@ -220,7 +220,7 @@ public class MaterialRepository : IMaterialRepository
     }
 
 
-    public async Task<IList<Material>> ReadAllMaterials()
+    private async Task<IList<Material>> ReadAllMaterials()
     {
         return await _context.Materials
             .Include(m => m.Language)
@@ -230,10 +230,7 @@ public class MaterialRepository : IMaterialRepository
             .ToListAsync();
     }
 
-    private double GetAverage(Material material)
-    {
-        return material.Ratings.Count != 0 ? material.Ratings.Average(rating => rating.Value) : 10;
-    }
+    private static double GetAverage(Material material) => material.Ratings.Count != 0 ? material.Ratings.Average(rating => rating.Value) : 10;
 
     public static Func<Material, bool> MayContainLevel(SearchForm searchInput)
     {
@@ -253,7 +250,7 @@ public class MaterialRepository : IMaterialRepository
     {
         return material => !searchInput.Medias.Any() ||
                            material.Medias.Any(media =>
-                               searchInput.Medias.Any(mediadto => mediadto.Name == media.Name));
+                               searchInput.Medias.Any(mediaDTO => mediaDTO.Name == media.Name));
     }
 
 
@@ -267,8 +264,8 @@ public class MaterialRepository : IMaterialRepository
     {
         return material => !searchInput.ProgrammingLanguages.Any() || material.ProgrammingLanguages
             .Select(pl => pl.Name)
-            .Any(pl => searchInput.ProgrammingLanguages.Select(sipl => sipl.Name)
-                .Any(sipl => pl == sipl));
+            .Any(pl => searchInput.ProgrammingLanguages.Select(searchInputProgrammingLanguageDTO => searchInputProgrammingLanguageDTO.Name)
+                .Any(searchInputProgrammingLanguageDTO => pl == searchInputProgrammingLanguageDTO));
     }
 
     private static MaterialDTO CreateEmptyMaterialDTO()
@@ -279,10 +276,10 @@ public class MaterialRepository : IMaterialRepository
         var programmingLanguages = new List<CreateProgrammingLanguageDTO>();
         var medias = new List<CreateMediaDTO>();
         var language = new CreateLanguageDTO("");
-        var summary = "";
-        var url = "";
-        var content = "";
-        var title = "";
+        const string summary = "";
+        const string url = "";
+        const string content = "";
+        const string title = "";
         var authors = new List<CreateAuthorDTO>();
         var datetime = DateTime.UtcNow;
 
@@ -310,14 +307,14 @@ public class MaterialRepository : IMaterialRepository
     private async Task<ICollection<ProgrammingLanguage>> ReadProgrammingLanguages(
         ICollection<CreateProgrammingLanguageDTO> programmingLanguageDTOs)
     {
-        var ProgrammingLanguageDTONames = programmingLanguageDTOs.Select(e => e.Name).ToHashSet();
+        var programmingLanguageDTONames = programmingLanguageDTOs.Select(e => e.Name).ToHashSet();
         var programmingLanguages = await _context.ProgrammingLanguages
-            .Where(e => ProgrammingLanguageDTONames.Contains(e.Name)).ToListAsync();
+            .Where(e => programmingLanguageDTONames.Contains(e.Name)).ToListAsync();
         if (programmingLanguages.Count != programmingLanguageDTOs.Count) throw new Exception("Bad request");
         return programmingLanguages;
     }
 
-    private async Task<bool> ValidTags(ICollection<CreateWeightedTagDTO> tags)
+    private async Task<bool> ValidTags(IEnumerable<CreateWeightedTagDTO> tags)
     {
         var existingTags = await (from t in _context.Tags
             select new TagDTO(t.Id, t.Name)).ToListAsync();
@@ -332,11 +329,13 @@ public class MaterialRepository : IMaterialRepository
         return allTagsExists;
     }
 
-    private bool InvalidInput(CreateMaterialDTO material)
+    private static bool InvalidInput(CreateMaterialDTO material)
     {
-        var stringList = new List<string>();
-        stringList.Add(material.Title);
-        stringList.Add(material.Language.Name);
+        var stringList = new List<string>
+        {
+            material.Title,
+            material.Language.Name
+        };
         stringList.AddRange(material.Medias.Select(e => e.Name).ToList());
         stringList.AddRange(material.Authors.Select(e => e.FirstName).ToList());
         stringList.AddRange(material.Authors.Select(e => e.SurName).ToList());

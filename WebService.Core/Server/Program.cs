@@ -19,6 +19,7 @@ builder.Services.AddSwaggerGen(c =>
 var configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddUserSecrets<Program>()
+    // ReSharper disable once StringLiteralTypo
     .AddJsonFile("appsettings.json")
     .Build();
 
@@ -26,9 +27,9 @@ var connectionString = configuration.GetConnectionString("btg");
 builder.Services.AddDbContext<Context>(options => options.UseSqlServer(connectionString));
 builder.Services.AddScoped<IContext, Context>();
 builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
-builder.Services.AddScoped<ILevelRespository, LevelRepository>();
+builder.Services.AddScoped<ILevelRepository, LevelRepository>();
 builder.Services.AddScoped<IMediaRepository, MediaRepository>();
-builder.Services.AddScoped<IProgrammingLanguageRespository, ProgrammingLanguageRepository>();
+builder.Services.AddScoped<IProgrammingLanguageRepository, ProgrammingLanguageRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 builder.Services.AddScoped<ISearch, SearchAlgorithm>();

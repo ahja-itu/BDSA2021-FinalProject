@@ -1,5 +1,8 @@
-﻿namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
+
+[SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class LanguageRepositoryTests
 {
     private readonly TestVariables _v;
@@ -125,16 +128,16 @@ public class LanguageRepositoryTests
     [Fact]
     public async Task ReadAllAsync_returns_all_languages()
     {
-        var actuals = await _v.LanguageRepository.ReadAsync();
+        var actual = await _v.LanguageRepository.ReadAsync();
 
         var expected1 = new LanguageDTO(1, "Danish");
         var expected2 = new LanguageDTO(2, "English");
         var expected3 = new LanguageDTO(3, "Swedish");
 
-        Assert.Collection(actuals,
-            actual => Assert.Equal(expected1, actual),
-            actual => Assert.Equal(expected2, actual),
-            actual => Assert.Equal(expected3, actual));
+        Assert.Collection(actual,
+            languageDTO => Assert.Equal(expected1, languageDTO),
+            languageDTO => Assert.Equal(expected2, languageDTO),
+            languageDTO => Assert.Equal(expected3, languageDTO));
     }
 
     #endregion
@@ -146,7 +149,7 @@ public class LanguageRepositoryTests
     {
         var actual = await _v.LanguageRepository.DeleteAsync(1);
 
-        var expected = Status.Deleted;
+        const Status expected = Status.Deleted;
 
         Assert.Equal(expected, actual);
     }
@@ -156,7 +159,7 @@ public class LanguageRepositoryTests
     {
         var actual = await _v.LanguageRepository.DeleteAsync(4);
 
-        var expected = Status.NotFound;
+        const Status expected = Status.NotFound;
 
         Assert.Equal(expected, actual);
     }
@@ -168,7 +171,7 @@ public class LanguageRepositoryTests
 
         var actual = _v.LanguageRepository.ReadAsync().Result.Count;
 
-        var expected = 2;
+        const int expected = 2;
 
         Assert.Equal(expected, actual);
     }
@@ -184,7 +187,7 @@ public class LanguageRepositoryTests
 
         var actual = await _v.LanguageRepository.UpdateAsync(updateLanguageDTO);
 
-        var expected = Status.Updated;
+        const Status expected = Status.Updated;
 
         Assert.Equal(expected, actual);
     }
@@ -210,7 +213,7 @@ public class LanguageRepositoryTests
 
         var actual = await _v.LanguageRepository.UpdateAsync(updateLanguageDTO);
 
-        var expected = Status.NotFound;
+        const Status expected = Status.NotFound;
 
         Assert.Equal(expected, actual);
     }
@@ -222,7 +225,7 @@ public class LanguageRepositoryTests
 
         var actual = await _v.LanguageRepository.UpdateAsync(updateLanguageDTO);
 
-        var expected = Status.Conflict;
+        const Status expected = Status.Conflict;
 
         Assert.Equal(expected, actual);
     }
@@ -234,7 +237,7 @@ public class LanguageRepositoryTests
 
         var actual = await _v.LanguageRepository.UpdateAsync(language);
 
-        var expected = Status.BadRequest;
+        const Status expected = Status.BadRequest;
 
         Assert.Equal(expected, actual);
     }
@@ -246,7 +249,7 @@ public class LanguageRepositoryTests
 
         var actual = await _v.LanguageRepository.UpdateAsync(language);
 
-        var expected = Status.BadRequest;
+        const Status expected = Status.BadRequest;
 
         Assert.Equal(expected, actual);
     }
@@ -259,7 +262,7 @@ public class LanguageRepositoryTests
 
         var actual = await _v.LanguageRepository.UpdateAsync(language);
 
-        var expected = Status.BadRequest;
+        const Status expected = Status.BadRequest;
 
         Assert.Equal(expected, actual);
     }
@@ -271,7 +274,7 @@ public class LanguageRepositoryTests
 
         var actual = await _v.LanguageRepository.UpdateAsync(language);
 
-        var expected = Status.Updated;
+        const Status expected = Status.Updated;
 
         Assert.Equal(expected, actual);
     }

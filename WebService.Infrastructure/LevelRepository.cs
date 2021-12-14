@@ -1,6 +1,6 @@
 ﻿namespace WebService.Infrastructure;
 
-public class LevelRepository : ILevelRespository
+public class LevelRepository : ILevelRepository
 {
     private readonly IContext _context;
 
@@ -80,10 +80,12 @@ public class LevelRepository : ILevelRespository
         return Status.Updated;
     }
 
-    private bool InvalidInput(CreateLevelDTO level)
+    private static bool InvalidInput(CreateLevelDTO level)
     {
-        return level.Name.Length > 50 || level.Name.Length > 50 || string.IsNullOrEmpty(level.Name) ||
-               string.IsNullOrEmpty(level.Name) || string.IsNullOrWhiteSpace(level.Name) ||
-               string.IsNullOrWhiteSpace(level.Name);
+        return level.Name.Length is > 50 or > 50 
+               || string.IsNullOrEmpty(level.Name) 
+               || string.IsNullOrEmpty(level.Name) 
+               || string.IsNullOrWhiteSpace(level.Name) 
+               || string.IsNullOrWhiteSpace(level.Name);
     }
 }

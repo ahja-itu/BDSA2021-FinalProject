@@ -94,12 +94,12 @@
     <div id="filters" class="row" style="margin-left:20px;margin-right:20px;background:#4E4E4E;border-radius: 24px;margin-top:15px;padding:25px">
         <div class="row">
             <div class="col" data-toggle="buttons">
-                <RadzenButton id="tags" Click=@(_ => ChangeFilter("Tags")) Style=@tagStyle Text="Tags"/>
-                <RadzenButton id="ratings" Click=@(_ => ChangeFilter("Ratings")) Style=@ratingStyle Text="Ratings"/>
-                <RadzenButton id="levels" Click=@(_ => ChangeFilter("Levels")) Style=@levelStyle Text="Levels"/>
-                <RadzenButton id="programming Languages" Click=@(_ => ChangeFilter("Programming Languages")) Style=@programmingLanguageStyle Text="Programming Languages"/>
-                <RadzenButton id="languages" Click=@(_ => ChangeFilter("Languages")) Style=@languageStyle Text="Languages"/>
-                <RadzenButton id="medias" Click=@(_ => ChangeFilter("Medias")) Style=@mediaStyle Text="Medias"/>
+                <RadzenButton id="tags" Click=@(_ => ChangeFilter("Tags")) Style=@_tagStyle Text="Tags"/>
+                <RadzenButton id="ratings" Click=@(_ => ChangeFilter("Ratings")) Style=@_ratingStyle Text="Ratings"/>
+                <RadzenButton id="levels" Click=@(_ => ChangeFilter("Levels")) Style=@_levelStyle Text="Levels"/>
+                <RadzenButton id="programming Languages" Click=@(_ => ChangeFilter("Programming Languages")) Style=@_programmingLanguageStyle Text="Programming Languages"/>
+                <RadzenButton id="languages" Click=@(_ => ChangeFilter("Languages")) Style=@_languageStyle Text="Languages"/>
+                <RadzenButton id="medias" Click=@(_ => ChangeFilter("Medias")) Style=@_mediaStyle Text="Medias"/>
             </div>
         </div>
         @if (_filterSelected)
@@ -116,7 +116,7 @@
                 <div class="row">
                     @foreach (var str in _selectedFilterOptions)
                     {
-                        <RadzenButton id="@FilterOptionIdGenerator()" Click=@(_ => AddFilterToList(str)) Style="font-size:12px; border-radius: 24px; background: #FF9F1C; margin:10px; color:#FFFFFF; width: auto; padding:2px 5px;" Text="@str" Icon="close"/>
+                        <RadzenButton id="@FilterOptionIdGenerator()" Click=@(_ => AddFilterToList(str)) Style="font-size:12px; border-radius: 24px; background: #FF9F1C; margin:10px; color:#fff; width: auto; padding:2px 5px;" Text="@str" Icon="close"/>
                     }
                 </div>
                 <div class="row mini-scroller">
@@ -160,8 +160,8 @@
                 <div style="border-left: 6px solid #7765E3; !important;">
                     <div class="row" style="margin-left: 5px">
                         <div class="col">
-                            <a href="@material.URL" style="color:rgba(255, 255, 255, 0.5);">
-                                @material.URL
+                            <a href="@material.Url" style="color:rgba(255, 255, 255, 0.5);">
+                                @material.Url
                             </a>
                         </div>
                         <div class="col" style="text-align: right">
@@ -204,7 +204,7 @@ else
             <div class="row">
                 <div class="col-6">
                     <!-- _selectedMaterial can't be null as it is the material the user selects from the results list -->
-                    <a href="@_selectedMaterial!.URL">@_selectedMaterial.URL</a>
+                    <a href="@_selectedMaterial!.Url">@_selectedMaterial.Url</a>
                 </div>
                 <div class="col-6">
                     <p style="text-align: right;">@_selectedMaterial.TimeStamp.ToString(CultureInfo.CurrentCulture)</p>
@@ -230,7 +230,7 @@ else
                 <div class="col-6">
                     @foreach (var tag in _selectedMaterial.Tags)
                     {
-                        <RadzenButton Disabled="true" style="background: #ffffff;color: #9586E9;border-radius: 15px; font-size: 12px">@tag.Name</RadzenButton>
+                        <RadzenButton Disabled="true" style="background: #fff;color: #9586E9;border-radius: 15px; font-size: 12px">@tag.Name</RadzenButton>
                     }
                 </div>
                 <div class="col-6"style="text-align: right">
@@ -288,12 +288,12 @@ else
     ICollection<string> _medias = new List<string>();
     ICollection<string> _selectedFilterOptions = new List<string>();
 
-    string tagStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
-    string levelStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
-    string programmingLanguageStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
-    string languageStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
-    string mediaStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
-    string ratingStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+    string _tagStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
+    string _levelStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
+    string _programmingLanguageStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
+    string _languageStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
+    string _mediaStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
+    string _ratingStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
     void ChangeFilter(string filterName)
     {
         _filterSelected = true;
@@ -336,31 +336,32 @@ else
 
     void SetChecked(string filterName)
     {
-        tagStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
-        levelStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
-        programmingLanguageStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
-        languageStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
-        ratingStyle = "border-radius: 24px; background: #ffffff;color:#7765E3;margin:10px;";
+        _tagStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
+        _levelStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
+        _programmingLanguageStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
+        _languageStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
+        _mediaStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
+        _ratingStyle = "border-radius: 24px; background: #fff;color:#7765E3;margin:10px;";
 
         switch (filterName)
         {
             case "Tags":
-                tagStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                _tagStyle = "border-radius: 24px; background: #7765E3;color:#fff;margin:10px;";
                 break;
             case "Levels":
-                levelStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                _levelStyle = "border-radius: 24px; background: #7765E3;color:#fff;margin:10px;";
                 break;
             case "Programming Languages":
-                programmingLanguageStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                _programmingLanguageStyle = "border-radius: 24px; background: #7765E3;color:#fff;margin:10px;";
                 break;
             case "Languages":
-                languageStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                _languageStyle = "border-radius: 24px; background: #7765E3;color:#fff;margin:10px;";
                 break;
             case "Medias":
-                ratingStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                _mediaStyle = "border-radius: 24px; background: #7765E3;color:#fff;margin:10px;";
                 break;
             case "Ratings":
-                ratingStyle = "border-radius: 24px; background: #7765E3;color:#FFFFFF;margin:10px;";
+                _ratingStyle = "border-radius: 24px; background: #7765E3;color:#fff;margin:10px;";
                 break;
         }
     }
@@ -371,7 +372,7 @@ else
         _lastCalledCollection = source;
     }
 
-    void ReplaceListWithoutBackup(ref ICollection<string> target, IEnumerable<string> source)
+    static void ReplaceListWithoutBackup(ref ICollection<string> target, IEnumerable<string> source)
     {
         target.Clear();
         foreach (var str in source) target.Add(str);
@@ -403,7 +404,7 @@ else
         }
     }
 
-    void ToggleFilter(ref ICollection<string> list, string val)
+    static void ToggleFilter(ref ICollection<string> list, string val)
     {
         if (list.Contains(val)) list.Remove(val);
         else list.Add(val);
@@ -424,7 +425,7 @@ else
     #region SearchFormHandler
 
     string _searchInput = "";
-    int _rating = 5;
+    int _rating = 1;
     bool _noResultsFound;
     ICollection<string> _tagsToSend = new List<string>();
     ICollection<string> _levelsToSend = new List<string>();

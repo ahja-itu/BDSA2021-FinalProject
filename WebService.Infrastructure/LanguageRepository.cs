@@ -81,10 +81,12 @@ public class LanguageRepository : ILanguageRepository
         return Status.Updated;
     }
 
-    private bool InvalidInput(CreateLanguageDTO language)
+    private static bool InvalidInput(CreateLanguageDTO language)
     {
-        return language.Name.Length > 50 || language.Name.Length > 50 || string.IsNullOrEmpty(language.Name) ||
-               string.IsNullOrEmpty(language.Name) || string.IsNullOrWhiteSpace(language.Name) ||
-               string.IsNullOrWhiteSpace(language.Name);
+        return language.Name.Length is > 50 or > 50 
+               || string.IsNullOrEmpty(language.Name) 
+               || string.IsNullOrEmpty(language.Name) 
+               || string.IsNullOrWhiteSpace(language.Name) 
+               || string.IsNullOrWhiteSpace(language.Name);
     }
 }

@@ -81,7 +81,7 @@ public class TagRepository : ITagRepository
         return Status.Updated;
     }
 
-    private bool InvalidInput(CreateTagDTO tag)
+    private static bool InvalidInput(CreateTagDTO tag)
     {
         return tag.Name.Length is > 50 or > 50
                || string.IsNullOrEmpty(tag.Name)

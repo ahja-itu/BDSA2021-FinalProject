@@ -28,7 +28,7 @@
             Medias = medias;
             Language = language;
             Summary = summary;
-            URL = url;
+            Url = url;
             Content = content;
             Title = title;
             Authors = authors;
@@ -44,7 +44,7 @@
 
         [StringLength(400)] public string Summary { get; init; }
 
-        public string URL { get; init; }
+        public string Url { get; init; }
         public string Content { get; init; }
 
         [StringLength(50)] public string Title { get; init; }

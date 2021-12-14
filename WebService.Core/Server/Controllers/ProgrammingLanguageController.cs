@@ -6,9 +6,9 @@
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class ProgrammingLanguageController : ControllerBase
 {
-    private readonly IProgrammingLanguageRespository _programmingLanguageRepository;
+    private readonly IProgrammingLanguageRepository _programmingLanguageRepository;
 
-    public ProgrammingLanguageController(IProgrammingLanguageRespository programmingLanguageRepository)
+    public ProgrammingLanguageController(IProgrammingLanguageRepository programmingLanguageRepository)
     {
         _programmingLanguageRepository = programmingLanguageRepository;
     }

@@ -16,7 +16,7 @@ namespace WebService.Core.Client.Tests;
 
 #region MockHttpClient
 
-public static class MockHttpClientBunitHelpers
+public static class MockHttpClientBUnitHelpers
 {
     public static MockHttpMessageHandler AddMockHttpClient(this TestServiceProvider services)
     {
@@ -27,16 +27,15 @@ public static class MockHttpClientBunitHelpers
         return mockHttpHandler;
     }
 
-    public static MockedRequest RespondJson<T>(this MockedRequest request, T content)
+    public static void RespondJson<T>(this MockedRequest request, T content)
     {
-        request.Respond(req =>
+        request.Respond(_ =>
         {
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent(JsonSerializer.Serialize(content));
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             return response;
         });
-        return request;
     }
 }
 
@@ -98,7 +97,7 @@ public class IndexTest : IDisposable
         var filterButton = buttons.GetElementById("filterButton");
 
         // Act
-        filterButton.Click();
+        filterButton!.Click();
         var filterOptions = new List<IElement>();
         var buttonsAfterClick = _cut.FindAll("button");
         for (var i = 0; i < 1000; i++)
@@ -122,8 +121,8 @@ public class IndexTest : IDisposable
         var filterButton = buttonsBefore.GetElementById("filterButton");
 
         // Act
-        filterButton.Click();
-        filterButton.Click();
+        filterButton!.Click();
+        filterButton!.Click();
         var buttonsAfter = _cut.FindAll("button");
 
         // Assert
@@ -136,14 +135,14 @@ public class IndexTest : IDisposable
     [InlineData(12, "languages")]
     [InlineData(13, "medias")]
     [InlineData(14, "programming Languages")]
-    public void PressOfFilterButtonShowsExpectedNumberOfFilterButtons(int expectedNumberOfButtons, string buttonID)
+    public void PressOfFilterButtonShowsExpectedNumberOfFilterButtons(int expectedNumberOfButtons, string buttonId)
     {
         // Arrange
 
         // Act
         var filterButton = _cut.FindAll("button").GetElementById("filterButton");
-        filterButton.Click();
-        var button = _cut.FindAll("button").GetElementById(buttonID);
+        filterButton!.Click();
+        var button = _cut.FindAll("button").GetElementById(buttonId);
         if (button == null)
         {
             // a github workflow workaround to ensure checks pass

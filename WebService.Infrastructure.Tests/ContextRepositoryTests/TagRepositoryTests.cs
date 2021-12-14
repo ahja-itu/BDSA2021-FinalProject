@@ -1,5 +1,8 @@
-﻿namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
+
+[SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class TagRepositoryTests
 {
     private readonly TestVariables _v;
@@ -44,7 +47,7 @@ public class TagRepositoryTests
 
         var actual = _v.TagRepository.ReadAsync().Result.Count;
 
-        var expected = 4;
+        const int expected = 4;
 
         Assert.Equal(expected, actual);
     }
@@ -125,16 +128,16 @@ public class TagRepositoryTests
     [Fact]
     public async Task ReadAllAsync_returns_all_tags()
     {
-        var actuals = await _v.TagRepository.ReadAsync();
+        var actual = await _v.TagRepository.ReadAsync();
 
         var expected1 = new TagDTO(1, "SOLID");
         var expected2 = new TagDTO(2, "RAD");
         var expected3 = new TagDTO(3, "API");
 
-        Assert.Collection(actuals,
-            actual => Assert.Equal(expected1, actual),
-            actual => Assert.Equal(expected2, actual),
-            actual => Assert.Equal(expected3, actual));
+        Assert.Collection(actual,
+            tagDTO => Assert.Equal(expected1, tagDTO),
+            tagDTO => Assert.Equal(expected2, tagDTO),
+            tagDTO => Assert.Equal(expected3, tagDTO));
     }
 
     #endregion
@@ -146,7 +149,7 @@ public class TagRepositoryTests
     {
         var actual = await _v.TagRepository.DeleteAsync(1);
 
-        var expected = Status.Deleted;
+        const Status expected = Status.Deleted;
 
         Assert.Equal(expected, actual);
     }
@@ -156,7 +159,7 @@ public class TagRepositoryTests
     {
         var actual = await _v.TagRepository.DeleteAsync(4);
 
-        var expected = Status.NotFound;
+        const Status expected = Status.NotFound;
 
         Assert.Equal(expected, actual);
     }
@@ -168,7 +171,7 @@ public class TagRepositoryTests
 
         var actual = _v.TagRepository.ReadAsync().Result.Count;
 
-        var expected = 2;
+        const int expected = 2;
 
         Assert.Equal(expected, actual);
     }
@@ -184,7 +187,7 @@ public class TagRepositoryTests
 
         var actual = await _v.TagRepository.UpdateAsync(updateTagDTO);
 
-        var expected = Status.Updated;
+        const Status expected = Status.Updated;
 
         Assert.Equal(expected, actual);
     }
@@ -210,7 +213,7 @@ public class TagRepositoryTests
 
         var actual = await _v.TagRepository.UpdateAsync(updateTagDTO);
 
-        var expected = Status.NotFound;
+        const Status expected = Status.NotFound;
 
         Assert.Equal(expected, actual);
     }
@@ -222,7 +225,7 @@ public class TagRepositoryTests
 
         var actual = await _v.TagRepository.UpdateAsync(updateTagDTO);
 
-        var expected = Status.Conflict;
+        const Status expected = Status.Conflict;
 
         Assert.Equal(expected, actual);
     }
@@ -234,7 +237,7 @@ public class TagRepositoryTests
 
         var actual = await _v.TagRepository.UpdateAsync(tag);
 
-        var expected = Status.BadRequest;
+        const Status expected = Status.BadRequest;
 
         Assert.Equal(expected, actual);
     }
@@ -246,7 +249,7 @@ public class TagRepositoryTests
 
         var actual = await _v.TagRepository.UpdateAsync(tag);
 
-        var expected = Status.BadRequest;
+        const Status expected = Status.BadRequest;
 
         Assert.Equal(expected, actual);
     }
@@ -259,7 +262,7 @@ public class TagRepositoryTests
 
         var actual = await _v.TagRepository.UpdateAsync(tag);
 
-        var expected = Status.BadRequest;
+        const Status expected = Status.BadRequest;
 
         Assert.Equal(expected, actual);
     }
@@ -271,7 +274,7 @@ public class TagRepositoryTests
 
         var actual = await _v.TagRepository.UpdateAsync(tag);
 
-        var expected = Status.Updated;
+        const Status expected = Status.Updated;
 
         Assert.Equal(expected, actual);
     }
