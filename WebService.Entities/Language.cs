@@ -1,12 +1,31 @@
-﻿namespace WebService.Entities;
+﻿// ***********************************************************************
+// Assembly         : WebService.Entities
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-08-2021
+// ***********************************************************************
+// <copyright file="Language.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+namespace WebService.Entities;
 
+/// <summary>Class Language.</summary>
 public class Language
 {
+    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Language" /> class.</summary>
+    /// <param name="name">The name.</param>
     public Language(string name)
     {
         Name = name;
     }
 
+    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Language" /> class.</summary>
+    /// <param name="id">The identifier.</param>
+    /// <param name="name">The name.</param>
     public Language(int id, string name)
     {
         Id = id;
