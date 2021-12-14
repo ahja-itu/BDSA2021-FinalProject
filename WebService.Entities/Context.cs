@@ -1,10 +1,10 @@
-﻿using Microsoft.VisualBasic.FileIO;
-
-namespace WebService.Entities;
+﻿namespace WebService.Entities;
 
 public class Context : DbContext, IContext
 {
-    public Context(DbContextOptions options) : base(options) { }
+    public Context(DbContextOptions options) : base(options)
+    {
+    }
 
     public DbSet<Language> Languages => Set<Language>();
     public DbSet<Level> Levels => Set<Level>();

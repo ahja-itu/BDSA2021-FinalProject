@@ -1,6 +1,4 @@
-﻿
-
-namespace WebService.Entities;
+﻿namespace WebService.Entities;
 
 public class Material
 {
@@ -66,5 +64,4 @@ public class Material
 
     public ICollection<Author> Authors { get; set; }
     public DateTime TimeStamp { get; set; }
-
 }
