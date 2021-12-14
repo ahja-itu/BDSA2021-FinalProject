@@ -166,12 +166,13 @@
 
             // We're doing the following computations on the client, instead of the server
             var rawMaterials = materialsWhereRatingHolds
-                .Where(material => MayContainProgrammingLanguage(searchInput).Invoke(material))
-                .Where(material => MayContainLanguage(searchInput).Invoke(material))
-                .Where(material => MayContainMedia(searchInput).Invoke(material))
-                .Where(material => MayContainTag(searchInput).Invoke(material))
-                .Where(material => MayContainLevel(searchInput).Invoke(material))
+                .Where(material => MayContainProgrammingLanguage(searchInput).Invoke(material)
+                || MayContainLanguage(searchInput).Invoke(material)
+                || MayContainMedia(searchInput).Invoke(material)
+                || MayContainTag(searchInput).Invoke(material)
+                || MayContainLevel(searchInput).Invoke(material))
                 .ToList();
+
 
             var materials = rawMaterials
                 .Select(ConvertMaterialToMaterialDTO)

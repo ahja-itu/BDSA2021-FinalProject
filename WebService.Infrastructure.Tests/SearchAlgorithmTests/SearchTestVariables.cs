@@ -138,7 +138,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 var material3 = new Material() //
                 {
                     Id = MaterialID++,
-                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag3", 5) },
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag3", 10) },
                     Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
                     Levels = Tag3Levels[i],
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage> { csharp },

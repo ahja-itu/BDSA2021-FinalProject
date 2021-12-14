@@ -340,7 +340,7 @@ namespace WebService.Infrastructure.Tests
         {
 
             //Arrange
-            var searchLevels = new List<LevelDTO> { new LevelDTO(1, "bachelor"), new LevelDTO(2, "master") };
+            var searchLevels = new List<LevelDTO> { new LevelDTO(1, "Bachelor"), new LevelDTO(2, "Master") };
             SearchForm searchForm = new SearchForm("I am a text search", new List<TagDTO>() { new TagDTO(3, "Tag3") }, searchLevels, new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
 
             var expected = new List<MaterialDTO>()
@@ -372,8 +372,8 @@ namespace WebService.Infrastructure.Tests
         {
 
             //Arrange
-            var searchLevels = new List<LevelDTO> { new LevelDTO(1, "bachelor"), new LevelDTO(2, "master"), new LevelDTO(3,"phd") };
-            SearchForm searchForm = new SearchForm("I am a text search", new List<TagDTO>() { new TagDTO(3, "Tag3") }, searchLevels, new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+            var searchLevels = new List<LevelDTO> { new LevelDTO(1, "Bachelor"), new LevelDTO(2, "Master"), new LevelDTO(3,"PHD") };
+            SearchForm searchForm = new SearchForm("", new List<TagDTO>() { new TagDTO(3, "Tag3") }, searchLevels, new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
 
             var expected = new List<MaterialDTO>()
             {
@@ -390,8 +390,8 @@ namespace WebService.Infrastructure.Tests
             var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
 
             //Assert
-            Assert.Equal(expected.Count, actual.Count);
-            for (int i = 0; i < actual.Count - 1; i++)
+          
+            for (int i = 0; i < expected.Count - 1; i++)
             {
                 Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
             }

@@ -27,6 +27,8 @@ namespace WebService.Infrastructure
 
         public async Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm)
         {
+            searchForm = FixTextFieldInput(searchForm);
+
             searchForm = await AddTagsToSearchFromTextField(searchForm);
             var response = await _repository.ReadAsync(searchForm);
             var status = response.Item1;
@@ -35,8 +37,10 @@ namespace WebService.Infrastructure
             if (status == Status.NotFound) return (Status.NotFound, materials);
 
             materials = FilterLanguage(materials, searchForm);
-            
-            foreach(MaterialDTO material in materials)
+
+            if (!materials.Any()) return (Status.NotFound, materials);
+
+            foreach (MaterialDTO material in materials)
             {
                 _map[material] = 0;
             }
@@ -47,16 +51,34 @@ namespace WebService.Infrastructure
 
             return (Status.Found, materials);
         }
+
+        private SearchForm FixTextFieldInput(SearchForm searchForm)
+        {
+            string textField = "";
+            if (string.IsNullOrEmpty(textField) || string.IsNullOrWhiteSpace(textField)) return searchForm;
+            foreach (string word in searchForm.TextField.Split(" "))
+            {
+                textField += FirstLetterToUpper(word);
+            }
+            searchForm.TextField = textField;
+            return searchForm;
+        }
+
+        private string FirstLetterToUpper(string input)
+        {
+            return input[0].ToString().ToUpper() + input.Substring(1).ToLower();
+        }
+
         public async Task<SearchForm> AddTagsToSearchFromTextField(SearchForm searchForm)
         {
             var tags = await _tagRepository.ReadAsync();
-            var foundWordsToTags = new List<TagDTO>(searchForm.Tags);
+            var foundWordsToTags = new HashSet<TagDTO>(searchForm.Tags);
 
             foreach (string word in searchForm.TextField.Split(" "))
             {
                 if (tags.Select(e => e.Name).Contains(word)) foundWordsToTags.Add(tags.Where(e => e.Name == word).First());
             }
-            searchForm.Tags = foundWordsToTags;
+            searchForm.Tags = foundWordsToTags.ToList();
             return searchForm;
         }
 
@@ -79,7 +101,8 @@ namespace WebService.Infrastructure
         {
             if (!searchForm.Languages.Any()) return materials;
 
-            return materials.Where(m => searchForm.Languages.Contains(m.Language)).ToList();
+            return materials.Where(m => searchForm.Languages.Select(e => e.Name).Contains(m.Language.Name)).ToList();
+
         }
 
         private void SetScoreWeigthedTags(SearchForm searchform)
