@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-	<ImplicitUsings>enable</ImplicitUsings>
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0" />
@@ -17,10 +17,10 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\WebService.Entities\WebService.Entities.csproj" />
-    <ProjectReference Include="..\WebService.Infrastructure\WebService.Infrastructure.csproj" />
-    <ProjectReference Include="..\WebService.Core\Shared\WebService.Core.Shared.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\WebService.Entities\WebService.Entities.csproj"/>
+        <ProjectReference Include="..\WebService.Infrastructure\WebService.Infrastructure.csproj"/>
+        <ProjectReference Include="..\WebService.Core\Shared\WebService.Core.Shared.csproj"/>
+    </ItemGroup>
 
 </Project>

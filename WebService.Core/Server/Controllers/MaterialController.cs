@@ -1,88 +1,145 @@
-﻿namespace WebService.Core.Server.Controllers
+﻿// ***********************************************************************
+// Assembly         : WebService.Core.Server
+// Author           : Group BTG
+// Created          : 12-03-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="MaterialController.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
+namespace WebService.Core.Server.Controllers;
+
+/// <summary>
+///     Class MaterialController.
+///     Implements the <see cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+/// </summary>
+/// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+[Authorize]
+[ApiController]
+[Route("[controller]")]
+[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+public class MaterialController : ControllerBase
 {
-    [Authorize]
-    [ApiController]
-    [Route("[controller]")]
-    [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
-    public class MaterialController : ControllerBase
+    /// <summary>
+    ///     The material repository
+    /// </summary>
+    private readonly IMaterialRepository _materialRepository;
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="MaterialController" /> class.
+    /// </summary>
+    /// <param name="materialRepository">The material repository.</param>
+    public MaterialController(IMaterialRepository materialRepository)
     {
-        private readonly IMaterialRepository _materialRepository;
+        _materialRepository = materialRepository;
+    }
 
-        public MaterialController(IMaterialRepository materialRepository)
+    /// <summary>
+    ///     Gets all materialDTOs.
+    /// </summary>
+    /// <returns>ActionResult&lt;ICollection&lt;MaterialDTO&gt;&gt;.</returns>
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<ICollection<MaterialDTO>>> Get()
+    {
+        var result = await _materialRepository.ReadAsync();
+        return Ok(result);
+    }
+
+    /// <summary>
+    ///     Gets a specified materialDTO.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <returns>ActionResult&lt;MaterialDTO&gt;.</returns>
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<MaterialDTO>> Get(int id)
+    {
+        var (response, materialDTO) = await _materialRepository.ReadAsync(id);
+
+        if (response == Status.Found) return Ok(materialDTO);
+        return NotFound(materialDTO);
+    }
+
+    /// <summary>
+    ///     Posts a specified search form and returns a materialDTO matching the search from.
+    /// </summary>
+    /// <param name="searchForm">The search form.</param>
+    /// <returns>ActionResult&lt;MaterialDTO&gt;.</returns>
+    [HttpPost("PostSearchForm")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<MaterialDTO>> Post(SearchForm searchForm)
+    {
+        var (response, materialDTOs) = await _materialRepository.ReadAsync(searchForm);
+
+        if (response == Status.Found) return Ok(materialDTOs);
+        return NotFound();
+    }
+
+    /// <summary>
+    ///     Posts the specified material.
+    /// </summary>
+    /// <param name="material">The material.</param>
+    /// <returns>IActionResult.</returns>
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> Post(CreateMaterialDTO material)
+    {
+        var (response, materialDTO) = await _materialRepository.CreateAsync(material);
+
+        return response switch
         {
-            _materialRepository = materialRepository;
-        }
+            Status.Created => Created(nameof(Put), materialDTO),
+            Status.Conflict => Conflict(),
+            _ => BadRequest()
+        };
+    }
 
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ICollection<MaterialDTO>>> Get()
+    /// <summary>
+    ///     Puts the specified material.
+    /// </summary>
+    /// <param name="material">The material.</param>
+    /// <returns>IActionResult.</returns>
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> Put(MaterialDTO material)
+    {
+        var response = await _materialRepository.UpdateAsync(material);
+
+        return response switch
         {
-            var result = await _materialRepository.ReadAsync();
-            return Ok(result);
-        }
+            Status.Updated => NoContent(),
+            Status.Conflict => Conflict(),
+            Status.BadRequest => BadRequest(),
+            _ => NotFound()
+        };
+    }
 
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<MaterialDTO>> Get(int id)
-        {
-            var result = await _materialRepository.ReadAsync(id);
-            var response = result.Item1;
+    /// <summary>
+    ///     Deletes the specified identifier.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <returns>IActionResult.</returns>
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var response = await _materialRepository.DeleteAsync(id);
 
-            if (response == Status.Found) return Ok(result.Item2);
-            else return NotFound(result);
-        }
-
-        [HttpPost("PostSearchForm")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<MaterialDTO>> Post(SearchForm searchForm)
-        {
-            var result = await _materialRepository.ReadAsync(searchForm);
-            var response = result.Item1;
-
-            if (response == Status.Found) return Ok(result.Item2);
-            else return NotFound();
-        }
-
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> Post(CreateMaterialDTO material)
-        {
-            var result = await _materialRepository.CreateAsync(material);
-            var response = result.Item1;
-
-            if (response == Status.Created) return Created(nameof(Put), result.Item2);
-            else if (response == Status.Conflict) return Conflict();
-            else return BadRequest();
-        }
-
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> Put(MaterialDTO material)
-        {
-            var response = await _materialRepository.UpdateAsync(material);
-
-            if (response == Status.Updated) return NoContent();
-            else if (response == Status.Conflict) return Conflict();
-            else if (response == Status.BadRequest) return BadRequest();
-            else return NotFound();
-        }
-
-        [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var response = await _materialRepository.DeleteAsync(id);
-
-            if (response == Status.Deleted) return NoContent();
-            else return NotFound();
-        }
+        if (response == Status.Deleted) return NoContent();
+        return NotFound();
     }
 }

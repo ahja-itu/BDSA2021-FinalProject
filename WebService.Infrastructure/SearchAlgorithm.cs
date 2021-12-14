@@ -1,28 +1,28 @@
 ﻿using WebService.Core;
 
-namespace WebService.Infrastructure
+namespace WebService.Infrastructure;
+
+public class SearchAlgorithm : ISearch
 {
-    public class SearchAlgorithm : ISearch
-    {
-        private readonly IMaterialRepository _repository;
-        private readonly ITagRepository _tagRepository;
-        private const float WeightedTagScore = 10;
-        private const float RatingScore = 10;
-        private const float LevelScore = 50;
-        private const float ProgrammingLanguageScore = 100;
-        private const float MediaScore = 50;
-        private const float TitleScore = 300;
-        private const float AuthorScore = 300;
-        private const float TimestampScore = -5;
+    private readonly IMaterialRepository _repository;
+    private readonly ITagRepository _tagRepository;
+    private const float WeightedTagScore = 10;
+    private const float RatingScore = 10;
+    private const float LevelScore = 50;
+    private const float ProgrammingLanguageScore = 100;
+    private const float MediaScore = 50;
+    private const float TitleScore = 300;
+    private const float AuthorScore = 300;
+    private const float TimestampScore = -5;
 
         private ConcurrentDictionary<MaterialDTO, float> _map;
 
-        public SearchAlgorithm(IMaterialRepository materialRepository, ITagRepository tagRepository)
-        {
-            _repository = materialRepository;
-            _tagRepository = tagRepository;
-            _map = new ConcurrentDictionary<MaterialDTO, float>();
-        }
+    public SearchAlgorithm(IMaterialRepository materialRepository, ITagRepository tagRepository)
+    {
+        _repository = materialRepository;
+        _tagRepository = tagRepository;
+        _map = new ConcurrentDictionary<MaterialDTO, float>();
+    }
 
         public async Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm)
         {
@@ -32,7 +32,7 @@ namespace WebService.Infrastructure
             var status = response.Item1;
             ICollection<MaterialDTO> materials = new List<MaterialDTO>(response.Item2);
 
-            if (status == Status.NotFound) return (Status.NotFound, materials);
+        if (status == Status.NotFound) return (Status.NotFound, materials);
 
             materials = FilterLanguage(materials, searchForm);
 
@@ -43,7 +43,7 @@ namespace WebService.Infrastructure
                 _map[material] = 0;
             }
 
-            PrioritizeMaterials(searchForm);
+        PrioritizeMaterials(searchForm);
 
             materials = _map.OrderByDescending(e => e.Value).ThenBy(e => e.Key.Title).Select(e => e.Key).ToList();
 
@@ -77,9 +77,9 @@ namespace WebService.Infrastructure
             );
         }
 
-        private ICollection<MaterialDTO> FilterLanguage(ICollection<MaterialDTO> materials, SearchForm searchForm)
-        {
-            if (!searchForm.Languages.Any()) return materials;
+    private ICollection<MaterialDTO> FilterLanguage(ICollection<MaterialDTO> materials, SearchForm searchForm)
+    {
+        if (!searchForm.Languages.Any()) return materials;
 
             return materials.Where(m => searchForm.Languages.Select(e => e.Name).ContainsIgnoreCasing(m.Language.Name)).ToList();
 
@@ -144,11 +144,11 @@ namespace WebService.Infrastructure
             }
         }
 
-        private void SetScoreAuthor(SearchForm searchForm)
+    private void SetScoreAuthor(SearchForm searchForm)
+    {
+        foreach (MaterialDTO material in _map.Keys)
         {
-            foreach (MaterialDTO material in _map.Keys)
-            {
-                var authorNameCount = 0;
+            var authorNameCount = 0;
 
                 foreach (CreateAuthorDTO author in material.Authors)
                 {
@@ -174,5 +174,4 @@ namespace WebService.Infrastructure
             _map.AddOrUpdate(key, 0, (key, current) => current += addValue);
         }
 
-    }
 }
