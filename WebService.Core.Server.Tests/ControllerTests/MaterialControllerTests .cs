@@ -84,7 +84,7 @@
         [Fact]
         public async Task Get_material_returns_from_searchForm_status_notFound()
         {
-            var searchForm = new SearchForm("Hello", new TagDTO[] { new TagDTO(4, "DOTNET") }, new LevelDTO[] { }, new ProgrammingLanguageDTO[] { }, new LanguageDTO[] { }, new MediaDTO[] { }, 10);
+            var searchForm = new SearchForm("Hello", new TagDTO[] { new TagDTO(4, "DOTNET") }, new LevelDTO[] { new LevelDTO(1, "Kindergarden") }, new ProgrammingLanguageDTO[] { new ProgrammingLanguageDTO(1, "Cow") }, new LanguageDTO[] { new LanguageDTO(1, "ASL") }, new MediaDTO[] { new MediaDTO(1, "Comicbook") }, 10); ;
             var response = await _materialController.Post(searchForm);
             var actual = response.Result as NotFoundResult;
 

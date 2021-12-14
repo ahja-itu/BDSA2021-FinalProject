@@ -1076,11 +1076,11 @@
         public async Task ReadAsync_given_programming_language_filter_c_sharp_should_only_return_materials_with_csharp()
         {
             SearchForm input = new SearchForm("",
-                Array.Empty<TagDTO>(),
-                Array.Empty<LevelDTO>(),
-                new ProgrammingLanguageDTO[] { new ProgrammingLanguageDTO(1, "F#") },
-                Array.Empty<LanguageDTO>(),
-                Array.Empty<MediaDTO>(),
+                new TagDTO[] { new TagDTO(1, "hathathat") },
+                new LevelDTO[] { new LevelDTO(1, "hathathat") },
+                new ProgrammingLanguageDTO[] { new ProgrammingLanguageDTO(1, "C#") },
+                new LanguageDTO[] { new LanguageDTO(1, "hathathat") },
+                new MediaDTO[] { new MediaDTO(1, "hathathat") },
                 1);
 
             (var status, var response) = await _v.MaterialRepository.ReadAsync(input);
@@ -1090,15 +1090,15 @@
         }
 
         [Fact]
-        public async Task ReadAsync_given_programming_language_filter_than_doesnt_exist_return_no_materials()
+        public async Task ReadAsync_given_filter_than_doesnt_exist_return_no_materials()
         {
             SearchForm input = new SearchForm("",
-                new TagDTO[0],
-                new LevelDTO[0],
+                new TagDTO[] { new TagDTO(1, "hathathat")},
+                new LevelDTO[] { new LevelDTO(1, "hathathat") },
                 new ProgrammingLanguageDTO[] { new ProgrammingLanguageDTO(1, "Lisp") },
-                new LanguageDTO[0],
-                new MediaDTO[0],
-                1);
+                new LanguageDTO[] { new LanguageDTO(1, "hathathat") },
+                new MediaDTO[] { new MediaDTO(1, "hathathat") },
+                1); 
 
             (var status, var response) = await _v.MaterialRepository.ReadAsync(input);
 
