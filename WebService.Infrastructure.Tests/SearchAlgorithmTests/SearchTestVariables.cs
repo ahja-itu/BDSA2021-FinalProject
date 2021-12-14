@@ -99,9 +99,9 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
 
             //Varying rating - Tag2
             Tag2Materials = new List<Material>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i <= 10; i++)
             {
-                var material = new Material() //
+                var material2 = new Material() //
                 {
                     Id = MaterialID++,
                     WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag2", 5) },
@@ -117,8 +117,8 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                     TimeStamp = System.DateTime.UtcNow
                 };
-
-                Tag2Materials.Add(material);
+                context.AddRange(material2);
+                Tag2Materials.Add(material2);
             };
 
             //Varying levels - Tag3
@@ -133,7 +133,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             };
 
             Tag3Materials = new List<Material>();
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i <= 6; i++)
             {
                 var material3 = new Material() //
                 {
@@ -241,7 +241,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             };
 
             Tag5Materials = new List<Material>();
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i <= 6; i++)
             {
                 var material5 = new Material() //
                 {
@@ -274,7 +274,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 Ratings = new HashSet<Rating> { new Rating(4, "Reviewer") },
                 Levels = new HashSet<Level> { bachelor },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
-                Medias = new HashSet<Media> { video },
+                Medias = new HashSet<Media> { book },
                 Language = danish,
                 Summary = "Lorem ipsum",
                 URL = "iamaURL",
@@ -303,11 +303,31 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 TimeStamp = new DateTime(2013, 1, 1)
             };
 
+            var material6_3 = new Material()
+            {
+                Id = MaterialID++,
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag6", 5) },
+                Ratings = new HashSet<Rating> { new Rating(4, "Reviewer") },
+                Levels = new HashSet<Level> { bachelor },
+                ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
+                Medias = new HashSet<Media> { video },
+                Language = danish,
+                Summary = "Lorem ipsum",
+                URL = "iamaURL",
+                Content = "I am content",
+                Title = "Dockerize your life III",
+                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
+                TimeStamp = new DateTime(2013, 1, 1)
+            };
+
+
             context.AddRange(material6_1);
             context.AddRange(material6_2);
+            context.AddRange(material6_3);
 
             Tag6Materials.Add(material6_1);
             Tag6Materials.Add(material6_2);
+            Tag6Materials.Add(material6_3);
 
 
             //Varying author - Tag7
@@ -369,7 +389,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             }
 
             //Varying title - Tag9
-            List<string> Tag7Titles = new List<string>(){
+            List<string> Tag9Titles = new List<string>(){
                 "Lorem ipsum dolor sit amet",
                 "Lorem ipsum dolor sit",
                 "Lorem ipsum dolor",
@@ -380,13 +400,13 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
 
             };
 
-            Tag5Materials = new List<Material>();
-            for (int i = 0; i < Tag7Titles.Count; i++)
+           
+            for (int i = 0; i < Tag9Titles.Count; i++)
             {
-                var material5 = new Material() //
+                var material9 = new Material() //
                 {
                     Id = MaterialID++,
-                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag5", 5) },
+                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag9", 5) },
                     Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
                     Levels = new HashSet<Level>() { bachelor },
                     ProgrammingLanguages = new HashSet<ProgrammingLanguage>() { java },
@@ -395,12 +415,12 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = Tag7Titles[i],
+                    Title = Tag9Titles[i],
                     Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                     TimeStamp = System.DateTime.UtcNow
                 };
-                context.AddRange(material5);
-                Tag5Materials.Add(material5);
+                context.AddRange(material9);
+                Tag5Materials.Add(material9);
             }
 
 

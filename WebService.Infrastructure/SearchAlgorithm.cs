@@ -43,7 +43,7 @@ namespace WebService.Infrastructure
 
             PrioritizeMaterials(searchForm);
 
-            materials = _map.OrderBy(e => e.Value).ThenBy(e => e.Key.Title).Select(e => e.Key).ToList();
+            materials = _map.OrderByDescending(e => e.Value).ThenBy(e => e.Key.Title).Select(e => e.Key).ToList();
 
             return (Status.Found, materials);
         }
@@ -88,6 +88,7 @@ namespace WebService.Infrastructure
             {
                 var weightSum = material.Tags.Where(materialTag => searchform.Tags.Select(searchformTag => searchformTag.Name).Contains(materialTag.Name)).ToList().Select(tag => tag.Weight).Sum();
                 _map[material] += weightSum * WeightedTagScore;
+                
             }
         }
         private void SetScoreRating()
@@ -96,6 +97,7 @@ namespace WebService.Infrastructure
             {
                 _map[material] += material.AverageRating() * RatingScore;
             }
+
         }
 
         private void SetScoreLevel(SearchForm searchform)

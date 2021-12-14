@@ -78,7 +78,7 @@ namespace WebService.Core.Shared
                 material.Levels.Select(e => new LevelDTO(e.Id,e.Name)).Cast<CreateLevelDTO>().ToList(),
                 material.ProgrammingLanguages.Select(e => new ProgrammingLanguageDTO(e.Id,e.Name)).Cast<CreateProgrammingLanguageDTO>().ToList(),
                 material.Medias.Select(e => new MediaDTO(e.Id,e.Name)).Cast<CreateMediaDTO>().ToList(),
-                new LanguageDTO(material.Language.Id,material.Language.Name),
+                new CreateLanguageDTO(material.Language.Name), //ANNE, changes from LanguageDTO
                 material.Summary,
                 material.URL,
                 material.Content,
