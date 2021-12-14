@@ -38,7 +38,7 @@ public class SearchForm
         Rating = rating;
     }
 
-    public string TextField { get; }
+    public string TextField { get; set; }
     public ICollection<TagDTO> Tags { get; set; }
     public ICollection<LevelDTO> Levels { get; }
     public ICollection<ProgrammingLanguageDTO> ProgrammingLanguages { get; }

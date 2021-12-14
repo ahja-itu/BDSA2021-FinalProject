@@ -146,5 +146,5 @@ internal class TestVariables
         public ProgrammingLanguageRepository ProgrammingLanguageRepository { get; }
         public TagRepository TagRepository { get; }
         public SearchAlgorithm SearchAlgorithm { get; }
-    }
+   
 }
