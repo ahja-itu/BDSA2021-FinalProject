@@ -800,11 +800,6 @@ namespace WebService.Infrastructure.Tests
         //Tag 12 + 13, Tags in title
         #endregion
 
-
-
-
-
-
         #region UpperLower
         [Fact]
         public async Task Search_with_tag_lower_case_returns_material_with_tag()
