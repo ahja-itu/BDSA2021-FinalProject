@@ -467,7 +467,7 @@ else
 
     void ShowSelectedMaterial(int id)
     {
-        foreach (var dto in _searchResults)
+        foreach (var dto in _searchResults!)
         {
             if (dto.Id != id) continue;
             _selectedMaterial = dto;

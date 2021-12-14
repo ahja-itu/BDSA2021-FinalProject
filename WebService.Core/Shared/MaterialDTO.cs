@@ -1,4 +1,6 @@
-﻿namespace WebService.Core.Shared
+﻿using System.Globalization;
+
+namespace WebService.Core.Shared
 {
     public record MaterialDTO : CreateMaterialDTO
     {
@@ -64,7 +66,7 @@ namespace WebService.Core.Shared
             return sum / material.Ratings.Count;
         }
 
-        public static string AverageRatingToString(this CreateMaterialDTO material) => AverageRating(material).ToString();
+        public static string AverageRatingToString(this CreateMaterialDTO material) => AverageRating(material).ToString(CultureInfo.CurrentCulture);
 
         public static string LevelsToString(this CreateMaterialDTO material)
         {

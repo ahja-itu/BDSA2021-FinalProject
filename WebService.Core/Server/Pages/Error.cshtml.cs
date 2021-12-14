@@ -1,7 +1,11 @@
-﻿namespace WebService.Core.Server.Pages;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace WebService.Core.Server.Pages;
 
 [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 [IgnoreAntiforgeryToken]
+[SuppressMessage("ReSharper", "NotAccessedField.Local")]
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
 public class ErrorModel : PageModel
 {
     public string? RequestId { get; set; }
