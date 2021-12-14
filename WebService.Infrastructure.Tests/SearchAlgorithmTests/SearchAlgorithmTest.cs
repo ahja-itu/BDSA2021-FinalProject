@@ -67,68 +67,6 @@ namespace WebService.Infrastructure.Tests
         #endregion
 
 
-        #region TextFieldParse
-        [Fact]
-        public void TextFieldParse_given_SearchForm_with_text_tag_adds_texttag_to_empty_tags()
-        {
-            //Arrange
-            SearchForm searchForm = new SearchForm("I am a text search Tag1", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
-            SearchForm expected = new SearchForm("I am a text search Tag1", new List<TagDTO>() { new TagDTO(1, "Tag1") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
-
-            //Act
-            SearchForm actual = _searchAlgorithm.AddTagsToSearchFromTextField(searchForm).Result;
-
-            //Assert
-            Assert.Equal(expected.TextField, actual.TextField);
-            Assert.Equal(expected.Tags, actual.Tags);
-            Assert.Equal(expected.ProgrammingLanguages, actual.ProgrammingLanguages);
-            Assert.Equal(expected.Languages, actual.Languages);
-            Assert.Equal(expected.Levels, actual.Levels);
-            //Assert.Equal(expected, actual); //does not pass even though the above asserts does
-        }
-
-        [Fact]
-        public void TextFieldParse_given_SearchForm_with_text_tag_adds_texttag_to_tags()
-        {
-            //Arrange
-            SearchForm searchForm = new SearchForm("I am a text search Tag1", new List<TagDTO>() { new TagDTO(2, "Tag2") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
-            SearchForm expected = new SearchForm("I am a text search Tag1", new List<TagDTO>() { new TagDTO(1, "Tag1"), new TagDTO(2, "Tag2") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
-
-            //Act
-            SearchForm actual = _searchAlgorithm.AddTagsToSearchFromTextField(searchForm).Result;
-
-            //Assert
-            Assert.Equal(expected.TextField, actual.TextField);
-            Assert.Equal(new HashSet<TagDTO>(expected.Tags), new HashSet<TagDTO>(actual.Tags));
-            Assert.Equal(expected.ProgrammingLanguages, actual.ProgrammingLanguages);
-            Assert.Equal(expected.Languages, actual.Languages);
-            Assert.Equal(expected.Levels, actual.Levels);
-            //Assert.Equal(expected, actual);
-
-        }
-
-        [Fact]
-        public void TextFieldParse_given_SearchForm_with_text_tag_ignores_casing_adds_texttag_to_empty_tags()
-        {
-            //Arrange
-            SearchForm searchForm = new SearchForm("I am a text search taG1", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
-            SearchForm expected = new SearchForm("I am a text search taG1", new List<TagDTO>() { new TagDTO(1, "Tag1") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
-
-            //Act
-            SearchForm actual = _searchAlgorithm.AddTagsToSearchFromTextField(searchForm).Result;
-
-            //Assert
-            Assert.Equal(expected.TextField, actual.TextField);
-            Assert.Equal(expected.Tags, actual.Tags);
-            Assert.Equal(expected.ProgrammingLanguages, actual.ProgrammingLanguages);
-            Assert.Equal(expected.Languages, actual.Languages);
-            Assert.Equal(expected.Levels, actual.Levels);
-            //Assert.Equal(expected, actual); //does not pass even though the above asserts does
-        }
-
-
-        #endregion
-
         #region Tag1-Weight
         //tag1, varying weight
         [Fact]

@@ -49,7 +49,7 @@ namespace WebService.Infrastructure
             return (Status.Found, materials);
         }
 
-        public async Task<SearchForm> AddTagsToSearchFromTextField(SearchForm searchForm)
+        private async Task<SearchForm> AddTagsToSearchFromTextField(SearchForm searchForm)
         {
             var tags = await _tagRepository.ReadAsync();
             var foundWordsToTags = new HashSet<TagDTO>(searchForm.Tags);
