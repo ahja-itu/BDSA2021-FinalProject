@@ -27,53 +27,15 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             var java = new ProgrammingLanguage(2, "JAVA");
             var fsharp = new ProgrammingLanguage(3, "F#");
 
-            var dockerTag = new Tag(1,"Docker");
-
-            int MaterialID = 1;
-
-            Tag[] tags = new Tag[13];
-
-            for (int i = 1; i < 13; i++)
-            {
-                tags[i] = new Tag(i, "Tag" + i);
-                context.AddRange(tags[i]);
-            }
-
-            //makes Reviewer 1-10 for all Ratings 1-10
-            Rating[,] ratings = new Rating[11,11];
-
-            for (int i = 1; i < 11; i++)
-            {
-                for (int j = 1; j < 11; j++)
-                {
-                    ratings[i,j] = new Rating(i, ("Reviewer" + j));
-                    //context.AddRange(ratings[i,j]);
-                }
-            }
-
-
-            /*
-            //Makes weight 1-10 for all 3 test tags
-            WeightedTag[][] weightedTags = new WeightedTag[3][];
-            Tag[] tags = new Tag[] {
-                new Tag(1, "SOLID"),
-                new Tag(2, "RAD"),
-                new Tag(3, "API")};
-
-            for(int i = 0; i<3 ; i++){
-                for (int j = 1; j < 11; i++){
-                    weightedTags[i] = new WeightedTag[10];
-                    weightedTags[i][j] = (new WeightedTag(tags[i].Name, j));
-                }
-            }
-            */
-
             var author1 = new Author("Rasmus", "Kristensen");
             var author2 = new Author("Alex", "Su");
             var author3 = new Author("Thor", "Lind");
 
+            int MaterialID = 1;
 
 
+
+            #region Tag1-WeightOneTag
             //Varying tag weight - Tag1
             Tag1Materials = new List<Material>();
             for (int i = 1; i <= 10; i++)
@@ -97,8 +59,9 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 context.AddRange(material1);
                 Tag1Materials.Add(material1);
             }
+            #endregion
 
-
+            #region Tag2-Rating
             //Varying rating - Tag2
             Tag2Materials = new List<Material>();
             for (int i = 0; i <= 10; i++)
@@ -122,7 +85,9 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 context.AddRange(material2);
                 Tag2Materials.Add(material2);
             };
+            #endregion
 
+            #region Tag3-Levels
             //Varying levels - Tag3
             List<HashSet<Level>> Tag3Levels = new List<HashSet<Level>>(){
                 new HashSet<Level>(){bachelor},
@@ -156,8 +121,10 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 context.AddRange(material3);
                 Tag3Materials.Add(material3);
             }
+            #endregion
 
 
+            #region Tag4-Languages
             //Varying Languages - Tag4
 
             Tag4Materials = new List<Material>();
@@ -227,9 +194,9 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             Tag4Materials.Add(material4_1);
             Tag4Materials.Add(material4_2);
             Tag4Materials.Add(material4_3);
+            #endregion
 
-
-
+            #region Tag5-ProgrammingLanguages
             //Varying programming Languages - Tag5
             List<HashSet<ProgrammingLanguage>> Tag5PLanguages = new List<HashSet<ProgrammingLanguage>>(){
                 new HashSet<ProgrammingLanguage>(){csharp},
@@ -264,8 +231,10 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 context.AddRange(material5);
                 Tag5Materials.Add(material5);
             }
+            #endregion
 
 
+            #region Tag6-Media
             //Varying media - Tag6
             Tag6Materials = new List<Material>();
 
@@ -330,21 +299,20 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             Tag6Materials.Add(material6_1);
             Tag6Materials.Add(material6_2);
             Tag6Materials.Add(material6_3);
+            #endregion
 
 
+            #region Tag7-Author
             //Varying author - Tag7
             List<HashSet<Author>> Tag7Authors = new List<HashSet<Author>>(){
-                new HashSet<Author>(){new Author("Alfa", "Alfason")},
-                 new HashSet<Author>(){new Author("Bravo", "Bravoson")},
-                new HashSet<Author>(){new Author("Charlie", "Charleston")},
-                new HashSet<Author>(){new Author("Alfa", "Alfason"), new Author("Bravo", "Bravoson")},
-                new HashSet<Author>(){new Author("Alfa", "Alfason"), new Author("Charlie", "Charleston")},
-                new HashSet<Author>(){new Author("Bravo", "Bravoson"), new Author("Charlie", "Charleston")},
-                new HashSet<Author>(){new Author("Alfa", "Alfason"), new Author("Bravo", "Bravoson"), new Author("Charlie", "Charleston")}
+                new HashSet<Author>(){new Author("Alfa", "Alfason") },
+                new HashSet<Author>(){new Author("Alfa", "Bravoson") },
+                new HashSet<Author>(){new Author("Bravo", "Bravoson") },
+                new HashSet<Author>(){new Author("Alfa", "Alfason"), new Author("Bravo", "Bravoson") } 
             };
 
             Tag7Materials = new List<Material>();
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 4; i++)
             {
                 var material7 = new Material() //
                 {
@@ -365,7 +333,11 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 context.AddRange(material7);
                 Tag7Materials.Add(material7);
             }
+            #endregion
 
+
+
+            #region Tag8-Timestamp
             //Varying timestamp - Tag8
             Tag8Materials = new List<Material>();
             for (int i = 2014; i < 2022; i++)
@@ -389,8 +361,12 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 context.AddRange(material8);
                 Tag8Materials.Add(material8);
             }
+            #endregion
 
+
+            #region Tag9-Title
             //Varying title - Tag9
+            Tag9Materials = new List<Material>();
             List<string> Tag9Titles = new List<string>(){
                 "Lorem ipsum dolor sit amet",
                 "Lorem ipsum dolor sit",
@@ -399,7 +375,6 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                 "Lorem",
                 "consectetuer adipiscing elit",
                 "CONSECTETUER ADIPISCING ELIT",
-
             };
 
            
@@ -422,10 +397,12 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     TimeStamp = System.DateTime.UtcNow
                 };
                 context.AddRange(material9);
-                Tag5Materials.Add(material9);
+                Tag9Materials.Add(material9);
             }
+            #endregion
 
 
+            #region Tag10Tag11-WeightTwoTags
             //Varying weight, two tags - Tag10, Tag11
             Tag1011Materials = new List<Material>();
             for (int i = 1; i <= 10; i++)
@@ -487,7 +464,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             TagRepository = new TagRepository(context);
         }
 
-
+        #region getters
         public IContext Context { get; }
         public LanguageRepository LanguageRepository { get; }
         public LevelRepository LevelRepository { get; }
@@ -504,9 +481,11 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
         public List<Material> Tag6Materials { get; }
         public List<Material> Tag7Materials { get; }
         public List<Material> Tag8Materials { get; }
+        public List<Material> Tag9Materials { get; }
         public List<Material> Tag1011Materials { get; }
         public Material UpperLowerMaterial { get; }
 
+        #endregion
 
     }
 }

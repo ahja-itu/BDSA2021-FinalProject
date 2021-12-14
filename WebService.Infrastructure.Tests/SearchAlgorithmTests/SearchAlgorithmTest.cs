@@ -14,10 +14,11 @@ namespace WebService.Infrastructure.Tests
         private List<Material> _tag2Materials;
         private List<Material> _tag3Materials;
         private List<Material> _tag4Materials;
-        private List<Material> _tag6Materials;
-
         private List<Material> _tag5Materials;
+        private List<Material> _tag6Materials;
         private List<Material> _tag7Materials;
+
+        private List<Material> _tag9Materials;
 
         public SearchAlgorithmTest()
         {
@@ -32,9 +33,10 @@ namespace WebService.Infrastructure.Tests
             _tag3Materials = _v.Tag3Materials;
             _tag4Materials = _v.Tag4Materials;
             _tag5Materials = _v.Tag5Materials;
-            _tag7Materials = _v.Tag7Materials;
-            _tag4Materials = _v.Tag4Materials;
             _tag6Materials = _v.Tag6Materials;
+            _tag7Materials = _v.Tag7Materials;
+
+            _tag9Materials = _v.Tag9Materials;
         }
 
 
@@ -107,7 +109,7 @@ namespace WebService.Infrastructure.Tests
         {
             //Arrange
             SearchForm searchForm = new SearchForm("I am a text search taG1", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
-            SearchForm expected = new SearchForm("I Am A Text Search Tag1", new List<TagDTO>() { new TagDTO(1, "Tag1") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+            SearchForm expected = new SearchForm("I am a text search taG1", new List<TagDTO>() { new TagDTO(1, "Tag1") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
 
             //Act
             SearchForm actual = _searchAlgorithm.AddTagsToSearchFromTextField(searchForm).Result;
@@ -124,14 +126,13 @@ namespace WebService.Infrastructure.Tests
 
         #endregion
 
-        #region Tag1
+        #region Tag1-Weight
         //tag1, varying weight
         [Fact]
         public void Search_given_SearchForm_returns_list_of_materials_prioritized_by_tag_weight()
         {
             //Arrange
-
-            SearchForm searchForm = new SearchForm("", new List<TagDTO>() { _tagRepository.ReadAsync(1).Result.Item2 }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+            SearchForm searchForm = new SearchForm("Blazor for experts", new List<TagDTO>() { new TagDTO(1, "Tag1")}, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
 
 
             List<MaterialDTO> expected = new List<MaterialDTO>();
@@ -154,7 +155,7 @@ namespace WebService.Infrastructure.Tests
         }
         #endregion
 
-        #region Tag2
+        #region Tag2-Rating
 
         //tag2, varying rating
 
@@ -298,7 +299,7 @@ namespace WebService.Infrastructure.Tests
         }
         #endregion
 
-        #region Tag3
+        #region Tag3-Media
         //tag3, levels
 
 
@@ -393,7 +394,7 @@ namespace WebService.Infrastructure.Tests
         #endregion
 
   
-        #region Tag4
+        #region Tag4-Language
         //tag4 - varying Language
 
     [Fact]
@@ -423,7 +424,7 @@ namespace WebService.Infrastructure.Tests
         #endregion
 
 
-        #region Tag5
+        #region Tag5-ProgrammingLanguage
 
 
         [Fact]
@@ -514,8 +515,8 @@ namespace WebService.Infrastructure.Tests
         #endregion
 
         
-        #region Tag6
-        //tag6
+        #region Tag6-Media
+        //tag6, varying media
 
 
 
@@ -523,12 +524,12 @@ namespace WebService.Infrastructure.Tests
     public void Search_given_SearchForm_containing_media_returns_list_of_material_only_with_given_media()
     {
             //Arrange
-            var searchMedia = new List<MediaDTO>() { new MediaDTO(1, "Book") };
-        SearchForm searchForm = new SearchForm("", new List<TagDTO>() { new TagDTO(6, "Tag6")}, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), searchMedia, 0);
+            var searchMedia = new List<MediaDTO>() { new MediaDTO(3, "Report") };
+        SearchForm searchForm = new SearchForm("Dockerize your life", new List<TagDTO>() { new TagDTO(6, "Tag6")}, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), searchMedia, 0);
             List<MaterialDTO> expected = new List<MaterialDTO>() { 
+                _tag6Materials.ElementAt(2).ConvertToMaterialDTO(),
                 _tag6Materials.ElementAt(0).ConvertToMaterialDTO(),
                 _tag6Materials.ElementAt(1).ConvertToMaterialDTO(),
-                _tag6Materials.ElementAt(2).ConvertToMaterialDTO(),
             };
       
         //Act
@@ -543,15 +544,15 @@ namespace WebService.Infrastructure.Tests
         }
 
         [Fact]
-        public void Search_given_SearchForm_containing_one_media_returns_list_of_material_only_with_given_media()
+        public void Search_given_SearchForm_containing_two_media_returns_list_of_materials_prioritized_by_medias()
         {
             //Arrange
-            var searchMedia = new List<MediaDTO>() { new MediaDTO(1, "Book") };
-            SearchForm searchForm = new SearchForm("", new List<TagDTO>() { new TagDTO(6, "Tag6") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), searchMedia, 0);
+            var searchMedia = new List<MediaDTO>() { new MediaDTO(1, "Book"), new MediaDTO(2, "Video") };
+            SearchForm searchForm = new SearchForm("Dockerize your life", new List<TagDTO>() { new TagDTO(6, "Tag6") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), searchMedia, 0);
             List<MaterialDTO> expected = new List<MaterialDTO>() {
                 _tag6Materials.ElementAt(0).ConvertToMaterialDTO(),
-                _tag6Materials.ElementAt(1).ConvertToMaterialDTO(),
                 _tag6Materials.ElementAt(2).ConvertToMaterialDTO(),
+                _tag6Materials.ElementAt(1).ConvertToMaterialDTO(),
             };
 
             //Act
@@ -563,18 +564,72 @@ namespace WebService.Infrastructure.Tests
                 Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
             }
 
+        }
+
+
+
+        [Fact]
+        public void Search_given_SearchForm_containing_three_media_ignores_order_returns_list_of_materials_prioritized_by_medias()
+        {
+            //Arrange
+            var searchMedia = new List<MediaDTO>() { new MediaDTO(3, "Report"), new MediaDTO(1, "Book"), new MediaDTO(2, "Video") };
+            SearchForm searchForm = new SearchForm("Dockerize your life", new List<TagDTO>() { new TagDTO(6, "Tag6") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), searchMedia, 0);
+            List<MaterialDTO> expected = new List<MaterialDTO>() {
+                _tag6Materials.ElementAt(0).ConvertToMaterialDTO(),  
+                _tag6Materials.ElementAt(1).ConvertToMaterialDTO(),
+                   _tag6Materials.ElementAt(2).ConvertToMaterialDTO(),
+            };
+
+            //Act
+            var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
+
+            //Assert
+            for (int i = 0; i < expected.Count - 1; i++)
+            {
+                Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
+            }
+
+        }
+        #endregion
+
+
+        #region Tag7-Author
+        //tag7, varying author
+
+        [Fact]
+        public void Search_given_SearchForm_containing_author_in_textfield_returns_materials_prioritized_by_author()
+        {
+            //Arrange
+            
+            SearchForm searchForm = new SearchForm("Alfa Alfason", new List<TagDTO>() { new TagDTO(7, "Tag7") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+            List<MaterialDTO> expected = new List<MaterialDTO>() {
+                _tag7Materials.ElementAt(0).ConvertToMaterialDTO(),
+                _tag7Materials.ElementAt(3).ConvertToMaterialDTO(),
+                _tag7Materials.ElementAt(1).ConvertToMaterialDTO(),
+                _tag7Materials.ElementAt(2).ConvertToMaterialDTO(),
+            };
+
+            //Act
+            var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
+
+            //Assert
+            for (int i = 0; i < expected.Count - 1; i++)
+            {
+                Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
+            }
         }
 
         [Fact]
-        public void Search_given_SearchForm_containing_two_media_returns_list_of_mater()
+        public void Search_given_SearchForm_containing_author_firstName_in_textfield_returns_materials_prioritized_by_author()
         {
             //Arrange
-            var searchMedia = new List<MediaDTO>() { new MediaDTO(1, "Book") };
-            SearchForm searchForm = new SearchForm("", new List<TagDTO>() { new TagDTO(6, "Tag6") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), searchMedia, 0);
+
+            SearchForm searchForm = new SearchForm("Alfa", new List<TagDTO>() { new TagDTO(7, "Tag7") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
             List<MaterialDTO> expected = new List<MaterialDTO>() {
-                _tag6Materials.ElementAt(0).ConvertToMaterialDTO(),
-                _tag6Materials.ElementAt(1).ConvertToMaterialDTO(),
-                _tag6Materials.ElementAt(2).ConvertToMaterialDTO(),
+                _tag7Materials.ElementAt(0).ConvertToMaterialDTO(),
+                _tag7Materials.ElementAt(1).ConvertToMaterialDTO(),
+                _tag7Materials.ElementAt(3).ConvertToMaterialDTO(),
+                _tag7Materials.ElementAt(2).ConvertToMaterialDTO(),
             };
 
             //Act
@@ -585,48 +640,168 @@ namespace WebService.Infrastructure.Tests
             {
                 Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
             }
-
         }
-        #endregion
 
+        [Fact]
+        public void Search_given_SearchForm_containing_two_authors_in_textfield_returns_materials_prioritized_by_author()
+        {
+            //Arrange
 
-        #region Tag7
-        //tag7, title
+            SearchForm searchForm = new SearchForm("Alfa Alfason, Bravo Bravoson", new List<TagDTO>() { new TagDTO(7, "Tag7") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+            List<MaterialDTO> expected = new List<MaterialDTO>() {
+                _tag7Materials.ElementAt(3).ConvertToMaterialDTO(),
+                _tag7Materials.ElementAt(0).ConvertToMaterialDTO(),
+                _tag7Materials.ElementAt(1).ConvertToMaterialDTO(),
+                _tag7Materials.ElementAt(2).ConvertToMaterialDTO(),
+            };
 
-
-
-
-
-
-        /*
-        public static IEnumerable<object[]> Search_given_SearchForm_containing_title_returns_list_of_material_prioritized_by_title_data()
-    {
-        yield return new object[] { "Lorem", new List<Material>() { _tag7Materials.ElementAt(0), _tag7Materials.ElementAt(1), _tag7Materials.ElementAt(2), _tag7Materials.ElementAt(3), _tag7Materials.ElementAt(4) } }; //all materials searchword in title, what order?
-        yield return new object[] { "lorem", new List<Material>() { _tag7Materials.ElementAt(0), _tag7Materials.ElementAt(1), _tag7Materials.ElementAt(2), _tag7Materials.ElementAt(3), _tag7Materials.ElementAt(4) } };
-        yield return new object[] { "LOREM", new List<Material>() { _tag7Materials.ElementAt(0), _tag7Materials.ElementAt(1), _tag7Materials.ElementAt(2), _tag7Materials.ElementAt(3), _tag7Materials.ElementAt(4) } };
-        yield return new object[] { "Lorem ipsum dolor sit amet", new List<Material>() { _tag7Materials.ElementAt(0), _tag7Materials.ElementAt(1), _tag7Materials.ElementAt(2), _tag7Materials.ElementAt(3), _tag7Materials.ElementAt(4) } }; //Prioritised by number of matches with words in title
-
-    }
-
-    [Theory]
-    [MemberData(nameof(Search_given_SearchForm_containing_title_returns_list_of_material_prioritized_by_title_data))]
-    public void Search_given_SearchForm_containing_title_returns_list_of_material_prioritized_by_title(string title, List<Material> expected)
-    {
-
-        //Arrange
-        SearchForm searchForm = new SearchForm("I am a text search", new List<TagDTO>() { new TagDTO(7, "Tag7") }, new List<LevelDTO>() { }, new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
-        SearchAlgorithm s = new SearchAlgorithm();
-        //Act
+            //Act
             var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
 
-
-        //Assert
-            for (int i = 0; i < actual.Count - 1; i++)
+            //Assert
+            for (int i = 0; i < expected.Count - 1; i++)
             {
-                Assert.Equal(expected.ElementAt(i).ConvertToMaterialDTO(), actual.ElementAt(i));
+                Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
+            }
         }
-    }*/
+
+
         #endregion
+
+        #region Tag8-Timestamp
+        //tag8, timestamp
+        [Fact]
+        public void Search_given_SearchForm_returns_Materials_prioritized_by_timestamp()
+        {
+            //Arrange
+
+            SearchForm searchForm = new SearchForm("Alfa Alfason, Bravo Bravoson", new List<TagDTO>() { new TagDTO(7, "Tag8") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+            List<MaterialDTO> expected = new List<MaterialDTO>() {
+                _tag7Materials.ElementAt(3).ConvertToMaterialDTO(),
+                _tag7Materials.ElementAt(0).ConvertToMaterialDTO(),
+                _tag7Materials.ElementAt(1).ConvertToMaterialDTO(),
+                _tag7Materials.ElementAt(2).ConvertToMaterialDTO(),
+            };
+
+            //Act
+            var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
+
+            //Assert
+            for (int i = 0; i < expected.Count - 1; i++)
+            {
+                Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
+            }
+        }
+
+
+
+
+
+
+
+        #endregion
+
+        #region Tag9-Titles
+        //tag9, title
+
+        [Fact]
+        public void Search_given_SearchForm_containing_textinput_lorem_returns_list_of_material_prioritized_by_titles_containing_lorem()
+        {
+
+            //Arrange
+            SearchForm searchForm = new SearchForm("Lorem", new List<TagDTO>() { new TagDTO(9, "Tag9") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+
+            var expected = new List<MaterialDTO>()
+            {
+                 _tag9Materials.ElementAt(4).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(3).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(2).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(1).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(0).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(5).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(6).ConvertToMaterialDTO()
+            };
+
+            //Act
+            var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
+
+            //Assert
+
+            for (int i = 0; i < expected.Count - 1; i++)
+            {
+                Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
+            }
+        }
+
+        [Fact]
+        public void Search_given_SearchForm_containing_textinput_lorem_etc_returns_list_of_material_prioritized_by_titles_with_lorem_etc_first()
+        {
+
+            //Arrange
+            SearchForm searchForm = new SearchForm("Lorem ipsum dolor sit amet", new List<TagDTO>() { new TagDTO(9, "Tag9") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+
+            var expected = new List<MaterialDTO>()
+            {
+                 _tag9Materials.ElementAt(0).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(1).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(2).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(3).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(4).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(5).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(6).ConvertToMaterialDTO()
+            };
+
+            //Act
+            var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
+
+            //Assert
+
+            for (int i = 0; i < expected.Count - 1; i++)
+            {
+                Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
+            }
+        }
+        #endregion
+
+        #region Tag10Tag11-WeightTwoTags
+        //Tag 10 + 11, Varying weight, two tags
+        [Fact]
+        public void Search_given_SearchForm_containing_textinput_lorem_returns_list_of_material_prioritized_by_titles_containing_lorem()
+        {
+
+            //Arrange
+            SearchForm searchForm = new SearchForm("Lorem", new List<TagDTO>() { new TagDTO(9, "Tag9") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+
+            var expected = new List<MaterialDTO>()
+            {
+                 _tag9Materials.ElementAt(4).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(3).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(2).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(1).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(0).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(5).ConvertToMaterialDTO(),
+                 _tag9Materials.ElementAt(6).ConvertToMaterialDTO()
+            };
+
+            //Act
+            var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
+
+            //Assert
+
+            for (int i = 0; i < expected.Count - 1; i++)
+            {
+                Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
+            }
+        }
+
+        #endregion
+
+        #region Tag12Tag13-TagsInTitle
+        //Tag 12 + 13, Tags in title
+        #endregion
+
+
+
 
 
 
