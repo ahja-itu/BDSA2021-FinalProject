@@ -52,7 +52,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
                     Summary = "Lorem ipsum",
                     URL = "iamaURL",
                     Content = "I am content",
-                    Title = "Blazor for experts " + i,
+                    Title = "ELI5: Induction Proofs " + i,
                     Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
                     TimeStamp = System.DateTime.UtcNow
                 };
@@ -535,7 +535,7 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             {
                 Id = MaterialID++,
                 WeightedTags = new HashSet<WeightedTag> { new WeightedTag("DOTNET", 10) },
-                Ratings = new HashSet<Rating> { new Rating(5,"Reviewer") },
+                Ratings = new HashSet<Rating> { new Rating(10,"Reviewer") },
                 Levels = new HashSet<Level> { new Level(4,"School") },
                 ProgrammingLanguages = new HashSet<ProgrammingLanguage> { new ProgrammingLanguage(4,"Go") },
                 Medias = new HashSet<Media> { new Media(4,"Youtube") },

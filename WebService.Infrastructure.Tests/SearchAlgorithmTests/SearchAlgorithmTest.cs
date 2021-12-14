@@ -17,6 +17,7 @@ namespace WebService.Infrastructure.Tests
         private List<Material> _tag5Materials;
         private List<Material> _tag6Materials;
         private List<Material> _tag7Materials;
+        private List<Material> _tag8Materials;
 
         private List<Material> _tag9Materials;
         private List<Material> _tag1011Materials;
@@ -36,7 +37,7 @@ namespace WebService.Infrastructure.Tests
             _tag5Materials = _v.Tag5Materials;
             _tag6Materials = _v.Tag6Materials;
             _tag7Materials = _v.Tag7Materials;
-
+            _tag8Materials = _v.Tag8Materials; 
             _tag9Materials = _v.Tag9Materials;
             _tag1011Materials = _v.Tag1011Materials;
         }
@@ -134,7 +135,7 @@ namespace WebService.Infrastructure.Tests
         public void Search_given_SearchForm_returns_list_of_materials_prioritized_by_tag_weight()
         {
             //Arrange
-            SearchForm searchForm = new SearchForm("Blazor for experts", new List<TagDTO>() { new TagDTO(1, "Tag1")}, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+            SearchForm searchForm = new SearchForm("ELI5: Induction Proofs", new List<TagDTO>() { new TagDTO(1, "Tag1")}, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
 
 
             List<MaterialDTO> expected = new List<MaterialDTO>();
@@ -676,13 +677,15 @@ namespace WebService.Infrastructure.Tests
         public void Search_given_SearchForm_returns_Materials_prioritized_by_timestamp()
         {
             //Arrange
-
-            SearchForm searchForm = new SearchForm("Alfa Alfason, Bravo Bravoson", new List<TagDTO>() { new TagDTO(7, "Tag8") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+            SearchForm searchForm = new SearchForm("", new List<TagDTO>() { new TagDTO(8, "Tag8") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
             List<MaterialDTO> expected = new List<MaterialDTO>() {
-                _tag7Materials.ElementAt(3).ConvertToMaterialDTO(),
-                _tag7Materials.ElementAt(0).ConvertToMaterialDTO(),
-                _tag7Materials.ElementAt(1).ConvertToMaterialDTO(),
-                _tag7Materials.ElementAt(2).ConvertToMaterialDTO(),
+                _tag8Materials.ElementAt(6).ConvertToMaterialDTO(),
+                _tag8Materials.ElementAt(5).ConvertToMaterialDTO(),
+                _tag8Materials.ElementAt(4).ConvertToMaterialDTO(),
+                _tag8Materials.ElementAt(3).ConvertToMaterialDTO(),
+                _tag8Materials.ElementAt(2).ConvertToMaterialDTO(),
+                _tag8Materials.ElementAt(1).ConvertToMaterialDTO(),
+                _tag8Materials.ElementAt(0).ConvertToMaterialDTO(),
             };
 
             //Act
