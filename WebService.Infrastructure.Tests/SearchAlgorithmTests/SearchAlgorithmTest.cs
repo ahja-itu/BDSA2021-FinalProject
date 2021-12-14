@@ -20,6 +20,7 @@ namespace WebService.Infrastructure.Tests
         private List<Material> _tag8Materials;
 
         private List<Material> _tag9Materials;
+        private List<Material> _tag1011Materials;
 
         public SearchAlgorithmTest()
         {
@@ -38,6 +39,7 @@ namespace WebService.Infrastructure.Tests
             _tag7Materials = _v.Tag7Materials;
             _tag8Materials = _v.Tag8Materials;
             _tag9Materials = _v.Tag9Materials;
+            _tag1011Materials = _v.Tag1011Materials;
         }
 
 
@@ -771,21 +773,76 @@ namespace WebService.Infrastructure.Tests
         #region Tag10Tag11-WeightTwoTags
         //Tag 10 + 11, Varying weight, two tags
         [Fact]
-        public void Search_given_SearchForm_containing__lorem_returns_list_of_material_prioritized_by_titles_containing_lorem()
+        public void Search_given_SearchForm_containing_twoTags_returns_list_of_material_prioritized_by_tag_weight_sum()
         {
 
             //Arrange
-            SearchForm searchForm = new SearchForm("Lorem", new List<TagDTO>() { new TagDTO(9, "Tag9") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+            SearchForm searchForm = new SearchForm("", new List<TagDTO>() { new TagDTO(10, "Tag10"), new TagDTO(11, "Tag11") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
 
             var expected = new List<MaterialDTO>()
             {
-                 _tag9Materials.ElementAt(4).ConvertToMaterialDTO(),
-                 _tag9Materials.ElementAt(3).ConvertToMaterialDTO(),
-                 _tag9Materials.ElementAt(2).ConvertToMaterialDTO(),
-                 _tag9Materials.ElementAt(1).ConvertToMaterialDTO(),
-                 _tag9Materials.ElementAt(0).ConvertToMaterialDTO(),
-                 _tag9Materials.ElementAt(5).ConvertToMaterialDTO(),
-                 _tag9Materials.ElementAt(6).ConvertToMaterialDTO()
+                 _tag1011Materials.ElementAt(1).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(4).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(2).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(3).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(5).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(0).ConvertToMaterialDTO()
+            };
+
+            //Act
+            var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
+
+            //Assert
+
+            for (int i = 0; i < expected.Count - 1; i++)
+            {
+                Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
+            }
+        }
+
+        [Fact]
+        public void Search_given_SearchForm_containing_Tag10_returns_list_of_material_prioritized_by_tag_weight_sum_of_Tag10_only()
+        {
+
+            //Arrange
+            SearchForm searchForm = new SearchForm("", new List<TagDTO>() { new TagDTO(10, "Tag10")}, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+
+            var expected = new List<MaterialDTO>()
+            {
+                 _tag1011Materials.ElementAt(1).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(4).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(5).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(3).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(2).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(0).ConvertToMaterialDTO()
+            };
+
+            //Act
+            var actual = _searchAlgorithm.Search(searchForm).Result.Item2;
+
+            //Assert
+
+            for (int i = 0; i < expected.Count - 1; i++)
+            {
+                Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
+            }
+        }
+
+        [Fact]
+        public void Search_given_SearchForm_containing_Tag11_returns_list_of_material_prioritized_by_tag_weight_sum_of_Tag11_only()
+        {
+
+            //Arrange
+            SearchForm searchForm = new SearchForm("", new List<TagDTO>() { new TagDTO(11, "Tag11") }, new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>(), new List<MediaDTO>(), 0);
+
+            var expected = new List<MaterialDTO>()
+            {
+                 _tag1011Materials.ElementAt(1).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(2).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(3).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(4).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(5).ConvertToMaterialDTO(),
+                 _tag1011Materials.ElementAt(0).ConvertToMaterialDTO()
             };
 
             //Act

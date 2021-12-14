@@ -405,28 +405,131 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             #region Tag10Tag11-WeightTwoTags
             //Varying weight, two tags - Tag10, Tag11
             Tag1011Materials = new List<Material>();
-            for (int i = 1; i <= 10; i++)
+            var counter = 0;
+            
+            var material1011_1 = new Material() //
             {
-                var material1011 = new Material() //
-                {
-                    Id = MaterialID++,
-                    WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag10", i), new WeightedTag("Tag11", 11 - i) },
-                    Ratings = new HashSet<Rating> { new Rating(5, "Reviewer") },
-                    Levels = new HashSet<Level> { masters },
-                    ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
-                    Medias = new HashSet<Media> { report },
-                    Language = english,
-                    Summary = "Lorem ipsum",
-                    URL = "iamaURL",
-                    Content = "I am content",
-                    Title = "Blazor for beginners " + i,
-                    Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
-                    TimeStamp = System.DateTime.UtcNow
-                };
-                context.AddRange(material1011);
-                Tag1011Materials.Add(material1011);
-            }
+                Id = MaterialID++,
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag10", 1), new WeightedTag("Tag11", 1) },
+                Ratings = new HashSet<Rating> { new Rating(10, "Reviewer") },
+                Levels = new HashSet<Level> { masters },
+                ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
+                Medias = new HashSet<Media> { report },
+                Language = english,
+                Summary = "Lorem ipsum",
+                URL = "iamaURL",
+                Content = "I am content",
+                Title = "Blazor " + counter++,
+                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
+                TimeStamp = System.DateTime.UtcNow
+            };
+
+            context.AddRange(material1011_1);
+            Tag1011Materials.Add(material1011_1);
+
+            var material1011_2 = new Material() //
+            {
+                Id = MaterialID++,
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag10", 10), new WeightedTag("Tag11", 10) },
+                Ratings = new HashSet<Rating> { new Rating(10, "Reviewer") },
+                Levels = new HashSet<Level> { masters },
+                ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
+                Medias = new HashSet<Media> { report },
+                Language = english,
+                Summary = "Lorem ipsum",
+                URL = "iamaURL",
+                Content = "I am content",
+                Title = "Blazor " + counter++,
+                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
+                TimeStamp = System.DateTime.UtcNow
+            };
+
+            context.AddRange(material1011_2);
+            Tag1011Materials.Add(material1011_2);
+
+            var material1011_3 = new Material() //
+            {
+                Id = MaterialID++,
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag10", 2), new WeightedTag("Tag11", 9) },
+                Ratings = new HashSet<Rating> { new Rating(10, "Reviewer") },
+                Levels = new HashSet<Level> { masters },
+                ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
+                Medias = new HashSet<Media> { report },
+                Language = english,
+                Summary = "Lorem ipsum",
+                URL = "iamaURL",
+                Content = "I am content",
+                Title = "Blazor " + counter++,
+                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
+                TimeStamp = System.DateTime.UtcNow
+            };
+
+            context.AddRange(material1011_3);
+            Tag1011Materials.Add(material1011_3);
+
+            var material1011_4 = new Material() //
+            {
+                Id = MaterialID++,
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag10", 5), new WeightedTag("Tag11", 5) },
+                Ratings = new HashSet<Rating> { new Rating(10, "Reviewer") },
+                Levels = new HashSet<Level> { masters },
+                ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
+                Medias = new HashSet<Media> { report },
+                Language = english,
+                Summary = "Lorem ipsum",
+                URL = "iamaURL",
+                Content = "I am content",
+                Title = "Blazor " + counter++,
+                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
+                TimeStamp = System.DateTime.UtcNow
+            };
+
+            context.AddRange(material1011_4);
+            Tag1011Materials.Add(material1011_4);
+
+            var material1011_5 = new Material() //
+            {
+                Id = MaterialID++,
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag10", 9), new WeightedTag("Tag11", 4) },
+                Ratings = new HashSet<Rating> { new Rating(10, "Reviewer") },
+                Levels = new HashSet<Level> { masters },
+                ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
+                Medias = new HashSet<Media> { report },
+                Language = english,
+                Summary = "Lorem ipsum",
+                URL = "iamaURL",
+                Content = "I am content",
+                Title = "Blazor " + counter++,
+                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
+                TimeStamp = System.DateTime.UtcNow
+            };
+
+            context.AddRange(material1011_5);
+            Tag1011Materials.Add(material1011_5);
+
+            var material1011_6 = new Material() //
+            {
+                Id = MaterialID++,
+                WeightedTags = new HashSet<WeightedTag> { new WeightedTag("Tag10", 6), new WeightedTag("Tag11", 2) },
+                Ratings = new HashSet<Rating> { new Rating(10, "Reviewer") },
+                Levels = new HashSet<Level> { masters },
+                ProgrammingLanguages = new HashSet<ProgrammingLanguage> { java },
+                Medias = new HashSet<Media> { report },
+                Language = english,
+                Summary = "Lorem ipsum",
+                URL = "iamaURL",
+                Content = "I am content",
+                Title = "Blazor " + counter++,
+                Authors = new HashSet<Author> { new Author("Writername", "Writernameson") },
+                TimeStamp = System.DateTime.UtcNow
+            };
+
+            context.AddRange(material1011_6);
+            Tag1011Materials.Add(material1011_6);
+
             #endregion
+
+            #region UpperLowerCase
             //material for upper lower case
             UpperLowerMaterial = new Material() //
             {
@@ -449,6 +552,8 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests
             context.Add(dotnetTag);
 
             context.Add(UpperLowerMaterial);
+
+            #endregion
 
             context.AddRange(danish, english, spanish, bachelor, masters, phd, book, report, video, csharp, java, fsharp);
 
