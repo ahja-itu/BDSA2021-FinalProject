@@ -9,7 +9,7 @@
 
         public static bool ContainsIgnoreCasing(this string source, string toCheck)
         {
-            return source.Contains(toCheck, StringComparison.OrdinalIgnoreCase);
+            return source.Split(" ").Contains(toCheck, StringComparer.OrdinalIgnoreCase);
         }
 
         public static bool ContainsIgnoreCasing(this IEnumerable<String> source, string toCheck)
