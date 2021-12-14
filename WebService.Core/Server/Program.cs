@@ -19,6 +19,7 @@ builder.Services.AddSwaggerGen(c =>
 var configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddUserSecrets<Program>()
+    // ReSharper disable once StringLiteralTypo
     .AddJsonFile("appsettings.json")
     .Build();
 

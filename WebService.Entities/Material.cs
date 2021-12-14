@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Entities;
 
 /// <summary>Class Material.</summary>
@@ -18,7 +19,10 @@ public class Material
 {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Material" /> class. Only used for DBContext.</summary>
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="T:WebService.Entities.Material" /> class. Only used for
+    ///     DBContext.
+    /// </summary>
     public Material()
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {

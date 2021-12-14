@@ -133,10 +133,10 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     }
 
     /// <summary>
-    ///     Valids the input.
+    ///     Validates the input.
     /// </summary>
     /// <param name="programmingLanguage">The programming language.</param>
-    /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+    /// <returns><c>true</c> if the input is valid, <c>false</c> otherwise.</returns>
     private static bool InvalidInput(CreateProgrammingLanguageDTO programmingLanguage)
     {
         return programmingLanguage.Name.Length is > 50 or > 50

@@ -56,7 +56,7 @@ public class MediaController : ControllerBase
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>ActionResult&lt;MediaDTO&gt;.</returns>
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<MediaDTO>> Get(int id)
@@ -116,7 +116,7 @@ public class MediaController : ControllerBase
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>IActionResult.</returns>
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)

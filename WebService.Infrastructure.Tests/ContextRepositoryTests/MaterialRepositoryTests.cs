@@ -1369,20 +1369,15 @@ public class MaterialRepositoryTests
         Assert.Equal(2, response.Count);
     }
 
-    /// <summary>
-    ///     Defines the test method
-    ///     ReadAsync_given_programming_language_filter_c_sharp_should_only_return_materials_with_csharp.
-    /// </summary>
-    /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
     public async Task ReadAsync_given_programming_language_filter_c_sharp_should_only_return_materials_with_csharp()
     {
         var input = new SearchForm("",
-            Array.Empty<TagDTO>(),
-            Array.Empty<LevelDTO>(),
-            new ProgrammingLanguageDTO[] {new(1, "F#")},
-            Array.Empty<LanguageDTO>(),
-            Array.Empty<MediaDTO>(),
+            new[] {new TagDTO(1, "hathathat")},
+            new[] {new LevelDTO(1, "hathathat")},
+            new[] {new ProgrammingLanguageDTO(1, "C#")},
+            new[] {new LanguageDTO(1, "hathathat")},
+            new[] {new MediaDTO(1, "hathathat")},
             1);
 
         var (status, response) = await _v.MaterialRepository.ReadAsync(input);
@@ -1391,19 +1386,15 @@ public class MaterialRepositoryTests
         Assert.Equal(1, response.Count);
     }
 
-    /// <summary>
-    ///     Defines the test method ReadAsync_given_programming_language_filter_than_doesnt_exist_return_no_materials.
-    /// </summary>
-    /// <returns>System.Threading.Tasks.Task.</returns>
     [Fact]
-    public async Task ReadAsync_given_programming_language_filter_than_doesnt_exist_return_no_materials()
+    public async Task ReadAsync_given_filter_than_doesnt_exist_return_no_materials()
     {
         var input = new SearchForm("",
-            Array.Empty<TagDTO>(),
-            Array.Empty<LevelDTO>(),
-            new ProgrammingLanguageDTO[] {new(1, "Lisp")},
-            Array.Empty<LanguageDTO>(),
-            Array.Empty<MediaDTO>(),
+            new[] {new TagDTO(1, "hathathat")},
+            new[] {new LevelDTO(1, "hathathat")},
+            new[] {new ProgrammingLanguageDTO(1, "Lisp")},
+            new[] {new LanguageDTO(1, "hathathat")},
+            new[] {new MediaDTO(1, "hathathat")},
             1);
 
         var (status, response) = await _v.MaterialRepository.ReadAsync(input);

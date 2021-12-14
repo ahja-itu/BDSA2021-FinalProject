@@ -1,9 +1,9 @@
 ﻿// ***********************************************************************
 // Assembly         : WebService.Core.Shared.Tests
-// Author           : thorl
+// Author           : Group BTG
 // Created          : 12-08-2021
 //
-// Last Modified By : thorl
+// Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
 // <copyright file="MaterialDTOTests.cs" company="BTG">
@@ -92,8 +92,8 @@ public class MaterialDTOTests
             0,
             new List<CreateWeightedTagDTO>
             {
-                new WeightedTagDTO(0, "weigthedtag0", 2),
-                new WeightedTagDTO(1, "weigthedtag1", 10)
+                new WeightedTagDTO("weigthedtag0", 2),
+                new WeightedTagDTO("weigthedtag1", 10)
             },
             new List<CreateRatingDTO>
             {
@@ -120,15 +120,15 @@ public class MaterialDTOTests
                 new MediaDTO(0, "Media0"),
                 new MediaDTO(1, "Media1")
             },
-            new LanguageDTO(0, "language"),
+            new CreateLanguageDTO("language"),
             "Summary",
             "URL.com",
             "Content",
             "Title",
             new List<CreateAuthorDTO>
             {
-                new AuthorDTO(0, "firstname0", "surname0"),
-                new AuthorDTO(0, "firstname1", "surname1")
+                new AuthorDTO("firstname0", "surname0"),
+                new AuthorDTO("firstname1", "surname1")
             },
             DateTime.ParseExact("2011-03-21 13:26", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)
         );

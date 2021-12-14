@@ -1,9 +1,9 @@
 ﻿// ***********************************************************************
 // Assembly         : WebService.Core.Shared
-// Author           : thorl
+// Author           : Group BTG
 // Created          : 11-29-2021
 //
-// Last Modified By : thorl
+// Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
 // <copyright file="SearchForm.cs" company="BTG">
@@ -38,7 +38,7 @@ public class SearchForm
         Rating = rating;
     }
 
-    public string TextField { get; }
+    public string TextField { get; set; }
     public ICollection<TagDTO> Tags { get; set; }
     public ICollection<LevelDTO> Levels { get; }
     public ICollection<ProgrammingLanguageDTO> ProgrammingLanguages { get; }

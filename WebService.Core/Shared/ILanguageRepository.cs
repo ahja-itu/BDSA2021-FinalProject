@@ -1,9 +1,9 @@
 ﻿// ***********************************************************************
 // Assembly         : WebService.Core.Shared
-// Author           : thorl
+// Author           : Group BTG
 // Created          : 11-29-2021
 //
-// Last Modified By : thorl
+// Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
 // <copyright file="ILanguageRepository.cs" company="BTG">

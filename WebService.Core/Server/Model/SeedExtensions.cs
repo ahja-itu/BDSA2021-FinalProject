@@ -1,9 +1,9 @@
 ﻿// ***********************************************************************
 // Assembly         : WebService.Core.Server
-// Author           : thorl
+// Author           : Group BTG
 // Created          : 12-10-2021
 //
-// Last Modified By : thorl
+// Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
 // <copyright file="SeedExtensions.cs" company="BTG">

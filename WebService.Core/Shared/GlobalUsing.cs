@@ -6,7 +6,7 @@
 // Last Modified By : Group BTG
 // Last Modified On : 12-08-2021
 // ***********************************************************************
-// <copyright file="GlobalUsings.cs" company="BTG">
+// <copyright file="GlobalUsing.cs" company="BTG">
 //     Copyright (c) . All rights reserved.
 // </copyright>
 // <summary></summary>

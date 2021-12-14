@@ -1,9 +1,9 @@
 ﻿// ***********************************************************************
 // Assembly         : WebService.Core.Shared
-// Author           : thorl
+// Author           : Group BTG
 // Created          : 11-29-2021
 //
-// Last Modified By : thorl
+// Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
 // <copyright file="RatingDTO.cs" company="BTG">
@@ -16,7 +16,7 @@ namespace WebService.Core.Shared;
 
 /// <summary>
 ///     Class CreateRatingDTO.
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateRatingDTO}" />
+///     Implements the <see cref="System.IEquatable{CreateRatingDTO}" />
 /// </summary>
 public record CreateRatingDTO
 {
@@ -39,8 +39,8 @@ public record CreateRatingDTO
 /// <summary>
 ///     Class RatingDTO.
 ///     Implements the <see cref="T:WebService.Core.Shared.CreateRatingDTO" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateRatingDTO}" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.RatingDTO}" />
+///     Implements the <see cref="System.IEquatable{CreateRatingDTO}" />
+///     Implements the <see cref="System.IEquatable{RatingDTO}" />
 /// </summary>
 public record RatingDTO : CreateRatingDTO
 {

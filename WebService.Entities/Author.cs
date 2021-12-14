@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace WebService.Entities;
 
 /// <summary>Class Author.</summary>

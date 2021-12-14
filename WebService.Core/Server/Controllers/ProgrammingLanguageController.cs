@@ -3,7 +3,7 @@
 // Author           : Group BTG
 // Created          : 11-29-2021
 //
-// Last Modified By : thorl
+// Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
 // <copyright file="ProgrammingLanguageController.cs" company="BTG">
@@ -56,7 +56,7 @@ public class ProgrammingLanguageController : ControllerBase
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>ActionResult&lt;ProgrammingLanguageDTO&gt;.</returns>
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ProgrammingLanguageDTO>> Get(int id)
@@ -116,7 +116,7 @@ public class ProgrammingLanguageController : ControllerBase
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>IActionResult.</returns>
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)

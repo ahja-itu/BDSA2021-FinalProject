@@ -1,9 +1,9 @@
 ﻿// ***********************************************************************
 // Assembly         : WebService.Core.Shared
-// Author           : thorl
+// Author           : Group BTG
 // Created          : 11-29-2021
 //
-// Last Modified By : thorl
+// Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
 // <copyright file="LevelDTO.cs" company="BTG">
@@ -16,7 +16,7 @@ namespace WebService.Core.Shared;
 
 /// <summary>
 ///     Class CreateLevelDTO.
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateLevelDTO}" />
+///     Implements the <see cref="System.IEquatable{CreateLevelDTO}" />
 /// </summary>
 public record CreateLevelDTO
 {
@@ -33,8 +33,8 @@ public record CreateLevelDTO
 /// <summary>
 ///     Class LevelDTO.
 ///     Implements the <see cref="T:WebService.Core.Shared.CreateLevelDTO" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.CreateLevelDTO}" />
-///     Implements the <see cref="System.IEquatable{WebService.Core.Shared.LevelDTO}" />
+///     Implements the <see cref="System.IEquatable{CreateLevelDTO}" />
+///     Implements the <see cref="System.IEquatable{LevelDTO}" />
 /// </summary>
 public record LevelDTO : CreateLevelDTO
 {

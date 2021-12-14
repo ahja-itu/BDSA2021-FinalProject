@@ -3,7 +3,7 @@
 // Author           : Group BTG
 // Created          : 11-29-2021
 //
-// Last Modified By : thorl
+// Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
 // <copyright file="TestVariables.cs" company="BTG">
@@ -134,6 +134,7 @@ internal class TestVariables
         MediaRepository = new MediaRepository(context);
         ProgrammingLanguageRepository = new ProgrammingLanguageRepository(context);
         TagRepository = new TagRepository(context);
+        SearchAlgorithm = new SearchAlgorithm(MaterialRepository, TagRepository);
     }
 
     public LanguageRepository LanguageRepository { get; }
@@ -142,4 +143,5 @@ internal class TestVariables
     public MediaRepository MediaRepository { get; }
     public ProgrammingLanguageRepository ProgrammingLanguageRepository { get; }
     public TagRepository TagRepository { get; }
+    public SearchAlgorithm SearchAlgorithm { get; }
 }

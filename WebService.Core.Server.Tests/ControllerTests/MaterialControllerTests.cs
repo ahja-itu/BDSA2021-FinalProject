@@ -13,12 +13,14 @@
 // ***********************************************************************
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace WebService.Core.Server.Tests.ControllerTests;
 
 /// <summary>
 ///     Class MaterialControllerTests.
 /// </summary>
+[SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class MaterialControllerTests
 {
     /// <summary>
@@ -139,14 +141,13 @@ public class MaterialControllerTests
         Assert.Equal((int) HttpStatusCode.OK, actual?.StatusCode);
     }
 
-    /// <summary>
-    ///     Defines the test method Get_material_returns_from_searchForm_status_notFound.
-    /// </summary>
     [Fact]
     public async Task Get_material_returns_from_searchForm_status_notFound()
     {
-        var searchForm = new SearchForm("Hello", new TagDTO[] {new(4, "DOTNET")}, new LevelDTO[] { },
-            new ProgrammingLanguageDTO[] { }, new LanguageDTO[] { }, new MediaDTO[] { }, 10);
+        var searchForm = new SearchForm("Hello", new[] {new TagDTO(4, "DOTNET")},
+            new[] {new LevelDTO(1, "Kindergarden")},
+            new[] {new ProgrammingLanguageDTO(1, "Cow")}, new[] {new LanguageDTO(1, "ASL")},
+            new[] {new MediaDTO(1, "Comicbook")}, 10);
         var response = await _materialController.Post(searchForm);
         var actual = response.Result as NotFoundResult;
 

@@ -132,10 +132,10 @@ public class MediaRepository : IMediaRepository
     }
 
     /// <summary>
-    ///     Valids the input.
+    ///     Validates the input.
     /// </summary>
     /// <param name="media">The media.</param>
-    /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+    /// <returns><c>true</c> if the input is valid, <c>false</c> otherwise.</returns>
     private static bool InvalidInput(CreateMediaDTO media)
     {
         return media.Name.Length is > 50 or > 50
