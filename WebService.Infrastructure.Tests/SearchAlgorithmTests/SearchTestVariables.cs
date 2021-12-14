@@ -1,10 +1,30 @@
+// ***********************************************************************
+// Assembly         : WebService.Infrastructure.Tests
+// Author           : Group BTG
+// Created          : 12-10-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="SearchTestVariables.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
 using System.Diagnostics.CodeAnalysis;
 
 namespace WebService.Infrastructure.Tests.SearchAlgorithmTests;
 
+/// <summary>
+///     Class SearchTestVariables.
+/// </summary>
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 internal class SearchTestVariables
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="SearchTestVariables" /> class.
+    /// </summary>
     public SearchTestVariables()
     {
         var connection = new SqliteConnection("Filename=:memory:");
@@ -580,18 +600,76 @@ internal class SearchTestVariables
 
     #region getters
 
+    /// <summary>
+    ///     Gets the context.
+    /// </summary>
+    /// <value>The context.</value>
     public IContext Context { get; }
 
+    /// <summary>
+    ///     Gets the tag1 materials.
+    /// </summary>
+    /// <value>The tag1 materials.</value>
     public List<Material> Tag1Materials { get; }
+
+    /// <summary>
+    ///     Gets the tag2 materials.
+    /// </summary>
+    /// <value>The tag2 materials.</value>
     public List<Material> Tag2Materials { get; }
+
+    /// <summary>
+    ///     Gets the tag3 materials.
+    /// </summary>
+    /// <value>The tag3 materials.</value>
     public List<Material> Tag3Materials { get; }
+
+    /// <summary>
+    ///     Gets the tag4 materials.
+    /// </summary>
+    /// <value>The tag4 materials.</value>
     public List<Material> Tag4Materials { get; }
+
+    /// <summary>
+    ///     Gets the tag5 materials.
+    /// </summary>
+    /// <value>The tag5 materials.</value>
     public List<Material> Tag5Materials { get; }
+
+    /// <summary>
+    ///     Gets the tag6 materials.
+    /// </summary>
+    /// <value>The tag6 materials.</value>
     public List<Material> Tag6Materials { get; }
+
+    /// <summary>
+    ///     Gets the tag7 materials.
+    /// </summary>
+    /// <value>The tag7 materials.</value>
     public List<Material> Tag7Materials { get; }
+
+    /// <summary>
+    ///     Gets the tag8 materials.
+    /// </summary>
+    /// <value>The tag8 materials.</value>
     public List<Material> Tag8Materials { get; }
+
+    /// <summary>
+    ///     Gets the tag9 materials.
+    /// </summary>
+    /// <value>The tag9 materials.</value>
     public List<Material> Tag9Materials { get; }
+
+    /// <summary>
+    ///     Gets the tag1011 materials.
+    /// </summary>
+    /// <value>The tag1011 materials.</value>
     public List<Material> Tag1011Materials { get; }
+
+    /// <summary>
+    ///     Gets the upper lower material.
+    /// </summary>
+    /// <value>The upper lower material.</value>
     public Material UpperLowerMaterial { get; }
 
     #endregion

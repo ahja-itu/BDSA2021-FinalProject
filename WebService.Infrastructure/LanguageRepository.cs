@@ -1,4 +1,18 @@
-﻿namespace WebService.Infrastructure;
+﻿// ***********************************************************************
+// Assembly         : WebService.Infrastructure
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="LanguageRepository.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
+namespace WebService.Infrastructure;
 
 public class LanguageRepository : ILanguageRepository
 {

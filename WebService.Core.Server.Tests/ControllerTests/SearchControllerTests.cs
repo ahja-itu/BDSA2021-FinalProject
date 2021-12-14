@@ -1,15 +1,41 @@
-﻿namespace WebService.Core.Server.Tests.ControllerTests;
+﻿// ***********************************************************************
+// Assembly         : WebService.Core.Server.Tests
+// Author           : Group BTG
+// Created          : 12-14-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="SearchControllerTests.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 
+namespace WebService.Core.Server.Tests.ControllerTests;
+
+/// <summary>
+///     Class SearchControllerTests.
+/// </summary>
 public class SearchControllerTests
 {
+    /// <summary>
+    ///     The search controller
+    /// </summary>
     private readonly SearchController _searchController;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="SearchControllerTests" /> class.
+    /// </summary>
     public SearchControllerTests()
     {
         var v = new TestVariables();
         _searchController = new SearchController(v.SearchAlgorithm);
     }
 
+    /// <summary>
+    ///     Defines the test method Get_material_returns_from_searchForm_with_search_algo_status_ok.
+    /// </summary>
     [Fact]
     public async Task Get_material_returns_from_searchForm_with_search_algo_status_ok()
     {
@@ -21,6 +47,9 @@ public class SearchControllerTests
         Assert.Equal((int) HttpStatusCode.OK, actual?.StatusCode);
     }
 
+    /// <summary>
+    ///     Defines the test method Get_material_returns_from_searchForm_with_search_algo_status_notFound.
+    /// </summary>
     [Fact]
     public async Task Get_material_returns_from_searchForm_with_search_algo_status_notFound()
     {

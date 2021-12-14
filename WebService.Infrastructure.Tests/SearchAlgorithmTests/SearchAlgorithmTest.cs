@@ -1,26 +1,91 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿// ***********************************************************************
+// Assembly         : WebService.Infrastructure.Tests
+// Author           : Group BTG
+// Created          : 12-10-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// <copyright file="SearchAlgorithmTest.cs" company="BTG">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
+using System.Diagnostics.CodeAnalysis;
 
 //using ExtensionMethods;
 namespace WebService.Infrastructure.Tests.SearchAlgorithmTests;
 
+/// <summary>
+///     Class SearchAlgorithmTest.
+/// </summary>
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class SearchAlgorithmTest
 {
+    /// <summary>
+    ///     The search algorithm
+    /// </summary>
     private readonly SearchAlgorithm _searchAlgorithm;
+
+    /// <summary>
+    ///     The tag1011 materials
+    /// </summary>
     private readonly List<Material> _tag1011Materials;
+
+    /// <summary>
+    ///     The tag1 materials
+    /// </summary>
     private readonly List<Material> _tag1Materials;
+
+    /// <summary>
+    ///     The tag2 materials
+    /// </summary>
     private readonly List<Material> _tag2Materials;
+
+    /// <summary>
+    ///     The tag3 materials
+    /// </summary>
     private readonly List<Material> _tag3Materials;
+
+    /// <summary>
+    ///     The tag4 materials
+    /// </summary>
     private readonly List<Material> _tag4Materials;
+
+    /// <summary>
+    ///     The tag5 materials
+    /// </summary>
     private readonly List<Material> _tag5Materials;
+
+    /// <summary>
+    ///     The tag6 materials
+    /// </summary>
     private readonly List<Material> _tag6Materials;
+
+    /// <summary>
+    ///     The tag7 materials
+    /// </summary>
     private readonly List<Material> _tag7Materials;
+
+    /// <summary>
+    ///     The tag8 materials
+    /// </summary>
     private readonly List<Material> _tag8Materials;
 
+    /// <summary>
+    ///     The tag9 materials
+    /// </summary>
     private readonly List<Material> _tag9Materials;
 
+    /// <summary>
+    ///     The v
+    /// </summary>
     private readonly SearchTestVariables _v;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="SearchAlgorithmTest" /> class.
+    /// </summary>
     public SearchAlgorithmTest()
     {
         _v = new SearchTestVariables();
@@ -43,6 +108,9 @@ public class SearchAlgorithmTest
 
     #region Search
 
+    /// <summary>
+    ///     Defines the test method Search_given_nothing_returns_status_found.
+    /// </summary>
     [Fact]
     public void Search_given_nothing_returns_status_found()
     {
@@ -65,6 +133,9 @@ public class SearchAlgorithmTest
     #region Tag1-Weight
 
     //tag1, varying weight
+    /// <summary>
+    ///     Defines the test method Search_given_SearchForm_returns_list_of_materials_prioritized_by_tag_weight.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_returns_list_of_materials_prioritized_by_tag_weight()
     {
@@ -98,6 +169,10 @@ public class SearchAlgorithmTest
 
     //tag4 - varying Language
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_language_returns_list_of_material_only_with_given_language.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_containing_language_returns_list_of_material_only_with_given_language()
     {
@@ -123,6 +198,9 @@ public class SearchAlgorithmTest
     #region Tag8-Timestamp
 
     //tag8, timestamp
+    /// <summary>
+    ///     Defines the test method Search_given_SearchForm_returns_Materials_prioritized_by_timestamp.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_returns_Materials_prioritized_by_timestamp()
     {
@@ -158,6 +236,9 @@ public class SearchAlgorithmTest
 
     //tag2, varying rating
 
+    /// <summary>
+    ///     Defines the test method Search_given_SearchForm_with_rating_1_returns_list_of_material_with_rating_1_or_higher.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_with_rating_1_returns_list_of_material_with_rating_1_or_higher()
     {
@@ -187,6 +268,9 @@ public class SearchAlgorithmTest
         for (var i = 0; i < expectedDTO.Count; i++) Assert.Equal(expectedDTO[i].Title, actual.ElementAt(i).Title);
     }
 
+    /// <summary>
+    ///     Defines the test method Search_given_SearchForm_with_rating_3_returns_list_of_material_with_rating_3_or_higher.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_with_rating_3_returns_list_of_material_with_rating_3_or_higher()
     {
@@ -213,6 +297,9 @@ public class SearchAlgorithmTest
         for (var i = 0; i < expectedDTO.Count; i++) Assert.Equal(expectedDTO[i].Title, actual.ElementAt(i).Title);
     }
 
+    /// <summary>
+    ///     Defines the test method Search_given_SearchForm_with_rating_5_returns_list_of_material_with_rating_5_or_higher.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_with_rating_5_returns_list_of_material_with_rating_5_or_higher()
     {
@@ -237,6 +324,9 @@ public class SearchAlgorithmTest
         for (var i = 0; i < expectedDTO.Count; i++) Assert.Equal(expectedDTO[i].Title, actual.ElementAt(i).Title);
     }
 
+    /// <summary>
+    ///     Defines the test method Search_given_SearchForm_with_rating_7_returns_list_of_material_with_rating_7_or_higher.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_with_rating_7_returns_list_of_material_with_rating_7_or_higher()
     {
@@ -259,6 +349,9 @@ public class SearchAlgorithmTest
         for (var i = 0; i < expectedDTO.Count; i++) Assert.Equal(expectedDTO[i].Title, actual.ElementAt(i).Title);
     }
 
+    /// <summary>
+    ///     Defines the test method Search_given_SearchForm_with_rating_9_returns_list_of_material_with_rating_9_or_higher.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_with_rating_9_returns_list_of_material_with_rating_9_or_higher()
     {
@@ -286,6 +379,9 @@ public class SearchAlgorithmTest
     //tag3, levels
 
 
+    /// <summary>
+    ///     Defines the test method Search_given_SearchForm_containing_bachelor_returns_list_of_material_prioritized_by_level.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_containing_bachelor_returns_list_of_material_prioritized_by_level()
     {
@@ -309,6 +405,10 @@ public class SearchAlgorithmTest
         for (var i = 0; i < expected.Count - 1; i++) Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
     }
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_bachelor_master_returns_list_of_material_prioritized_by_level.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_containing_bachelor_master_returns_list_of_material_prioritized_by_level()
     {
@@ -335,6 +435,10 @@ public class SearchAlgorithmTest
     }
 
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_bachelor_master_phd_returns_list_of_material_prioritized_by_level.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_containing_bachelor_master_phd_returns_list_of_material_prioritized_by_level()
     {
@@ -367,6 +471,10 @@ public class SearchAlgorithmTest
 
     #region Tag5-ProgrammingLanguage
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_one_programmingLanguage_returns_list_of_material_prioritized_by_programmingLanguage.
+    /// </summary>
     [Fact]
     public void
         Search_given_SearchForm_containing_one_programmingLanguage_returns_list_of_material_prioritized_by_programmingLanguage()
@@ -392,6 +500,10 @@ public class SearchAlgorithmTest
     }
 
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_two_programmingLanguage_returns_list_of_material_prioritized_by_programmingLanguage.
+    /// </summary>
     [Fact]
     public void
         Search_given_SearchForm_containing_two_programmingLanguage_returns_list_of_material_prioritized_by_programmingLanguage()
@@ -419,6 +531,10 @@ public class SearchAlgorithmTest
     }
 
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_all_programmingLanguage_returns_list_of_material_prioritized_by_programmingLanguage.
+    /// </summary>
     [Fact]
     public void
         Search_given_SearchForm_containing_all_programmingLanguage_returns_list_of_material_prioritized_by_programmingLanguage()
@@ -453,6 +569,9 @@ public class SearchAlgorithmTest
     //tag6, varying media
 
 
+    /// <summary>
+    ///     Defines the test method Search_given_SearchForm_containing_media_returns_list_of_material_only_with_given_media.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_containing_media_returns_list_of_material_only_with_given_media()
     {
@@ -474,6 +593,10 @@ public class SearchAlgorithmTest
         for (var i = 0; i < expected.Count - 1; i++) Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
     }
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_two_media_returns_list_of_materials_prioritized_by_medias.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_containing_two_media_returns_list_of_materials_prioritized_by_medias()
     {
@@ -496,6 +619,10 @@ public class SearchAlgorithmTest
     }
 
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_three_media_ignores_order_returns_list_of_materials_prioritized_by_medias.
+    /// </summary>
     [Fact]
     public void
         Search_given_SearchForm_containing_three_media_ignores_order_returns_list_of_materials_prioritized_by_medias()
@@ -525,6 +652,10 @@ public class SearchAlgorithmTest
 
     //tag7, varying author
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_author_in_textfield_returns_materials_prioritized_by_author.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_containing_author_in_textfield_returns_materials_prioritized_by_author()
     {
@@ -547,6 +678,10 @@ public class SearchAlgorithmTest
         for (var i = 0; i < expected.Count - 1; i++) Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
     }
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_author_firstName_in_textfield_returns_materials_prioritized_by_author.
+    /// </summary>
     [Fact]
     public void
         Search_given_SearchForm_containing_author_firstName_in_textfield_returns_materials_prioritized_by_author()
@@ -570,6 +705,10 @@ public class SearchAlgorithmTest
         for (var i = 0; i < expected.Count - 1; i++) Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
     }
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_two_authors_in_textfield_returns_materials_prioritized_by_author.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_containing_two_authors_in_textfield_returns_materials_prioritized_by_author()
     {
@@ -598,6 +737,10 @@ public class SearchAlgorithmTest
 
     //tag9, title
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_textInput_lorem_returns_list_of_material_prioritized_by_titles_containing_lorem.
+    /// </summary>
     [Fact]
     public void
         Search_given_SearchForm_containing_textInput_lorem_returns_list_of_material_prioritized_by_titles_containing_lorem()
@@ -623,6 +766,10 @@ public class SearchAlgorithmTest
         for (var i = 0; i < expected.Count - 1; i++) Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
     }
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_textInput_lorem_etc_returns_list_of_material_prioritized_by_titles_with_lorem_etc_first.
+    /// </summary>
     [Fact]
     public void
         Search_given_SearchForm_containing_textInput_lorem_etc_returns_list_of_material_prioritized_by_titles_with_lorem_etc_first()
@@ -653,6 +800,10 @@ public class SearchAlgorithmTest
     #region Tag10Tag11-WeightTwoTags
 
     //Tag 10 + 11, Varying weight, two tags
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_twoTags_returns_list_of_material_prioritized_by_tag_weight_sum.
+    /// </summary>
     [Fact]
     public void Search_given_SearchForm_containing_twoTags_returns_list_of_material_prioritized_by_tag_weight_sum()
     {
@@ -678,6 +829,10 @@ public class SearchAlgorithmTest
         for (var i = 0; i < expected.Count - 1; i++) Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
     }
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_Tag10_returns_list_of_material_prioritized_by_tag_weight_sum_of_Tag10_only.
+    /// </summary>
     [Fact]
     public void
         Search_given_SearchForm_containing_Tag10_returns_list_of_material_prioritized_by_tag_weight_sum_of_Tag10_only()
@@ -704,6 +859,10 @@ public class SearchAlgorithmTest
         for (var i = 0; i < expected.Count - 1; i++) Assert.Equal(expected[i].Title, actual.ElementAt(i).Title);
     }
 
+    /// <summary>
+    ///     Defines the test method
+    ///     Search_given_SearchForm_containing_Tag11_returns_list_of_material_prioritized_by_tag_weight_sum_of_Tag11_only.
+    /// </summary>
     [Fact]
     public void
         Search_given_SearchForm_containing_Tag11_returns_list_of_material_prioritized_by_tag_weight_sum_of_Tag11_only()
@@ -740,6 +899,9 @@ public class SearchAlgorithmTest
 
     #region UpperLower
 
+    /// <summary>
+    ///     Defines the test method Search_with_tag_lower_case_returns_material_with_tag.
+    /// </summary>
     [Fact]
     public async Task Search_with_tag_lower_case_returns_material_with_tag()
     {
@@ -755,6 +917,9 @@ public class SearchAlgorithmTest
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    ///     Defines the test method Search_with_level_lower_case_returns_material_with_level.
+    /// </summary>
     [Fact]
     public async Task Search_with_level_lower_case_returns_material_with_level()
     {
@@ -770,6 +935,9 @@ public class SearchAlgorithmTest
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    ///     Defines the test method Search_with_programmingLanguage_lower_case_returns_material_with_programmingLanguage.
+    /// </summary>
     [Fact]
     public async Task Search_with_programmingLanguage_lower_case_returns_material_with_programmingLanguage()
     {
@@ -785,6 +953,9 @@ public class SearchAlgorithmTest
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    ///     Defines the test method Search_with_media_lower_case_returns_material_with_media.
+    /// </summary>
     [Fact]
     public async Task Search_with_media_lower_case_returns_material_with_media()
     {
@@ -800,6 +971,9 @@ public class SearchAlgorithmTest
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    ///     Defines the test method Search_with_language_lower_case_returns_language_with_media.
+    /// </summary>
     [Fact]
     public async Task Search_with_language_lower_case_returns_language_with_media()
     {
@@ -815,6 +989,9 @@ public class SearchAlgorithmTest
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    ///     Defines the test method Search_with_textfield_containing_tag_lower_case_returns_material_with_tag.
+    /// </summary>
     [Fact]
     public async Task Search_with_textfield_containing_tag_lower_case_returns_material_with_tag()
     {
@@ -830,6 +1007,9 @@ public class SearchAlgorithmTest
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    ///     Defines the test method Search_with_textfield_containing_author_lower_case_returns_material_with_author.
+    /// </summary>
     [Fact]
     public async Task Search_with_textfield_containing_author_lower_case_returns_material_with_author()
     {
@@ -845,6 +1025,9 @@ public class SearchAlgorithmTest
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    ///     Defines the test method Search_with_textfield_containing_title_lower_case_returns_material_with_title.
+    /// </summary>
     [Fact]
     public async Task Search_with_textfield_containing_title_lower_case_returns_material_with_title()
     {
@@ -864,6 +1047,9 @@ public class SearchAlgorithmTest
 
     #region NotFound
 
+    /// <summary>
+    ///     Defines the test method Search_with_language_non_existing_on_any_materials_returns_notFound.
+    /// </summary>
     [Fact]
     public async Task Search_with_language_non_existing_on_any_materials_returns_notFound()
     {
@@ -878,6 +1064,9 @@ public class SearchAlgorithmTest
         Assert.Equal(expected, actual);
     }
 
+    /// <summary>
+    ///     Defines the test method Search_with_parameters_on_no_materials_returns_notFound.
+    /// </summary>
     [Fact]
     public async Task Search_with_parameters_on_no_materials_returns_notFound()
     {
