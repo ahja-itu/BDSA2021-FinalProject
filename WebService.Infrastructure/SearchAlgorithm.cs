@@ -27,8 +27,6 @@ namespace WebService.Infrastructure
 
         public async Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm)
         {
-            searchForm = FixTextFieldInput(searchForm);
-
             searchForm = await AddTagsToSearchFromTextField(searchForm);
             var response = await _repository.ReadAsync(searchForm);
             var status = response.Item1;
@@ -52,24 +50,6 @@ namespace WebService.Infrastructure
             return (Status.Found, materials);
         }
 
-        private SearchForm FixTextFieldInput(SearchForm searchForm)
-        {
-            string textField = "";
-            if (string.IsNullOrEmpty(textField) || string.IsNullOrWhiteSpace(textField)) return searchForm;
-            foreach (string word in searchForm.TextField.Split(" "))
-            {
-                textField += FirstLetterToUpper(word);
-            }
-            searchForm.TextField = textField;
-            return searchForm;
-        }
-
-        private string FirstLetterToUpper(string input)
-        {
-            if (input.Length == 1) return input.ToUpper();
-            return input[0].ToString().ToUpper() + input.Substring(1).ToLower();
-        }
-
         public async Task<SearchForm> AddTagsToSearchFromTextField(SearchForm searchForm)
         {
             var tags = await _tagRepository.ReadAsync();
@@ -77,7 +57,7 @@ namespace WebService.Infrastructure
 
             foreach (string word in searchForm.TextField.Split(" "))
             {
-                if (tags.Select(e => e.Name).ContainsIgnoreCasing(word)) foundWordsToTags.Add(tags.Where(e => string.Equals(e.Name, word, StringComparison.OrdinalIgnoreCase)).First());
+                if (tags.Select(e => e.Name).ContainsIgnoreCasing(word)) foundWordsToTags.Add(tags.Where(e => e.Name.IsEqualIgnoreCasing(word)).First());
             }
             searchForm.Tags = foundWordsToTags.ToList();
             return searchForm;
@@ -146,7 +126,7 @@ namespace WebService.Infrastructure
         {
             foreach (var material in _map.Keys)
             {
-                var count = material.Medias.Where(e => searchform.Medias.Select(e => e.Name).Contains(e.Name, StringComparer.OrdinalIgnoreCase)).Count();
+                var count = material.Medias.Where(e => searchform.Medias.Select(e => e.Name).ContainsIgnoreCasing(e.Name)).Count();
                 _map[material] += count * MediaScore;
             }
         }
@@ -190,12 +170,25 @@ namespace WebService.Infrastructure
 
     }
 
-    public static class StringExtensions
+    public static class Extensions
     {
-        public static bool ContainsIgnoreCasing(this string source, string toCheck)
+        public static bool IsEqualIgnoreCasing(this string source, string toCheck)
         {
             return string.Equals(source, toCheck, StringComparison.OrdinalIgnoreCase);
         }
+
+        public static bool ContainsIgnoreCasing(this string source, string toCheck)
+        {
+            return source.Contains(toCheck, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool ContainsIgnoreCasing(this IEnumerable<String> source, string toCheck)
+        {
+            return source.Contains(toCheck, StringComparer.OrdinalIgnoreCase);
+        }
+
     }
-    
+
+
+
 }
