@@ -153,7 +153,9 @@ namespace WebService.Infrastructure
 
                 foreach (var author in material.Authors)
                 {
-                    if (searchForm.TextField.ContainsIgnoreCasing(author.FirstName) || searchForm.TextField.ContainsIgnoreCasing(author.SurName)) authorNameCount++;
+                    if(searchForm.TextField.ContainsIgnoreCasing(author.FirstName)) authorNameCount++;
+                        
+                    if(searchForm.TextField.ContainsIgnoreCasing(author.SurName)) authorNameCount++;
                 }
                 _map[material] += authorNameCount * AuthorScore;
             }
