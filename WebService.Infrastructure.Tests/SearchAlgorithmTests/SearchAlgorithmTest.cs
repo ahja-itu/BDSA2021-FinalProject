@@ -913,5 +913,33 @@ namespace WebService.Infrastructure.Tests
             Assert.Equal(expected, actual);
         }
         #endregion
+
+        #region NotFound
+        [Fact]
+        public async Task Search_with_language_non_existing_on_any_materials_returns_notFound()
+        {
+            var searchform = new SearchForm("", new List<TagDTO>(), new List<LevelDTO>(), new List<ProgrammingLanguageDTO>(), new List<LanguageDTO>() { new LanguageDTO(0, "German")}, new List<MediaDTO>(), 0);
+
+            var response = await _searchAlgorithm.Search(searchform);
+            var actual = response.Item1;
+
+            var expected = Status.NotFound;
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task Search_with_parameters_on_no_materials_returns_notFound()
+        {
+            var searchform = new SearchForm("", new List<TagDTO>() { new TagDTO(0, "ThisDoesNotExists")}, new List<LevelDTO>() { new LevelDTO(0, "ThisDoesNotExists") }, new List<ProgrammingLanguageDTO>() { new ProgrammingLanguageDTO(0, "ThisDoesNotExists") }, new List<LanguageDTO>() { new LanguageDTO(0, "ThisDoesNotExists") }, new List<MediaDTO>() { new MediaDTO(0, "ThisDoesNotExists") }, 0);
+
+            var response = await _searchAlgorithm.Search(searchform);
+            var actual = response.Item1;
+
+            var expected = Status.NotFound;
+
+            Assert.Equal(expected, actual);
+        }
+        #endregion
     }
 }
