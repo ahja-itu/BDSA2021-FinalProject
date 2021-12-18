@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Core\Shared\MediaDTO.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+// ***********************************************************************
+// Assembly         : WebService.Core.Shared
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// &lt;copyright file=&quot;MediaDTO.cs&quot; company=&quot;BTG&quot;&gt;
+//     Copyright (c) . All rights reserved.
+// &lt;/copyright&gt;
+// &lt;summary&gt;&lt;/summary&gt;
+// ***********************************************************************
+
+namespace WebService.Core.Shared;
+
+/// &lt;summary&gt;
+///     Class CreateMediaDTO.
+///     Implements the &lt;see cref=&quot;System.IEquatable{CreateMediaDTO}&quot; /&gt;
+/// &lt;/summary&gt;
+public record CreateMediaDTO
+{
+    /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Core.Shared.CreateMediaDTO&quot; /&gt; class.&lt;/summary&gt;
+    /// &lt;param name=&quot;name&quot;&gt;The name.&lt;/param&gt;
+    public CreateMediaDTO(string name)
+    {
+        Name = name;
+    }
+
+    [StringLength(50)] public string Name { get; }
+}
+
+/// &lt;summary&gt;
+///     Class MediaDTO.
+///     Implements the &lt;see cref=&quot;T:WebService.Core.Shared.CreateMediaDTO&quot; /&gt;
+///     Implements the &lt;see cref=&quot;System.IEquatable{CreateMediaDTO}&quot; /&gt;
+///     Implements the &lt;see cref=&quot;System.IEquatable{MediaDTO}&quot; /&gt;
+/// &lt;/summary&gt;
+public record MediaDTO : CreateMediaDTO
+{
+    public MediaDTO(int id, string name) : base(name)
+    {
+        Id = id;
+    }
+
+    public int Id { get; }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[25,5,25,39,1],[26,5,26,6,1],[27,9,27,21,1],[28,5,28,6,1],[30,45,30,49,1],[41,44,41,54,1],[42,5,42,6,1],[43,9,43,17,1],[44,5,44,6,1],[46,21,46,25,1]]);
+    </script>
+  </body>
+</html>

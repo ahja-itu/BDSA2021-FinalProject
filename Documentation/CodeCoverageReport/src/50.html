@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Infrastructure\MaterialRepository.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+// ***********************************************************************
+// Assembly         : WebService.Infrastructure
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// &lt;copyright file=&quot;MaterialRepository.cs&quot; company=&quot;BTG&quot;&gt;
+//     Copyright (c) . All rights reserved.
+// &lt;/copyright&gt;
+// &lt;summary&gt;&lt;/summary&gt;
+// ***********************************************************************
+
+using System.Diagnostics.CodeAnalysis;
+
+namespace WebService.Infrastructure;
+
+/// &lt;summary&gt;
+///     Class MaterialRepository.
+///     Implements the &lt;see cref=&quot;WebService.Core.Shared.IMaterialRepository&quot; /&gt;
+/// &lt;/summary&gt;
+public class MaterialRepository : IMaterialRepository
+{
+    private readonly IContext _context;
+
+    /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Infrastructure.MaterialRepository&quot; /&gt; class.&lt;/summary&gt;
+    /// &lt;param name=&quot;context&quot;&gt;The context.&lt;/param&gt;
+    public MaterialRepository(IContext context)
+    {
+        _context = context;
+    }
+
+    /// &lt;summary&gt;Create a material asynchronously.&lt;/summary&gt;
+    /// &lt;param name=&quot;createMaterialDTO&quot;&gt;The create material dto.&lt;/param&gt;
+    /// &lt;returns&gt;A Task&amp;lt;System.ValueTuple&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
+    public async Task&lt;(Status, MaterialDTO)&gt; CreateAsync(CreateMaterialDTO createMaterialDTO)
+    {
+        var materialDTO = ConvertCreateMaterialDTOToMaterialDTO(createMaterialDTO, -1);
+
+        if (!ValidTags(createMaterialDTO.Tags).Result || InvalidInput(createMaterialDTO))
+            return (Status.BadRequest, materialDTO);
+
+        var existing = await (from m in _context.Materials
+                where m.Title == createMaterialDTO.Title
+                select m)
+            .FirstOrDefaultAsync();
+        if (existing != null) return (Status.Conflict, ConvertMaterialToMaterialDTO(existing));
+        try
+        {
+            var entity = await ConvertCreateMaterialDTOToMaterial(createMaterialDTO);
+
+            await _context.Materials.AddAsync(entity);
+
+            await _context.SaveChangesAsync();
+
+            var created = ConvertMaterialToMaterialDTO(entity);
+
+            return (Status.Created, created);
+        }
+        catch (Exception)
+        {
+            return (Status.BadRequest, materialDTO);
+        }
+    }
+
+    /// &lt;summary&gt;Delete a material asynchronously.&lt;/summary&gt;
+    /// &lt;param name=&quot;materialId&quot;&gt;The material identifier.&lt;/param&gt;
+    /// &lt;returns&gt;A Task&amp;lt;Status&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
+    public async Task&lt;Status&gt; DeleteAsync(int materialId)
+    {
+        var material = await _context.Materials.FindAsync(materialId);
+
+        if (material == null) return Status.NotFound;
+
+        _context.Materials.Remove(material);
+
+        await _context.SaveChangesAsync();
+
+        return Status.Deleted;
+    }
+
+    /// &lt;summary&gt;Reads a materials asynchronously and returns a http status.&lt;/summary&gt;
+    /// &lt;param name=&quot;materialId&quot;&gt;The material identifier.&lt;/param&gt;
+    /// &lt;returns&gt;A Task&amp;lt;System.ValueTuple&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
+    public async Task&lt;(Status, MaterialDTO)&gt; ReadAsync(int materialId)
+    {
+        var query = from m in _context.Materials
+            where m.Id == materialId
+            select m;
+
+        var category = await query.FirstOrDefaultAsync();
+
+        return category == null
+            ? (Status.NotFound, CreateEmptyMaterialDTO())
+            : (Status.Found, ConvertMaterialToMaterialDTO(category));
+    }
+
+    /// &lt;summary&gt;Reads all materials asynchronously.&lt;/summary&gt;
+    /// &lt;returns&gt;A Task&amp;lt;IReadOnlyCollection`1&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
+    public async Task&lt;IReadOnlyCollection&lt;MaterialDTO&gt;&gt; ReadAsync()
+    {
+        var materials = await ReadAllMaterials();
+        return materials.Select(ConvertMaterialToMaterialDTO).ToList();
+    }
+
+    /// &lt;summary&gt;Reads all materials asynchronously and returns a http status.&lt;/summary&gt;
+    /// &lt;param name=&quot;searchInput&quot;&gt;The search input.&lt;/param&gt;
+    /// &lt;returns&gt;A Task&amp;lt;System.ValueTuple&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
+    public async Task&lt;(Status, IReadOnlyCollection&lt;MaterialDTO&gt;)&gt; ReadAsync(SearchForm searchInput)
+    {
+        var allMaterials = await ReadAllMaterials();
+        // We can&#39;t have the server translate our query where we do linq statements on searchInput :(
+        var materialsWhereRatingHolds = allMaterials
+            .Where(material =&gt; GetAverage(material) &gt;= searchInput.Rating)
+            .ToList();
+
+        // We&#39;re doing the following computations on the client, instead of the server
+        var rawMaterials = materialsWhereRatingHolds
+            .Where(material =&gt; MayContainProgrammingLanguage(searchInput).Invoke(material)
+                               || MayContainLanguage(searchInput).Invoke(material)
+                               || MayContainMedia(searchInput).Invoke(material)
+                               || MayContainTag(searchInput).Invoke(material)
+                               || MayContainLevel(searchInput).Invoke(material))
+            .ToList();
+
+
+        var materials = rawMaterials
+            .Select(ConvertMaterialToMaterialDTO)
+            .ToList();
+
+        return materials.Count == 0
+            ? (Status.NotFound, new ReadOnlyCollection&lt;MaterialDTO&gt;(new List&lt;MaterialDTO&gt;()))
+            : (Status.Found, new ReadOnlyCollection&lt;MaterialDTO&gt;(materials));
+    }
+
+    /// &lt;summary&gt;Update material asynchronously.&lt;/summary&gt;
+    /// &lt;param name=&quot;materialDTO&quot;&gt;The material dto.&lt;/param&gt;
+    /// &lt;returns&gt;A Task&amp;lt;Status&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
+    public async Task&lt;Status&gt; UpdateAsync(MaterialDTO materialDTO)
+    {
+        if (!ValidTags(materialDTO.Tags).Result || InvalidInput(materialDTO)) return Status.BadRequest;
+
+        var existing = await (from m in _context.Materials
+            where m.Id != materialDTO.Id
+            where m.Title == materialDTO.Title
+            select m).AnyAsync();
+
+
+        if (existing) return Status.Conflict;
+
+        var entity = await _context.Materials.FindAsync(materialDTO.Id);
+
+        if (entity == null) return Status.NotFound;
+
+        try
+        {
+            var newEntity = await ConvertCreateMaterialDTOToMaterial(materialDTO);
+
+            entity.Ratings = newEntity.Ratings;
+            entity.Title = newEntity.Title;
+            entity.ProgrammingLanguages = newEntity.ProgrammingLanguages;
+            entity.Levels = newEntity.Levels;
+            entity.Content = newEntity.Content;
+            entity.WeightedTags = newEntity.WeightedTags;
+            entity.Ratings = newEntity.Ratings;
+            entity.Medias = newEntity.Medias;
+            entity.TimeStamp = newEntity.TimeStamp;
+            entity.Authors = newEntity.Authors;
+            entity.Language = newEntity.Language;
+            entity.URL = newEntity.URL;
+            entity.Summary = newEntity.Summary;
+
+            await _context.SaveChangesAsync();
+
+            return Status.Updated;
+        }
+        catch
+        {
+            return Status.BadRequest;
+        }
+    }
+
+    /// &lt;summary&gt;Converts the createMaterialDTO to materialDTO.&lt;/summary&gt;
+    /// &lt;param name=&quot;createMaterialDTO&quot;&gt;The create material dto.&lt;/param&gt;
+    /// &lt;param name=&quot;id&quot;&gt;The identifier.&lt;/param&gt;
+    /// &lt;returns&gt;MaterialDTO.&lt;/returns&gt;
+    private static MaterialDTO ConvertCreateMaterialDTOToMaterialDTO(CreateMaterialDTO createMaterialDTO, int id)
+    {
+        return new MaterialDTO
+        (
+            id,
+            createMaterialDTO.Tags,
+            createMaterialDTO.Ratings,
+            createMaterialDTO.Levels,
+            createMaterialDTO.ProgrammingLanguages,
+            createMaterialDTO.Medias,
+            createMaterialDTO.Language,
+            createMaterialDTO.Summary,
+            createMaterialDTO.Url,
+            createMaterialDTO.Content,
+            createMaterialDTO.Title,
+            createMaterialDTO.Authors,
+            createMaterialDTO.TimeStamp
+        );
+    }
+
+    /// &lt;summary&gt;Converts the material to materialDTO.&lt;/summary&gt;
+    /// &lt;param name=&quot;entity&quot;&gt;The entity.&lt;/param&gt;
+    /// &lt;returns&gt;MaterialDTO.&lt;/returns&gt;
+    [SuppressMessage(&quot;ReSharper&quot;, &quot;ConditionIsAlwaysTrueOrFalse&quot;)]
+    private static MaterialDTO ConvertMaterialToMaterialDTO(Material entity)
+    {
+        var id = entity.Id;
+        var tags = entity.WeightedTags.Select(e =&gt;
+            e == null ? new CreateWeightedTagDTO(&quot;&quot;, 0) : new CreateWeightedTagDTO(e.Name, e.Weight)).ToList();
+        var ratings = entity.Ratings
+            .Select(e =&gt; e == null ? new CreateRatingDTO(0, &quot;&quot;) : new CreateRatingDTO(e.Value, e.Reviewer)).ToList();
+        var levels = entity.Levels.Select(e =&gt; e == null ? new CreateLevelDTO(&quot;&quot;) : new CreateLevelDTO(e.Name))
+            .ToList();
+        var pls = entity.ProgrammingLanguages.Select(e =&gt;
+            e == null ? new CreateProgrammingLanguageDTO(&quot;&quot;) : new CreateProgrammingLanguageDTO(e.Name)).ToList();
+        var medias = entity.Medias.Select(e =&gt; e == null ? new CreateMediaDTO(&quot;&quot;) : new CreateMediaDTO(e.Name))
+            .ToList();
+        var lang = new CreateLanguageDTO(entity.Language.Name);
+        var summary = entity.Summary;
+        var url = entity.URL;
+        var content = entity.Content;
+        var title = entity.Title;
+        var authors = entity.Authors
+            .Select(e =&gt; e == null ? new CreateAuthorDTO(&quot;&quot;, &quot;&quot;) : new CreateAuthorDTO(e.FirstName, e.SurName))
+            .ToList();
+        var timestamp = entity.TimeStamp;
+
+        return new MaterialDTO(
+            id,
+            tags,
+            ratings,
+            levels,
+            pls,
+            medias,
+            lang,
+            summary,
+            url,
+            content,
+            title,
+            authors,
+            timestamp
+        );
+    }
+
+    /// &lt;summary&gt;Converts createMaterialDTO to material.&lt;/summary&gt;
+    /// &lt;param name=&quot;createMaterialDTO&quot;&gt;The create material dto.&lt;/param&gt;
+    /// &lt;returns&gt;Material.&lt;/returns&gt;
+    private async Task&lt;Material&gt; ConvertCreateMaterialDTOToMaterial(CreateMaterialDTO createMaterialDTO)
+    {
+        return new Material(
+            createMaterialDTO.Tags.Select(e =&gt; new WeightedTag(e.Name, e.Weight)).ToList(),
+            createMaterialDTO.Ratings.Select(e =&gt; new Rating(e.Value, e.Reviewer)).ToList(),
+            await ReadLevels(createMaterialDTO.Levels),
+            await ReadProgrammingLanguages(createMaterialDTO.ProgrammingLanguages),
+            await ReadMedias(createMaterialDTO.Medias),
+            await _context.Languages.Where(e =&gt; e.Name == createMaterialDTO.Language.Name).SingleAsync(),
+            createMaterialDTO.Summary,
+            createMaterialDTO.Url,
+            createMaterialDTO.Content,
+            createMaterialDTO.Title,
+            createMaterialDTO.Authors.Select(e =&gt; new Author(e.FirstName, e.SurName)).ToList(),
+            createMaterialDTO.TimeStamp
+        );
+    }
+
+
+    /// &lt;summary&gt;Reads all materials.&lt;/summary&gt;
+    /// &lt;returns&gt;IList&amp;lt;Material&amp;gt;.&lt;/returns&gt;
+    private async Task&lt;IList&lt;Material&gt;&gt; ReadAllMaterials()
+    {
+        return await _context.Materials
+            .Include(m =&gt; m.Language)
+            .Include(m =&gt; m.Levels)
+            .Include(m =&gt; m.Medias)
+            .Include(m =&gt; m.ProgrammingLanguages)
+            .ToListAsync();
+    }
+
+    /// &lt;summary&gt;
+    ///     &lt;para&gt;
+    ///         average rating.
+    ///     &lt;/para&gt;
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;material&quot;&gt;The material.&lt;/param&gt;
+    /// &lt;returns&gt;System.Double.&lt;/returns&gt;
+    private static double GetAverage(Material material)
+    {
+        return material.Ratings.Count != 0 ? material.Ratings.Average(rating =&gt; rating.Value) : 10;
+    }
+
+    /// &lt;summary&gt;Check if it contains the level.&lt;/summary&gt;
+    /// &lt;param name=&quot;searchInput&quot;&gt;The search input.&lt;/param&gt;
+    /// &lt;returns&gt;Func&amp;lt;Material, System.Boolean&amp;gt;.&lt;/returns&gt;
+    public static Func&lt;Material, bool&gt; MayContainLevel(SearchForm searchInput)
+    {
+        return material =&gt; !searchInput.Levels.Any() || material.Levels.Any(level =&gt;
+            searchInput.Levels.Any(searchInputLevels =&gt; searchInputLevels.Name == level.Name));
+    }
+
+
+    /// &lt;summary&gt;Check if it contains the tag.&lt;/summary&gt;
+    /// &lt;param name=&quot;searchInput&quot;&gt;The search input.&lt;/param&gt;
+    /// &lt;returns&gt;Func&amp;lt;Material, System.Boolean&amp;gt;.&lt;/returns&gt;
+    public static Func&lt;Material, bool&gt; MayContainTag(SearchForm searchInput)
+    {
+        return material =&gt; !searchInput.Tags.Any() ||
+                           material.WeightedTags.Any(wt =&gt; searchInput.Tags.Any(st =&gt; st.Name == wt.Name));
+    }
+
+
+    /// &lt;summary&gt;
+    ///     &lt;para&gt;
+    ///         Check if it contains the media.
+    ///     &lt;/para&gt;
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;searchInput&quot;&gt;The search input.&lt;/param&gt;
+    /// &lt;returns&gt;Func&amp;lt;Material, System.Boolean&amp;gt;.&lt;/returns&gt;
+    public static Func&lt;Material, bool&gt; MayContainMedia(SearchForm searchInput)
+    {
+        return material =&gt; !searchInput.Medias.Any() ||
+                           material.Medias.Any(media =&gt;
+                               searchInput.Medias.Any(mediaDTO =&gt; mediaDTO.Name == media.Name));
+    }
+
+
+    /// &lt;summary&gt;Check if it contains the language.&lt;/summary&gt;
+    /// &lt;param name=&quot;searchInput&quot;&gt;The search input.&lt;/param&gt;
+    /// &lt;returns&gt;Func&amp;lt;Material, System.Boolean&amp;gt;.&lt;/returns&gt;
+    public static Func&lt;Material, bool&gt; MayContainLanguage(SearchForm searchInput)
+    {
+        return material =&gt;
+            !searchInput.Languages.Any() || searchInput.Languages.Any(l =&gt; l.Name == material.Language.Name);
+    }
+
+    /// &lt;summary&gt;Check if it contains the programming language.&lt;/summary&gt;
+    /// &lt;param name=&quot;searchInput&quot;&gt;The search input.&lt;/param&gt;
+    /// &lt;returns&gt;Func&amp;lt;Material, System.Boolean&amp;gt;.&lt;/returns&gt;
+    public static Func&lt;Material, bool&gt; MayContainProgrammingLanguage(SearchForm searchInput)
+    {
+        return material =&gt; !searchInput.ProgrammingLanguages.Any() || material.ProgrammingLanguages
+            .Select(pl =&gt; pl.Name)
+            .Any(pl =&gt; searchInput.ProgrammingLanguages
+                .Select(searchInputProgrammingLanguageDTO =&gt; searchInputProgrammingLanguageDTO.Name)
+                .Any(searchInputProgrammingLanguageDTO =&gt; pl == searchInputProgrammingLanguageDTO));
+    }
+
+    /// &lt;summary&gt;Creates an empty material dto.&lt;/summary&gt;
+    /// &lt;returns&gt;MaterialDTO.&lt;/returns&gt;
+    private static MaterialDTO CreateEmptyMaterialDTO()
+    {
+        var tags = new List&lt;CreateWeightedTagDTO&gt;();
+        var ratings = new List&lt;CreateRatingDTO&gt;();
+        var levels = new List&lt;CreateLevelDTO&gt;();
+        var programmingLanguages = new List&lt;CreateProgrammingLanguageDTO&gt;();
+        var medias = new List&lt;CreateMediaDTO&gt;();
+        var language = new CreateLanguageDTO(&quot;&quot;);
+        const string summary = &quot;&quot;;
+        const string url = &quot;&quot;;
+        const string content = &quot;&quot;;
+        const string title = &quot;&quot;;
+        var authors = new List&lt;CreateAuthorDTO&gt;();
+        var datetime = DateTime.UtcNow;
+
+        var material = new MaterialDTO(-1, tags, ratings, levels, programmingLanguages, medias, language, summary, url,
+            content, title, authors, datetime);
+        return material;
+    }
+
+    /// &lt;summary&gt;Reads medias.&lt;/summary&gt;
+    /// &lt;param name=&quot;mediaDTOs&quot;&gt;The media dt os.&lt;/param&gt;
+    /// &lt;returns&gt;ICollection&amp;lt;Media&amp;gt;.&lt;/returns&gt;
+    /// &lt;exception cref=&quot;System.Exception&quot;&gt;Bad request&lt;/exception&gt;
+    private async Task&lt;ICollection&lt;Media&gt;&gt; ReadMedias(ICollection&lt;CreateMediaDTO&gt; mediaDTOs)
+    {
+        var mediaDTONames = mediaDTOs.Select(e =&gt; e.Name).ToHashSet();
+        var medias = await _context.Medias.Where(e =&gt; mediaDTONames.Contains(e.Name)).ToListAsync();
+        if (medias.Count != mediaDTOs.Count) throw new Exception(&quot;Bad request&quot;);
+        return medias;
+    }
+
+    /// &lt;summary&gt;Reads levels.&lt;/summary&gt;
+    /// &lt;param name=&quot;levelDTOs&quot;&gt;The level dt os.&lt;/param&gt;
+    /// &lt;returns&gt;ICollection&amp;lt;Level&amp;gt;.&lt;/returns&gt;
+    /// &lt;exception cref=&quot;System.Exception&quot;&gt;Bad request&lt;/exception&gt;
+    private async Task&lt;ICollection&lt;Level&gt;&gt; ReadLevels(ICollection&lt;CreateLevelDTO&gt; levelDTOs)
+    {
+        var levelDTONames = levelDTOs.Select(e =&gt; e.Name).ToHashSet();
+        var levels = await _context.Levels.Where(e =&gt; levelDTONames.Contains(e.Name)).ToListAsync();
+        if (levels.Count != levelDTOs.Count) throw new Exception(&quot;Bad request&quot;);
+        return levels;
+    }
+
+    /// &lt;summary&gt;Reads programming languages.&lt;/summary&gt;
+    /// &lt;param name=&quot;programmingLanguageDTOs&quot;&gt;The programming language dt os.&lt;/param&gt;
+    /// &lt;returns&gt;ICollection&amp;lt;ProgrammingLanguage&amp;gt;.&lt;/returns&gt;
+    /// &lt;exception cref=&quot;System.Exception&quot;&gt;Bad request&lt;/exception&gt;
+    private async Task&lt;ICollection&lt;ProgrammingLanguage&gt;&gt; ReadProgrammingLanguages(
+        ICollection&lt;CreateProgrammingLanguageDTO&gt; programmingLanguageDTOs)
+    {
+        var programmingLanguageDTONames = programmingLanguageDTOs.Select(e =&gt; e.Name).ToHashSet();
+        var programmingLanguages = await _context.ProgrammingLanguages
+            .Where(e =&gt; programmingLanguageDTONames.Contains(e.Name)).ToListAsync();
+        if (programmingLanguages.Count != programmingLanguageDTOs.Count) throw new Exception(&quot;Bad request&quot;);
+        return programmingLanguages;
+    }
+
+    /// &lt;summary&gt;Validates the tags.&lt;/summary&gt;
+    /// &lt;param name=&quot;tags&quot;&gt;The tags.&lt;/param&gt;
+    /// &lt;returns&gt;
+    ///     &lt;c&gt;true&lt;/c&gt; if tags exist, &lt;c&gt;false&lt;/c&gt; otherwise.
+    /// &lt;/returns&gt;
+    private async Task&lt;bool&gt; ValidTags(IEnumerable&lt;CreateWeightedTagDTO&gt; tags)
+    {
+        var existingTags = await (from t in _context.Tags
+            select new TagDTO(t.Id, t.Name)).ToListAsync();
+
+        var allTagsExists = false;
+        foreach (var tag in tags)
+        {
+            allTagsExists = existingTags.Select(e =&gt; e.Name).Contains(tag.Name);
+            if (!allTagsExists) break;
+        }
+
+        return allTagsExists;
+    }
+
+    /// &lt;summary&gt;Validates the input.&lt;/summary&gt;
+    /// &lt;param name=&quot;material&quot;&gt;The material.&lt;/param&gt;
+    /// &lt;returns&gt;
+    ///     &lt;c&gt;true&lt;/c&gt; if input is valid, &lt;c&gt;false&lt;/c&gt; otherwise.
+    /// &lt;/returns&gt;
+    private static bool InvalidInput(CreateMaterialDTO material)
+    {
+        var stringList = new List&lt;string&gt;
+        {
+            material.Title,
+            material.Language.Name
+        };
+        stringList.AddRange(material.Medias.Select(e =&gt; e.Name).ToList());
+        stringList.AddRange(material.Authors.Select(e =&gt; e.FirstName).ToList());
+        stringList.AddRange(material.Authors.Select(e =&gt; e.SurName).ToList());
+        stringList.AddRange(material.Levels.Select(e =&gt; e.Name).ToList());
+        stringList.AddRange(material.ProgrammingLanguages.Select(e =&gt; e.Name).ToList());
+        stringList.AddRange(material.Ratings.Select(e =&gt; e.Reviewer).ToList());
+        stringList.AddRange(material.Tags.Select(e =&gt; e.Name).ToList());
+
+        if (stringList.Any(name =&gt; name.Length &gt; 50 || string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name)))
+            return true;
+
+        if (material.Summary.Length &gt; 250 || string.IsNullOrEmpty(material.Summary) ||
+            string.IsNullOrWhiteSpace(material.Summary))
+            return true;
+
+        return material.Ratings.Any(rating =&gt; rating.Value is &lt; 1 or &gt; 10) ||
+               material.Tags.Any(tag =&gt; tag.Weight is &lt; 1 or &gt; 100);
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[29,5,29,48,1],[30,5,30,6,1],[31,9,31,28,1],[32,5,32,6,1],[38,5,38,6,1],[39,9,39,88,1],[41,9,41,90,1],[42,13,42,53,1],[44,9,47,36,1],[48,9,48,30,1],[48,31,48,96,1],[50,9,50,10,1],[51,13,51,86,1],[53,13,53,55,1],[55,13,55,47,1],[57,13,57,64,1],[59,13,59,46,1],[61,9,61,26,1],[62,9,62,10,1],[63,13,63,53,1],[65,5,65,6,1],[71,5,71,6,1],[72,9,72,71,1],[74,9,74,30,1],[74,31,74,54,1],[76,9,76,45,1],[78,9,78,43,1],[80,9,80,31,1],[81,5,81,6,1],[87,5,87,6,1],[88,9,90,22,1],[92,9,92,58,1],[94,9,96,70,1],[97,5,97,6,1],[102,5,102,6,1],[103,9,103,50,1],[104,9,104,72,1],[105,5,105,6,1],[111,5,111,6,1],[112,9,112,53,1],[114,9,115,32,1],[115,32,115,74,1],[115,74,116,23,1],[119,9,120,32,1],[120,32,124,80,1],[124,80,125,23,1],[128,9,130,23,1],[132,9,134,78,1],[135,5,135,6,1],[141,5,141,6,1],[142,9,142,78,1],[142,79,142,104,1],[144,9,147,34,1],[150,9,150,22,1],[150,23,150,46,1],[152,9,152,73,1],[154,9,154,28,1],[154,29,154,52,1],[157,9,157,10,1],[158,13,158,83,1],[160,13,160,48,1],[161,13,161,44,1],[162,13,162,74,1],[163,13,163,46,1],[164,13,164,48,1],[165,13,165,58,1],[166,13,166,48,1],[167,13,167,46,1],[168,13,168,52,1],[169,13,169,48,1],[170,13,170,50,1],[171,13,171,40,1],[172,13,172,48,1],[174,13,174,47,1],[176,13,176,35,1],[178,9,178,14,0],[179,9,179,10,0],[180,13,180,38,0],[182,5,182,6,1],[189,5,189,6,1],[190,9,205,11,1],[206,5,206,6,1],[213,5,213,6,1],[214,9,214,28,1],[215,9,216,13,1],[216,13,216,101,1],[216,101,216,112,1],[217,9,218,26,1],[218,26,218,107,1],[218,107,218,118,1],[219,9,219,48,1],[219,48,219,111,1],[219,111,220,23,1],[221,9,222,13,1],[222,13,222,104,1],[222,104,222,115,1],[223,9,223,48,1],[223,48,223,111,1],[223,111,224,23,1],[225,9,225,64,1],[226,9,226,38,1],[227,9,227,30,1],[228,9,228,38,1],[229,9,229,34,1],[230,9,231,26,1],[231,26,231,111,1],[231,111,232,23,1],[233,9,233,42,1],[235,9,249,11,1],[250,5,250,6,1],[256,5,256,6,1],[257,9,258,48,1],[258,48,258,81,1],[258,81,259,51,1],[259,51,259,82,1],[259,82,268,51,1],[268,51,268,85,1],[268,85,270,11,1],[271,5,271,6,1],[277,5,277,6,1],[278,9,283,28,1],[284,5,284,6,1],[294,5,294,6,1],[295,9,295,81,1],[295,81,295,93,1],[295,93,295,100,1],[296,5,296,6,1],[302,5,302,6,1],[303,9,303,28,1],[303,28,304,13,1],[304,13,304,57,1],[304,57,304,93,1],[304,93,304,94,1],[304,94,304,95,1],[304,95,304,96,1],[305,5,305,6,1],[312,5,312,6,1],[313,9,313,28,1],[313,28,314,60,1],[314,60,314,87,1],[314,87,314,105,1],[314,105,314,106,1],[314,106,314,107,1],[314,107,314,108,1],[315,5,315,6,1],[326,5,326,6,1],[327,9,327,28,1],[327,28,329,32,1],[329,32,329,67,1],[329,67,329,94,1],[329,94,329,95,1],[329,95,329,96,1],[329,96,329,97,1],[330,5,330,6,1],[337,5,337,6,1],[338,9,339,13,1],[339,13,339,76,1],[339,76,339,108,1],[339,108,339,109,1],[339,109,339,110,1],[340,5,340,6,1],[346,5,346,6,1],[347,9,347,28,1],[347,28,348,27,1],[348,27,348,34,1],[348,34,349,24,1],[349,24,350,62,1],[350,62,350,100,1],[350,100,351,59,1],[351,59,351,98,1],[351,98,351,99,1],[351,99,351,100,1],[351,100,351,101,1],[352,5,352,6,1],[357,5,357,6,1],[358,9,358,53,1],[359,9,359,51,1],[360,9,360,49,1],[361,9,361,77,1],[362,9,362,49,1],[363,9,363,50,1],[368,9,368,51,1],[369,9,369,40,1],[371,9,372,48,1],[373,9,373,25,1],[374,5,374,6,1],[381,5,381,6,1],[382,9,382,51,1],[382,51,382,57,1],[382,57,382,71,1],[383,9,383,101,1],[384,9,384,45,1],[384,46,384,81,1],[385,9,385,23,1],[386,5,386,6,1],[393,5,393,6,1],[394,9,394,51,1],[394,51,394,57,1],[394,57,394,71,1],[395,9,395,101,1],[396,9,396,45,1],[396,46,396,81,1],[397,9,397,23,1],[398,5,398,6,1],[406,5,406,6,1],[407,9,407,79,1],[407,79,407,85,1],[407,85,407,99,1],[408,9,409,85,1],[410,9,410,73,1],[410,74,410,109,1],[411,9,411,37,1],[412,5,412,6,1],[420,5,420,6,1],[421,9,422,60,1],[424,9,424,35,1],[425,9,425,16,1],[425,18,425,25,1],[425,26,425,28,1],[425,29,425,33,1],[426,9,426,10,1],[427,13,427,54,1],[427,54,427,60,1],[427,60,427,81,1],[428,13,428,32,1],[428,33,428,39,1],[429,9,429,10,1],[431,9,431,30,1],[432,5,432,6,1],[440,5,440,6,1],[441,9,445,11,1],[446,9,446,57,1],[446,57,446,63,1],[446,63,446,75,1],[447,9,447,58,1],[447,58,447,69,1],[447,69,447,81,1],[448,9,448,58,1],[448,58,448,67,1],[448,67,448,79,1],[449,9,449,57,1],[449,57,449,63,1],[449,63,449,75,1],[450,9,450,71,1],[450,71,450,77,1],[450,77,450,89,1],[451,9,451,58,1],[451,58,451,68,1],[451,68,451,80,1],[452,9,452,55,1],[452,55,452,61,1],[452,61,452,73,1],[454,9,454,36,1],[454,36,454,117,1],[454,117,454,119,1],[455,13,455,25,1],[457,9,458,57,1],[459,13,459,25,1],[461,9,461,47,1],[461,47,461,74,1],[461,74,462,41,1],[462,41,462,67,1],[462,67,462,69,1],[463,5,463,6,1]]);
+    </script>
+  </body>
+</html>

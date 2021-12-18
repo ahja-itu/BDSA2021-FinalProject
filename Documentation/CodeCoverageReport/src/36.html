@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Core\Shared\MaterialDTO.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+// ***********************************************************************
+// Assembly         : WebService.Core.Shared
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// &lt;copyright file=&quot;MaterialDTO.cs&quot; company=&quot;BTG&quot;&gt;
+//     Copyright (c) . All rights reserved.
+// &lt;/copyright&gt;
+// &lt;summary&gt;&lt;/summary&gt;
+// ***********************************************************************
+
+using System.Globalization;
+
+namespace WebService.Core.Shared
+{
+    /// &lt;summary&gt;
+    ///     Class MaterialDTO.
+    ///     Implements the &lt;see cref=&quot;T:WebService.Core.Shared.CreateMaterialDTO&quot; /&gt;
+    ///     Implements the &lt;see cref=&quot;System.IEquatable{CreateMaterialDTO}&quot; /&gt;
+    ///     Implements the &lt;see cref=&quot;System.IEquatable{MaterialDTO}&quot; /&gt;
+    /// &lt;/summary&gt;
+    public record MaterialDTO : CreateMaterialDTO
+    {
+        public MaterialDTO(int id, ICollection&lt;CreateWeightedTagDTO&gt; tags, ICollection&lt;CreateRatingDTO&gt; ratings,
+            ICollection&lt;CreateLevelDTO&gt; levels, ICollection&lt;CreateProgrammingLanguageDTO&gt; programmingLanguages,
+            ICollection&lt;CreateMediaDTO&gt; medias, CreateLanguageDTO language, string summary, string url, string content,
+            string title, ICollection&lt;CreateAuthorDTO&gt; authors, DateTime timeStamp) : base(tags, ratings, levels,
+            programmingLanguages, medias, language, summary, url, content, title, authors, timeStamp)
+        {
+            Id = id;
+        }
+
+        public int Id { get; }
+    }
+
+    /// &lt;summary&gt;
+    ///     Class CreateMaterialDTO.
+    ///     Implements the &lt;see cref=&quot;System.IEquatable{CreateMaterialDTO}&quot; /&gt;
+    /// &lt;/summary&gt;
+    public record CreateMaterialDTO
+    {
+        /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Core.Shared.CreateMaterialDTO&quot; /&gt; class.&lt;/summary&gt;
+        /// &lt;param name=&quot;tags&quot;&gt;The tags.&lt;/param&gt;
+        /// &lt;param name=&quot;ratings&quot;&gt;The ratings.&lt;/param&gt;
+        /// &lt;param name=&quot;levels&quot;&gt;The levels.&lt;/param&gt;
+        /// &lt;param name=&quot;programmingLanguages&quot;&gt;The programming languages.&lt;/param&gt;
+        /// &lt;param name=&quot;medias&quot;&gt;The medias.&lt;/param&gt;
+        /// &lt;param name=&quot;language&quot;&gt;The language.&lt;/param&gt;
+        /// &lt;param name=&quot;summary&quot;&gt;The summary.&lt;/param&gt;
+        /// &lt;param name=&quot;url&quot;&gt;The URL.&lt;/param&gt;
+        /// &lt;param name=&quot;content&quot;&gt;The content.&lt;/param&gt;
+        /// &lt;param name=&quot;title&quot;&gt;The title.&lt;/param&gt;
+        /// &lt;param name=&quot;authors&quot;&gt;The authors.&lt;/param&gt;
+        /// &lt;param name=&quot;timeStamp&quot;&gt;The time stamp.&lt;/param&gt;
+        public CreateMaterialDTO(ICollection&lt;CreateWeightedTagDTO&gt; tags, ICollection&lt;CreateRatingDTO&gt; ratings,
+            ICollection&lt;CreateLevelDTO&gt; levels, ICollection&lt;CreateProgrammingLanguageDTO&gt; programmingLanguages,
+            ICollection&lt;CreateMediaDTO&gt; medias, CreateLanguageDTO language, string summary, string url, string content,
+            string title, ICollection&lt;CreateAuthorDTO&gt; authors, DateTime timeStamp)
+        {
+            Tags = tags;
+            Ratings = ratings;
+            Levels = levels;
+            ProgrammingLanguages = programmingLanguages;
+            Medias = medias;
+            Language = language;
+            Summary = summary;
+            Url = url;
+            Content = content;
+            Title = title;
+            Authors = authors;
+            TimeStamp = timeStamp;
+        }
+
+        public ICollection&lt;CreateWeightedTagDTO&gt; Tags { get; }
+        public ICollection&lt;CreateRatingDTO&gt; Ratings { get; }
+        public ICollection&lt;CreateLevelDTO&gt; Levels { get; }
+        public ICollection&lt;CreateProgrammingLanguageDTO&gt; ProgrammingLanguages { get; }
+        public ICollection&lt;CreateMediaDTO&gt; Medias { get; }
+        public CreateLanguageDTO Language { get; }
+
+        [StringLength(400)] public string Summary { get; }
+
+        public string Url { get; }
+        public string Content { get; }
+
+        [StringLength(50)] public string Title { get; }
+
+        public ICollection&lt;CreateAuthorDTO&gt; Authors { get; }
+        public DateTime TimeStamp { get; }
+    }
+}
+
+namespace WebService.Core.Shared
+{
+    /// &lt;summary&gt;Class MaterialExtensions.&lt;/summary&gt;
+    public static class MaterialExtensions
+    {
+        /// &lt;summary&gt;Average rating calculator.&lt;/summary&gt;
+        /// &lt;param name=&quot;material&quot;&gt;The material.&lt;/param&gt;
+        /// &lt;returns&gt;System.Single.&lt;/returns&gt;
+        public static float AverageRating(this CreateMaterialDTO material)
+        {
+            float sum = material.Ratings.Sum(e =&gt; e.Value);
+            return sum / material.Ratings.Count;
+        }
+
+        /// &lt;summary&gt;Average rating to string.&lt;/summary&gt;
+        /// &lt;param name=&quot;material&quot;&gt;The material.&lt;/param&gt;
+        /// &lt;returns&gt;System.String.&lt;/returns&gt;
+        public static string AverageRatingToString(this CreateMaterialDTO material)
+        {
+            return AverageRating(material).ToString(CultureInfo.CurrentCulture);
+        }
+
+        /// &lt;summary&gt;Levels to string.&lt;/summary&gt;
+        /// &lt;param name=&quot;material&quot;&gt;The material.&lt;/param&gt;
+        /// &lt;returns&gt;System.String.&lt;/returns&gt;
+        public static string LevelsToString(this CreateMaterialDTO material)
+        {
+            var levels = material.Levels.Aggregate(&quot;&quot;, (current, level) =&gt; current + level.Name + &quot; &quot;);
+            return levels.Remove(levels.Length - 1);
+        }
+
+        /// &lt;summary&gt;Authors to string.&lt;/summary&gt;
+        /// &lt;param name=&quot;material&quot;&gt;The material.&lt;/param&gt;
+        /// &lt;returns&gt;System.String.&lt;/returns&gt;
+        public static string AuthorsToString(this CreateMaterialDTO material)
+        {
+            var authors = material.Authors.Aggregate(&quot;Authors: &quot;,
+                (current, author) =&gt; current + author.FirstName + &quot; &quot; + author.SurName + &quot;, &quot;);
+            return authors.Remove(authors.Length - 2);
+        }
+
+        /// &lt;summary&gt;Converts material to materialDto.&lt;/summary&gt;
+        /// &lt;param name=&quot;material&quot;&gt;The material.&lt;/param&gt;
+        /// &lt;returns&gt;MaterialDTO.&lt;/returns&gt;
+        public static MaterialDTO ConvertToMaterialDTO(this Material material)
+        {
+            return new MaterialDTO(
+                material.Id,
+                material.WeightedTags.Select(e =&gt; new WeightedTagDTO(e.Name, e.Weight))
+                    .Cast&lt;CreateWeightedTagDTO&gt;().ToList(),
+                material.Ratings.Select(e =&gt; new RatingDTO(e.Id, e.Value, e.Reviewer)).Cast&lt;CreateRatingDTO&gt;().ToList(),
+                material.Levels.Select(e =&gt; new LevelDTO(e.Id, e.Name)).Cast&lt;CreateLevelDTO&gt;().ToList(),
+                material.ProgrammingLanguages.Select(e =&gt; new ProgrammingLanguageDTO(e.Id, e.Name))
+                    .Cast&lt;CreateProgrammingLanguageDTO&gt;().ToList(),
+                material.Medias.Select(e =&gt; new MediaDTO(e.Id, e.Name)).Cast&lt;CreateMediaDTO&gt;().ToList(),
+                new CreateLanguageDTO(material.Language.Name), //ANNE, changes from LanguageDTO
+                material.Summary,
+                material.URL,
+                material.Content,
+                material.Title,
+                material.Authors.Select(e =&gt; new AuthorDTO(e.FirstName, e.SurName)).Cast&lt;CreateAuthorDTO&gt;()
+                    .ToList(),
+                material.TimeStamp
+            );
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[30,87,31,102,1],[32,9,32,10,1],[33,13,33,21,1],[34,9,34,10,1],[36,25,36,29,1],[58,9,61,84,1],[62,9,62,10,1],[63,13,63,25,1],[64,13,64,31,1],[65,13,65,29,1],[66,13,66,57,1],[67,13,67,29,1],[68,13,68,33,1],[69,13,69,31,1],[70,13,70,23,1],[71,13,71,31,1],[72,13,72,27,1],[73,13,73,31,1],[74,13,74,35,1],[75,9,75,10,1],[77,57,77,61,1],[78,55,78,59,1],[79,53,79,57,1],[80,81,80,85,1],[81,53,81,57,1],[82,45,82,49,1],[84,53,84,57,1],[86,29,86,33,1],[87,33,87,37,1],[89,50,89,54,1],[91,55,91,59,1],[92,37,92,41,1],[105,9,105,10,1],[106,13,106,51,1],[106,51,106,58,1],[106,58,106,60,1],[107,13,107,49,1],[108,9,108,10,1],[114,9,114,10,0],[115,13,115,81,0],[116,9,116,10,0],[122,9,122,10,1],[123,13,123,76,1],[123,76,123,102,1],[123,102,123,104,1],[124,13,124,53,1],[125,9,125,10,1],[131,9,131,10,1],[132,13,133,38,1],[133,38,133,94,1],[133,94,133,96,1],[134,13,134,55,1],[135,9,135,10,1],[141,9,141,10,1],[142,13,144,51,1],[144,51,144,87,1],[144,87,146,46,1],[146,46,146,86,1],[146,86,147,45,1],[147,45,147,71,1],[147,71,148,59,1],[148,59,148,99,1],[148,99,150,45,1],[150,45,150,71,1],[150,71,156,46,1],[156,46,156,83,1],[156,83,159,15,1],[160,9,160,10,1]]);
+    </script>
+  </body>
+</html>

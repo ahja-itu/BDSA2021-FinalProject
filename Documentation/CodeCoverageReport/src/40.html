@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Core\Shared\SearchForm.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+// ***********************************************************************
+// Assembly         : WebService.Core.Shared
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// &lt;copyright file=&quot;SearchForm.cs&quot; company=&quot;BTG&quot;&gt;
+//     Copyright (c) . All rights reserved.
+// &lt;/copyright&gt;
+// &lt;summary&gt;&lt;/summary&gt;
+// ***********************************************************************
+
+namespace WebService.Core.Shared;
+
+/// &lt;summary&gt;Class SearchForm.&lt;/summary&gt;
+public class SearchForm
+{
+    /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Core.Shared.SearchForm&quot; /&gt; class.&lt;/summary&gt;
+    /// &lt;param name=&quot;textField&quot;&gt;The text field.&lt;/param&gt;
+    /// &lt;param name=&quot;tags&quot;&gt;The tags.&lt;/param&gt;
+    /// &lt;param name=&quot;levels&quot;&gt;The levels.&lt;/param&gt;
+    /// &lt;param name=&quot;programmingLanguages&quot;&gt;The programming languages.&lt;/param&gt;
+    /// &lt;param name=&quot;languages&quot;&gt;The languages.&lt;/param&gt;
+    /// &lt;param name=&quot;medias&quot;&gt;The medias.&lt;/param&gt;
+    /// &lt;param name=&quot;rating&quot;&gt;The rating.&lt;/param&gt;
+    public SearchForm(string textField, ICollection&lt;TagDTO&gt; tags, ICollection&lt;LevelDTO&gt; levels,
+        ICollection&lt;ProgrammingLanguageDTO&gt; programmingLanguages, ICollection&lt;LanguageDTO&gt; languages,
+        ICollection&lt;MediaDTO&gt; medias, int rating)
+    {
+        TextField = textField;
+        Tags = tags;
+        Levels = levels;
+        ProgrammingLanguages = programmingLanguages;
+        Languages = languages;
+        Medias = medias;
+        Rating = rating;
+    }
+
+    public string TextField { get; set; }
+    public ICollection&lt;TagDTO&gt; Tags { get; set; }
+    public ICollection&lt;LevelDTO&gt; Levels { get; }
+    public ICollection&lt;ProgrammingLanguageDTO&gt; ProgrammingLanguages { get; }
+    public ICollection&lt;LanguageDTO&gt; Languages { get; }
+    public ICollection&lt;MediaDTO&gt; Medias { get; }
+    public int Rating { get; }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[28,5,30,50,1],[31,5,31,6,1],[32,9,32,31,1],[33,9,33,21,1],[34,9,34,25,1],[35,9,35,53,1],[36,9,36,31,1],[37,9,37,25,1],[38,9,38,25,1],[39,5,39,6,1],[41,31,41,35,1],[41,36,41,40,1],[42,39,42,43,1],[42,44,42,48,1],[43,43,43,47,1],[44,71,44,75,1],[45,49,45,53,1],[46,43,46,47,1],[47,25,47,29,1]]);
+    </script>
+  </body>
+</html>

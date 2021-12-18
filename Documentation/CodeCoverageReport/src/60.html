@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Core\Server\Controllers\MaterialController.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+// ***********************************************************************
+// Assembly         : WebService.Core.Server
+// Author           : Group BTG
+// Created          : 12-03-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// &lt;copyright file=&quot;MaterialController.cs&quot; company=&quot;BTG&quot;&gt;
+//     Copyright (c) . All rights reserved.
+// &lt;/copyright&gt;
+// &lt;summary&gt;&lt;/summary&gt;
+// ***********************************************************************
+
+namespace WebService.Core.Server.Controllers;
+
+/// &lt;summary&gt;
+///     Class MaterialController.
+///     Implements the &lt;see cref=&quot;Microsoft.AspNetCore.Mvc.ControllerBase&quot; /&gt;
+/// &lt;/summary&gt;
+/// &lt;seealso cref=&quot;Microsoft.AspNetCore.Mvc.ControllerBase&quot; /&gt;
+[Authorize]
+[ApiController]
+[Route(&quot;[controller]&quot;)]
+[RequiredScope(RequiredScopesConfigurationKey = &quot;AzureAd:Scopes&quot;)]
+public class MaterialController : ControllerBase
+{
+    /// &lt;summary&gt;
+    ///     The material repository
+    /// &lt;/summary&gt;
+    private readonly IMaterialRepository _materialRepository;
+
+    /// &lt;summary&gt;
+    ///     Initializes a new instance of the &lt;see cref=&quot;MaterialController&quot; /&gt; class.
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;materialRepository&quot;&gt;The material repository.&lt;/param&gt;
+    public MaterialController(IMaterialRepository materialRepository)
+    {
+        _materialRepository = materialRepository;
+    }
+
+    /// &lt;summary&gt;
+    ///     Gets all materialDTOs.
+    /// &lt;/summary&gt;
+    /// &lt;returns&gt;ActionResult&amp;lt;ICollection&amp;lt;MaterialDTO&amp;gt;&amp;gt;.&lt;/returns&gt;
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task&lt;ActionResult&lt;ICollection&lt;MaterialDTO&gt;&gt;&gt; Get()
+    {
+        var result = await _materialRepository.ReadAsync();
+        return Ok(result);
+    }
+
+    /// &lt;summary&gt;
+    ///     Gets a specified materialDTO.
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;id&quot;&gt;The identifier.&lt;/param&gt;
+    /// &lt;returns&gt;ActionResult&amp;lt;MaterialDTO&amp;gt;.&lt;/returns&gt;
+    [HttpGet(&quot;{id:int}&quot;)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task&lt;ActionResult&lt;MaterialDTO&gt;&gt; Get(int id)
+    {
+        var (response, materialDTO) = await _materialRepository.ReadAsync(id);
+
+        if (response == Status.Found) return Ok(materialDTO);
+        return NotFound(materialDTO);
+    }
+
+    /// &lt;summary&gt;
+    ///     Posts a specified search form and returns a materialDTO matching the search from.
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;searchForm&quot;&gt;The search form.&lt;/param&gt;
+    /// &lt;returns&gt;ActionResult&amp;lt;MaterialDTO&amp;gt;.&lt;/returns&gt;
+    [HttpPost(&quot;PostSearchForm&quot;)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task&lt;ActionResult&lt;MaterialDTO&gt;&gt; Post(SearchForm searchForm)
+    {
+        var (response, materialDTOs) = await _materialRepository.ReadAsync(searchForm);
+
+        if (response == Status.Found) return Ok(materialDTOs);
+        return NotFound();
+    }
+
+    /// &lt;summary&gt;
+    ///     Posts the specified material.
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;material&quot;&gt;The material.&lt;/param&gt;
+    /// &lt;returns&gt;IActionResult.&lt;/returns&gt;
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task&lt;IActionResult&gt; Post(CreateMaterialDTO material)
+    {
+        var (response, materialDTO) = await _materialRepository.CreateAsync(material);
+
+        return response switch
+        {
+            Status.Created =&gt; Created(nameof(Put), materialDTO),
+            Status.Conflict =&gt; Conflict(),
+            _ =&gt; BadRequest()
+        };
+    }
+
+    /// &lt;summary&gt;
+    ///     Puts the specified material.
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;material&quot;&gt;The material.&lt;/param&gt;
+    /// &lt;returns&gt;IActionResult.&lt;/returns&gt;
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task&lt;IActionResult&gt; Put(MaterialDTO material)
+    {
+        var response = await _materialRepository.UpdateAsync(material);
+
+        return response switch
+        {
+            Status.Updated =&gt; NoContent(),
+            Status.Conflict =&gt; Conflict(),
+            Status.BadRequest =&gt; BadRequest(),
+            _ =&gt; NotFound()
+        };
+    }
+
+    /// &lt;summary&gt;
+    ///     Deletes the specified identifier.
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;id&quot;&gt;The identifier.&lt;/param&gt;
+    /// &lt;returns&gt;IActionResult.&lt;/returns&gt;
+    [HttpDelete(&quot;{id:int}&quot;)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task&lt;IActionResult&gt; Delete(int id)
+    {
+        var response = await _materialRepository.DeleteAsync(id);
+
+        if (response == Status.Deleted) return NoContent();
+        return NotFound();
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[37,5,37,70,1],[38,5,38,6,1],[39,9,39,50,1],[40,5,40,6,1],[49,5,49,6,1],[50,9,50,60,1],[51,9,51,27,1],[52,5,52,6,1],[63,5,63,6,1],[64,9,64,79,1],[66,9,66,38,1],[66,39,66,62,1],[67,9,67,38,1],[68,5,68,6,1],[79,5,79,6,1],[80,9,80,88,1],[82,9,82,38,1],[82,39,82,63,1],[83,9,83,27,1],[84,5,84,6,1],[96,5,96,6,1],[97,9,97,87,1],[99,9,101,31,1],[101,31,101,64,1],[101,64,102,32,1],[102,32,102,42,1],[102,42,103,18,1],[103,18,103,30,1],[103,30,104,11,1],[105,5,105,6,1],[118,5,118,6,1],[119,9,119,72,1],[121,9,123,31,1],[123,31,123,42,1],[123,42,124,32,1],[124,32,124,42,1],[124,42,125,34,1],[125,34,125,46,1],[125,46,126,18,1],[126,18,126,28,1],[126,28,127,11,1],[128,5,128,6,1],[139,5,139,6,1],[140,9,140,66,1],[142,9,142,40,1],[142,41,142,60,1],[143,9,143,27,1],[144,5,144,6,1]]);
+    </script>
+  </body>
+</html>
