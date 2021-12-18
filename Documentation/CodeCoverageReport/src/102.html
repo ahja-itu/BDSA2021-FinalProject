@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Infrastructure.Tests\ContextRepositoryTests\TagRepositoryTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+// ***********************************************************************
+// Assembly         : WebService.Infrastructure.Tests
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// &lt;copyright file=&quot;TagRepositoryTests.cs&quot; company=&quot;BTG&quot;&gt;
+//     Copyright (c) . All rights reserved.
+// &lt;/copyright&gt;
+// &lt;summary&gt;&lt;/summary&gt;
+// ***********************************************************************
+
+using System.Diagnostics.CodeAnalysis;
+
+namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
+
+/// &lt;summary&gt;
+///     Class TagRepositoryTests.
+/// &lt;/summary&gt;
+[SuppressMessage(&quot;ReSharper&quot;, &quot;StringLiteralTypo&quot;)]
+public class TagRepositoryTests
+{
+    /// &lt;summary&gt;
+    ///     The v
+    /// &lt;/summary&gt;
+    private readonly TestVariables _v;
+
+    /// &lt;summary&gt;
+    ///     Initializes a new instance of the &lt;see cref=&quot;TagRepositoryTests&quot; /&gt; class.
+    /// &lt;/summary&gt;
+    public TagRepositoryTests()
+    {
+        _v = new TestVariables();
+    }
+
+    #region Create
+
+    /// &lt;summary&gt;
+    ///     Defines the test method CreateAsync_tag_returns_new_tag_with_id.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task CreateAsync_tag_returns_new_tag_with_id()
+    {
+        var tag = new CreateTagDTO(&quot;Database&quot;);
+
+        var actual = await _v.TagRepository.CreateAsync(tag);
+
+        var expected = (Status.Created, new TagDTO(4, &quot;Database&quot;));
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method CreateAsync_tag_returns_conflict_and_existing_tag.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task CreateAsync_tag_returns_conflict_and_existing_tag()
+    {
+        var tag = new CreateTagDTO(&quot;API&quot;);
+
+        var actual = await _v.TagRepository.CreateAsync(tag);
+
+        var expected = (Status.Conflict, new TagDTO(3, &quot;API&quot;));
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method CreateAsync_tag_returns_count_one_more.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task CreateAsync_tag_returns_count_one_more()
+    {
+        var tag = new CreateTagDTO(&quot;Database&quot;);
+
+        await _v.TagRepository.CreateAsync(tag);
+
+        var actual = _v.TagRepository.ReadAsync().Result.Count;
+
+        const int expected = 4;
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method CreateAsync_tag_returns_bad_request_on_name_tooLong.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task CreateAsync_tag_returns_bad_request_on_name_tooLong()
+    {
+        var tag = new CreateTagDTO(&quot;asseocarnisanguineoviscericartilaginonervomedullary&quot;);
+
+        var actual = await _v.TagRepository.CreateAsync(tag);
+
+        var expected = (Status.BadRequest, new TagDTO(-1, &quot;asseocarnisanguineoviscericartilaginonervomedullary&quot;));
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method CreateAsync_tag_returns_bad_request_on_name_empty.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task CreateAsync_tag_returns_bad_request_on_name_empty()
+    {
+        var tag = new CreateTagDTO(&quot;&quot;);
+
+        var actual = await _v.TagRepository.CreateAsync(tag);
+
+        var expected = (Status.BadRequest, new TagDTO(-1, &quot;&quot;));
+
+        Assert.Equal(expected, actual);
+    }
+
+
+    /// &lt;summary&gt;
+    ///     Defines the test method CreateAsync_tag_returns_bad_request_on_name_whitespace.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task CreateAsync_tag_returns_bad_request_on_name_whitespace()
+    {
+        var tag = new CreateTagDTO(&quot; &quot;);
+
+        var actual = await _v.TagRepository.CreateAsync(tag);
+
+        var expected = (Status.BadRequest, new TagDTO(-1, &quot; &quot;));
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method CreateAsync_tag_with_max_length_returns_new_language_with_id.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task CreateAsync_tag_with_max_length_returns_new_language_with_id()
+    {
+        var tag = new CreateTagDTO(&quot;asseocarnisanguineoviscericartilaginonervomedullar&quot;);
+
+        var actual = await _v.TagRepository.CreateAsync(tag);
+
+        var expected = (Status.Created, new TagDTO(4, &quot;asseocarnisanguineoviscericartilaginonervomedullar&quot;));
+
+        Assert.Equal(expected, actual);
+    }
+
+    #endregion
+
+    #region Read
+
+    /// &lt;summary&gt;
+    ///     Defines the test method ReadAsync_tag_by_id_returns_tag_and_status_found.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task ReadAsync_tag_by_id_returns_tag_and_status_found()
+    {
+        var actual = await _v.TagRepository.ReadAsync(1);
+
+        var expected = (Status.Found, new TagDTO(1, &quot;SOLID&quot;));
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method ReadAsync_tag_by_id_returns_empty_tag_and_status_notFound.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task ReadAsync_tag_by_id_returns_empty_tag_and_status_notFound()
+    {
+        var actual = await _v.TagRepository.ReadAsync(4);
+
+        var expected = (Status.NotFound, new TagDTO(-1, &quot;&quot;));
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method ReadAllAsync_returns_all_tags.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task ReadAllAsync_returns_all_tags()
+    {
+        var actual = await _v.TagRepository.ReadAsync();
+
+        var expected1 = new TagDTO(1, &quot;SOLID&quot;);
+        var expected2 = new TagDTO(2, &quot;RAD&quot;);
+        var expected3 = new TagDTO(3, &quot;API&quot;);
+
+        Assert.Collection(actual,
+            tagDTO =&gt; Assert.Equal(expected1, tagDTO),
+            tagDTO =&gt; Assert.Equal(expected2, tagDTO),
+            tagDTO =&gt; Assert.Equal(expected3, tagDTO));
+    }
+
+    #endregion
+
+    #region Delete
+
+    /// &lt;summary&gt;
+    ///     Defines the test method DeleteAsync_tag_by_id_returns_status_deleted.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task DeleteAsync_tag_by_id_returns_status_deleted()
+    {
+        var actual = await _v.TagRepository.DeleteAsync(1);
+
+        const Status expected = Status.Deleted;
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method DeleteAsync_tag_by_id_returns_status_notFound.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task DeleteAsync_tag_by_id_returns_status_notFound()
+    {
+        var actual = await _v.TagRepository.DeleteAsync(4);
+
+        const Status expected = Status.NotFound;
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method DeleteAsync_tag_by_id_returns_count_one_less.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task DeleteAsync_tag_by_id_returns_count_one_less()
+    {
+        await _v.TagRepository.DeleteAsync(3);
+
+        var actual = _v.TagRepository.ReadAsync().Result.Count;
+
+        const int expected = 2;
+
+        Assert.Equal(expected, actual);
+    }
+
+    #endregion
+
+    #region Update
+
+    /// &lt;summary&gt;
+    ///     Defines the test method UpdateAsync_tag_by_id_returns_status_updated.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task UpdateAsync_tag_by_id_returns_status_updated()
+    {
+        var updateTagDTO = new TagDTO(3, &quot;Database&quot;);
+
+        var actual = await _v.TagRepository.UpdateAsync(updateTagDTO);
+
+        const Status expected = Status.Updated;
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method UpdateAsync_tag_by_id_read_updated_returns_status_found_and_updated_tag.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task UpdateAsync_tag_by_id_read_updated_returns_status_found_and_updated_tag()
+    {
+        var updateTagDTO = new TagDTO(3, &quot;Database&quot;);
+
+        await _v.TagRepository.UpdateAsync(updateTagDTO);
+
+        var actual = await _v.TagRepository.ReadAsync(3);
+
+        var expected = (Status.Found, updateTagDTO);
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method UpdateAsync_tag_by_id_returns_status_notFound.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task UpdateAsync_tag_by_id_returns_status_notFound()
+    {
+        var updateTagDTO = new TagDTO(4, &quot;Database&quot;);
+
+        var actual = await _v.TagRepository.UpdateAsync(updateTagDTO);
+
+        const Status expected = Status.NotFound;
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method UpdateAsync_tag_by_id_returns_status_conflict.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task UpdateAsync_tag_by_id_returns_status_conflict()
+    {
+        var updateTagDTO = new TagDTO(3, &quot;SOLID&quot;);
+
+        var actual = await _v.TagRepository.UpdateAsync(updateTagDTO);
+
+        const Status expected = Status.Conflict;
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method UpdateAsync_tag_returns_bad_request_on_name_tooLong.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task UpdateAsync_tag_returns_bad_request_on_name_tooLong()
+    {
+        var tag = new TagDTO(1, &quot;asseocarnisanguineoviscericartilaginonervomedullary&quot;);
+
+        var actual = await _v.TagRepository.UpdateAsync(tag);
+
+        const Status expected = Status.BadRequest;
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method UpdateAsync_tag_returns_bad_request_on_name_empty.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task UpdateAsync_tag_returns_bad_request_on_name_empty()
+    {
+        var tag = new TagDTO(1, &quot;&quot;);
+
+        var actual = await _v.TagRepository.UpdateAsync(tag);
+
+        const Status expected = Status.BadRequest;
+
+        Assert.Equal(expected, actual);
+    }
+
+
+    /// &lt;summary&gt;
+    ///     Defines the test method UpdateAsync_tag_returns_bad_request_on_name_whitespace.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task UpdateAsync_tag_returns_bad_request_on_name_whitespace()
+    {
+        var tag = new TagDTO(1, &quot; &quot;);
+
+        var actual = await _v.TagRepository.UpdateAsync(tag);
+
+        const Status expected = Status.BadRequest;
+
+        Assert.Equal(expected, actual);
+    }
+
+    /// &lt;summary&gt;
+    ///     Defines the test method UpdateAsync_tag_with_max_length_returns_updated.
+    /// &lt;/summary&gt;
+    [Fact]
+    public async Task UpdateAsync_tag_with_max_length_returns_updated()
+    {
+        var tag = new TagDTO(1, &quot;asseocarnisanguineoviscericartilaginonervomedullar&quot;);
+
+        var actual = await _v.TagRepository.UpdateAsync(tag);
+
+        const Status expected = Status.Updated;
+
+        Assert.Equal(expected, actual);
+    }
+
+    #endregion
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[33,5,33,32,1],[34,5,34,6,1],[35,9,35,34,1],[36,5,36,6,1],[45,5,45,6,1],[46,9,46,48,1],[48,9,48,62,1],[50,9,50,68,1],[52,9,52,40,1],[53,5,53,6,1],[60,5,60,6,1],[61,9,61,43,1],[63,9,63,62,1],[65,9,65,64,1],[67,9,67,40,1],[68,5,68,6,1],[75,5,75,6,1],[76,9,76,48,1],[78,9,78,49,1],[80,9,80,64,1],[84,9,84,40,1],[85,5,85,6,1],[92,5,92,6,1],[93,9,93,91,1],[95,9,95,62,1],[97,9,97,115,1],[99,9,99,40,1],[100,5,100,6,1],[107,5,107,6,1],[108,9,108,40,1],[110,9,110,62,1],[112,9,112,64,1],[114,9,114,40,1],[115,5,115,6,1],[123,5,123,6,1],[124,9,124,41,1],[126,9,126,62,1],[128,9,128,65,1],[130,9,130,40,1],[131,5,131,6,1],[138,5,138,6,1],[139,9,139,90,1],[141,9,141,62,1],[143,9,143,110,1],[145,9,145,40,1],[146,5,146,6,1],[157,5,157,6,1],[158,9,158,58,1],[160,9,160,63,1],[162,9,162,40,1],[163,5,163,6,1],[170,5,170,6,1],[171,9,171,58,1],[173,9,173,62,1],[175,9,175,40,1],[176,5,176,6,1],[183,5,183,6,1],[184,9,184,57,1],[186,9,186,48,1],[187,9,187,46,1],[188,9,188,46,1],[190,9,191,23,1],[191,23,191,54,1],[191,54,192,23,1],[192,23,192,54,1],[192,54,193,23,1],[193,23,193,54,1],[193,54,193,56,1],[194,5,194,6,1],[205,5,205,6,1],[206,9,206,60,1],[210,9,210,40,1],[211,5,211,6,1],[218,5,218,6,1],[219,9,219,60,1],[223,9,223,40,1],[224,5,224,6,1],[231,5,231,6,1],[232,9,232,47,1],[234,9,234,64,1],[238,9,238,40,1],[239,5,239,6,1],[250,5,250,6,1],[251,9,251,54,1],[253,9,253,71,1],[257,9,257,40,1],[258,5,258,6,1],[265,5,265,6,1],[266,9,266,54,1],[268,9,268,58,1],[270,9,270,58,1],[272,9,272,53,1],[274,9,274,40,1],[275,5,275,6,1],[282,5,282,6,1],[283,9,283,54,1],[285,9,285,71,1],[289,9,289,40,1],[290,5,290,6,1],[297,5,297,6,1],[298,9,298,51,1],[300,9,300,71,1],[304,9,304,40,1],[305,5,305,6,1],[312,5,312,6,1],[313,9,313,88,1],[315,9,315,62,1],[319,9,319,40,1],[320,5,320,6,1],[327,5,327,6,1],[328,9,328,37,1],[330,9,330,62,1],[334,9,334,40,1],[335,5,335,6,1],[343,5,343,6,1],[344,9,344,38,1],[346,9,346,62,1],[350,9,350,40,1],[351,5,351,6,1],[358,5,358,6,1],[359,9,359,87,1],[361,9,361,62,1],[365,9,365,40,1],[366,5,366,6,1]]);
+    </script>
+  </body>
+</html>

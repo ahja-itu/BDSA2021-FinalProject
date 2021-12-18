@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Infrastructure.Tests\ContextRepositoryTests\TestVariables.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+// ***********************************************************************
+// Assembly         : WebService.Infrastructure.Tests
+// Author           : Group BTG
+// Created          : 11-29-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// &lt;copyright file=&quot;TestVariables.cs&quot; company=&quot;BTG&quot;&gt;
+//     Copyright (c) . All rights reserved.
+// &lt;/copyright&gt;
+// &lt;summary&gt;&lt;/summary&gt;
+// ***********************************************************************
+
+namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
+
+/// &lt;summary&gt;
+///     Class TestVariables.
+/// &lt;/summary&gt;
+internal class TestVariables
+{
+    /// &lt;summary&gt;
+    ///     Initializes a new instance of the &lt;see cref=&quot;TestVariables&quot; /&gt; class.
+    /// &lt;/summary&gt;
+    public TestVariables()
+    {
+        var connection = new SqliteConnection(&quot;Filename=:memory:&quot;);
+        connection.Open();
+        var builder = new DbContextOptionsBuilder&lt;Context&gt;();
+        builder.UseSqlite(connection);
+        var context = new Context(builder.Options);
+        context.Database.EnsureCreated();
+
+        var language1 = new Language(1, &quot;Danish&quot;);
+        var language2 = new Language(2, &quot;English&quot;);
+        var language3 = new Language(3, &quot;Swedish&quot;);
+
+        var level1 = new Level(1, &quot;Bachelor&quot;);
+        var level2 = new Level(2, &quot;Master&quot;);
+        var level3 = new Level(3, &quot;PHD&quot;);
+
+        var media1 = new Media(1, &quot;Book&quot;);
+        var media2 = new Media(2, &quot;Report&quot;);
+        var media3 = new Media(3, &quot;Video&quot;);
+
+        var programmingLanguage1 = new ProgrammingLanguage(1, &quot;C#&quot;);
+        var programmingLanguage2 = new ProgrammingLanguage(2, &quot;C++&quot;);
+        var programmingLanguage3 = new ProgrammingLanguage(3, &quot;F#&quot;);
+
+
+        var rating11 = new Rating(2, &quot;Rasmus&quot;);
+
+        var rating21 = new Rating(2, &quot;Rasmus&quot;);
+        var rating22 = new Rating(5, &quot;Kim&quot;);
+
+        var rating31 = new Rating(2, &quot;Rasmus&quot;);
+        var rating32 = new Rating(5, &quot;Kim&quot;);
+        var rating33 = new Rating(9, &quot;Poul&quot;);
+
+        var weightedTag11 = new WeightedTag(&quot;SOLID&quot;, 10);
+        var weightedTag12 = new WeightedTag(&quot;SOLID&quot;, 10);
+        var weightedTag1 = new WeightedTag(&quot;SOLID&quot;, 10);
+        var weightedTag2 = new WeightedTag(&quot;RAD&quot;, 50);
+        var weightedTag3 = new WeightedTag(&quot;API&quot;, 90);
+        var weightedTag32 = new WeightedTag(&quot;API&quot;, 90);
+
+        var tag1 = new Tag(1, &quot;SOLID&quot;);
+        var tag2 = new Tag(2, &quot;RAD&quot;);
+        var tag3 = new Tag(3, &quot;API&quot;);
+
+        const string summary1 = &quot;I am material 1&quot;;
+        const string summary2 = &quot;I am material 2&quot;;
+        const string summary3 = &quot;I am material 3&quot;;
+
+        const string url1 = &quot;url1.com&quot;;
+        const string url2 = &quot;url2.com&quot;;
+        const string url3 = &quot;url3.com&quot;;
+
+        var author1 = new Author(&quot;Rasmus&quot;, &quot;Kristensen&quot;);
+        var author11 = new Author(&quot;Rasmus&quot;, &quot;Kristensen&quot;);
+        var author12 = new Author(&quot;Rasmus&quot;, &quot;Kristensen&quot;);
+
+        var author2 = new Author(&quot;Alex&quot;, &quot;Su&quot;);
+        var author22 = new Author(&quot;Alex&quot;, &quot;Su&quot;);
+
+        var author3 = new Author(&quot;Thor&quot;, &quot;Lind&quot;);
+
+        const string content1 = &quot;Content 1&quot;;
+        const string content2 = &quot;Content 2&quot;;
+        const string content3 = &quot;Content 3&quot;;
+
+        var material1 = new Material(
+            new List&lt;WeightedTag&gt; {weightedTag11},
+            new List&lt;Rating&gt; {rating11},
+            new List&lt;Level&gt; {level1, level2},
+            new List&lt;ProgrammingLanguage&gt; {programmingLanguage1},
+            new List&lt;Media&gt; {media1, media2},
+            language1,
+            summary1,
+            url1,
+            content1,
+            &quot;Material 1&quot;,
+            new List&lt;Author&gt; {author11},
+            DateTime.UtcNow
+        );
+
+        var material2 = new Material(
+            new List&lt;WeightedTag&gt; {weightedTag32, weightedTag12},
+            new List&lt;Rating&gt; {rating21, rating22},
+            new List&lt;Level&gt; {level3, level1},
+            new List&lt;ProgrammingLanguage&gt; {programmingLanguage3},
+            new List&lt;Media&gt; {media2},
+            language2,
+            summary2,
+            url2,
+            content2,
+            &quot;Material 2&quot;,
+            new List&lt;Author&gt; {author22, author12},
+            DateTime.UtcNow.AddYears(-11).AddDays(10)
+        );
+
+        var material3 = new Material(
+            new List&lt;WeightedTag&gt; {weightedTag3, weightedTag2, weightedTag1},
+            new List&lt;Rating&gt; {rating31, rating32, rating33},
+            new List&lt;Level&gt; {level3, level2, level1},
+            new List&lt;ProgrammingLanguage&gt; {programmingLanguage2},
+            new List&lt;Media&gt; {media3},
+            language3,
+            summary3,
+            url3,
+            content3,
+            &quot;Material 3&quot;,
+            new List&lt;Author&gt; {author3, author2, author1},
+            DateTime.UtcNow
+        );
+
+        context.AddRange(language1, language2, language3, level1, level2, level3, media1, media2, media3,
+            programmingLanguage1, programmingLanguage2, programmingLanguage3, tag1, tag2, tag3, material1, material2,
+            material3);
+
+        context.SaveChanges();
+
+        Context = context;
+
+        LanguageRepository = new LanguageRepository(context);
+        LevelRepository = new LevelRepository(context);
+        MaterialRepository = new MaterialRepository(context);
+        MediaRepository = new MediaRepository(context);
+        ProgrammingLanguageRepository = new ProgrammingLanguageRepository(context);
+        TagRepository = new TagRepository(context);
+    }
+
+    /// &lt;summary&gt;
+    ///     Gets the context.
+    /// &lt;/summary&gt;
+    /// &lt;value&gt;The context.&lt;/value&gt;
+    public IContext Context { get; }
+
+    /// &lt;summary&gt;
+    ///     Gets the language repository.
+    /// &lt;/summary&gt;
+    /// &lt;value&gt;The language repository.&lt;/value&gt;
+    public LanguageRepository LanguageRepository { get; }
+
+    /// &lt;summary&gt;
+    ///     Gets the level repository.
+    /// &lt;/summary&gt;
+    /// &lt;value&gt;The level repository.&lt;/value&gt;
+    public LevelRepository LevelRepository { get; }
+
+    /// &lt;summary&gt;
+    ///     Gets the material repository.
+    /// &lt;/summary&gt;
+    /// &lt;value&gt;The material repository.&lt;/value&gt;
+    public MaterialRepository MaterialRepository { get; }
+
+    /// &lt;summary&gt;
+    ///     Gets the media repository.
+    /// &lt;/summary&gt;
+    /// &lt;value&gt;The media repository.&lt;/value&gt;
+    public MediaRepository MediaRepository { get; }
+
+    /// &lt;summary&gt;
+    ///     Gets the programming language repository.
+    /// &lt;/summary&gt;
+    /// &lt;value&gt;The programming language repository.&lt;/value&gt;
+    public ProgrammingLanguageRepository ProgrammingLanguageRepository { get; }
+
+    /// &lt;summary&gt;
+    ///     Gets the tag repository.
+    /// &lt;/summary&gt;
+    /// &lt;value&gt;The tag repository.&lt;/value&gt;
+    public TagRepository TagRepository { get; }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[25,5,25,27,1],[26,5,26,6,1],[27,9,27,68,1],[28,9,28,27,1],[29,9,29,62,1],[30,9,30,39,1],[31,9,31,52,1],[32,9,32,42,1],[34,9,34,51,1],[35,9,35,52,1],[36,9,36,52,1],[38,9,38,47,1],[39,9,39,45,1],[40,9,40,42,1],[42,9,42,43,1],[43,9,43,45,1],[44,9,44,44,1],[46,9,46,69,1],[47,9,47,70,1],[48,9,48,69,1],[51,9,51,48,1],[53,9,53,48,1],[54,9,54,45,1],[56,9,56,48,1],[57,9,57,45,1],[58,9,58,46,1],[60,9,60,58,1],[61,9,61,58,1],[62,9,62,57,1],[63,9,63,55,1],[64,9,64,55,1],[65,9,65,56,1],[67,9,67,40,1],[68,9,68,38,1],[69,9,69,38,1],[79,9,79,58,1],[80,9,80,59,1],[81,9,81,59,1],[83,9,83,48,1],[84,9,84,49,1],[86,9,86,50,1],[92,9,105,11,1],[107,9,120,11,1],[122,9,135,11,1],[137,9,139,24,1],[141,9,141,31,1],[143,9,143,27,1],[145,9,145,62,1],[146,9,146,56,1],[147,9,147,62,1],[148,9,148,56,1],[149,9,149,84,1],[150,9,150,52,1],[151,5,151,6,1],[157,31,157,35,1],[163,52,163,56,1],[169,46,169,50,1],[175,52,175,56,1],[181,46,181,50,1],[187,74,187,78,1],[193,42,193,46,1]]);
+    </script>
+  </body>
+</html>
