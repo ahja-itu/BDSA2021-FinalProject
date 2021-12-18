@@ -66,45 +66,45 @@ public class ContentGenerator
     /// </summary>
     private static readonly string[] TemplateTitles =
     {
-        "Creating a webapp with $1",
-        "Creating a high performance backend with $1",
-        "Understanding $1",
-        "$1 is being deprecated in 2022",
-        "$1 is so bad, Oracle is going to sue you for using it",
-        "Demystifying $1",
-        "Earn $100,000 a year with $1",
-        "Become a millionaire with $1 in 2022",
-        "Announcing $1",
-        "Introduction to $1",
-        "$1: Your first project",
-        "$1: Best practices",
-        "$1: Core concepts",
-        "Azure for $1: getting started",
-        "Azure for $1: advanced course",
-        "$1 in the Cloud: Getting Started",
-        "$1: Top ten best practices in 2021",
-        "When $1 Businesses Grow Too Quickly",
-        "A Guide To $1 At Any Age",
-        "The Biggest Myth About $1 Exposed",
-        "Life After $1",
-        "10 Ways You Can Grow Your Creativity Using $1",
-        "Don't Just Sit There! Start $1",
-        "Successful Stories You Did not Know About $1",
-        "Want A Thriving Business? Focus On $1!",
-        "$1 Creates Experts",
-        "Unanswered Questions Into $1 Revealed",
-        "14 Ways $1 Can Make You Invincible",
-        "Must Have List Of $1 Networks",
-        "$1 - Not For Everyone",
-        "How To Save Money With $1?",
-        "The Unadvertised Details Into $1 That Most People Don't Know About",
-        "Kids Love $1",
-        "Believe In Your $1 Skills But Never Stop Improving",
-        "$1 For Beginners And Everyone Else",
-        "7 Ways To Reinvent Your $1",
-        "Where Will $1 Be 12 Months From Now?",
-        "12 Tips To Start Building A $1 You Always Wanted",
-        "Take Advantage Of $1 - Read These 9 Tips"
+        "Creating a webapp with #TAGS#",
+        "Creating a high performance backend with #TAGS#",
+        "Understanding #TAGS#",
+        "#TAGS# is being deprecated in 2022",
+        "#TAGS# is so bad, Oracle is going to sue you for using it",
+        "Demystifying #TAGS#",
+        "Earn $100,000 a year with #TAGS#",
+        "Become a millionaire with #TAGS# in 2022",
+        "Announcing #TAGS#",
+        "Introduction to #TAGS#",
+        "#TAGS#: Your first project",
+        "#TAGS#: Best practices",
+        "#TAGS#: Core concepts",
+        "Azure for #TAGS#: getting started",
+        "Azure for #TAGS#: advanced course",
+        "#TAGS# in the Cloud: Getting Started",
+        "#TAGS#: Top ten best practices in 2021",
+        "When #TAGS# Businesses Grow Too Quickly",
+        "A Guide To #TAGS# At Any Age",
+        "The Biggest Myth About #TAGS# Exposed",
+        "Life After #TAGS#",
+        "10 Ways You Can Grow Your Creativity Using #TAGS#",
+        "Don't Just Sit There! Start #TAGS#",
+        "Successful Stories You Did not Know About #TAGS#",
+        "Want A Thriving Business? Focus On #TAGS#!",
+        "#TAGS# Creates Experts",
+        "Unanswered Questions Into #TAGS# Revealed",
+        "14 Ways #TAGS# Can Make You Invincible",
+        "Must Have List Of #TAGS# Networks",
+        "#TAGS# - Not For Everyone",
+        "How To Save Money With #TAGS#?",
+        "The Unadvertised Details Into #TAGS# That Most People Don't Know About",
+        "Kids Love #TAGS#",
+        "Believe In Your #TAGS# Skills But Never Stop Improving",
+        "#TAGS# For Beginners And Everyone Else",
+        "7 Ways To Reinvent Your #TAGS#",
+        "Where Will #TAGS# Be 12 Months From Now?",
+        "12 Tips To Start Building A #TAGS# You Always Wanted",
+        "Take Advantage Of #TAGS# - Read These 9 Tips"
     };
 
     /// <summary>
@@ -250,7 +250,7 @@ public class ContentGenerator
     /// <returns>System.String.</returns>
     private static string CreateTitleWithOneTag(CreateTagDTO tag)
     {
-        return GetRandomTitle().Replace("$1", tag.Name);
+        return GetRandomTitle().Replace("#TAGS#", tag.Name);
     }
 
     /// <summary>

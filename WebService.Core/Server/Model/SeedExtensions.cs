@@ -206,6 +206,7 @@ public static class SeedExtensions
     private static List<Author> LoadAuthors()
     {
         return ReadCSV("authors.csv", 2)
+            .Select(fields => fields[1].Split(' '))
             .Select(fields => new Author(fields[0], fields[1]))
             .ToList();
     }
