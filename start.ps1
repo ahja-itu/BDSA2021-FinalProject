@@ -42,4 +42,7 @@ dotnet ef database update -s WebService.Core\Server --project .\WebService.Entit
 Write-Host "Starting the server"
 dotnet run --project .\WebService.Core\Server
 
+Write-Host "Stopping the DB container"
+docker kill bdsa2021_btg_db
+docker rm bdsa2021_btg_db
 
