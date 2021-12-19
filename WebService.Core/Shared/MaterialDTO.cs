@@ -18,9 +18,7 @@ namespace WebService.Core.Shared
 {
     /// <summary>
     ///     Class MaterialDTO.
-    ///     Implements the <see cref="T:WebService.Core.Shared.CreateMaterialDTO" />
-    ///     Implements the <see cref="System.IEquatable{CreateMaterialDTO}" />
-    ///     Implements the <see cref="System.IEquatable{MaterialDTO}" />
+    ///     Implements the <see cref="T:WebService.Core.Shared.CreateMaterialDTO" /> class with an added id field.
     /// </summary>
     public record MaterialDTO : CreateMaterialDTO
     {
@@ -43,18 +41,6 @@ namespace WebService.Core.Shared
     public record CreateMaterialDTO
     {
         /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.CreateMaterialDTO" /> class.</summary>
-        /// <param name="tags">The tags.</param>
-        /// <param name="ratings">The ratings.</param>
-        /// <param name="levels">The levels.</param>
-        /// <param name="programmingLanguages">The programming languages.</param>
-        /// <param name="medias">The medias.</param>
-        /// <param name="language">The language.</param>
-        /// <param name="summary">The summary.</param>
-        /// <param name="url">The URL.</param>
-        /// <param name="content">The content.</param>
-        /// <param name="title">The title.</param>
-        /// <param name="authors">The authors.</param>
-        /// <param name="timeStamp">The time stamp.</param>
         public CreateMaterialDTO(ICollection<CreateWeightedTagDTO> tags, ICollection<CreateRatingDTO> ratings,
             ICollection<CreateLevelDTO> levels, ICollection<CreateProgrammingLanguageDTO> programmingLanguages,
             ICollection<CreateMediaDTO> medias, CreateLanguageDTO language, string summary, string url, string content,
@@ -98,35 +84,27 @@ namespace WebService.Core.Shared
     /// <summary>Class MaterialExtensions.</summary>
     public static class MaterialExtensions
     {
-        /// <summary>Average rating calculator.</summary>
-        /// <param name="material">The material.</param>
-        /// <returns>System.Single.</returns>
+        /// <summary>Calculates the average rating of a given material</summary>
         public static float AverageRating(this CreateMaterialDTO material)
         {
             float sum = material.Ratings.Sum(e => e.Value);
             return sum / material.Ratings.Count;
         }
 
-        /// <summary>Average rating to string.</summary>
-        /// <param name="material">The material.</param>
-        /// <returns>System.String.</returns>
+        /// <summary>Converts the average rating of the material to a string.</summary>
         public static string AverageRatingToString(this CreateMaterialDTO material)
         {
             return AverageRating(material).ToString(CultureInfo.CurrentCulture);
         }
 
-        /// <summary>Levels to string.</summary>
-        /// <param name="material">The material.</param>
-        /// <returns>System.String.</returns>
+        /// <summary>Converts the name of the material level to a string.</summary>
         public static string LevelsToString(this CreateMaterialDTO material)
         {
             var levels = material.Levels.Aggregate("", (current, level) => current + level.Name + " ");
             return levels.Remove(levels.Length - 1);
         }
 
-        /// <summary>Authors to string.</summary>
-        /// <param name="material">The material.</param>
-        /// <returns>System.String.</returns>
+        /// <summary>Converts the name of authors of the material to a string.</summary>
         public static string AuthorsToString(this CreateMaterialDTO material)
         {
             var authors = material.Authors.Aggregate("Authors: ",
@@ -134,9 +112,7 @@ namespace WebService.Core.Shared
             return authors.Remove(authors.Length - 2);
         }
 
-        /// <summary>Converts material to materialDto.</summary>
-        /// <param name="material">The material.</param>
-        /// <returns>MaterialDTO.</returns>
+        /// <summary>Converts material to a MaterialDTO object.</summary>
         public static MaterialDTO ConvertToMaterialDTO(this Material material)
         {
             return new MaterialDTO(

@@ -33,7 +33,6 @@ public class LanguageController : ControllerBase
     /// <summary>
     ///     Initializes a new instance of the <see cref="LanguageController" /> class.
     /// </summary>
-    /// <param name="languageRepository">The language repository.</param>
     public LanguageController(ILanguageRepository languageRepository)
     {
         _languageRepository = languageRepository;
@@ -42,7 +41,6 @@ public class LanguageController : ControllerBase
     /// <summary>
     ///     Gets all LanguageDTOs.
     /// </summary>
-    /// <returns>ActionResult&lt;ICollection&lt;LanguageDTO&gt;&gt;.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ICollection<LanguageDTO>>> Get()
@@ -52,10 +50,8 @@ public class LanguageController : ControllerBase
     }
 
     /// <summary>
-    ///     Gets a specified LanguageDTO.
+    ///     Gets a specified LanguageDTO based on id.
     /// </summary>
-    /// <param name="id">The identifier.</param>
-    /// <returns>ActionResult&lt;LanguageDTO&gt;.</returns>
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -70,8 +66,6 @@ public class LanguageController : ControllerBase
     /// <summary>
     ///     Posts a new language.
     /// </summary>
-    /// <param name="language">The language.</param>
-    /// <returns>IActionResult.</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -89,10 +83,8 @@ public class LanguageController : ControllerBase
     }
 
     /// <summary>
-    ///     Puts a specific language.
+    ///     Puts a specific, existing language.
     /// </summary>
-    /// <param name="language">The language.</param>
-    /// <returns>IActionResult.</returns>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -112,10 +104,8 @@ public class LanguageController : ControllerBase
     }
 
     /// <summary>
-    ///     Deletes a specified language.
+    ///     Deletes a specified language based on id.
     /// </summary>
-    /// <param name="id">The identifier.</param>
-    /// <returns>IActionResult.</returns>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

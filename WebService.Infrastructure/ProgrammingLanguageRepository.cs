@@ -16,30 +16,24 @@ namespace WebService.Infrastructure;
 
 /// <summary>
 ///     Class ProgrammingLanguageRepository.
-///     Implements the <see cref="WebService.Core.Shared.IProgrammingLanguageRepository" />
+///     Implements the <see cref="WebService.Core.Shared.IProgrammingLanguageRepository" /> interface
 /// </summary>
 /// <seealso cref="WebService.Core.Shared.IProgrammingLanguageRepository" />
 public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
 {
-    /// <summary>
-    ///     The context
-    /// </summary>
     private readonly IContext _context;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="ProgrammingLanguageRepository" /> class.
     /// </summary>
-    /// <param name="context">The context.</param>
     public ProgrammingLanguageRepository(IContext context)
     {
         _context = context;
     }
 
     /// <summary>
-    ///     Creates a programming language asynchronously.
+    ///     Creates a new programming language asynchronously.
     /// </summary>
-    /// <param name="programmingLanguage">The programming language.</param>
-    /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
     public async Task<(Status, ProgrammingLanguageDTO)> CreateAsync(CreateProgrammingLanguageDTO programmingLanguage)
     {
         if (InvalidInput(programmingLanguage))
@@ -62,10 +56,8 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     }
 
     /// <summary>
-    ///     Deletes a programming language asynchronously.
+    ///     Deletes a programming language based on id asynchronously.
     /// </summary>
-    /// <param name="programmingLanguageId">The programming language identifier.</param>
-    /// <returns>A Task&lt;Status&gt; representing the asynchronous operation.</returns>
     public async Task<Status> DeleteAsync(int programmingLanguageId)
     {
         var language = await _context.ProgrammingLanguages.FindAsync(programmingLanguageId);
@@ -80,10 +72,8 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     }
 
     /// <summary>
-    ///     Reads a programming language asynchronously and a http status.
+    ///     Reads a programming language based on id asynchronously and returns it with an http status.
     /// </summary>
-    /// <param name="programmingLanguageId">The programming language identifier.</param>
-    /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
     public async Task<(Status, ProgrammingLanguageDTO)> ReadAsync(int programmingLanguageId)
     {
         var query = from l in _context.ProgrammingLanguages
@@ -98,17 +88,14 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     /// <summary>
     ///     Reads all programming languages asynchronously.
     /// </summary>
-    /// <returns>A Task&lt;IReadOnlyCollection`1&gt; representing the asynchronous operation.</returns>
     public async Task<IReadOnlyCollection<ProgrammingLanguageDTO>> ReadAsync()
     {
         return await _context.ProgrammingLanguages.Select(l => new ProgrammingLanguageDTO(l.Id, l.Name)).ToListAsync();
     }
 
     /// <summary>
-    ///     Update a programming language asynchronously.
+    ///     Updates an existing programming language asynchronously.
     /// </summary>
-    /// <param name="programmingProgrammingLanguageDTO">The programming programming language dto.</param>
-    /// <returns>A Task&lt;Status&gt; representing the asynchronous operation.</returns>
     public async Task<Status> UpdateAsync(ProgrammingLanguageDTO programmingProgrammingLanguageDTO)
     {
         if (InvalidInput(programmingProgrammingLanguageDTO)) return Status.BadRequest;
@@ -133,10 +120,8 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     }
 
     /// <summary>
-    ///     Validates the input.
+    ///     Validates the input programming language with regards to validity of its name.
     /// </summary>
-    /// <param name="programmingLanguage">The programming language.</param>
-    /// <returns><c>true</c> if the input is valid, <c>false</c> otherwise.</returns>
     private static bool InvalidInput(CreateProgrammingLanguageDTO programmingLanguage)
     {
         return programmingLanguage.Name.Length is > 50 or > 50

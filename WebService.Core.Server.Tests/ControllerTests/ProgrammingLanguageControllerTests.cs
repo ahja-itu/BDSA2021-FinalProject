@@ -16,12 +16,10 @@ namespace WebService.Core.Server.Tests.ControllerTests;
 
 /// <summary>
 ///     Class ProgrammingLanguageControllerTests.
+///     Contains tests grouped into regions based on the type  of method tested.
 /// </summary>
 public class ProgrammingLanguageControllerTests
 {
-    /// <summary>
-    ///     The programming language controller
-    /// </summary>
     private readonly ProgrammingLanguageController _programmingLanguageController;
 
     /// <summary>

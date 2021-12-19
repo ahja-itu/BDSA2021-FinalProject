@@ -18,17 +18,15 @@ namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
 
 /// <summary>
 ///     Class MediaRepositoryTests.
+///     Contains tests grouped into regions based on the type  of method tested.
 /// </summary>
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class MediaRepositoryTests
 {
-    /// <summary>
-    ///     The v
-    /// </summary>
-    private readonly TestVariables _v;
+        private readonly TestVariables _v;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="MediaRepositoryTests" /> class.
+    ///     Initializes a new instance of the <see cref="MediaRepositoryTests" /> class, creating new test variables.
     /// </summary>
     public MediaRepositoryTests()
     {

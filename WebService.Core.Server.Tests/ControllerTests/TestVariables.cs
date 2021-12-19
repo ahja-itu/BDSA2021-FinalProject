@@ -21,7 +21,7 @@ internal class TestVariables
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="T:WebService.Core.Server.Tests.ControllerTests.TestVariables" />
-    ///     class.
+    ///     class creating test material stored in a temporary database.
     /// </summary>
     public TestVariables()
     {

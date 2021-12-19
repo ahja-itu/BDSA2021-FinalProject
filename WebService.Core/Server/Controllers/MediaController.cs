@@ -33,7 +33,6 @@ public class MediaController : ControllerBase
     /// <summary>
     ///     Initializes a new instance of the <see cref="MediaController" /> class.
     /// </summary>
-    /// <param name="mediaRepository">The media repository.</param>
     public MediaController(IMediaRepository mediaRepository)
     {
         _mediaRepository = mediaRepository;
@@ -42,7 +41,6 @@ public class MediaController : ControllerBase
     /// <summary>
     ///     Gets all mediaDTOs.
     /// </summary>
-    /// <returns>ActionResult&lt;ICollection&lt;MediaDTO&gt;&gt;.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ICollection<MediaDTO>>> Get()
@@ -52,10 +50,8 @@ public class MediaController : ControllerBase
     }
 
     /// <summary>
-    ///     Gets a specified media.
+    ///     Gets a specified media based on id.
     /// </summary>
-    /// <param name="id">The identifier.</param>
-    /// <returns>ActionResult&lt;MediaDTO&gt;.</returns>
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -70,8 +66,6 @@ public class MediaController : ControllerBase
     /// <summary>
     ///     Posts the specified media.
     /// </summary>
-    /// <param name="media">The media.</param>
-    /// <returns>IActionResult.</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -89,10 +83,8 @@ public class MediaController : ControllerBase
     }
 
     /// <summary>
-    ///     Puts the specified media.
+    ///     Puts the specified, existing media.
     /// </summary>
-    /// <param name="media">The media.</param>
-    /// <returns>IActionResult.</returns>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -112,10 +104,8 @@ public class MediaController : ControllerBase
     }
 
     /// <summary>
-    ///     Deletes the specified media.
+    ///     Deletes the specified media based on id.
     /// </summary>
-    /// <param name="id">The identifier.</param>
-    /// <returns>IActionResult.</returns>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

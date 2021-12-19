@@ -19,13 +19,11 @@ namespace WebService.Core.Server.Tests.ControllerTests;
 
 /// <summary>
 ///     Class MaterialControllerTests.
+///     Contains tests grouped into regions based on the type  of method tested.
 /// </summary>
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class MaterialControllerTests
 {
-    /// <summary>
-    ///     The material controller
-    /// </summary>
     private readonly MaterialController _materialController;
 
     /// <summary>

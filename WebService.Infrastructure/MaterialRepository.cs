@@ -18,22 +18,19 @@ namespace WebService.Infrastructure;
 
 /// <summary>
 ///     Class MaterialRepository.
-///     Implements the <see cref="WebService.Core.Shared.IMaterialRepository" />
+///     Implements the <see cref="WebService.Core.Shared.IMaterialRepository" /> interface
 /// </summary>
 public class MaterialRepository : IMaterialRepository
 {
     private readonly IContext _context;
 
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Infrastructure.MaterialRepository" /> class.</summary>
-    /// <param name="context">The context.</param>
     public MaterialRepository(IContext context)
     {
         _context = context;
     }
 
-    /// <summary>Create a material asynchronously.</summary>
-    /// <param name="createMaterialDTO">The create material dto.</param>
-    /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
+    /// <summary>Create a material asynchronously from a give material creation DTO.</summary>
     public async Task<(Status, MaterialDTO)> CreateAsync(CreateMaterialDTO createMaterialDTO)
     {
         var materialDTO = ConvertCreateMaterialDTOToMaterialDTO(createMaterialDTO, -1);
@@ -64,9 +61,7 @@ public class MaterialRepository : IMaterialRepository
         }
     }
 
-    /// <summary>Delete a material asynchronously.</summary>
-    /// <param name="materialId">The material identifier.</param>
-    /// <returns>A Task&lt;Status&gt; representing the asynchronous operation.</returns>
+    /// <summary>Delete a material based on id asynchronously.</summary>
     public async Task<Status> DeleteAsync(int materialId)
     {
         var material = await _context.Materials.FindAsync(materialId);
@@ -80,9 +75,7 @@ public class MaterialRepository : IMaterialRepository
         return Status.Deleted;
     }
 
-    /// <summary>Reads a materials asynchronously and returns a http status.</summary>
-    /// <param name="materialId">The material identifier.</param>
-    /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
+    /// <summary>Reads a materials based on id asynchronously and returns them with an http status.</summary>
     public async Task<(Status, MaterialDTO)> ReadAsync(int materialId)
     {
         var query = from m in _context.Materials
@@ -97,20 +90,18 @@ public class MaterialRepository : IMaterialRepository
     }
 
     /// <summary>Reads all materials asynchronously.</summary>
-    /// <returns>A Task&lt;IReadOnlyCollection`1&gt; representing the asynchronous operation.</returns>
     public async Task<IReadOnlyCollection<MaterialDTO>> ReadAsync()
     {
         var materials = await ReadAllMaterials();
         return materials.Select(ConvertMaterialToMaterialDTO).ToList();
     }
 
-    /// <summary>Reads all materials asynchronously and returns a http status.</summary>
-    /// <param name="searchInput">The search input.</param>
-    /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
+    /// <summary>Reads all materials based on given search form asynchronously and returns them 
+    /// with an http status.</summary>
     public async Task<(Status, IReadOnlyCollection<MaterialDTO>)> ReadAsync(SearchForm searchInput)
     {
         var allMaterials = await ReadAllMaterials();
-        // We can't have the server translate our query where we do linq statements on searchInput :(
+        // We can't have the server translate our query where we do linq statements on searchInput
         var materialsWhereRatingHolds = allMaterials
             .Where(material => GetAverage(material) >= searchInput.Rating)
             .ToList();
@@ -134,9 +125,7 @@ public class MaterialRepository : IMaterialRepository
             : (Status.Found, new ReadOnlyCollection<MaterialDTO>(materials));
     }
 
-    /// <summary>Update material asynchronously.</summary>
-    /// <param name="materialDTO">The material dto.</param>
-    /// <returns>A Task&lt;Status&gt; representing the asynchronous operation.</returns>
+    /// <summary>Update a given material asynchronously.</summary>
     public async Task<Status> UpdateAsync(MaterialDTO materialDTO)
     {
         if (!ValidTags(materialDTO.Tags).Result || InvalidInput(materialDTO)) return Status.BadRequest;
@@ -181,11 +170,8 @@ public class MaterialRepository : IMaterialRepository
         }
     }
 
-    /// <summary>Converts the createMaterialDTO to materialDTO.</summary>
-    /// <param name="createMaterialDTO">The create material dto.</param>
-    /// <param name="id">The identifier.</param>
-    /// <returns>MaterialDTO.</returns>
-    private static MaterialDTO ConvertCreateMaterialDTOToMaterialDTO(CreateMaterialDTO createMaterialDTO, int id)
+    /// <summary>Converts the given createMaterialDTO to a materialDTO with given id.</summary>
+        private static MaterialDTO ConvertCreateMaterialDTOToMaterialDTO(CreateMaterialDTO createMaterialDTO, int id)
     {
         return new MaterialDTO
         (
@@ -205,9 +191,7 @@ public class MaterialRepository : IMaterialRepository
         );
     }
 
-    /// <summary>Converts the material to materialDTO.</summary>
-    /// <param name="entity">The entity.</param>
-    /// <returns>MaterialDTO.</returns>
+    /// <summary>Converts the material entity to materialDTO.</summary>
     [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
     private static MaterialDTO ConvertMaterialToMaterialDTO(Material entity)
     {
@@ -249,9 +233,7 @@ public class MaterialRepository : IMaterialRepository
         );
     }
 
-    /// <summary>Converts createMaterialDTO to material.</summary>
-    /// <param name="createMaterialDTO">The create material dto.</param>
-    /// <returns>Material.</returns>
+    /// <summary>Converts the given createMaterialDTO to a material.</summary>
     private async Task<Material> ConvertCreateMaterialDTOToMaterial(CreateMaterialDTO createMaterialDTO)
     {
         return new Material(
@@ -270,9 +252,7 @@ public class MaterialRepository : IMaterialRepository
         );
     }
 
-
     /// <summary>Reads all materials.</summary>
-    /// <returns>IList&lt;Material&gt;.</returns>
     private async Task<IList<Material>> ReadAllMaterials()
     {
         return await _context.Materials
@@ -284,30 +264,23 @@ public class MaterialRepository : IMaterialRepository
     }
 
     /// <summary>
-    ///     <para>
-    ///         average rating.
-    ///     </para>
+    ///         Get the average rating of a material
     /// </summary>
-    /// <param name="material">The material.</param>
-    /// <returns>System.Double.</returns>
+
     private static double GetAverage(Material material)
     {
         return material.Ratings.Count != 0 ? material.Ratings.Average(rating => rating.Value) : 10;
     }
 
-    /// <summary>Check if it contains the level.</summary>
-    /// <param name="searchInput">The search input.</param>
-    /// <returns>Func&lt;Material, System.Boolean&gt;.</returns>
-    public static Func<Material, bool> MayContainLevel(SearchForm searchInput)
+    /// <summary>Checks wheter a material might contain any of the levels given in the search form.</summary>
+        public static Func<Material, bool> MayContainLevel(SearchForm searchInput)
     {
         return material => !searchInput.Levels.Any() || material.Levels.Any(level =>
             searchInput.Levels.Any(searchInputLevels => searchInputLevels.Name == level.Name));
     }
 
 
-    /// <summary>Check if it contains the tag.</summary>
-    /// <param name="searchInput">The search input.</param>
-    /// <returns>Func&lt;Material, System.Boolean&gt;.</returns>
+    /// <summary>Checks wheter a material might contain any of the tags given in the search form..</summary>
     public static Func<Material, bool> MayContainTag(SearchForm searchInput)
     {
         return material => !searchInput.Tags.Any() ||
@@ -316,12 +289,8 @@ public class MaterialRepository : IMaterialRepository
 
 
     /// <summary>
-    ///     <para>
-    ///         Check if it contains the media.
-    ///     </para>
+    ///     Checks wheter a material might contain any of the media types given in the search form.
     /// </summary>
-    /// <param name="searchInput">The search input.</param>
-    /// <returns>Func&lt;Material, System.Boolean&gt;.</returns>
     public static Func<Material, bool> MayContainMedia(SearchForm searchInput)
     {
         return material => !searchInput.Medias.Any() ||
@@ -330,18 +299,14 @@ public class MaterialRepository : IMaterialRepository
     }
 
 
-    /// <summary>Check if it contains the language.</summary>
-    /// <param name="searchInput">The search input.</param>
-    /// <returns>Func&lt;Material, System.Boolean&gt;.</returns>
+    /// Checks wheter a material might contain any of the languages given in the search form.</summary>
     public static Func<Material, bool> MayContainLanguage(SearchForm searchInput)
     {
         return material =>
             !searchInput.Languages.Any() || searchInput.Languages.Any(l => l.Name == material.Language.Name);
     }
 
-    /// <summary>Check if it contains the programming language.</summary>
-    /// <param name="searchInput">The search input.</param>
-    /// <returns>Func&lt;Material, System.Boolean&gt;.</returns>
+    /// <summaryChecks wheter a material might contain any of the programming languages given in the search form.</summary>
     public static Func<Material, bool> MayContainProgrammingLanguage(SearchForm searchInput)
     {
         return material => !searchInput.ProgrammingLanguages.Any() || material.ProgrammingLanguages
@@ -352,7 +317,6 @@ public class MaterialRepository : IMaterialRepository
     }
 
     /// <summary>Creates an empty material dto.</summary>
-    /// <returns>MaterialDTO.</returns>
     private static MaterialDTO CreateEmptyMaterialDTO()
     {
         var tags = new List<CreateWeightedTagDTO>();
@@ -373,10 +337,7 @@ public class MaterialRepository : IMaterialRepository
         return material;
     }
 
-    /// <summary>Reads medias.</summary>
-    /// <param name="mediaDTOs">The media dt os.</param>
-    /// <returns>ICollection&lt;Media&gt;.</returns>
-    /// <exception cref="System.Exception">Bad request</exception>
+    /// <summary>Reads medias from list of media DTOs.</summary>
     private async Task<ICollection<Media>> ReadMedias(ICollection<CreateMediaDTO> mediaDTOs)
     {
         var mediaDTONames = mediaDTOs.Select(e => e.Name).ToHashSet();
@@ -385,10 +346,7 @@ public class MaterialRepository : IMaterialRepository
         return medias;
     }
 
-    /// <summary>Reads levels.</summary>
-    /// <param name="levelDTOs">The level dt os.</param>
-    /// <returns>ICollection&lt;Level&gt;.</returns>
-    /// <exception cref="System.Exception">Bad request</exception>
+    /// <summary>Reads levels from list of level DTOs.</summary>
     private async Task<ICollection<Level>> ReadLevels(ICollection<CreateLevelDTO> levelDTOs)
     {
         var levelDTONames = levelDTOs.Select(e => e.Name).ToHashSet();
@@ -397,10 +355,7 @@ public class MaterialRepository : IMaterialRepository
         return levels;
     }
 
-    /// <summary>Reads programming languages.</summary>
-    /// <param name="programmingLanguageDTOs">The programming language dt os.</param>
-    /// <returns>ICollection&lt;ProgrammingLanguage&gt;.</returns>
-    /// <exception cref="System.Exception">Bad request</exception>
+    /// <summary>Reads programming languages from list of programming language DTOs.</summary>
     private async Task<ICollection<ProgrammingLanguage>> ReadProgrammingLanguages(
         ICollection<CreateProgrammingLanguageDTO> programmingLanguageDTOs)
     {
@@ -411,11 +366,7 @@ public class MaterialRepository : IMaterialRepository
         return programmingLanguages;
     }
 
-    /// <summary>Validates the tags.</summary>
-    /// <param name="tags">The tags.</param>
-    /// <returns>
-    ///     <c>true</c> if tags exist, <c>false</c> otherwise.
-    /// </returns>
+    /// <summary>Validates that all tags on the list tags contain valid names.</summary>
     private async Task<bool> ValidTags(IEnumerable<CreateWeightedTagDTO> tags)
     {
         var existingTags = await (from t in _context.Tags
@@ -431,11 +382,7 @@ public class MaterialRepository : IMaterialRepository
         return allTagsExists;
     }
 
-    /// <summary>Validates the input.</summary>
-    /// <param name="material">The material.</param>
-    /// <returns>
-    ///     <c>true</c> if input is valid, <c>false</c> otherwise.
-    /// </returns>
+    /// <summary>Validates the input material with regards to string lengths and number ranges.</summary>
     private static bool InvalidInput(CreateMaterialDTO material)
     {
         var stringList = new List<string>

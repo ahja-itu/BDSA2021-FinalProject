@@ -18,13 +18,6 @@ namespace WebService.Core.Shared;
 public class SearchForm
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.SearchForm" /> class.</summary>
-    /// <param name="textField">The text field.</param>
-    /// <param name="tags">The tags.</param>
-    /// <param name="levels">The levels.</param>
-    /// <param name="programmingLanguages">The programming languages.</param>
-    /// <param name="languages">The languages.</param>
-    /// <param name="medias">The medias.</param>
-    /// <param name="rating">The rating.</param>
     public SearchForm(string textField, ICollection<TagDTO> tags, ICollection<LevelDTO> levels,
         ICollection<ProgrammingLanguageDTO> programmingLanguages, ICollection<LanguageDTO> languages,
         ICollection<MediaDTO> medias, int rating)

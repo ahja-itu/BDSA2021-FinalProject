@@ -21,7 +21,6 @@ namespace WebService.Core.Shared;
 public record CreateProgrammingLanguageDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.CreateProgrammingLanguageDTO" /> class.</summary>
-    /// <param name="name">The name.</param>
     public CreateProgrammingLanguageDTO(string name)
     {
         Name = name;
@@ -32,15 +31,11 @@ public record CreateProgrammingLanguageDTO
 
 /// <summary>
 ///     Class ProgrammingLanguageDTO.
-///     Implements the <see cref="T:WebService.Core.Shared.CreateProgrammingLanguageDTO" />
-///     Implements the <see cref="System.IEquatable{CreateProgrammingLanguageDTO}" />
-///     Implements the <see cref="System.IEquatable{ProgrammingLanguageDTO}" />
+///     Implements the <see cref="T:WebService.Core.Shared.CreateProgrammingLanguageDTO" /> class with an added id field.
 /// </summary>
 public record ProgrammingLanguageDTO : CreateProgrammingLanguageDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.ProgrammingLanguageDTO" /> class.</summary>
-    /// <param name="id">The identifier.</param>
-    /// <param name="name">The name.</param>
     public ProgrammingLanguageDTO(int id, string name) : base(name)
     {
         Id = id;

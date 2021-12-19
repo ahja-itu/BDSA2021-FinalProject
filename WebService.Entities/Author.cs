@@ -19,18 +19,13 @@ namespace WebService.Entities;
 public class Author
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Author" /> class.</summary>
-    /// <param name="firstName">The first name.</param>
-    /// <param name="surName">Name of the sur.</param>
     public Author(string firstName, string surName)
     {
         FirstName = firstName;
         SurName = surName;
     }
 
-    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Author" /> class.</summary>
-    /// <param name="id">The identifier.</param>
-    /// <param name="firstName">The first name.</param>
-    /// <param name="surName">Name of the sur.</param>
+    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Author" /> class including id.</summary>
     public Author(int id, string firstName, string surName)
     {
         Id = id;

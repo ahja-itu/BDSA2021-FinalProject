@@ -28,20 +28,7 @@ public class Material
     {
     }
 
-    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Material" /> class.</summary>
-    /// <param name="id">The identifier.</param>
-    /// <param name="weightedTags">The weighted tags.</param>
-    /// <param name="ratings">The ratings.</param>
-    /// <param name="levels">The levels.</param>
-    /// <param name="programmingLanguages">The programming languages.</param>
-    /// <param name="medias">The medias.</param>
-    /// <param name="language">The language.</param>
-    /// <param name="summary">The summary.</param>
-    /// <param name="url">The URL.</param>
-    /// <param name="content">The content.</param>
-    /// <param name="title">The title.</param>
-    /// <param name="authors">The authors.</param>
-    /// <param name="timeStamp">The time stamp.</param>
+    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Material" /> class including id.</summary>
     public Material(int id, ICollection<WeightedTag> weightedTags, ICollection<Rating> ratings,
         ICollection<Level> levels, ICollection<ProgrammingLanguage> programmingLanguages, ICollection<Media> medias,
         Language language, string summary, string url, string content, string title, ICollection<Author> authors,
@@ -63,18 +50,6 @@ public class Material
     }
 
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Material" /> class.</summary>
-    /// <param name="weightedTags">The weighted tags.</param>
-    /// <param name="ratings">The ratings.</param>
-    /// <param name="levels">The levels.</param>
-    /// <param name="programmingLanguages">The programming languages.</param>
-    /// <param name="medias">The medias.</param>
-    /// <param name="language">The language.</param>
-    /// <param name="summary">The summary.</param>
-    /// <param name="url">The URL.</param>
-    /// <param name="content">The content.</param>
-    /// <param name="title">The title.</param>
-    /// <param name="authors">The authors.</param>
-    /// <param name="timeStamp">The time stamp.</param>
     public Material(ICollection<WeightedTag> weightedTags, ICollection<Rating> ratings, ICollection<Level> levels,
         ICollection<ProgrammingLanguage> programmingLanguages, ICollection<Media> medias, Language language,
         string summary, string url, string content, string title, ICollection<Author> authors, DateTime timeStamp)

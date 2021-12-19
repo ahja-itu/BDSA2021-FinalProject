@@ -21,7 +21,6 @@ namespace WebService.Core.Shared;
 public record CreateLevelDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.CreateLevelDTO" /> class.</summary>
-    /// <param name="name">The name.</param>
     public CreateLevelDTO(string name)
     {
         Name = name;
@@ -32,9 +31,7 @@ public record CreateLevelDTO
 
 /// <summary>
 ///     Class LevelDTO.
-///     Implements the <see cref="T:WebService.Core.Shared.CreateLevelDTO" />
-///     Implements the <see cref="System.IEquatable{CreateLevelDTO}" />
-///     Implements the <see cref="System.IEquatable{LevelDTO}" />
+///     Implements the <see cref="T:WebService.Core.Shared.CreateLevelDTO" /> class with an added id field.
 /// </summary>
 public record LevelDTO : CreateLevelDTO
 {

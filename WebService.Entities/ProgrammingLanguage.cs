@@ -18,15 +18,12 @@ namespace WebService.Entities;
 public class ProgrammingLanguage
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.ProgrammingLanguage" /> class.</summary>
-    /// <param name="name">The name.</param>
     public ProgrammingLanguage(string name)
     {
         Name = name;
     }
 
-    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.ProgrammingLanguage" /> class.</summary>
-    /// <param name="id">The identifier.</param>
-    /// <param name="name">The name.</param>
+    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.ProgrammingLanguage" /> class including id.</summary>
     public ProgrammingLanguage(int id, string name)
     {
         Id = id;

@@ -20,26 +20,19 @@ namespace WebService.Infrastructure;
 /// </summary>
 /// <seealso cref="WebService.Core.Shared.IMediaRepository" />
 public class MediaRepository : IMediaRepository
-{
-    /// <summary>
-    ///     The context
-    /// </summary>
-    private readonly IContext _context;
+{    private readonly IContext _context;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="MediaRepository" /> class.
     /// </summary>
-    /// <param name="context">The context.</param>
     public MediaRepository(IContext context)
     {
         _context = context;
     }
 
     /// <summary>
-    ///     Create a media asynchronously.
+    ///     Create a new media asynchronously.
     /// </summary>
-    /// <param name="media">The media.</param>
-    /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
     public async Task<(Status, MediaDTO)> CreateAsync(CreateMediaDTO media)
     {
         if (InvalidInput(media)) return (Status.BadRequest, new MediaDTO(-1, media.Name));
@@ -61,10 +54,8 @@ public class MediaRepository : IMediaRepository
     }
 
     /// <summary>
-    ///     Delete a media asynchronously.
+    ///     Delete a media based on id asynchronously.
     /// </summary>
-    /// <param name="mediaId">The media identifier.</param>
-    /// <returns>A Task&lt;Status&gt; representing the asynchronous operation.</returns>
     public async Task<Status> DeleteAsync(int mediaId)
     {
         var media = await _context.Medias.FindAsync(mediaId);
@@ -79,10 +70,8 @@ public class MediaRepository : IMediaRepository
     }
 
     /// <summary>
-    ///     Read a media asynchronously and returns a http status.
+    ///     Read a media asynchronously based on id and return it along with an http status.
     /// </summary>
-    /// <param name="mediaId">The media identifier.</param>
-    /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
     public async Task<(Status, MediaDTO)> ReadAsync(int mediaId)
     {
         var query = from m in _context.Medias
@@ -97,17 +86,14 @@ public class MediaRepository : IMediaRepository
     /// <summary>
     ///     Reads all medias asynchronously.
     /// </summary>
-    /// <returns>A Task&lt;IReadOnlyCollection`1&gt; representing the asynchronous operation.</returns>
     public async Task<IReadOnlyCollection<MediaDTO>> ReadAsync()
     {
         return await _context.Medias.Select(m => new MediaDTO(m.Id, m.Name)).ToListAsync();
     }
 
     /// <summary>
-    ///     Update a media asynchronously.
+    ///     Update a given media asynchronously.
     /// </summary>
-    /// <param name="mediaDTO">The media dto.</param>
-    /// <returns>A Task&lt;Status&gt; representing the asynchronous operation.</returns>
     public async Task<Status> UpdateAsync(MediaDTO mediaDTO)
     {
         if (InvalidInput(mediaDTO)) return Status.BadRequest;
@@ -132,10 +118,8 @@ public class MediaRepository : IMediaRepository
     }
 
     /// <summary>
-    ///     Validates the input.
+    ///     Validates the input media with gegards to validity of its name.
     /// </summary>
-    /// <param name="media">The media.</param>
-    /// <returns><c>true</c> if the input is valid, <c>false</c> otherwise.</returns>
     private static bool InvalidInput(CreateMediaDTO media)
     {
         return media.Name.Length is > 50 or > 50

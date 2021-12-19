@@ -18,17 +18,15 @@ namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
 
 /// <summary>
 ///     Class TagRepositoryTests.
+///     Contains tests grouped into regions based on the type  of method tested.
 /// </summary>
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class TagRepositoryTests
 {
-    /// <summary>
-    ///     The v
-    /// </summary>
     private readonly TestVariables _v;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="TagRepositoryTests" /> class.
+    ///     Initializes a new instance of the <see cref="TagRepositoryTests" /> class, creating new test variables.
     /// </summary>
     public TagRepositoryTests()
     {

@@ -16,12 +16,10 @@ namespace WebService.Core.Server.Tests.ControllerTests;
 
 /// <summary>
 ///     Class SearchControllerTests.
+///     Contains tests grouped into regions based on the type  of method tested.
 /// </summary>
 public class SearchControllerTests
 {
-    /// <summary>
-    ///     The search controller
-    /// </summary>
     private readonly SearchController _searchController;
 
     /// <summary>

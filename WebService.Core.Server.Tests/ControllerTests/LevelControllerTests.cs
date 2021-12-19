@@ -16,13 +16,10 @@ namespace WebService.Core.Server.Tests.ControllerTests;
 
 /// <summary>
 ///     Class LevelControllerTests.
+///     Contains tests grouped into regions based on the type  of method tested.
 /// </summary>
 public class LevelControllerTests
-{
-    /// <summary>
-    ///     The level controller
-    /// </summary>
-    private readonly LevelController _levelController;
+{    private readonly LevelController _levelController;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="LevelControllerTests" /> class.

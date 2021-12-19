@@ -16,13 +16,11 @@ namespace WebService.Core.Shared;
 
 /// <summary>
 ///     Class CreateAuthorDTO.
-///     Implements the <see cref="System.IEquatable{CreateAuthorDTO}" />
+///     Implements the <see cref="System.IEquatable{CreateAuthorDTO}" /> interface.
 /// </summary>
 public record CreateAuthorDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.CreateAuthorDTO" /> class.</summary>
-    /// <param name="firstName">The first name.</param>
-    /// <param name="surName">Name of the sur.</param>
     public CreateAuthorDTO(string firstName, string surName)
     {
         FirstName = firstName;
@@ -36,9 +34,7 @@ public record CreateAuthorDTO
 
 /// <summary>
 ///     Class AuthorDTO.
-///     Implements the <see cref="T:WebService.Core.Shared.CreateAuthorDTO" />
-///     Implements the <see cref="System.IEquatable{CreateAuthorDTO}" />
-///     Implements the <see cref="System.IEquatable{AuthorDTO}" />
+///     Implements the <see cref="T:WebService.Core.Shared.CreateAuthorDTO" />  class with an added id field.
 /// </summary>
 public record AuthorDTO : CreateAuthorDTO
 {

@@ -25,11 +25,8 @@ public static class SeedExtensions
 {
     /// <summary>
     ///     Removes all items from the database and reseeds it with randomly generated materials from specific tags saved in
-    ///     the data files found in the data directory.
+    ///     the data files found in the data directory when given a host object containing IoT containers such as the DbContext and repositories
     /// </summary>
-    /// <param name="host">The host object containing IoT containers such as the DbContext and repositories.</param>
-    /// <param name="environment">The environment.</param>
-    /// <returns>A Task representing the asynchronous operation.</returns>
     public static async Task SeedAsync(this IHost host, IWebHostEnvironment environment)
     {
         using var scope = host.Services.CreateScope();
@@ -67,7 +64,6 @@ public static class SeedExtensions
     /// <summary>
     ///     Cleans the database.
     /// </summary>
-    /// <param name="context">The context.</param>
     private static async Task CleanDB(IContext context)
     {
         context.Languages.RemoveRange(context.Languages);
@@ -80,10 +76,8 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    ///     Seeds the material.
+    ///     Seeds all the material in the different repositories using a content generator>.
     /// </summary>
-    /// <param name="repos">The repos.</param>
-    /// <param name="contentGenerator">The content generator.</param>
     private static async Task SeedMaterial(Dictionary<RepoType, IRepository> repos, ContentGenerator contentGenerator)
     {
         var tagRepo = GetRepo<ITagRepository>(repos, RepoType.Tag);
@@ -189,9 +183,8 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    ///     Loads the names.
+    ///     Loads the  list of names from the local file names.csv
     /// </summary>
-    /// <returns>List&lt;System.String&gt;.</returns>
     private static List<string> LoadNames()
     {
         return ReadCSV("names.csv", 2)
@@ -200,9 +193,8 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    ///     Loads the authors.
+    ///     Loads the names of authors from the local file authors.csv and generates new Authors.
     /// </summary>
-    /// <returns>List&lt;Author&gt;.</returns>
     private static List<Author> LoadAuthors()
     {
         return ReadCSV("authors.csv", 2)
@@ -212,10 +204,8 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    ///     Seed languages as an asynchronous operation.
+    ///     Seed languages as an asynchronous operation based on the list of languages in the local file languages.csv.
     /// </summary>
-    /// <param name="repo">The repo.</param>
-    /// <returns>A Task representing the asynchronous operation.</returns>
     private static async Task SeedLanguagesAsync(ILanguageRepository repo)
     {
         foreach (var fields in ReadCSV("languages.csv", 2))
@@ -228,10 +218,8 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    ///     Seed levels as an asynchronous operation.
+    ///     Seed levels as an asynchronous operation based on the list of levels in the local file levels.csv.
     /// </summary>
-    /// <param name="repo">The repo.</param>
-    /// <returns>A Task representing the asynchronous operation.</returns>
     private static async Task SeedLevelsAsync(ILevelRepository repo)
     {
         foreach (var fields in ReadCSV("levels.csv", 2))
@@ -245,10 +233,8 @@ public static class SeedExtensions
 
 
     /// <summary>
-    ///     Seed media as an asynchronous operation.
+    ///     Seed media as an asynchronous operation based on the list of media types in the local file media.csv.
     /// </summary>
-    /// <param name="repo">The repo.</param>
-    /// <returns>A Task representing the asynchronous operation.</returns>
     private static async Task SeedMediaAsync(IMediaRepository repo)
     {
         foreach (var fields in ReadCSV("media.csv", 2))
@@ -261,10 +247,8 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    ///     Seed programming languages as an asynchronous operation.
+    ///     Seed programming languages as an asynchronous operation based on the list of programming languages in the local file programminglanguages.csv.
     /// </summary>
-    /// <param name="repo">The repo.</param>
-    /// <returns>A Task representing the asynchronous operation.</returns>
     private static async Task SeedProgrammingLanguagesAsync(IProgrammingLanguageRepository repo)
     {
         // ReSharper disable once StringLiteralTypo
@@ -278,10 +262,8 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    ///     Seed tags as an asynchronous operation.
+    ///     Seed tags as an asynchronous operation based on the list of tags in the local file tags.csv.
     /// </summary>
-    /// <param name="repo">The repo.</param>
-    /// <returns>A Task representing the asynchronous operation.</returns>
     private static async Task SeedTagsAsync(ITagRepository repo)
     {
         foreach (var fields in ReadCSV("tags.csv", 1))
@@ -294,46 +276,32 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    ///     Gets the n random entries.
+    ///     Gets n random entries of the type T and returns them as an IColletion.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="entries">The entries.</param>
-    /// <param name="n">The n.</param>
-    /// <returns>ICollection&lt;T&gt;.</returns>
     private static ICollection<T> GetNRandomEntries<T>(IEnumerable<T> entries, int n)
     {
         return entries.OrderBy(_ => Guid.NewGuid()).Take(n).ToList();
     }
 
     /// <summary>
-    ///     Gets the single random entry.
+    ///     Gets a single random entry of type T from IEnumerable.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="entries">The entries.</param>
-    /// <returns>System.Nullable&lt;T&gt;.</returns>
     private static T? GetSingleRandomEntry<T>(IEnumerable<T> entries)
     {
         return entries.OrderBy(_ => Guid.NewGuid()).FirstOrDefault();
     }
 
     /// <summary>
-    ///     Gets the repo.
+    ///     Gets a repository based on type from the dictionary mapping repository type to repository.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="repos">The repos.</param>
-    /// <param name="type">The type.</param>
-    /// <returns>T.</returns>
     private static T GetRepo<T>(Dictionary<RepoType, IRepository> repos, RepoType type)
     {
         return repos.Where(kv => kv.Key == type).Select(kv => (T) kv.Value).First();
     }
 
     /// <summary>
-    ///     Reads the CSV.
+    ///     Reads a given .CSV file with a given number of fields and returns them as a IEnumerable of string arrays.
     /// </summary>
-    /// <param name="filename">The filename.</param>
-    /// <param name="fieldCount">The field count.</param>
-    /// <returns>IEnumerable&lt;System.String[]&gt;.</returns>
     private static IEnumerable<string[]> ReadCSV(string filename, uint fieldCount)
     {
         using var csvParser = new TextFieldParser(GetDataFileLocation(filename));
@@ -350,27 +318,23 @@ public static class SeedExtensions
     }
 
     /// <summary>
-    ///     Determines whether [is all non empty] [the specified fields].
+    ///     Determines whether all the fields in a given string array are non.empty and returns false otherwise.
     /// </summary>
-    /// <param name="fields">The fields.</param>
-    /// <returns><c>true</c> if [is all non empty] [the specified fields]; otherwise, <c>false</c>.</returns>
     private static bool IsAllNonEmpty(params string[] fields)
     {
         return fields.All(field => field.Trim().Length > 0);
     }
 
     /// <summary>
-    ///     Gets the data file location.
+    ///     Gets the location of a file with the given filename.
     /// </summary>
-    /// <param name="filename">The filename.</param>
-    /// <returns>System.String.</returns>
     private static string GetDataFileLocation(string filename)
     {
         return $"{Directory.GetCurrentDirectory()}/../../data/{filename}";
     }
 
     /// <summary>
-    ///     Enum RepoType
+    ///     Enum with the available repository types.
     /// </summary>
     private enum RepoType
     {
