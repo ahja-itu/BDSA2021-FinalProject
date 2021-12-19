@@ -47,3 +47,11 @@ TODO: How to properly initialize the DB with perhaps seed data..
 ```pwsh
 .\update_db.ps1
 ```
+
+### Running the web server
+
+This requires the database to be online and the update script to have been ran.
+
+```pwsh
+dotnet run --project .\WebService.Core\Server
+```
