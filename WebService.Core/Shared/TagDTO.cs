@@ -59,7 +59,7 @@ public record CreateWeightedTagDTO : CreateTagDTO
         Weight = weight;
     }
 
-    [Range(1, 100)] public int Weight { get; }
+    [Range(1, 10)] public int Weight { get; }
 }
 
 /// <summary>
@@ -70,8 +70,6 @@ public record CreateWeightedTagDTO : CreateTagDTO
 public record WeightedTagDTO : CreateWeightedTagDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.WeightedTagDTO" /> class.</summary>
-    /// <param name="name">The name.</param>
-    /// <param name="weight">The weight.</param>
     public WeightedTagDTO(string name, int weight) : base(name, weight)
     {
     }

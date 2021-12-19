@@ -107,7 +107,7 @@ public static class SeedExtensions
             // so we need to create them on a per material basis
 
             var weightedTags = GetNRandomEntries(tags, tagCount)
-                .Select(t => new CreateWeightedTagDTO(t.Name, rand.Next(101)))
+                .Select(t => new CreateWeightedTagDTO(t.Name, rand.Next(11)))
                 .ToList();
 
             var ratings = GetNRandomEntries(names, ratingsCount)

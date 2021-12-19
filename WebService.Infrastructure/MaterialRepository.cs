@@ -30,7 +30,7 @@ public class MaterialRepository : IMaterialRepository
         _context = context;
     }
 
-    /// <summary>Create a material asynchronously from a give material creation DTO.</summary>
+    /// <summary>Create a material asynchronously from a given material creation DTO.</summary>
     public async Task<(Status, MaterialDTO)> CreateAsync(CreateMaterialDTO createMaterialDTO)
     {
         var materialDTO = ConvertCreateMaterialDTOToMaterialDTO(createMaterialDTO, -1);
@@ -406,6 +406,6 @@ public class MaterialRepository : IMaterialRepository
             return true;
 
         return material.Ratings.Any(rating => rating.Value is < 1 or > 10) ||
-               material.Tags.Any(tag => tag.Weight is < 1 or > 100);
+               material.Tags.Any(tag => tag.Weight is < 1 or > 10);
     }
 }

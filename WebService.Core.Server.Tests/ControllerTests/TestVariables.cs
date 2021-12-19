@@ -53,9 +53,9 @@ internal class TestVariables
         var rating2 = new Rating(5, "Kim");
         var rating3 = new Rating(9, "Poul");
 
-        var weightedTag1 = new WeightedTag("SOLID", 10);
-        var weightedTag2 = new WeightedTag("RAD", 50);
-        var weightedTag3 = new WeightedTag("API", 90);
+        var weightedTag1 = new WeightedTag("SOLID", 1);
+        var weightedTag2 = new WeightedTag("RAD", 5);
+        var weightedTag3 = new WeightedTag("API", 9);
 
         var tag1 = new Tag(1, "SOLID");
         var tag2 = new Tag(2, "RAD");

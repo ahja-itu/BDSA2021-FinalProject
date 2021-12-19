@@ -106,7 +106,7 @@ public class MaterialRepositoryTests
             content, title, authors, dateTime);
         _createMaterialDTOTagNotExisting = material;
 
-        tags = new List<CreateWeightedTagDTO> {new("SOLID", 101)};
+        tags = new List<CreateWeightedTagDTO> {new("SOLID", 11)};
         material = new CreateMaterialDTO(tags, ratings, levels, programmingLanguages, medias, language, summary, url,
             content, title, authors, dateTime);
         _createMaterialDTOTagWeightTooHigh = material;
@@ -239,7 +239,7 @@ public class MaterialRepositoryTests
 
         // update testing
         title = "New title";
-        tags = new List<CreateWeightedTagDTO> {new("API", 90), new("RAD", 50)};
+        tags = new List<CreateWeightedTagDTO> {new("API", 9), new("RAD", 5)};
         ratings = new List<CreateRatingDTO> {new(5, "Kim"), new(9, "Poul")};
         levels = new List<CreateLevelDTO> {new("PHD"), new("Bachelor")};
         programmingLanguages = new List<CreateProgrammingLanguageDTO> {new("C#"), new("F#")};
@@ -724,9 +724,9 @@ public class MaterialRepositoryTests
         var actual = materialDTO.Tags;
 
         const Status expectedStatus = Status.Found;
-        var expected1 = ("API", 90);
-        var expected2 = ("RAD", 50);
-        var expected3 = ("SOLID", 10);
+        var expected1 = ("API", 9);
+        var expected2 = ("RAD", 5);
+        var expected3 = ("SOLID", 1);
 
         Assert.Equal(expectedStatus, actualStatus);
         Assert.Collection(actual,
@@ -925,9 +925,9 @@ public class MaterialRepositoryTests
         var response = await _v.MaterialRepository.ReadAsync();
         var actual = response.Select(e => e.Tags);
 
-        var expected1 = new List<CreateWeightedTagDTO> {new("SOLID", 10)};
-        var expected2 = new List<CreateWeightedTagDTO> {new("API", 90), new("SOLID", 10)};
-        var expected3 = new List<CreateWeightedTagDTO> {new("API", 90), new("RAD", 50), new("SOLID", 10)};
+        var expected1 = new List<CreateWeightedTagDTO> {new("SOLID", 1)};
+        var expected2 = new List<CreateWeightedTagDTO> {new("API", 9), new("SOLID", 1)};
+        var expected3 = new List<CreateWeightedTagDTO> {new("API", 9), new("RAD", 5), new("SOLID", 1)};
 
         Assert.Collection(actual,
             createWeightedTagDTOs => Assert.Equal(expected1, createWeightedTagDTOs),
@@ -1336,8 +1336,8 @@ public class MaterialRepositoryTests
 
         var actual = _v.MaterialRepository.ReadAsync(_updateMaterialDTO.Id).Result.Item2.Tags;
 
-        var expected1 = ("API", 90);
-        var expected2 = ("RAD", 50);
+        var expected1 = ("API", 9);
+        var expected2 = ("RAD", 5);
 
         Assert.Collection(actual,
             createWeightedTagDTO => Assert.Equal(expected1, (createWeightedTagDTO.Name, createWeightedTagDTO.Weight)),

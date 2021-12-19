@@ -55,5 +55,5 @@ public class WeightedTag : Tag
         Weight = weight;
     }
 
-    [Range(1, 100)] public int Weight { get; set; }
+    [Range(1, 10)] public int Weight { get; set; }
 }

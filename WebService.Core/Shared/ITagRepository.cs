@@ -22,7 +22,7 @@ namespace WebService.Core.Shared;
 public interface ITagRepository : IRepository
 {
     /// <summary>
-    ///     Createsa new tag asynchronously.
+    ///     Creates a new tag asynchronously.
     /// </summary>
     Task<(Status, TagDTO)> CreateAsync(CreateTagDTO tag);
 
