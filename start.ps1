@@ -16,7 +16,7 @@ Write-Host "If you are using a firewall, please ensure that port 1433 is not blo
 Write-Host "###########################################################################"
 
 $username = "sa"
-$password = New-Guid
+$password = "f6278528-d366-49ba-bcfb-1f1865e7a5d1" # New-Guid
 $database = "btg"
 $dbhost = "localhost"
 $connectionString = "Server=$dbhost;Database=$database;User Id=$username;Password=$password;Trusted_Connection=False;Encrypt=False"
