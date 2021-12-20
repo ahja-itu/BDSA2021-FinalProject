@@ -1,0 +1,24 @@
+@startuml
+left to right direction
+package WebService.Core.Shared {
+    !include .\AuthorDTO.puml
+    !include .\LanguageDTO.puml
+    !include .\LevelDTO.puml
+    !include .\MaterialDTO.puml
+    !include .\MediaDTO.puml
+    !include .\ProgrammingLanguageDTO.puml
+    !include .\RatingDTO.puml
+    !include .\TagDTO.puml
+    !include .\SearchForm.puml
+    !include .\Status.puml
+    !include .\ISearch.puml
+    !include .\ILanguageRepository.puml
+    !include .\ILevelRepository.puml
+    !include .\IMaterialRepository.puml
+    !include .\IMediaRepository.puml
+    !include .\IProgrammingLanguageRepository.puml
+    !include .\IRepository.puml
+    !include .\ITagRepository.puml
+}
+
+@endumhno mt

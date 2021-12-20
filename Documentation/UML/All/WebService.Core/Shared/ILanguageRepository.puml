@@ -1,0 +1,10 @@
+@startuml
+interface ILanguageRepository {
+    CreateAsync(language:CreateLanguageDTO) : Task<(Status, LanguageDTO)>
+    ReadAsync(languageId:int) : Task<(Status, LanguageDTO)>
+    ReadAsync() : Task<IReadOnlyCollection<LanguageDTO>>
+    DeleteAsync(languageId:int) : Task<Status>
+    UpdateAsync(languageDTO:LanguageDTO) : Task<Status>
+}
+IRepository <|-- ILanguageRepository
+@enduml

@@ -1,0 +1,17 @@
+@startuml
+class ProgrammingLanguageControllerTests {
+    + ProgrammingLanguageControllerTests()
+    + <<async>> Post_programmingLanguage_returns_status_created() : Task
+    + <<async>> Post_programmingLanguage_returns_status_conflict() : Task
+    + <<async>> Post_programmingLanguage_returns_status_badRequest() : Task
+    + <<async>> Get_all_programmingLanguages_returns_status_ok() : Task
+    + <<async>> Get_programmingLanguage_returns_status_ok() : Task
+    + <<async>> Get_programmingLanguage_returns_status_notFound() : Task
+    + <<async>> Delete_programmingLanguage_returns_status_noContent() : Task
+    + <<async>> Delete_programmingLanguage_returns_status_notFound() : Task
+    + <<async>> Put_programmingLanguage_returns_status_noContent() : Task
+    + <<async>> Put_programmingLanguage_returns_status_conflict() : Task
+    + <<async>> Put_programmingLanguage_returns_status_badRequest() : Task
+    + <<async>> Put_programmingLanguage_returns_status_notFound() : Task
+}
+@enduml

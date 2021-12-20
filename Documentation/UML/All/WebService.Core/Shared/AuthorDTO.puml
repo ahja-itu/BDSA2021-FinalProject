@@ -1,0 +1,6 @@
+@startuml
++ CreateAuthorDTO(firstName:string, surName:string)
++ FirstName : string <<get>>
++ SurName : string <<get>>
++ AuthorDTO(firstName:string, surName:string)
+@enduml

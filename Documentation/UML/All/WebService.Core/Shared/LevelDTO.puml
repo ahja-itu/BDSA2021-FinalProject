@@ -1,0 +1,6 @@
+@startuml
++ CreateLevelDTO(name:string)
++ Name : string <<get>>
++ LevelDTO(id:int, name:string)
++ Id : int <<get>>
+@enduml

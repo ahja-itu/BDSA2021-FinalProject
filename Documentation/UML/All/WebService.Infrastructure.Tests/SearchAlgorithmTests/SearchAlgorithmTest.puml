@@ -1,0 +1,41 @@
+@startuml
+class SearchAlgorithmTest {
+    + SearchAlgorithmTest()
+    + Search_given_nothing_returns_status_found() : void
+    + Search_given_SearchForm_returns_list_of_materials_prioritized_by_tag_weight() : void
+    + Search_given_SearchForm_containing_language_returns_list_of_material_only_with_given_language() : void
+    + Search_given_SearchForm_returns_Materials_prioritized_by_timestamp() : void
+    + Search_given_SearchForm_with_rating_1_returns_list_of_material_with_rating_1_or_higher() : void
+    + Search_given_SearchForm_with_rating_3_returns_list_of_material_with_rating_3_or_higher() : void
+    + Search_given_SearchForm_with_rating_5_returns_list_of_material_with_rating_5_or_higher() : void
+    + Search_given_SearchForm_with_rating_7_returns_list_of_material_with_rating_7_or_higher() : void
+    + Search_given_SearchForm_with_rating_9_returns_list_of_material_with_rating_9_or_higher() : void
+    + Search_given_SearchForm_containing_bachelor_returns_list_of_material_prioritized_by_level() : void
+    + Search_given_SearchForm_containing_bachelor_master_returns_list_of_material_prioritized_by_level() : void
+    + Search_given_SearchForm_containing_bachelor_master_phd_returns_list_of_material_prioritized_by_level() : void
+    + Search_given_SearchForm_containing_one_programmingLanguage_returns_list_of_material_prioritized_by_programmingLanguage() : void
+    + Search_given_SearchForm_containing_two_programmingLanguage_returns_list_of_material_prioritized_by_programmingLanguage() : void
+    + Search_given_SearchForm_containing_all_programmingLanguage_returns_list_of_material_prioritized_by_programmingLanguage() : void
+    + Search_given_SearchForm_containing_media_returns_list_of_material_only_with_given_media() : void
+    + Search_given_SearchForm_containing_two_media_returns_list_of_materials_prioritized_by_medias() : void
+    + Search_given_SearchForm_containing_three_media_ignores_order_returns_list_of_materials_prioritized_by_medias() : void
+    + Search_given_SearchForm_containing_author_in_textfield_returns_materials_prioritized_by_author() : void
+    + Search_given_SearchForm_containing_author_firstName_in_textfield_returns_materials_prioritized_by_author() : void
+    + Search_given_SearchForm_containing_two_authors_in_textfield_returns_materials_prioritized_by_author() : void
+    + Search_given_SearchForm_containing_textInput_lorem_returns_list_of_material_prioritized_by_titles_containing_lorem() : void
+    + Search_given_SearchForm_containing_textInput_lorem_etc_returns_list_of_material_prioritized_by_titles_with_lorem_etc_first() : void
+    + Search_given_SearchForm_containing_twoTags_returns_list_of_material_prioritized_by_tag_weight_sum() : void
+    + Search_given_SearchForm_containing_Tag10_returns_list_of_material_prioritized_by_tag_weight_sum_of_Tag10_only() : void
+    + Search_given_SearchForm_containing_Tag11_returns_list_of_material_prioritized_by_tag_weight_sum_of_Tag11_only() : void
+    + <<async>> Search_with_tag_lower_case_returns_material_with_tag() : Task
+    + <<async>> Search_with_level_lower_case_returns_material_with_level() : Task
+    + <<async>> Search_with_programmingLanguage_lower_case_returns_material_with_programmingLanguage() : Task
+    + <<async>> Search_with_media_lower_case_returns_material_with_media() : Task
+    + <<async>> Search_with_language_lower_case_returns_language_with_media() : Task
+    + <<async>> Search_with_textfield_containing_tag_lower_case_returns_material_with_tag() : Task
+    + <<async>> Search_with_textfield_containing_author_lower_case_returns_material_with_author() : Task
+    + <<async>> Search_with_textfield_containing_title_lower_case_returns_material_with_title() : Task
+    + <<async>> Search_with_language_non_existing_on_any_materials_returns_notFound() : Task
+    + <<async>> Search_with_parameters_on_no_materials_returns_notFound() : Task
+}
+@enduml

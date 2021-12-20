@@ -1,0 +1,9 @@
+@startuml
++ CreateTagDTO(name:string)
++ Name : string <<get>>
++ TagDTO(id:int, name:string)
++ Id : int <<get>>
++ CreateWeightedTagDTO(name:string, weight:int)
++ Weight : int <<get>>
++ WeightedTagDTO(name:string, weight:int)
+@enduml

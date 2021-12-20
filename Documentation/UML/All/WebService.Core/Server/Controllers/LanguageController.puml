@@ -1,0 +1,11 @@
+@startuml
+class LanguageController {
+    + LanguageController(languageRepository:ILanguageRepository)
+    + <<async>> Get() : Task<ActionResult<ICollection<LanguageDTO>>>
+    + <<async>> Get(id:int) : Task<ActionResult<LanguageDTO>>
+    + <<async>> Post(language:CreateLanguageDTO) : Task<IActionResult>
+    + <<async>> Put(language:LanguageDTO) : Task<IActionResult>
+    + <<async>> Delete(id:int) : Task<IActionResult>
+}
+ControllerBase <|-- LanguageController
+@enduml

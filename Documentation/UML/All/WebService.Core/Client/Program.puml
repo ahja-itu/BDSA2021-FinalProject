@@ -1,0 +1,8 @@
+@startuml
+class "Add`1"<T> {
+}
+class "AddHttpMessageHandler`1"<T> {
+}
+class "GetRequiredService`1"<T> {
+}
+@enduml

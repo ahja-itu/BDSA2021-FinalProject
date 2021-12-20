@@ -1,0 +1,11 @@
+@startuml
+class ProgrammingLanguage {
+    + ProgrammingLanguage(name:string)
+    + ProgrammingLanguage(id:int, name:string)
+    + Id : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+}
+class "ICollection`1"<T> {
+}
+ProgrammingLanguage o-> "Materials<Material>" "ICollection`1"
+@enduml

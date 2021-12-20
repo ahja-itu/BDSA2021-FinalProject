@@ -1,0 +1,18 @@
+@startuml
+!theme plain
+class SearchForm {
+    + SearchForm(textField:string, \ntags:ICollection<TagDTO>, \nlevels:ICollection<LevelDTO>, \nprogrammingLanguages:ICollection<ProgrammingLanguageDTO>, \nlanguages:ICollection<LanguageDTO>, \nmedias:ICollection<MediaDTO>, \nrating:int)
+    + TextField : string <<get>> <<set>>
+    + Rating : int <<get>>
+    + Tags : ICollection<TagDTO> <<get>> <<set>>
+    + Levels : ICollection<LevelDTO>
+    + ProgrammingLanguages : ICollection<ProgrammingLanguageDTO> <<get>> <<set>>
+    + Languages : ICollection<LanguageDTO> <<get>> <<set>>
+    + Medias : ICollection<MediaDTO> <<get>> <<set>>
+}
+class "ICollection`1"<T> {
+}
+
+"ICollection`1" <|-- SearchForm
+
+@enduml

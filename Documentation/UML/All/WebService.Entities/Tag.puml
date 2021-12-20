@@ -1,0 +1,14 @@
+@startuml
+class Tag {
+    + Tag(name:string)
+    + Tag(id:int, name:string)
+    + Id : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+}
+class WeightedTag {
+    + WeightedTag(name:string, weight:int)
+    + WeightedTag(id:int, name:string, weight:int)
+    + Weight : int <<get>> <<set>>
+}
+Tag <|-- WeightedTag
+@enduml

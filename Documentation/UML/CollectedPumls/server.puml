@@ -1,0 +1,25 @@
+@startuml
+!theme plain
+left to right direction
+package WebService.Core.Server {
+    package WebService.Core.Server.Controllers {
+        !include .\LanguageController.puml
+        !include .\LevelController.puml
+        !include .\MaterialController.puml
+        !include .\MediaController.puml
+        !include .\ProgrammingLanguageController.puml
+        !include .\SearchController.puml
+        !include .\TagController.puml
+    }
+
+    package WebService.Core.Server.Model {
+        !include .\ContentGenerator.puml
+        !include .\SeedExtensions.puml
+    }
+
+    class Program { }
+}
+
+Program --> SeedExtensions
+ContentGenerator <-o SeedExtensions
+@enduml

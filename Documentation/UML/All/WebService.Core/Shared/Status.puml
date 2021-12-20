@@ -1,0 +1,11 @@
+@startuml
+enum Status {
+    Created,
+    Updated,
+    Deleted,
+    NotFound,
+    BadRequest,
+    Conflict,
+    Found,
+}
+@enduml

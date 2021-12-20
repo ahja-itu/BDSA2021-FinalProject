@@ -1,0 +1,11 @@
+@startuml
+class TagRepository {
+    + TagRepository(context:IContext)
+    + <<async>> CreateAsync(tag:CreateTagDTO) : Task<(Status, TagDTO)>
+    + <<async>> DeleteAsync(tagId:int) : Task<Status>
+    + <<async>> ReadAsync(tagId:int) : Task<(Status, TagDTO)>
+    + <<async>> ReadAsync() : Task<IReadOnlyCollection<TagDTO>>
+    + <<async>> UpdateAsync(tagDTO:TagDTO) : Task<Status>
+}
+ITagRepository <|-- TagRepository
+@enduml

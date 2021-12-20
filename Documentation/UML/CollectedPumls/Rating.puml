@@ -1,0 +1,13 @@
+@startuml
+!theme plain
+class Rating {
+    + Rating(value:int, reviewer:string)
+    + Rating(id:int, value:int, reviewer:string)
+    + Id : int <<get>> <<set>>
+    + Value : int <<get>> <<init>>
+    + Reviewer : string <<get>> <<init>>
+    + TimeStamp : DateTime
+}
+
+DateTime <-o Rating
+@enduml

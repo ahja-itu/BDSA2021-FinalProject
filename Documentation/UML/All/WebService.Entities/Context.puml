@@ -1,0 +1,15 @@
+@startuml
+class Context {
+    + Context(options:DbContextOptions)
+}
+class "DbSet`1"<T> {
+}
+DbContext <|-- Context
+IContext <|-- Context
+Context --> "Languages<Language>" "DbSet`1"
+Context --> "Levels<Level>" "DbSet`1"
+Context --> "Materials<Material>" "DbSet`1"
+Context --> "Medias<Media>" "DbSet`1"
+Context --> "ProgrammingLanguages<ProgrammingLanguage>" "DbSet`1"
+Context --> "Tags<Tag>" "DbSet`1"
+@enduml

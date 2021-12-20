@@ -1,0 +1,18 @@
+@startuml
+!theme plain
+class MaterialRepository {
+    + MaterialRepository(context:IContext)
+    + <<async>> CreateAsync(createMaterialDTO:CreateMaterialDTO) : Task<(Status, MaterialDTO)>
+    + <<async>> DeleteAsync(materialId:int) : Task<Status>
+    + <<async>> ReadAsync(materialId:int) : Task<(Status, MaterialDTO)>
+    + <<async>> ReadAsync() : Task<IReadOnlyCollection<MaterialDTO>>
+    + <<async>> ReadAsync(searchInput:SearchForm) : Task<(Status, IReadOnlyCollection<MaterialDTO>)>
+    + <<async>> UpdateAsync(materialDTO:MaterialDTO) : Task<Status>
+    + {static} MayContainLevel(searchInput:SearchForm) : Func<Material, bool>
+    + {static} MayContainTag(searchInput:SearchForm) : Func<Material, bool>
+    + {static} MayContainMedia(searchInput:SearchForm) : Func<Material, bool>
+    + {static} MayContainLanguage(searchInput:SearchForm) : Func<Material, bool>
+    + {static} MayContainProgrammingLanguage(searchInput:SearchForm) : Func<Material, bool>
+}
+IMaterialRepository <|-- MaterialRepository
+@enduml

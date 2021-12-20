@@ -1,0 +1,12 @@
+@startuml
+!theme plain
+interface IMediaRepository {
+    CreateAsync(media:CreateMediaDTO) : Task<(Status, MediaDTO)>
+    ReadAsync(mediaId:int) : Task<(Status, MediaDTO)>
+    ReadAsync() : Task<IReadOnlyCollection<MediaDTO>>
+    DeleteAsync(mediaId:int) : Task<Status>
+    UpdateAsync(mediaDTO:MediaDTO) : Task<Status>
+}
+IRepository <|-- IMediaRepository
+Status <-- IMediaRepository
+@enduml

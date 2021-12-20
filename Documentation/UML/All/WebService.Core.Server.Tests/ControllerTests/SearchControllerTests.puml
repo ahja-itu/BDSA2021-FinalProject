@@ -1,0 +1,7 @@
+@startuml
+class SearchControllerTests {
+    + SearchControllerTests()
+    + <<async>> Get_material_returns_from_searchForm_with_search_algo_status_ok() : Task
+    + <<async>> Get_material_returns_from_searchForm_with_search_algo_status_notFound() : Task
+}
+@enduml

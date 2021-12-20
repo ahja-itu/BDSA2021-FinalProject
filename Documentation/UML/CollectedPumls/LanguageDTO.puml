@@ -1,0 +1,14 @@
+@startuml
+!theme plain
+class CreateLanguageDTO {
++ CreateLanguageDTO(name:string)
++ Name : string <<get>>
+}
+
+class LanguageDTO {
++ LanguageDTO(id:int, name:string)
++ Id : int <<get>>
+}
+
+CreateLanguageDTO <|-- LanguageDTO
+@enduml

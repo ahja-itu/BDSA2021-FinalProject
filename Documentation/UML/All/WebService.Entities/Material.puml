@@ -1,0 +1,22 @@
+@startuml
+class Material {
+    + Material()
+    + Material(id:int, weightedTags:ICollection<WeightedTag>, ratings:ICollection<Rating>, levels:ICollection<Level>, programmingLanguages:ICollection<ProgrammingLanguage>, medias:ICollection<Media>, language:Language, summary:string, url:string, content:string, title:string, authors:ICollection<Author>, timeStamp:DateTime)
+    + Material(weightedTags:ICollection<WeightedTag>, ratings:ICollection<Rating>, levels:ICollection<Level>, programmingLanguages:ICollection<ProgrammingLanguage>, medias:ICollection<Media>, language:Language, summary:string, url:string, content:string, title:string, authors:ICollection<Author>, timeStamp:DateTime)
+    + Id : int <<get>> <<set>>
+    + Summary : string <<get>> <<set>>
+    + URL : string <<get>> <<set>>
+    + Content : string <<get>> <<set>>
+    + Title : string <<get>> <<set>>
+}
+class "ICollection`1"<T> {
+}
+Material --> "WeightedTags<WeightedTag>" "ICollection`1"
+Material --> "Ratings<Rating>" "ICollection`1"
+Material --> "Levels<Level>" "ICollection`1"
+Material --> "ProgrammingLanguages<ProgrammingLanguage>" "ICollection`1"
+Material --> "Medias<Media>" "ICollection`1"
+Material --> "Language" Language
+Material --> "Authors<Author>" "ICollection`1"
+Material --> "TimeStamp" DateTime
+@enduml

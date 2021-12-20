@@ -1,0 +1,11 @@
+@startuml
+class ContentGeneratorTests {
+    + GenerateTitle_given_no_tags_should_return_success_false() : void
+    + GenerateTitle_given_tag_docker_should_return_title_containing_docker() : void
+    + GenerateTitle_given_tags_docker_kubernetes_return_title_containing_both() : void
+    + GenerateTitle_given_tags_docker_kubernetes_azure_return_title_containing_all_with_comma_and_and_separation() : void
+    + LanguageToString_converts_correctly_from_language_to_string(lang:ContentGenerator.Language, expected:string) : void
+    + StringToLanguage_converts_magical_strings_to_languages(input:string, expected:ContentGenerator.Language) : void
+    + StringToLanguage_does_not_convert_wrong_magical_strings_to_languages(input:string) : void
+}
+@enduml

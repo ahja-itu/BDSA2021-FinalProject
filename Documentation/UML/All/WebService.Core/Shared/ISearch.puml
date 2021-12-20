@@ -1,0 +1,5 @@
+@startuml
+interface ISearch {
+    Search(searchForm:SearchForm) : Task<(Status, ICollection<MaterialDTO>)>
+}
+@enduml

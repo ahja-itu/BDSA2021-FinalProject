@@ -1,0 +1,13 @@
+@startuml
+!theme plain
+class Level {
+    + Level(name:string)
+    + Level(id:int, name:string)
+    + Id : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
++ Materials : ICollection<Material>
+}
+class "ICollection`1"<T> {
+}
+Level o--> "ICollection`1"
+@enduml

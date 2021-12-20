@@ -1,0 +1,16 @@
+@startuml
+!theme plain
+class CreateRatingDTO {
++ CreateRatingDTO(value:int, reviewer:string)
++ Value : int <<get>>
++ Reviewer : string <<get>>
+}
+
+class RatingDTO {
++ RatingDTO(id:int, value:int, reviewer:string)
++ Id : int <<get>>
++ TimeStamp : DateTime
+}
+
+CreateRatingDTO <|-- RatingDTO
+@enduml

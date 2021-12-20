@@ -1,0 +1,39 @@
+@startuml
+!theme plain
+class MaterialDTO {
++ MaterialDTO(id:int, tags:ICollection<CreateWeightedTagDTO>, ratings:ICollection<CreateRatingDTO>, levels:ICollection<CreateLevelDTO>, \nprogrammingLanguages:ICollection<CreateProgrammingLanguageDTO>, medias:ICollection<CreateMediaDTO>, language:CreateLanguageDTO, summary:string, url:string, \ncontent:string, title:string, authors:ICollection<CreateAuthorDTO>, timeStamp:DateTime)
++ Id : int <<get>>
+}
+class CreateMaterialDTO {
++ CreateMaterialDTO(tags:ICollection<CreateWeightedTagDTO>, ratings:ICollection<CreateRatingDTO>, levels:ICollection<CreateLevelDTO>, \nprogrammingLanguages:ICollection<CreateProgrammingLanguageDTO>, medias:ICollection<CreateMediaDTO>, language:CreateLanguageDTO, summary:string, url:string, \ncontent:string, title:string, authors:ICollection<CreateAuthorDTO>, timeStamp:DateTime)
++ Summary : string <<get>>
++ Url : string <<get>>
++ Content : string <<get>>
++ Title : string <<get>>
++ Tags : ICollection<CreateTagsDTO>  <<get>> <<set>>
++ Ratings : ICollection<CreateRatingDTO> <<get>> <<set>>
++ Levels : ICollection<CreateLevelDTO> <<get>> <<set>>
++ ProgrammingLanguages : ICollection<CreateProgrammingLanguageDTO> <<get>> <<set>>
++ Medias : ICollection<Media> <<get>> <<set>>
++ Language : CreateLanguageDTO <<get>> <<set>>
++ Authors : ICollection<CreateAuthorDTO> <<get>> <<set>>
++ TimeStamp : DateTime <<get>> <<set>>
+}
+
+class MaterialExtensions <<static>> {
+    + {static} AverageRating(material:CreateMaterialDTO) : float
+    + {static} AverageRatingToString(material:CreateMaterialDTO) : string
+    + {static} LevelsToString(material:CreateMaterialDTO) : string
+    + {static} AuthorsToString(material:CreateMaterialDTO) : string
+    + {static} ConvertToMaterialDTO(material:Material) : MaterialDTO
+}
+class "ICollection`1"<T> {
+}
+
+CreateMaterialDTO <|- MaterialDTO
+"ICollection`1" <--o CreateMaterialDTO
+CreateLanguageDTO <--o CreateMaterialDTO
+DateTime <--o CreateMaterialDTO
+CreateMaterialDTO <--> MaterialExtensions
+@enduml
+

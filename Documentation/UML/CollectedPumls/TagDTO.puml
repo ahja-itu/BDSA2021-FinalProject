@@ -1,0 +1,23 @@
+@startuml
+!theme plain
+class CreateTagDTO {
++ CreateTagDTO(name:string)
++ Name : string <<get>>
+}
+class TagDTO {
++ TagDTO(id:int, name:string)
++ Id : int <<get>>
+}
+
+class CreateWeightedTagDTO {
++ CreateWeightedTagDTO(name:string, weight:int)
++ Weight : int <<get>>
+}
+class WeightedTagDTO {
++ WeightedTagDTO(name:string, weight:int)
+}
+
+CreateTagDTO <|-- TagDTO
+CreateTagDTO <|-- CreateWeightedTagDTO
+CreateWeightedTagDTO <|- WeightedTagDTO
+@enduml

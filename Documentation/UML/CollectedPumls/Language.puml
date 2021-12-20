@@ -1,0 +1,13 @@
+@startuml
+!theme plain
+class Language {
+    + Language(name:string)
+    + Language(id:int, name:string)
+    + Id : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+    + Materials: ICollection<Material> <<get>> <<set>>
+}
+class "ICollection`1"<T> {
+}
+Language o---> "ICollection`1"
+@enduml
