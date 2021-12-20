@@ -33,7 +33,6 @@ public class MaterialController : ControllerBase
     /// <summary>
     ///     Initializes a new instance of the <see cref="MaterialController" /> class.
     /// </summary>
-    /// <param name="materialRepository">The material repository.</param>
     public MaterialController(IMaterialRepository materialRepository)
     {
         _materialRepository = materialRepository;
@@ -42,7 +41,6 @@ public class MaterialController : ControllerBase
     /// <summary>
     ///     Gets all materialDTOs.
     /// </summary>
-    /// <returns>ActionResult&lt;ICollection&lt;MaterialDTO&gt;&gt;.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ICollection<MaterialDTO>>> Get()
@@ -52,10 +50,8 @@ public class MaterialController : ControllerBase
     }
 
     /// <summary>
-    ///     Gets a specified materialDTO.
+    ///     Gets a specified materialDTO based on id.
     /// </summary>
-    /// <param name="id">The identifier.</param>
-    /// <returns>ActionResult&lt;MaterialDTO&gt;.</returns>
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -70,8 +66,6 @@ public class MaterialController : ControllerBase
     /// <summary>
     ///     Posts a specified search form and returns a materialDTO matching the search from.
     /// </summary>
-    /// <param name="searchForm">The search form.</param>
-    /// <returns>ActionResult&lt;MaterialDTO&gt;.</returns>
     [HttpPost("PostSearchForm")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -86,8 +80,6 @@ public class MaterialController : ControllerBase
     /// <summary>
     ///     Posts the specified material.
     /// </summary>
-    /// <param name="material">The material.</param>
-    /// <returns>IActionResult.</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -105,10 +97,8 @@ public class MaterialController : ControllerBase
     }
 
     /// <summary>
-    ///     Puts the specified material.
+    ///     Puts the specified, existing material.
     /// </summary>
-    /// <param name="material">The material.</param>
-    /// <returns>IActionResult.</returns>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -128,10 +118,8 @@ public class MaterialController : ControllerBase
     }
 
     /// <summary>
-    ///     Deletes the specified identifier.
+    ///     Deletes the specified material based on id.
     /// </summary>
-    /// <param name="id">The identifier.</param>
-    /// <returns>IActionResult.</returns>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

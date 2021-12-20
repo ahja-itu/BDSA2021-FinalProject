@@ -18,13 +18,11 @@ namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
 
 /// <summary>
 ///     Class LevelRepositoryTests.
+///     Contains tests grouped into regions based on the type of method tested.
 /// </summary>
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class LevelRepositoryTests
 {
-    /// <summary>
-    ///     The v
-    /// </summary>
     private readonly TestVariables _v;
 
     /// <summary>

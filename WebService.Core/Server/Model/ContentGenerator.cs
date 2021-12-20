@@ -25,39 +25,16 @@ namespace WebService.Core.Server.Model;
 public class ContentGenerator
 {
     /// <summary>
-    ///     Enum Language
+    ///     Enum with available Languages
     /// </summary>
     public enum Language
     {
-        /// <summary>
-        ///     The russian language
-        /// </summary>
         Russian,
-
-        /// <summary>
-        ///     The english language
-        /// </summary>
         English,
-
-        /// <summary>
-        ///     The italian language
-        /// </summary>
         Italian,
-
-        /// <summary>
-        ///     The danish language
-        /// </summary>
         Danish,
-
-        /// <summary>
-        ///     The unknown language
-        /// </summary>
         Unknown
     }
-
-    /// <summary>
-    ///     The random instance
-    /// </summary>
     private static readonly Random Rand = new();
 
     // Special thanks to https://www.nichelaboratory.com/Home/BlogTitleGenerator for generated clickbait titles
@@ -106,22 +83,13 @@ public class ContentGenerator
         "12 Tips To Start Building A #TAGS# You Always Wanted",
         "Take Advantage Of #TAGS# - Read These 9 Tips"
     };
-
-    /// <summary>
-    ///     The environment
-    /// </summary>
     private readonly IWebHostEnvironment? _environment;
-
-    /// <summary>
-    ///     The text generators
-    /// </summary>
     private readonly Dictionary<Language, TextGenerator> _textGenerators;
 
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="ContentGenerator" /> class.
     /// </summary>
-    /// <param name="environment">The environment.</param>
     public ContentGenerator(IWebHostEnvironment? environment = null)
     {
         _environment = environment;
@@ -138,10 +106,8 @@ public class ContentGenerator
     }
 
     /// <summary>
-    ///     Gets the text generator.
+    ///     Gets the text generator from specific filename.
     /// </summary>
-    /// <param name="filename">The filename.</param>
-    /// <returns>TextGenerator.</returns>
     private TextGenerator GetTextGenerator(string filename)
     {
         var fileLocation = GetDataFileLocation($"{filename}.corpus.txt");
@@ -153,8 +119,6 @@ public class ContentGenerator
     /// <summary>
     ///     Converts a language to its string representation.
     /// </summary>
-    /// <param name="lang">The language.</param>
-    /// <returns>System.ValueTuple&lt;System.Boolean, System.String&gt;.</returns>
     public static (bool, string) LanguageToString(Language lang)
     {
         return lang switch
@@ -171,8 +135,6 @@ public class ContentGenerator
     ///     Will convert a string to a language enum. If it was not understood or "russian", the language will be returned as
     ///     russian (lol)
     /// </summary>
-    /// <param name="lang">The language.</param>
-    /// <returns>System.ValueTuple&lt;System.Boolean, Language&gt;.</returns>
     public static (bool, Language) StringToLanguage(string lang)
     {
         return lang switch
@@ -188,12 +150,6 @@ public class ContentGenerator
     /// <summary>
     ///     Generate a body of text with a default length of 20 words. The length can be overridden to your liking.
     /// </summary>
-    /// <param name="language">The language.</param>
-    /// <param name="length">The number of words in the generated body of text.</param>
-    /// <returns>
-    ///     (bool, string): bool: was the operation successful. The string with content if the text generation was
-    ///     successful.
-    /// </returns>
     public (bool, string) GenerateText(Language language, int length = 20)
     {
         var generator = _textGenerators.GetValueOrDefault(language);
@@ -204,13 +160,10 @@ public class ContentGenerator
 
 
     /// <summary>
-    ///     Generates a title from any given number of tags.
-    /// </summary>
-    /// <param name="tags">A list of tags containing non-empty names. Has to contain either one or many tags.</param>
-    /// <returns>
-    ///     (bool, string): the boolean indicates if the operation was successful. The string may contain the title if the
+    ///     Generates a title from a list of any size of one to many tags containing non-empty names.
+    ///     Returns a (bool, string) tuple: the boolean indicates if the operation was successful. The string may contain the title if the
     ///     operation was success full. Otherwise it will be empty.
-    /// </returns>
+    /// </summary>
     public static (bool, string) GenerateTitle(IList<CreateWeightedTagDTO> tags)
     {
         if (!tags.Any()) return (false, "");
@@ -219,10 +172,8 @@ public class ContentGenerator
     }
 
     /// <summary>
-    ///     Creates the title with many tags.
+    ///     Creates a title with multiple tags.
     /// </summary>
-    /// <param name="tags">The tags.</param>
-    /// <returns>System.String.</returns>
     private static string CreateTitleWithManyTags(IList<CreateWeightedTagDTO> tags)
     {
         var accumulatedTagNames = "";
@@ -244,29 +195,24 @@ public class ContentGenerator
     }
 
     /// <summary>
-    ///     Creates the title with one tag.
+    ///     Creates a title with a single tag.
     /// </summary>
-    /// <param name="tag">The tag.</param>
-    /// <returns>System.String.</returns>
     private static string CreateTitleWithOneTag(CreateTagDTO tag)
     {
         return GetRandomTitle().Replace("#TAGS#", tag.Name);
     }
 
     /// <summary>
-    ///     Gets the random title.
+    ///     Gets a random title.
     /// </summary>
-    /// <returns>System.String.</returns>
     private static string GetRandomTitle()
     {
         return TemplateTitles[Rand.Next(TemplateTitles.Length)];
     }
 
     /// <summary>
-    ///     Gets the data file location.
+    ///     Gets the file location of a given file
     /// </summary>
-    /// <param name="filename">The filename.</param>
-    /// <returns>System.String.</returns>
     private string GetDataFileLocation(string filename)
     {
         return _environment == null

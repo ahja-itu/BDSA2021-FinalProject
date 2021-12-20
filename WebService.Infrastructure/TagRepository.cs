@@ -16,30 +16,24 @@ namespace WebService.Infrastructure;
 
 /// <summary>
 ///     Class TagRepository.
-///     Implements the <see cref="WebService.Core.Shared.ITagRepository" />
+///     Implements the <see cref="WebService.Core.Shared.ITagRepository" /> interface
 /// </summary>
 /// <seealso cref="WebService.Core.Shared.ITagRepository" />
 public class TagRepository : ITagRepository
 {
-    /// <summary>
-    ///     The context
-    /// </summary>
     private readonly IContext _context;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="TagRepository" /> class.
     /// </summary>
-    /// <param name="context">The context.</param>
     public TagRepository(IContext context)
     {
         _context = context;
     }
 
     /// <summary>
-    ///     Creates a tag asynchronously.
+    ///     Creates a new tag asynchronously.
     /// </summary>
-    /// <param name="tag">The tag.</param>
-    /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
     public async Task<(Status, TagDTO)> CreateAsync(CreateTagDTO tag)
     {
         if (InvalidInput(tag)) return (Status.BadRequest, new TagDTO(-1, tag.Name));
@@ -61,10 +55,8 @@ public class TagRepository : ITagRepository
     }
 
     /// <summary>
-    ///     Deletes a tag asynchronously.
+    ///     Deletes a tag based on id asynchronously.
     /// </summary>
-    /// <param name="tagId">The tag identifier.</param>
-    /// <returns>A Task&lt;Status&gt; representing the asynchronous operation.</returns>
     public async Task<Status> DeleteAsync(int tagId)
     {
         var tag = await _context.Tags.FindAsync(tagId);
@@ -79,10 +71,8 @@ public class TagRepository : ITagRepository
     }
 
     /// <summary>
-    ///     Reads a tag asynchronously and returns a http status.
+    ///     Reads a tag asynchronously based on id and returns it along with an http status.
     /// </summary>
-    /// <param name="tagId">The tag identifier.</param>
-    /// <returns>A Task&lt;System.ValueTuple&gt; representing the asynchronous operation.</returns>
     public async Task<(Status, TagDTO)> ReadAsync(int tagId)
     {
         var query = from t in _context.Tags
@@ -97,17 +87,14 @@ public class TagRepository : ITagRepository
     /// <summary>
     ///     Reads all tags asynchronously.
     /// </summary>
-    /// <returns>A Task&lt;IReadOnlyCollection`1&gt; representing the asynchronous operation.</returns>
     public async Task<IReadOnlyCollection<TagDTO>> ReadAsync()
     {
         return await _context.Tags.Select(t => new TagDTO(t.Id, t.Name)).ToListAsync();
     }
 
     /// <summary>
-    ///     Update a tag asynchronously.
+    ///     Update an existing tag asynchronously.
     /// </summary>
-    /// <param name="tagDTO">The tag dto.</param>
-    /// <returns>A Task&lt;Status&gt; representing the asynchronous operation.</returns>
     public async Task<Status> UpdateAsync(TagDTO tagDTO)
     {
         if (InvalidInput(tagDTO)) return Status.BadRequest;
@@ -132,10 +119,8 @@ public class TagRepository : ITagRepository
     }
 
     /// <summary>
-    ///     Validates the input.
+    ///     Validates the input tag with regards to validity of its name.
     /// </summary>
-    /// <param name="tag">The tag.</param>
-    /// <returns><c>true</c> if the input is valid, <c>false</c> otherwise.</returns>
     private static bool InvalidInput(CreateTagDTO tag)
     {
         return tag.Name.Length is > 50 or > 50

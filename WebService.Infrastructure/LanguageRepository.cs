@@ -125,11 +125,7 @@ public class LanguageRepository : ILanguageRepository
         return Status.Updated;
     }
 
-    /// <summary>Validates the input.</summary>
-    /// <param name="language">The language.</param>
-    /// <returns>
-    ///     <c>true</c> if input is valid, <c>false</c> otherwise.
-    /// </returns>
+    /// <summary>Validates the input language with regards to the validity of its name.</summary>
     private static bool InvalidInput(CreateLanguageDTO language)
     {
         return language.Name.Length is > 50 or > 50

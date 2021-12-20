@@ -124,11 +124,7 @@ public class LevelRepository : ILevelRepository
         return Status.Updated;
     }
 
-    /// <summary>Validates the input.</summary>
-    /// <param name="level">The level.</param>
-    /// <returns>
-    ///     <c>true</c> if the input is valid, <c>false</c> otherwise.
-    /// </returns>
+    /// <summary>Validates the input level with regards to the validity of its name.</summary>
     private static bool InvalidInput(CreateLevelDTO level)
     {
         return level.Name.Length is > 50 or > 50

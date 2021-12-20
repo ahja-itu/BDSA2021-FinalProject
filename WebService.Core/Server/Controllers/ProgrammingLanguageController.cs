@@ -33,7 +33,6 @@ public class ProgrammingLanguageController : ControllerBase
     /// <summary>
     ///     Initializes a new instance of the <see cref="ProgrammingLanguageController" /> class.
     /// </summary>
-    /// <param name="programmingLanguageRepository">The programming language repository.</param>
     public ProgrammingLanguageController(IProgrammingLanguageRepository programmingLanguageRepository)
     {
         _programmingLanguageRepository = programmingLanguageRepository;
@@ -42,7 +41,6 @@ public class ProgrammingLanguageController : ControllerBase
     /// <summary>
     ///     Gets all ProgrammingLanguageDTOs.
     /// </summary>
-    /// <returns>ActionResult&lt;ICollection&lt;ProgrammingLanguageDTO&gt;&gt;.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ICollection<ProgrammingLanguageDTO>>> Get()
@@ -52,10 +50,8 @@ public class ProgrammingLanguageController : ControllerBase
     }
 
     /// <summary>
-    ///     Gets the specified ProgrammingLanguageDTO.
+    ///     Gets the specified ProgrammingLanguageDTO based on id.
     /// </summary>
-    /// <param name="id">The identifier.</param>
-    /// <returns>ActionResult&lt;ProgrammingLanguageDTO&gt;.</returns>
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -70,8 +66,6 @@ public class ProgrammingLanguageController : ControllerBase
     /// <summary>
     ///     Posts the specified programming language.
     /// </summary>
-    /// <param name="programmingLanguage">The programming language.</param>
-    /// <returns>IActionResult.</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -89,10 +83,8 @@ public class ProgrammingLanguageController : ControllerBase
     }
 
     /// <summary>
-    ///     Puts the specified programming language.
+    ///     Puts the specified, existing programming language.
     /// </summary>
-    /// <param name="programmingLanguage">The programming language.</param>
-    /// <returns>IActionResult.</returns>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -112,10 +104,8 @@ public class ProgrammingLanguageController : ControllerBase
     }
 
     /// <summary>
-    ///     Deletes the specified ProgrammingLanguageDTO.
+    ///     Deletes the specified ProgrammingLanguageDTO based on id.
     /// </summary>
-    /// <param name="id">The identifier.</param>
-    /// <returns>IActionResult.</returns>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

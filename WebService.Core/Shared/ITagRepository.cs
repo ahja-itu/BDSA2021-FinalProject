@@ -16,42 +16,33 @@ namespace WebService.Core.Shared;
 
 /// <summary>
 ///     Interface ITagRepository
-///     Implements the <see cref="IRepository" />
+///     Implements the <see cref="IRepository" /> interface
 /// </summary>
 /// <seealso cref="IRepository" />
 public interface ITagRepository : IRepository
 {
     /// <summary>
-    ///     Creates asynchronously.
+    ///     Creates a new tag asynchronously.
     /// </summary>
-    /// <param name="tag">The tag.</param>
-    /// <returns>Task&lt;System.ValueTuple&lt;Status, TagDTO&gt;&gt;.</returns>
     Task<(Status, TagDTO)> CreateAsync(CreateTagDTO tag);
 
     /// <summary>
-    ///     Reads asynchronously.
+    ///     Reads a tag based on id asynchronously.
     /// </summary>
-    /// <param name="tagId">The tag identifier.</param>
-    /// <returns>Task&lt;System.ValueTuple&lt;Status, TagDTO&gt;&gt;.</returns>
     Task<(Status, TagDTO)> ReadAsync(int tagId);
 
     /// <summary>
-    ///     Reads all asynchronously.
+    ///     Reads all tags asynchronously.
     /// </summary>
-    /// <returns>Task&lt;IReadOnlyCollection&lt;TagDTO&gt;&gt;.</returns>
     Task<IReadOnlyCollection<TagDTO>> ReadAsync();
 
     /// <summary>
-    ///     Deletes asynchronously.
+    ///     Deletes a tag based on id asynchronously.
     /// </summary>
-    /// <param name="tagId">The tag identifier.</param>
-    /// <returns>Task&lt;Status&gt;.</returns>
     Task<Status> DeleteAsync(int tagId);
 
     /// <summary>
-    ///     Updates asynchronously.
+    ///     Updates a given tag asynchronously.
     /// </summary>
-    /// <param name="tagDTO">The tag dto.</param>
-    /// <returns>Task&lt;Status&gt;.</returns>
     Task<Status> UpdateAsync(TagDTO tagDTO);
 }

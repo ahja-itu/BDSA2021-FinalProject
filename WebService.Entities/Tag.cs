@@ -18,15 +18,12 @@ namespace WebService.Entities;
 public class Tag
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Tag" /> class.</summary>
-    /// <param name="name">The name.</param>
     public Tag(string name)
     {
         Name = name;
     }
 
-    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Tag" /> class.</summary>
-    /// <param name="id">The identifier.</param>
-    /// <param name="name">The name.</param>
+    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Tag" /> class including id.</summary>
     public Tag(int id, string name)
     {
         Id = id;
@@ -46,22 +43,17 @@ public class Tag
 public class WeightedTag : Tag
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.WeightedTag" /> class.</summary>
-    /// <param name="name">The name.</param>
-    /// <param name="weight">The weight.</param>
     public WeightedTag(string name, int weight) : base(name)
     {
         Weight = weight;
     }
 
-    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.WeightedTag" /> class.</summary>
-    /// <param name="id">The identifier.</param>
-    /// <param name="name">The name.</param>
-    /// <param name="weight">The weight.</param>
+    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.WeightedTag" /> class including id.</summary>
     public WeightedTag(int id, string name, int weight) : base(name)
     {
         Id = id;
         Weight = weight;
     }
 
-    [Range(1, 100)] public int Weight { get; set; }
+    [Range(1, 10)] public int Weight { get; set; }
 }

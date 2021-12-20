@@ -25,14 +25,10 @@ namespace WebService.Core.Shared.Tests;
 ///     Class MaterialDTOTests.
 /// </summary>
 public class MaterialDTOTests
-{
-    /// <summary>
-    ///     The material
-    /// </summary>
-    private readonly Material _material;
+{    private readonly Material _material;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="MaterialDTOTests" /> class.
+    ///     Initializes a new instance of the <see cref="MaterialDTOTests" /> class creating test material.
     /// </summary>
     public MaterialDTOTests()
     {

@@ -20,9 +20,7 @@ namespace WebService.Core.Shared;
 public interface ISearch
 {
     /// <summary>
-    ///     Searches the specified search form and gets matching material.
+    ///     Searches with the specified search form and gets matching material.
     /// </summary>
-    /// <param name="searchForm">The search form.</param>
-    /// <returns>Task&lt;System.ValueTuple&lt;Status, ICollection&lt;MaterialDTO&gt;&gt;&gt;.</returns>
     Task<(Status, ICollection<MaterialDTO>)> Search(SearchForm searchForm);
 }

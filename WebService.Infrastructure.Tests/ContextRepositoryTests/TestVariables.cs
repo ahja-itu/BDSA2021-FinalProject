@@ -20,7 +20,8 @@ namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
 internal class TestVariables
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="TestVariables" /> class.
+    ///     Initializes a new instance of the <see cref="TestVariables" /> class creating and populating
+    ///      a temporary test database used by some of the test classes in this namespace.
     /// </summary>
     public TestVariables()
     {
@@ -57,12 +58,12 @@ internal class TestVariables
         var rating32 = new Rating(5, "Kim");
         var rating33 = new Rating(9, "Poul");
 
-        var weightedTag11 = new WeightedTag("SOLID", 10);
-        var weightedTag12 = new WeightedTag("SOLID", 10);
-        var weightedTag1 = new WeightedTag("SOLID", 10);
-        var weightedTag2 = new WeightedTag("RAD", 50);
-        var weightedTag3 = new WeightedTag("API", 90);
-        var weightedTag32 = new WeightedTag("API", 90);
+        var weightedTag11 = new WeightedTag("SOLID", 1);
+        var weightedTag12 = new WeightedTag("SOLID", 1);
+        var weightedTag1 = new WeightedTag("SOLID", 1);
+        var weightedTag2 = new WeightedTag("RAD", 5);
+        var weightedTag3 = new WeightedTag("API", 9);
+        var weightedTag32 = new WeightedTag("API", 9);
 
         var tag1 = new Tag(1, "SOLID");
         var tag2 = new Tag(2, "RAD");
@@ -150,45 +151,11 @@ internal class TestVariables
         TagRepository = new TagRepository(context);
     }
 
-    /// <summary>
-    ///     Gets the context.
-    /// </summary>
-    /// <value>The context.</value>
     public IContext Context { get; }
-
-    /// <summary>
-    ///     Gets the language repository.
-    /// </summary>
-    /// <value>The language repository.</value>
     public LanguageRepository LanguageRepository { get; }
-
-    /// <summary>
-    ///     Gets the level repository.
-    /// </summary>
-    /// <value>The level repository.</value>
     public LevelRepository LevelRepository { get; }
-
-    /// <summary>
-    ///     Gets the material repository.
-    /// </summary>
-    /// <value>The material repository.</value>
     public MaterialRepository MaterialRepository { get; }
-
-    /// <summary>
-    ///     Gets the media repository.
-    /// </summary>
-    /// <value>The media repository.</value>
     public MediaRepository MediaRepository { get; }
-
-    /// <summary>
-    ///     Gets the programming language repository.
-    /// </summary>
-    /// <value>The programming language repository.</value>
     public ProgrammingLanguageRepository ProgrammingLanguageRepository { get; }
-
-    /// <summary>
-    ///     Gets the tag repository.
-    /// </summary>
-    /// <value>The tag repository.</value>
     public TagRepository TagRepository { get; }
 }

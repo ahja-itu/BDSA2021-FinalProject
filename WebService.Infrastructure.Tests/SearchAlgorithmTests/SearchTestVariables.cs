@@ -23,7 +23,9 @@ namespace WebService.Infrastructure.Tests.SearchAlgorithmTests;
 internal class SearchTestVariables
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="SearchTestVariables" /> class.
+    ///     Initializes a new instance of the <see cref="SearchTestVariables" /> class, generating and populating a 
+    ///     temporary test database used in the SearchAlgorithmTest class. 
+    ///     Material is divided into regions based on the type parameter they are meant to test.
     /// </summary>
     public SearchTestVariables()
     {
@@ -54,8 +56,6 @@ internal class SearchTestVariables
 
 
         #region Tag1-WeightOneTag
-
-        //Varying tag weight - Tag1
         Tag1Materials = new List<Material>();
         for (var i = 1; i <= 10; i++)
         {
@@ -83,7 +83,6 @@ internal class SearchTestVariables
 
         #region Tag2-Rating
 
-        //Varying rating - Tag2
         Tag2Materials = new List<Material>();
         for (var i = 0; i <= 10; i++)
         {
@@ -111,7 +110,6 @@ internal class SearchTestVariables
 
         #region Tag3-Levels
 
-        //Varying levels - Tag3
         var tag3Levels = new List<HashSet<Level>>
         {
             new() {bachelor},
@@ -148,10 +146,7 @@ internal class SearchTestVariables
 
         #endregion
 
-
         #region Tag4-Languages
-
-        //Varying Languages - Tag4
 
         Tag4Materials = new List<Material>();
 
@@ -194,7 +189,6 @@ internal class SearchTestVariables
 
         Tag4Materials.Add(material4_2);
 
-
         var material4_3 = new Material
         {
             Id = materialId++,
@@ -223,7 +217,6 @@ internal class SearchTestVariables
 
         #region Tag5-ProgrammingLanguages
 
-        //Varying programming Languages - Tag5
         var tag5PLanguages = new List<HashSet<ProgrammingLanguage>>
         {
             new() {csharp},
@@ -260,10 +253,8 @@ internal class SearchTestVariables
 
         #endregion
 
-
         #region Tag6-Media
 
-        //Varying media - Tag6
         Tag6Materials = new List<Material>();
 
         var material6_1 = new Material
@@ -282,7 +273,6 @@ internal class SearchTestVariables
             Authors = new HashSet<Author> {new("Writername", "Writernameson")},
             TimeStamp = new DateTime(2013, 1, 1)
         };
-
 
         var material6_2 = new Material
         {
@@ -318,7 +308,6 @@ internal class SearchTestVariables
             TimeStamp = new DateTime(2013, 1, 1)
         };
 
-
         context.AddRange(material6_1);
         context.AddRange(material6_2);
         context.AddRange(material6_3);
@@ -329,10 +318,8 @@ internal class SearchTestVariables
 
         #endregion
 
-
         #region Tag7-Author
 
-        //Varying author - Tag7
         var tag7Authors = new List<HashSet<Author>>
         {
             new() {new Author("Alfa", "Alfason")},
@@ -366,10 +353,8 @@ internal class SearchTestVariables
 
         #endregion
 
-
         #region Tag8-Timestamp
 
-        //Varying timestamp - Tag8
         Tag8Materials = new List<Material>();
         for (var i = 2014; i < 2022; i++)
         {
@@ -395,10 +380,8 @@ internal class SearchTestVariables
 
         #endregion
 
-
         #region Tag9-Title
 
-        //Varying title - Tag9
         Tag9Materials = new List<Material>();
         var tag9Titles = new List<string>
         {
@@ -410,7 +393,6 @@ internal class SearchTestVariables
             "consectetuer adipiscing elit",
             "CONSECTETUER ADIPISCING ELIT"
         };
-
 
         foreach (var material9 in tag9Titles.Select(t => new Material() //
                  {
@@ -435,10 +417,8 @@ internal class SearchTestVariables
 
         #endregion
 
-
         #region Tag10Tag11-WeightTwoTags
 
-        //Varying weight, two tags - Tag10, Tag11
         Tag1011Materials = new List<Material>();
         var counter = 0;
 
@@ -566,7 +546,6 @@ internal class SearchTestVariables
 
         #region UpperLowerCase
 
-        //material for upper lower case
         UpperLowerMaterial = new Material() //
         {
             Id = materialId++,
@@ -600,76 +579,17 @@ internal class SearchTestVariables
 
     #region getters
 
-    /// <summary>
-    ///     Gets the context.
-    /// </summary>
-    /// <value>The context.</value>
     public IContext Context { get; }
-
-    /// <summary>
-    ///     Gets the tag1 materials.
-    /// </summary>
-    /// <value>The tag1 materials.</value>
     public List<Material> Tag1Materials { get; }
-
-    /// <summary>
-    ///     Gets the tag2 materials.
-    /// </summary>
-    /// <value>The tag2 materials.</value>
     public List<Material> Tag2Materials { get; }
-
-    /// <summary>
-    ///     Gets the tag3 materials.
-    /// </summary>
-    /// <value>The tag3 materials.</value>
     public List<Material> Tag3Materials { get; }
-
-    /// <summary>
-    ///     Gets the tag4 materials.
-    /// </summary>
-    /// <value>The tag4 materials.</value>
     public List<Material> Tag4Materials { get; }
-
-    /// <summary>
-    ///     Gets the tag5 materials.
-    /// </summary>
-    /// <value>The tag5 materials.</value>
     public List<Material> Tag5Materials { get; }
-
-    /// <summary>
-    ///     Gets the tag6 materials.
-    /// </summary>
-    /// <value>The tag6 materials.</value>
     public List<Material> Tag6Materials { get; }
-
-    /// <summary>
-    ///     Gets the tag7 materials.
-    /// </summary>
-    /// <value>The tag7 materials.</value>
     public List<Material> Tag7Materials { get; }
-
-    /// <summary>
-    ///     Gets the tag8 materials.
-    /// </summary>
-    /// <value>The tag8 materials.</value>
     public List<Material> Tag8Materials { get; }
-
-    /// <summary>
-    ///     Gets the tag9 materials.
-    /// </summary>
-    /// <value>The tag9 materials.</value>
     public List<Material> Tag9Materials { get; }
-
-    /// <summary>
-    ///     Gets the tag1011 materials.
-    /// </summary>
-    /// <value>The tag1011 materials.</value>
     public List<Material> Tag1011Materials { get; }
-
-    /// <summary>
-    ///     Gets the upper lower material.
-    /// </summary>
-    /// <value>The upper lower material.</value>
     public Material UpperLowerMaterial { get; }
 
     #endregion

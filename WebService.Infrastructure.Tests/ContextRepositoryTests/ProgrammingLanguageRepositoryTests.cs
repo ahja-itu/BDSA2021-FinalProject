@@ -18,17 +18,16 @@ namespace WebService.Infrastructure.Tests.ContextRepositoryTests;
 
 /// <summary>
 ///     Class ProgrammingProgrammingLanguageRepositoryTests.
+///     Contains tests grouped into regions based on the type  of method tested.
 /// </summary>
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class ProgrammingProgrammingLanguageRepositoryTests
 {
-    /// <summary>
-    ///     The v
-    /// </summary>
     private readonly TestVariables _v;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ProgrammingProgrammingLanguageRepositoryTests" /> class.
+    ///     Initializes a new instance of the <see cref="ProgrammingProgrammingLanguageRepositoryTests" /> class,
+    ///     creating new test variables.
     /// </summary>
     public ProgrammingProgrammingLanguageRepositoryTests()
     {

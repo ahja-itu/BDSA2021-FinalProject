@@ -16,13 +16,10 @@ namespace WebService.Core.Server.Tests.ControllerTests;
 
 /// <summary>
 ///     Class LanguageControllerTests.
+///     Contains tests grouped into regions based on the type  of method tested.
 /// </summary>
 public class LanguageControllerTests
-{
-    /// <summary>
-    ///     The language controller
-    /// </summary>
-    private readonly LanguageController _languageController;
+{    private readonly LanguageController _languageController;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="LanguageControllerTests" /> class.

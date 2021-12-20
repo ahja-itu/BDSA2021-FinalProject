@@ -33,7 +33,6 @@ public class TagController : ControllerBase
     /// <summary>
     ///     Initializes a new instance of the <see cref="TagController" /> class.
     /// </summary>
-    /// <param name="tagRepository">The tag repository.</param>
     public TagController(ITagRepository tagRepository)
     {
         _tagRepository = tagRepository;
@@ -42,7 +41,6 @@ public class TagController : ControllerBase
     /// <summary>
     ///     Gets all tagDTOs.
     /// </summary>
-    /// <returns>ActionResult&lt;ICollection&lt;TagDTO&gt;&gt;.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ICollection<TagDTO>>> Get()
@@ -52,10 +50,8 @@ public class TagController : ControllerBase
     }
 
     /// <summary>
-    ///     Gets the specified tagDTO.
+    ///     Gets the specified tagDTO based on id.
     /// </summary>
-    /// <param name="id">The identifier.</param>
-    /// <returns>ActionResult&lt;TagDTO&gt;.</returns>
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -70,8 +66,6 @@ public class TagController : ControllerBase
     /// <summary>
     ///     Posts the specified tag.
     /// </summary>
-    /// <param name="tag">The tag.</param>
-    /// <returns>IActionResult.</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -89,10 +83,8 @@ public class TagController : ControllerBase
     }
 
     /// <summary>
-    ///     Puts the specified tag.
+    ///     Puts the specified, existing tag.
     /// </summary>
-    /// <param name="tag">The tag.</param>
-    /// <returns>IActionResult.</returns>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -112,10 +104,8 @@ public class TagController : ControllerBase
     }
 
     /// <summary>
-    ///     Deletes the specified tagDTO.
+    ///     Deletes the specified tagDTO based on id.
     /// </summary>
-    /// <param name="id">The identifier.</param>
-    /// <returns>IActionResult.</returns>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
