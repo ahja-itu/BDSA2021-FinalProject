@@ -1,0 +1,6 @@
+@startuml
++ CreateProgrammingLanguageDTO(name:string)
++ Name : string <<get>>
++ ProgrammingLanguageDTO(id:int, name:string)
++ Id : int <<get>>
+@enduml

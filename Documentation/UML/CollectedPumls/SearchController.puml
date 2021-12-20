@@ -1,0 +1,8 @@
+@startuml
+!theme plain
+class SearchController {
+    + SearchController(search:ISearch)
+    + <<async>> Post(searchForm:SearchForm) : Task<ActionResult<ICollection<MaterialDTO>>>
+}
+ControllerBase <|-- SearchController
+@enduml

@@ -1,0 +1,7 @@
+@startuml
+class Extensions <<static>> {
+    + {static} IsEqualIgnoreCasing(source:string, toCheck:string) : bool
+    + {static} ContainsIgnoreCasing(source:string, toCheck:string) : bool
+    + {static} ContainsIgnoreCasing(source:IEnumerable<string>, toCheck:string) : bool
+}
+@enduml

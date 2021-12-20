@@ -1,0 +1,5 @@
+@startuml
+class ContextModelSnapshot <<partial>> {
+}
+ModelSnapshot <|-- ContextModelSnapshot
+@enduml

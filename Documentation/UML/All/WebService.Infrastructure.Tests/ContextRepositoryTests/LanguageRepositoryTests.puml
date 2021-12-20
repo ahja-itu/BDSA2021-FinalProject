@@ -1,0 +1,26 @@
+@startuml
+class LanguageRepositoryTests {
+    + LanguageRepositoryTests()
+    + <<async>> CreateAsync_language_returns_new_language_with_id() : Task
+    + <<async>> CreateAsync_language_returns_conflict_and_existing_language() : Task
+    + <<async>> CreateAsync_language_returns_count_one_more() : Task
+    + <<async>> CreateAsync_language_returns_bad_request_on_name_tooLong() : Task
+    + <<async>> CreateAsync_language_returns_bad_request_on_name_empty() : Task
+    + <<async>> CreateAsync_language_returns_bad_request_on_name_whitespace() : Task
+    + <<async>> CreateAsync_language_with_max_length_returns_new_language_with_id() : Task
+    + <<async>> ReadAsync_language_by_id_returns_language_and_status_found() : Task
+    + <<async>> ReadAsync_language_by_id_returns_empty_language_and_status_notFound() : Task
+    + <<async>> ReadAllAsync_returns_all_languages() : Task
+    + <<async>> DeleteAsync_language_by_id_returns_status_deleted() : Task
+    + <<async>> DeleteAsync_language_by_id_returns_status_notFound() : Task
+    + <<async>> DeleteAsync_language_by_id_returns_count_one_less() : Task
+    + <<async>> UpdateAsync_language_by_id_returns_status_updated() : Task
+    + <<async>> UpdateAsync_language_by_id_read_updated_returns_status_found_and_updated_language() : Task
+    + <<async>> UpdateAsync_language_by_id_returns_status_notFound() : Task
+    + <<async>> UpdateAsync_language_by_id_returns_status_conflict() : Task
+    + <<async>> UpdateAsync_language_returns_bad_request_on_name_tooLong() : Task
+    + <<async>> UpdateAsync_language_returns_bad_request_on_name_empty() : Task
+    + <<async>> UpdateAsync_language_returns_bad_request_on_name_whitespace() : Task
+    + <<async>> UpdateAsync_language_with_max_length_returns_updated() : Task
+}
+@enduml

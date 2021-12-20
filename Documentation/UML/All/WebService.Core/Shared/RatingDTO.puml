@@ -1,0 +1,8 @@
+@startuml
++ CreateRatingDTO(value:int, reviewer:string)
++ Value : int <<get>>
++ Reviewer : string <<get>>
++ RatingDTO(id:int, value:int, reviewer:string)
++ Id : int <<get>>
+CreateRatingDTO --> "TimeStamp" DateTime
+@enduml

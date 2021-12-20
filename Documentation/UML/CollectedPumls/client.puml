@@ -1,0 +1,12 @@
+@startuml
+!theme plain
+left to right direction
+package WebService.Core.Client {
+    class Program { }
+    package WebService.Core.Client.Pages {
+        class Authorization {}
+        class Index {}
+    }
+}
+
+@enduml

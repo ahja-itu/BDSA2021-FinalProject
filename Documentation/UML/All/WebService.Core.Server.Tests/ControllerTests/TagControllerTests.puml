@@ -1,0 +1,17 @@
+@startuml
+class TagControllerTests {
+    + TagControllerTests()
+    + <<async>> Post_tag_returns_status_created() : Task
+    + <<async>> Post_tag_returns_status_conflict() : Task
+    + <<async>> Post_tag_returns_status_badRequest() : Task
+    + <<async>> Get_all_tags_returns_status_ok() : Task
+    + <<async>> Get_tag_returns_status_ok() : Task
+    + <<async>> Get_tag_returns_status_notFound() : Task
+    + <<async>> Delete_tag_returns_status_noContent() : Task
+    + <<async>> Delete_tag_returns_status_notFound() : Task
+    + <<async>> Put_tag_returns_status_noContent() : Task
+    + <<async>> Put_tag_returns_status_conflict() : Task
+    + <<async>> Put_tag_returns_status_badRequest() : Task
+    + <<async>> Put_tag_returns_status_notFound() : Task
+}
+@enduml

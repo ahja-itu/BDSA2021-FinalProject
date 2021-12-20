@@ -1,0 +1,26 @@
+@startuml
++ MaterialDTO(id:int, tags:ICollection<CreateWeightedTagDTO>, ratings:ICollection<CreateRatingDTO>, levels:ICollection<CreateLevelDTO>, programmingLanguages:ICollection<CreateProgrammingLanguageDTO>, medias:ICollection<CreateMediaDTO>, language:CreateLanguageDTO, summary:string, url:string, content:string, title:string, authors:ICollection<CreateAuthorDTO>, timeStamp:DateTime)
++ Id : int <<get>>
++ CreateMaterialDTO(tags:ICollection<CreateWeightedTagDTO>, ratings:ICollection<CreateRatingDTO>, levels:ICollection<CreateLevelDTO>, programmingLanguages:ICollection<CreateProgrammingLanguageDTO>, medias:ICollection<CreateMediaDTO>, language:CreateLanguageDTO, summary:string, url:string, content:string, title:string, authors:ICollection<CreateAuthorDTO>, timeStamp:DateTime)
++ Summary : string <<get>>
++ Url : string <<get>>
++ Content : string <<get>>
++ Title : string <<get>>
+class MaterialExtensions <<static>> {
+    + {static} AverageRating(material:CreateMaterialDTO) : float
+    + {static} AverageRatingToString(material:CreateMaterialDTO) : string
+    + {static} LevelsToString(material:CreateMaterialDTO) : string
+    + {static} AuthorsToString(material:CreateMaterialDTO) : string
+    + {static} ConvertToMaterialDTO(material:Material) : MaterialDTO
+}
+class "ICollection`1"<T> {
+}
+CreateMaterialDTO --> "Tags<CreateWeightedTagDTO>" "ICollection`1"
+CreateMaterialDTO --> "Ratings<CreateRatingDTO>" "ICollection`1"
+CreateMaterialDTO --> "Levels<CreateLevelDTO>" "ICollection`1"
+CreateMaterialDTO --> "ProgrammingLanguages<CreateProgrammingLanguageDTO>" "ICollection`1"
+CreateMaterialDTO --> "Medias<CreateMediaDTO>" "ICollection`1"
+CreateMaterialDTO --> "Language" CreateLanguageDTO
+CreateMaterialDTO --> "Authors<CreateAuthorDTO>" "ICollection`1"
+CreateMaterialDTO --> "TimeStamp" DateTime
+@enduml

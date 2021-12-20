@@ -1,0 +1,15 @@
+@startuml
+interface IContext {
+    SaveChanges() : int
+    SaveChangesAsync(cancellationToken:CancellationToken) : Task<int>
+}
+class "DbSet`1"<T> {
+}
+IDisposable <|-- IContext
+IContext --> "Languages<Language>" "DbSet`1"
+IContext --> "Levels<Level>" "DbSet`1"
+IContext --> "Materials<Material>" "DbSet`1"
+IContext --> "Medias<Media>" "DbSet`1"
+IContext --> "ProgrammingLanguages<ProgrammingLanguage>" "DbSet`1"
+IContext --> "Tags<Tag>" "DbSet`1"
+@enduml

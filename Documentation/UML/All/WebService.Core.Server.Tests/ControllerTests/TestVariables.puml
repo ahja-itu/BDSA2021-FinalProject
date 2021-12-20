@@ -1,0 +1,12 @@
+@startuml
+class TestVariables {
+    + TestVariables()
+}
+TestVariables --> "LanguageRepository" LanguageRepository
+TestVariables --> "LevelRepository" LevelRepository
+TestVariables --> "MaterialRepository" MaterialRepository
+TestVariables --> "MediaRepository" MediaRepository
+TestVariables --> "ProgrammingLanguageRepository" ProgrammingLanguageRepository
+TestVariables --> "TagRepository" TagRepository
+TestVariables --> "SearchAlgorithm" SearchAlgorithm
+@enduml

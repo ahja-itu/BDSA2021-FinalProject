@@ -1,0 +1,13 @@
+@startuml
+!theme plain
+interface IMaterialRepository {
+    CreateAsync(material:CreateMaterialDTO) : Task<(Status, MaterialDTO)>
+    ReadAsync(materialId:int) : Task<(Status, MaterialDTO)>
+    ReadAsync(searchInput:SearchForm) : Task<(Status, IReadOnlyCollection<MaterialDTO>)>
+    ReadAsync() : Task<IReadOnlyCollection<MaterialDTO>>
+    UpdateAsync(materialId:MaterialDTO) : Task<Status>
+    DeleteAsync(materialId:int) : Task<Status>
+}
+IRepository <|-- IMaterialRepository
+Status <-- IMaterialRepository
+@enduml

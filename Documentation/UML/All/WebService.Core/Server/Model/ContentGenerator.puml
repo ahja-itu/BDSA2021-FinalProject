@@ -1,0 +1,17 @@
+@startuml
+class ContentGenerator {
+    + ContentGenerator(environment:IWebHostEnvironment?)
+    + {static} LanguageToString(lang:Language) : (bool, string)
+    + {static} StringToLanguage(lang:string) : (bool, Language)
+    + GenerateText(language:Language, length:int) : (bool, string)
+    + {static} GenerateTitle(tags:IList<CreateWeightedTagDTO>) : (bool, string)
+}
+enum Language {
+    Russian,
+    English,
+    Italian,
+    Danish,
+    Unknown,
+}
+ContentGenerator +-- Language
+@enduml

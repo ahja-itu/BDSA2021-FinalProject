@@ -1,0 +1,5 @@
+@startuml
+class add_material_to_language_relation <<partial>> {
+}
+Migration <|-- add_material_to_language_relation
+@enduml

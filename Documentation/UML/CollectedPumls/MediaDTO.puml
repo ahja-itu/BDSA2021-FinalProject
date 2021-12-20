@@ -1,0 +1,13 @@
+@startuml
+!theme plain
+class CreateMediaDTO {
++ CreateMediaDTO(name:string)
++ Name : string <<get>>
+}
+class MediaDTO {
++ MediaDTO(id:int, name:string)
++ Id : int <<get>>
+}
+
+CreateMediaDTO <|-- MediaDTO
+@enduml

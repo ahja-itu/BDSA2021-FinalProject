@@ -1,0 +1,14 @@
+@startuml
+class SeedExtensions <<static>> {
+    + {static} <<async>> SeedAsync(host:IHost, environment:IWebHostEnvironment) : Task
+}
+enum RepoType {
+    Language,
+    Level,
+    Media,
+    ProgrammingLanguage,
+    Tag,
+    Material,
+}
+SeedExtensions +-- RepoType
+@enduml
