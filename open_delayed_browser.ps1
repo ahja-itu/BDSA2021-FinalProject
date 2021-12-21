@@ -13,17 +13,13 @@ function Get-UrlStatusCode([string] $Url)
     }
 }
 
-
 function PollServer()
 {
     Get-UrlStatusCode "https://localhost:7213"
 }
 
-$status = PollServer
-
-while ($status -ne 200)
+while (PollServer -ne 200)
 {
-    $status = PollServer()
     Start-Sleep -Seconds 5
 }
 
