@@ -1,0 +1,6 @@
+@startuml
++ CreateLanguageDTO(name:string)
++ Name : string <<get>>
++ LanguageDTO(id:int, name:string)
++ Id : int <<get>>
+@enduml

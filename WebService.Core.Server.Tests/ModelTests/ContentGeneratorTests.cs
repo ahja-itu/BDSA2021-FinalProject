@@ -102,8 +102,6 @@ public class ContentGeneratorTests
     /// <summary>
     ///     Defines the test method LanguageToString_converts_correctly_from_language_to_string.
     /// </summary>
-    /// <param name="lang">The language.</param>
-    /// <param name="expected">The expected.</param>
     [Theory]
     [InlineData(ContentGenerator.Language.English, "english")]
     [InlineData(ContentGenerator.Language.Russian, "russian")]
@@ -121,8 +119,6 @@ public class ContentGeneratorTests
     /// <summary>
     ///     Defines the test method StringToLanguage_converts_magical_strings_to_languages.
     /// </summary>
-    /// <param name="input">The input.</param>
-    /// <param name="expected">The expected.</param>
     [Theory]
     [InlineData("danish", ContentGenerator.Language.Danish)]
     [InlineData("english", ContentGenerator.Language.English)]
@@ -140,7 +136,6 @@ public class ContentGeneratorTests
     /// <summary>
     ///     Defines the test method StringToLanguage_does_not_convert_wrong_magical_strings_to_languages.
     /// </summary>
-    /// <param name="input">The input.</param>
     [Theory]
     [InlineData("")]
     [InlineData("     ")]
@@ -154,10 +149,8 @@ public class ContentGeneratorTests
     }
 
     /// <summary>
-    ///     Creates the tags.
+    ///     Creates list of tags from string array of tag names.
     /// </summary>
-    /// <param name="tagNames">The tag names.</param>
-    /// <returns>IList&lt;CreateWeightedTagDTO&gt;.</returns>
     private static IList<CreateWeightedTagDTO> CreateTags(params string[] tagNames)
     {
         return Array.ConvertAll(tagNames, tag => new CreateWeightedTagDTO(tag, 0));

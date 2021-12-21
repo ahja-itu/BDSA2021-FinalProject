@@ -1,0 +1,12 @@
+@startuml
+!theme plain
+class MediaController {
+    + MediaController(mediaRepository:IMediaRepository)
+    + <<async>> Get() : Task<ActionResult<ICollection<MediaDTO>>>
+    + <<async>> Get(id:int) : Task<ActionResult<MediaDTO>>
+    + <<async>> Post(media:CreateMediaDTO) : Task<IActionResult>
+    + <<async>> Put(media:MediaDTO) : Task<IActionResult>
+    + <<async>> Delete(id:int) : Task<IActionResult>
+}
+ControllerBase <|-- MediaController
+@enduml

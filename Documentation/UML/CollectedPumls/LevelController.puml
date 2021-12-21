@@ -1,0 +1,12 @@
+@startuml
+!theme plain
+class LevelController {
+    + LevelController(levelRepository:ILevelRepository)
+    + <<async>> Get() : Task<ActionResult<ICollection<LevelDTO>>>
+    + <<async>> Get(id:int) : Task<ActionResult<LevelDTO>>
+    + <<async>> Post(level:CreateLevelDTO) : Task<IActionResult>
+    + <<async>> Put(level:LevelDTO) : Task<IActionResult>
+    + <<async>> Delete(id:int) : Task<IActionResult>
+}
+ControllerBase <|-- LevelController
+@enduml

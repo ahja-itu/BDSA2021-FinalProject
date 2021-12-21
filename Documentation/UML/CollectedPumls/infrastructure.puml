@@ -1,0 +1,24 @@
+@startuml
+!theme plain
+left to right direction
+package WebService.Infrastructure  {
+    !include .\LanguageRepository.puml
+    !include .\LevelRepository.puml
+    !include .\MaterialRepository.puml
+    !include .\MediaRepository.puml
+    !include .\ProgrammingLanguageRepository.puml
+    !include .\SearchAlgorithm.puml
+    !include .\TagRepository.puml
+
+    !include .\Status.puml
+}
+
+
+Status <-- LanguageRepository
+Status <-- LevelRepository
+Status <-- MaterialRepository
+Status <-- MediaRepository
+Status <-- ProgrammingLanguageRepository
+Status <-- SearchAlgorithm
+Status <-- TagRepository
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+!theme plain
+class Media {
+    + Media(name:string)
+    + Media(id:int, name:string)
+    + Id : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+    + Materials : ICollection<Material> <<get>> <<set>>
+}
+class "ICollection`1"<T> {
+}
+Media o--> "ICollection`1"
+@enduml

@@ -1,0 +1,17 @@
+@startuml
+class MediaControllerTests {
+    + MediaControllerTests()
+    + <<async>> Post_media_returns_status_created() : Task
+    + <<async>> Post_media_returns_status_conflict() : Task
+    + <<async>> Post_media_returns_status_badRequest() : Task
+    + <<async>> Get_all_medias_returns_status_ok() : Task
+    + <<async>> Get_media_returns_status_ok() : Task
+    + <<async>> Get_media_returns_status_notFound() : Task
+    + <<async>> Delete_media_returns_status_noContent() : Task
+    + <<async>> Delete_media_returns_status_notFound() : Task
+    + <<async>> Put_media_returns_status_noContent() : Task
+    + <<async>> Put_media_returns_status_conflict() : Task
+    + <<async>> Put_media_returns_status_badRequest() : Task
+    + <<async>> Put_media_returns_status_notFound() : Task
+}
+@enduml

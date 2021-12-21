@@ -1,0 +1,12 @@
+@startuml
+class TestVariables {
+    + TestVariables()
+}
+TestVariables --> "Context" IContext
+TestVariables --> "LanguageRepository" LanguageRepository
+TestVariables --> "LevelRepository" LevelRepository
+TestVariables --> "MaterialRepository" MaterialRepository
+TestVariables --> "MediaRepository" MediaRepository
+TestVariables --> "ProgrammingLanguageRepository" ProgrammingLanguageRepository
+TestVariables --> "TagRepository" TagRepository
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+!theme plain
+class MaterialController {
+    + MaterialController(materialRepository:IMaterialRepository)
+    + <<async>> Get() : Task<ActionResult<ICollection<MaterialDTO>>>
+    + <<async>> Get(id:int) : Task<ActionResult<MaterialDTO>>
+    + <<async>> Post(searchForm:SearchForm) : Task<ActionResult<MaterialDTO>>
+    + <<async>> Post(material:CreateMaterialDTO) : Task<IActionResult>
+    + <<async>> Put(material:MaterialDTO) : Task<IActionResult>
+    + <<async>> Delete(id:int) : Task<IActionResult>
+}
+ControllerBase <|-- MaterialController
+@enduml

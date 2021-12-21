@@ -21,8 +21,6 @@ namespace WebService.Core.Shared;
 public record CreateRatingDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.CreateRatingDTO" /> class.</summary>
-    /// <param name="value">The value.</param>
-    /// <param name="reviewer">The reviewer.</param>
     public CreateRatingDTO(int value, string reviewer)
     {
         Value = value;
@@ -38,16 +36,11 @@ public record CreateRatingDTO
 
 /// <summary>
 ///     Class RatingDTO.
-///     Implements the <see cref="T:WebService.Core.Shared.CreateRatingDTO" />
-///     Implements the <see cref="System.IEquatable{CreateRatingDTO}" />
-///     Implements the <see cref="System.IEquatable{RatingDTO}" />
+///     Implements the <see cref="T:WebService.Core.Shared.CreateRatingDTO" /> class with an added id field.
 /// </summary>
 public record RatingDTO : CreateRatingDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.RatingDTO" /> class.</summary>
-    /// <param name="id">The identifier.</param>
-    /// <param name="value">The value.</param>
-    /// <param name="reviewer">The reviewer.</param>
     public RatingDTO(int id, int value, string reviewer) : base(value, reviewer)
     {
         Id = id;

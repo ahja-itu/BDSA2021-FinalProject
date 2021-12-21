@@ -1,0 +1,9 @@
+@startuml
+class MaterialDTOTests {
+    + MaterialDTOTests()
+    + ConvertToMaterialDTOReturnsIdenticalMaterialDTO() : void
+    + AverageRatingReturns7_8() : void
+    + LevelsToStringReturnsLevelNamesSeperatedBySpaces() : void
+    + AuthorsToStringReturnFullNamesSeperatedByComma() : void
+}
+@enduml

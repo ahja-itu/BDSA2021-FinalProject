@@ -1,0 +1,19 @@
+@startuml
+class SearchTestVariables {
+    + SearchTestVariables()
+}
+class "List`1"<T> {
+}
+SearchTestVariables --> "Context" IContext
+SearchTestVariables --> "Tag1Materials<Material>" "List`1"
+SearchTestVariables --> "Tag2Materials<Material>" "List`1"
+SearchTestVariables --> "Tag3Materials<Material>" "List`1"
+SearchTestVariables --> "Tag4Materials<Material>" "List`1"
+SearchTestVariables --> "Tag5Materials<Material>" "List`1"
+SearchTestVariables --> "Tag6Materials<Material>" "List`1"
+SearchTestVariables --> "Tag7Materials<Material>" "List`1"
+SearchTestVariables --> "Tag8Materials<Material>" "List`1"
+SearchTestVariables --> "Tag9Materials<Material>" "List`1"
+SearchTestVariables --> "Tag1011Materials<Material>" "List`1"
+SearchTestVariables --> "UpperLowerMaterial" Material
+@enduml

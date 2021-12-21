@@ -18,15 +18,13 @@ namespace WebService.Entities;
 public class Level
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Level" /> class.</summary>
-    /// <param name="name">The name.</param>
     public Level(string name)
     {
         Name = name;
     }
 
-    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Level" /> class.</summary>
-    /// <param name="id">The identifier.</param>
-    /// <param name="name">The name.</param>
+    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Level" /> class including id.</summary>
+
     public Level(int id, string name)
     {
         Id = id;

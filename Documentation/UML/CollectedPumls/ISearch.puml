@@ -1,0 +1,8 @@
+@startuml
+!theme plain
+interface ISearch {
+    Search(searchForm:SearchForm) : Task<(Status, ICollection<MaterialDTO>)>
+}
+
+Status <-- ISearch
+@enduml

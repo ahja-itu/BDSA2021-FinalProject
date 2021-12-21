@@ -1,0 +1,12 @@
+@startuml
+!theme plain
+interface ITagRepository {
+    CreateAsync(tag:CreateTagDTO) : Task<(Status, TagDTO)>
+    ReadAsync(tagId:int) : Task<(Status, TagDTO)>
+    ReadAsync() : Task<IReadOnlyCollection<TagDTO>>
+    DeleteAsync(tagId:int) : Task<Status>
+    UpdateAsync(tagDTO:TagDTO) : Task<Status>
+}
+IRepository <|-- ITagRepository
+Status <-- ITagRepository
+@enduml

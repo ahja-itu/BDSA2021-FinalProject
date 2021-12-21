@@ -1,0 +1,10 @@
+@startuml
+interface ILevelRepository {
+    CreateAsync(level:CreateLevelDTO) : Task<(Status, LevelDTO)>
+    ReadAsync(levelId:int) : Task<(Status, LevelDTO)>
+    ReadAsync() : Task<IReadOnlyCollection<LevelDTO>>
+    DeleteAsync(levelId:int) : Task<Status>
+    UpdateAsync(levelDTO:LevelDTO) : Task<Status>
+}
+IRepository <|-- ILevelRepository
+@enduml

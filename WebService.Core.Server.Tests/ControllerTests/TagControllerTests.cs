@@ -16,12 +16,10 @@ namespace WebService.Core.Server.Tests.ControllerTests;
 
 /// <summary>
 ///     Class TagControllerTests.
+///     Contains tests grouped into regions based on the type  of method tested.
 /// </summary>
 public class TagControllerTests
 {
-    /// <summary>
-    ///     The tag controller
-    /// </summary>
     private readonly TagController _tagController;
 
     /// <summary>

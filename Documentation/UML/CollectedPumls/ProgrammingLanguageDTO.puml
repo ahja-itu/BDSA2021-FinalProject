@@ -1,0 +1,13 @@
+@startuml
+!theme plain
+class CreateProgrammingLanguageDTO {
++ CreateProgrammingLanguageDTO(name:string)
++ Name : string <<get>>
+}
+class ProgrammingLanguageDTO {
++ ProgrammingLanguageDTO(id:int, name:string)
++ Id : int <<get>>
+}
+
+CreateProgrammingLanguageDTO <|-- ProgrammingLanguageDTO
+@enduml

@@ -16,49 +16,38 @@ namespace WebService.Core.Shared;
 
 /// <summary>
 ///     Interface IMaterialRepository
-///     Implements the <see cref="IRepository" />
+///     Implements the <see cref="IRepository" /> interface
 /// </summary>
 /// <seealso cref="IRepository" />
 public interface IMaterialRepository : IRepository
 {
     /// <summary>
-    ///     Creates asynchronously.
+    ///     Creates a new material asynchronously.
     /// </summary>
-    /// <param name="material">The material.</param>
-    /// <returns>Task&lt;System.ValueTuple&lt;Status, MaterialDTO&gt;&gt;.</returns>
     Task<(Status, MaterialDTO)> CreateAsync(CreateMaterialDTO material);
 
     /// <summary>
-    ///     Reads asynchronously.
+    ///     Reads a material based on id asynchronously.
     /// </summary>
-    /// <param name="materialId">The material identifier.</param>
-    /// <returns>Task&lt;System.ValueTuple&lt;Status, MaterialDTO&gt;&gt;.</returns>
     Task<(Status, MaterialDTO)> ReadAsync(int materialId);
 
     /// <summary>
-    ///     Reads asynchronously.
+    ///     Reads materials based on a given search form asynchronously.
     /// </summary>
-    /// <param name="searchInput">The search input.</param>
-    /// <returns>Task&lt;System.ValueTuple&lt;Status, IReadOnlyCollection&lt;MaterialDTO&gt;&gt;&gt;.</returns>
     Task<(Status, IReadOnlyCollection<MaterialDTO>)> ReadAsync(SearchForm searchInput);
 
     /// <summary>
-    ///     Reads all asynchronously.
+    ///     Reads all materials asynchronously.
     /// </summary>
-    /// <returns>Task&lt;IReadOnlyCollection&lt;MaterialDTO&gt;&gt;.</returns>
     Task<IReadOnlyCollection<MaterialDTO>> ReadAsync();
 
     /// <summary>
-    ///     Updates asynchronously.
+    ///     Updates a given material asynchronously.
     /// </summary>
-    /// <param name="materialId">The material identifier.</param>
-    /// <returns>Task&lt;Status&gt;.</returns>
     Task<Status> UpdateAsync(MaterialDTO materialId);
 
     /// <summary>
-    ///     Deletes asynchronously.
+    ///     Deletes a given material asynchronously.
     /// </summary>
-    /// <param name="materialId">The material identifier.</param>
-    /// <returns>Task&lt;Status&gt;.</returns>
     Task<Status> DeleteAsync(int materialId);
 }

@@ -21,7 +21,6 @@ namespace WebService.Core.Shared;
 public record CreateMediaDTO
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Core.Shared.CreateMediaDTO" /> class.</summary>
-    /// <param name="name">The name.</param>
     public CreateMediaDTO(string name)
     {
         Name = name;
@@ -32,9 +31,7 @@ public record CreateMediaDTO
 
 /// <summary>
 ///     Class MediaDTO.
-///     Implements the <see cref="T:WebService.Core.Shared.CreateMediaDTO" />
-///     Implements the <see cref="System.IEquatable{CreateMediaDTO}" />
-///     Implements the <see cref="System.IEquatable{MediaDTO}" />
+///     Implements the <see cref="T:WebService.Core.Shared.CreateMediaDTO" /> class with an added id field.
 /// </summary>
 public record MediaDTO : CreateMediaDTO
 {

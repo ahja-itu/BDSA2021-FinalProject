@@ -1,0 +1,15 @@
+@startuml
+!theme plain
+class Context {
+    + Context(options:DbContextOptions)
+    + Languages: DbSet<Language>
+    + Levels: DbSet<Level>
+    + Material: DbSet<Material>
+    + Medias: DbSet<Media>
+    + ProgrammingLanguages: DbSet<ProgrammingLanguage>
+    + Tags: DbSet<Tag>
+
+}
+DbContext <|-- Context
+IContext <|-- Context
+@enduml

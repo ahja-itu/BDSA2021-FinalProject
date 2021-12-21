@@ -18,15 +18,12 @@ namespace WebService.Entities;
 public class Media
 {
     /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Media" /> class.</summary>
-    /// <param name="name">The name.</param>
     public Media(string name)
     {
         Name = name;
     }
 
-    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Media" /> class.</summary>
-    /// <param name="id">The identifier.</param>
-    /// <param name="name">The name.</param>
+    /// <summary>Initializes a new instance of the <see cref="T:WebService.Entities.Media" /> class including id.</summary>
     public Media(int id, string name)
     {
         Id = id;
@@ -35,7 +32,6 @@ public class Media
 
     public int Id { get; set; }
     public ICollection<Material> Materials { get; set; } = new List<Material>();
-
 
     [StringLength(50)] public string Name { get; set; }
 }

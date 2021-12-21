@@ -1,0 +1,17 @@
+@startuml
+class LevelControllerTests {
+    + LevelControllerTests()
+    + <<async>> Post_level_returns_status_created() : Task
+    + <<async>> Post_level_returns_status_conflict() : Task
+    + <<async>> Post_level_returns_status_badRequest() : Task
+    + <<async>> Get_all_levels_returns_status_ok() : Task
+    + <<async>> Get_level_returns_status_ok() : Task
+    + <<async>> Get_level_returns_status_notFound() : Task
+    + <<async>> Delete_level_returns_status_noContent() : Task
+    + <<async>> Delete_level_returns_status_notFound() : Task
+    + <<async>> Put_level_returns_status_noContent() : Task
+    + <<async>> Put_level_returns_status_conflict() : Task
+    + <<async>> Put_level_returns_status_badRequest() : Task
+    + <<async>> Put_level_returns_status_notFound() : Task
+}
+@enduml

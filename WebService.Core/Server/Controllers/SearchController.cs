@@ -26,14 +26,13 @@ namespace WebService.Core.Server.Controllers;
 public class SearchController : ControllerBase
 {
     /// <summary>
-    ///     The search
+    ///     The search controller
     /// </summary>
     private readonly ISearch _search;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="SearchController" /> class.
     /// </summary>
-    /// <param name="search">The search.</param>
     public SearchController(ISearch search)
     {
         _search = search;
@@ -42,8 +41,6 @@ public class SearchController : ControllerBase
     /// <summary>
     ///     Posts the specified search form and gets all material matching it using the search algorithm
     /// </summary>
-    /// <param name="searchForm">The search form.</param>
-    /// <returns>ActionResult&lt;ICollection&lt;MaterialDTO&gt;&gt;.</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -20,33 +20,25 @@ namespace WebService.Infrastructure;
 public static class Extensions
 {
     /// <summary>
-    ///     Determines whether the source is equal to the specified to check ignoring casing
+    ///     Determines whether the string source is equal to the string toCheck when ignoring casing
     /// </summary>
-    /// <param name="source">The source.</param>
-    /// <param name="toCheck">To check.</param>
-    /// <returns><c>true</c> if [is equal ignore casing] [the specified to check]; otherwise, <c>false</c>.</returns>
     public static bool IsEqualIgnoreCasing(this string source, string toCheck)
     {
         return string.Equals(source, toCheck, StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>
-    ///     Determines whether the source contains the specified to check ignoring casing.
+    ///     Determines whether the string source contains the string toCheck when ignoring casing.
     /// </summary>
-    /// <param name="source">The source.</param>
-    /// <param name="toCheck">To check.</param>
-    /// <returns><c>true</c> if [contains ignore casing] [the specified to check]; otherwise, <c>false</c>.</returns>
     public static bool ContainsIgnoreCasing(this string source, string toCheck)
     {
         return source.Split(" ").Contains(toCheck, StringComparer.OrdinalIgnoreCase);
     }
 
     /// <summary>
-    ///     Determines whether the source contains the specified to check ignoring casing.
+    ///     Determines whether the collection of strings source contains the specified string 
+    ///     toCheck when ignoring casing.
     /// </summary>
-    /// <param name="source">The source.</param>
-    /// <param name="toCheck">To check.</param>
-    /// <returns><c>true</c> if [contains ignore casing] [the specified to check]; otherwise, <c>false</c>.</returns>
     public static bool ContainsIgnoreCasing(this IEnumerable<string> source, string toCheck)
     {
         return source.Contains(toCheck, StringComparer.OrdinalIgnoreCase);

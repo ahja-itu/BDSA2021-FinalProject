@@ -1,0 +1,19 @@
+@startuml
+class MaterialControllerTests {
+    + MaterialControllerTests()
+    + <<async>> Post_material_returns_status_created() : Task
+    + <<async>> Post_material_returns_status_conflict() : Task
+    + <<async>> Post_material_returns_status_badRequest() : Task
+    + <<async>> Get_all_materials_returns_status_ok() : Task
+    + <<async>> Get_material_returns_status_ok() : Task
+    + <<async>> Get_material_returns_status_notFound() : Task
+    + <<async>> Get_material_returns_from_searchForm_status_ok() : Task
+    + <<async>> Get_material_returns_from_searchForm_status_notFound() : Task
+    + <<async>> Delete_material_returns_status_noContent() : Task
+    + <<async>> Delete_material_returns_status_notFound() : Task
+    + <<async>> Put_material_returns_status_noContent() : Task
+    + <<async>> Put_material_returns_status_conflict() : Task
+    + <<async>> Put_material_returns_status_badRequest() : Task
+    + <<async>> Put_material_returns_status_notFound() : Task
+}
+@enduml

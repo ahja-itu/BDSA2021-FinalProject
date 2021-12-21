@@ -1,0 +1,8 @@
+@startuml
+!theme plain
+class SearchAlgorithm {
+    + SearchAlgorithm(materialRepository:IMaterialRepository, tagRepository:ITagRepository)
+    + <<async>> Search(searchForm:SearchForm) : Task<(Status, ICollection<MaterialDTO>)>
+}
+ISearch <|-- SearchAlgorithm
+@enduml

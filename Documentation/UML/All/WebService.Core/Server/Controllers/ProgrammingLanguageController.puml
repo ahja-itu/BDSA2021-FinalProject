@@ -1,0 +1,11 @@
+@startuml
+class ProgrammingLanguageController {
+    + ProgrammingLanguageController(programmingLanguageRepository:IProgrammingLanguageRepository)
+    + <<async>> Get() : Task<ActionResult<ICollection<ProgrammingLanguageDTO>>>
+    + <<async>> Get(id:int) : Task<ActionResult<ProgrammingLanguageDTO>>
+    + <<async>> Post(programmingLanguage:CreateProgrammingLanguageDTO) : Task<IActionResult>
+    + <<async>> Put(programmingLanguage:ProgrammingLanguageDTO) : Task<IActionResult>
+    + <<async>> Delete(id:int) : Task<IActionResult>
+}
+ControllerBase <|-- ProgrammingLanguageController
+@enduml

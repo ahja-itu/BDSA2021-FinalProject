@@ -1,0 +1,12 @@
+@startuml
+!theme plain
+interface IProgrammingLanguageRepository {
+    CreateAsync(programmingLanguage:CreateProgrammingLanguageDTO) : Task<(Status, ProgrammingLanguageDTO)>
+    ReadAsync(programmingLanguageId:int) : Task<(Status, ProgrammingLanguageDTO)>
+    ReadAsync() : Task<IReadOnlyCollection<ProgrammingLanguageDTO>>
+    DeleteAsync(programmingLanguageId:int) : Task<Status>
+    UpdateAsync(programmingLanguageDTO:ProgrammingLanguageDTO) : Task<Status>
+}
+IRepository <|-- IProgrammingLanguageRepository
+Status <-- IProgrammingLanguageRepository
+@enduml

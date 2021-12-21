@@ -16,12 +16,10 @@ namespace WebService.Core.Server.Tests.ControllerTests;
 
 /// <summary>
 ///     Class MediaControllerTests.
+///     Contains tests grouped into regions based on the type  of method tested.
 /// </summary>
 public class MediaControllerTests
 {
-    /// <summary>
-    ///     The media controller
-    /// </summary>
     private readonly MediaController _mediaController;
 
     /// <summary>

@@ -1,0 +1,27 @@
+@startuml
+!theme plain
+class Material {
+    + Material()
+    + Material(id:int, weightedTags:ICollection<WeightedTag>, ratings:ICollection<Rating>, levels:ICollection<Level>, \nprogrammingLanguages:ICollection<ProgrammingLanguage>, medias:ICollection<Media>, language:Language, \nsummary:string, url:string, content:string, title:string, authors:ICollection<Author>, timeStamp:DateTime)
+    + Material(weightedTags:ICollection<WeightedTag>, ratings:ICollection<Rating>, levels:ICollection<Level>, \nprogrammingLanguages:ICollection<ProgrammingLanguage>, medias:ICollection<Media>, language:Language, \nsummary:string, url:string, content:string, title:string, authors:ICollection<Author>, timeStamp:DateTime)
+    + Id : int <<get>> <<set>>
+    + Summary : string <<get>> <<set>>
+    + URL : string <<get>> <<set>>
+    + Content : string <<get>> <<set>>
+    + Title : string <<get>> <<set>>
+    + WeightedTags : ICollection<WeightedTag>  <<get>> <<set>>
+    + Ratings : ICollection<Rating> <<get>> <<set>>
+    + Levels : ICollection<Level> <<get>> <<set>>
+    + ProgrammingLanguages : ICollection<ProgrammingLanguage> <<get>> <<set>>
+    + Medias : ICollection<Media> <<get>> <<set>>
+
++ Language : Language
++ Authors : ICollection<Author>
++ TimeStamp : DateTime
+
+}
+class "ICollection`1"<T> {
+}
+Material --> "ICollection`1"
+DateTime <--o Material
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+class SearchForm {
+    + SearchForm(textField:string, tags:ICollection<TagDTO>, levels:ICollection<LevelDTO>, programmingLanguages:ICollection<ProgrammingLanguageDTO>, languages:ICollection<LanguageDTO>, medias:ICollection<MediaDTO>, rating:int)
+    + TextField : string <<get>> <<set>>
+    + Rating : int <<get>>
+}
+class "ICollection`1"<T> {
+}
+SearchForm --> "Tags<TagDTO>" "ICollection`1"
+SearchForm --> "Levels<LevelDTO>" "ICollection`1"
+SearchForm --> "ProgrammingLanguages<ProgrammingLanguageDTO>" "ICollection`1"
+SearchForm --> "Languages<LanguageDTO>" "ICollection`1"
+SearchForm --> "Medias<MediaDTO>" "ICollection`1"
+@enduml

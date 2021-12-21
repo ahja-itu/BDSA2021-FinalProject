@@ -38,8 +38,6 @@ public static class MockHttpClientBUnitHelpers
     /// <summary>
     ///     Adds the mock HTTP client.
     /// </summary>
-    /// <param name="services">The services.</param>
-    /// <returns>MockHttpMessageHandler.</returns>
     public static MockHttpMessageHandler AddMockHttpClient(this TestServiceProvider services)
     {
         var mockHttpHandler = new MockHttpMessageHandler();
@@ -50,11 +48,8 @@ public static class MockHttpClientBUnitHelpers
     }
 
     /// <summary>
-    ///     Responds the json.
+    ///     Creates JSON response
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="request">The request.</param>
-    /// <param name="content">The content.</param>
     public static void RespondJson<T>(this MockedRequest request, T content)
     {
         request.Respond(_ =>
@@ -71,14 +66,11 @@ public static class MockHttpClientBUnitHelpers
 
 /// <summary>
 ///     Class IndexTest.
-///     Implements the <see cref="System.IDisposable" />
+///     Implements the <see cref="System.IDisposable" /> interface
 /// </summary>
 /// <seealso cref="System.IDisposable" />
 public class IndexTest : IDisposable
 {
-    /// <summary>
-    ///     The page cut
-    /// </summary>
     private readonly IRenderedComponent<Index> _cut;
 
     /// <summary>
@@ -138,6 +130,7 @@ public class IndexTest : IDisposable
 
     /// <summary>
     ///     Defines the test method IndexFilterButtonShowsFilterOptions.
+    ///     Tests whether the correct number of buttons are created.
     /// </summary>
     [Fact]
     public void IndexFilterButtonShowsFilterOptions()
@@ -164,6 +157,7 @@ public class IndexTest : IDisposable
 
     /// <summary>
     ///     Defines the test method IndexFilterButtonAgainHidesFilterOptions.
+    ///     Tests the intended functionality of button to hide filters.
     /// </summary>
     [Fact]
     public void IndexFilterButtonAgainHidesFilterOptions()
@@ -185,8 +179,6 @@ public class IndexTest : IDisposable
     /// <summary>
     ///     Defines the test method PressOfFilterButtonShowsExpectedNumberOfFilterButtons.
     /// </summary>
-    /// <param name="expectedNumberOfButtons">The expected number of buttons.</param>
-    /// <param name="buttonId">The button identifier.</param>
     [Theory]
     [InlineData(13, "tags")]
     [InlineData(13, "levels")]

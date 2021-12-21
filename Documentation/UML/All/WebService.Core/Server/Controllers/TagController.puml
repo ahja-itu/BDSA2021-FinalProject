@@ -1,0 +1,11 @@
+@startuml
+class TagController {
+    + TagController(tagRepository:ITagRepository)
+    + <<async>> Get() : Task<ActionResult<ICollection<TagDTO>>>
+    + <<async>> Get(id:int) : Task<ActionResult<TagDTO>>
+    + <<async>> Post(tag:CreateTagDTO) : Task<IActionResult>
+    + <<async>> Put(tag:TagDTO) : Task<IActionResult>
+    + <<async>> Delete(id:int) : Task<IActionResult>
+}
+ControllerBase <|-- TagController
+@enduml

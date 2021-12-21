@@ -1,0 +1,10 @@
+@startuml
+!theme plain
+class Author {
+    + Author(firstName:string, surName:string)
+    + Author(id:int, firstName:string, surName:string)
+    + Id : int <<get>> <<set>>
+    + FirstName : string <<get>> <<set>>
+    + SurName : string <<get>> <<set>>
+}
+@enduml

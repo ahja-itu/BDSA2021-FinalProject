@@ -1,0 +1,4 @@
+@startuml
+class add_material_to_language_relation <<partial>> {
+}
+@enduml

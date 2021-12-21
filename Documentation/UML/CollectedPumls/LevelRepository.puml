@@ -1,0 +1,12 @@
+@startuml
+!theme plain
+class LevelRepository {
+    + LevelRepository(context:IContext)
+    + <<async>> CreateAsync(level:CreateLevelDTO) : Task<(Status, LevelDTO)>
+    + <<async>> DeleteAsync(levelId:int) : Task<Status>
+    + <<async>> ReadAsync(levelId:int) : Task<(Status, LevelDTO)>
+    + <<async>> ReadAsync() : Task<IReadOnlyCollection<LevelDTO>>
+    + <<async>> UpdateAsync(levelDTO:LevelDTO) : Task<Status>
+}
+ILevelRepository <|-- LevelRepository
+@enduml

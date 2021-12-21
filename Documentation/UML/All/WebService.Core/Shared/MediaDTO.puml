@@ -1,0 +1,6 @@
+@startuml
++ CreateMediaDTO(name:string)
++ Name : string <<get>>
++ MediaDTO(id:int, name:string)
++ Id : int <<get>>
+@enduml

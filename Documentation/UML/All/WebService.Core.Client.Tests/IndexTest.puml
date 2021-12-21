@@ -1,0 +1,14 @@
+@startuml
+class MockHttpClientBUnitHelpers <<static>> {
+    + {static} AddMockHttpClient(services:TestServiceProvider) : MockHttpMessageHandler
+    + {static} RespondJson(request:MockedRequest, content:T) : void
+}
+class IndexTest {
+    + IndexTest()
+    + Dispose() : void
+    + IndexFilterButtonShowsFilterOptions() : void
+    + IndexFilterButtonAgainHidesFilterOptions() : void
+    + PressOfFilterButtonShowsExpectedNumberOfFilterButtons(expectedNumberOfButtons:int, buttonId:string) : void
+}
+IDisposable <|-- IndexTest
+@enduml
