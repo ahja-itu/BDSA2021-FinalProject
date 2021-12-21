@@ -1,0 +1,41 @@
+@startuml
+!theme plain
+
+left to right direction
+package View {
+    component LoginSubsystem {
+        component Authentication
+        cloud ActiveDirectoryService
+    }
+    component FrontEnd {
+        component SearchForm
+    }
+}
+
+package SearchSubsystem {
+    component SearchController
+    component SearchAlgorithm
+}
+
+package MaterialSubsystem {
+    component MaterialController
+    component Material
+    component MaterialProperties
+}
+
+database "Database" as DB
+
+
+FrontEnd -l-> SearchController
+Authentication <.> ActiveDirectoryService
+FrontEnd <..> LoginSubsystem
+
+SearchController -d-> SearchAlgorithm
+SearchAlgorithm -d-> MaterialController
+SearchController ..> SearchForm
+
+MaterialController .d.> DB
+MaterialController ..> Material
+Material o-> MaterialProperties
+
+@enduml
