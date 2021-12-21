@@ -69,6 +69,10 @@ This requires the database to be online and the update script to have been ran.
 dotnet run --project .\WebService.Core\Server
 ```
 
+### Using Swagger to view the API
+
+While the server is running (in development mode), then you can access [https://localhost:7213/swagger/](https://localhost:7213/swagger/) to view the API specification exposed by the web server.
+
 ## Documentation
 
 This project leverages the [PlantUmlClassDiagramGenerator](https://github.com/pierre3/PlantUmlClassDiagramGenerator) library to create PlantUML diagrams from C# source files.
