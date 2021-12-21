@@ -32,7 +32,9 @@ To run the project, run the `start.ps1` file:
 
 There is some startup time with this command, as the database and web server needs to be started synchonously.
 
-Note: as a service to **you**, a web browser will open when the webserver comes online, when running this command. Unfortunately, you have to wait until for the webserver to fully seed the database, before you can proceed initially. Expect to be waitning on a "Loading..." screen for some moments until the web server is fully ready to serve web requests.
+Note: as a service to you, the start script will open your browser when the server comes online. Although it launches a little early, and you need to wait to refresh when the server is done seeding the database. 
+
+Note II: should your browser not open due to various reasons, please click [this](https://localhost:7213/) link when the server is running.
 
 ## Development
 
