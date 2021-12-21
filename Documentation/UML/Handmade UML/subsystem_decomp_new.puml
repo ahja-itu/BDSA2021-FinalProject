@@ -2,20 +2,28 @@
 !theme plain
 
 database "Database" as DB
-component API {
+cloud Authentication
+
+package API {
     component LoginController
+    component SearchController
+    component MaterialController
 }
-component Search {
+package Search {
     component SearchAlgorithm
 }
-cloud Authentication
-component FrontEnd
 
-FrontEnd -u-> API
-API -d--> Search : <<with searchForm>>
+package FrontEnd {
+    component View
+    component Authorize
+}
+
+FrontEnd -d-> API
+SearchController -d--> Search : <<with searchForm>>
+
+Search -l-> DB
 
 LoginController <..> Authentication
-Authentication --> FrontEnd
 
 API -d-> DB
 
