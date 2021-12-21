@@ -13,6 +13,11 @@ class SearchForm {
 class "ICollection`1"<T> {
 }
 
-"ICollection`1" <|-- SearchForm
+"ICollection`1" <.. SearchForm
+TagDTO <.. SearchForm
+LevelDTO <.. SearchForm
+ProgrammingLanguageDTO <.. SearchForm
+LanguageDTO <.. SearchForm
+MediaDTO <.. SearchForm
 
 @enduml

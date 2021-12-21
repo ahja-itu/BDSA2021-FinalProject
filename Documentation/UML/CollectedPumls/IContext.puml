@@ -13,5 +13,5 @@ Tags: DbSet<Tag>
 class "DbSet`1"<T> {
 }
 IDisposable <|-- IContext
-"DbSet`1" <-o IContext
+"DbSet`1" <-d-o IContext
 @enduml

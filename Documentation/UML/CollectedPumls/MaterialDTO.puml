@@ -30,10 +30,10 @@ class MaterialExtensions <<static>> {
 class "ICollection`1"<T> {
 }
 
-CreateMaterialDTO <|- MaterialDTO
+CreateMaterialDTO <|-d- MaterialDTO
 "ICollection`1" <--o CreateMaterialDTO
 CreateLanguageDTO <--o CreateMaterialDTO
 DateTime <--o CreateMaterialDTO
-CreateMaterialDTO <--> MaterialExtensions
+CreateMaterialDTO <-u-> MaterialExtensions
 @enduml
 
