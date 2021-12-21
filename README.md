@@ -1,7 +1,9 @@
 # BDSA2021-FinalProject
-This is the final project for the BDSA2021 course at ITU
+This is the final project for the BDSA2021 course at ITU.
 
-## Prerequisites
+The vertical slice of this project is to provide the ability for users to search for software engineering training material. The main feature of this project is the search functionality that matches the users search input to the material contained in the database.
+
+## Prerequisites and system requirements
 
 In order to run this project, you need to have the following pieces of software installed, working and running:
 
@@ -9,6 +11,9 @@ In order to run this project, you need to have the following pieces of software 
 - DotNET 6.0
 - Entity Framework Core tooling
 - Powershell
+
+This project has only been tested to work completely, mostly when also considering the PowerShell scripts, on Windows and you are adviced to run this off Windows too.
+
 
 ## Run the project
 
@@ -18,7 +23,9 @@ To run the project, run the `start.ps1` file:
 .\start.ps1
 ```
 
-It takes just a few minutes for the system to be fully running. After asking docker to start the DB container, the script waits 30 seconds. After that the server starts up and populates the DB, which takes a bit of time.
+There is some startup time with this command, as the database and web server needs to be started synchonously.
+
+Note: as a service to **you**, a web browser will open when the webserver comes online, when running this command. Unfortunately, you have to wait until for the webserver to fully seed the database, before you can proceed initially. Expect to be waitning on a "Loading..." screen for some moments until the web server is fully ready to serve web requests.
 
 ## Development
 
