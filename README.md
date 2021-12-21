@@ -16,7 +16,7 @@ This project has only been tested to work completely, mostly when also consideri
 
 ## Project publications
 
-- To view the latest published code coverage report click [here](https://andreaswachs.github.io/BDSA2021-FinalProject/Documentation/CodeCoverageReport.html).
+- To view the latest published code coverage report click [here](https://andreaswachs.github.io/BDSA2021-FinalProject/Documentation/CodeCoverageReport.html)
 - To view the latest published code metrics analysis click [here](https://andreaswachs.github.io/BDSA2021-FinalProject/Documentation/CodeMetrics.xlsx)
 
 ## Run the project
