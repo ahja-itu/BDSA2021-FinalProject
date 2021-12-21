@@ -9,5 +9,5 @@ class Language {
 }
 class "ICollection`1"<T> {
 }
-Language o---> "ICollection`1"
+Language -u-> "ICollection`1" : <<bind Material>>
 @enduml
