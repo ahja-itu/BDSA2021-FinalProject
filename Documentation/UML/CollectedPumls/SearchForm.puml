@@ -14,11 +14,6 @@ class SearchForm {
 class "ICollection`1"<T> {
 }
 
-"ICollection`1" <--o SearchForm
-TagDTO <.. SearchForm
-LevelDTO <.. SearchForm
-ProgrammingLanguageDTO <.. SearchForm
-LanguageDTO <.. SearchForm
-MediaDTO <.. SearchForm
+"ICollection`1" <-- SearchForm : <<bind TagDTO>>\n<<bind LevelDTO>>\n<<bind ProgrammingLanguageDTO>>\n<<bind LanguageDTO>>\n<<bind MediaDTO>>\n
 
 @enduml

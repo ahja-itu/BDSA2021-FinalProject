@@ -12,4 +12,6 @@ class Context {
 }
 DbContext <|-- Context
 IContext <|-- Context
+
+"DbSet`1" <.. Context : <<bind Language>>\n<<bind Level>>\n <<bind Material>>\n<<bind Media>>\n<<bind ProgrammingLanguage>>\n<<bind Tag>>
 @enduml

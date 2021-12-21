@@ -1,24 +1,65 @@
 @startuml
+!theme plain
 left to right direction
+
 package WebService.Core.Shared {
-    !include .\AuthorDTO.puml
-    !include .\LanguageDTO.puml
-    !include .\LevelDTO.puml
-    !include .\MaterialDTO.puml
-    !include .\MediaDTO.puml
-    !include .\ProgrammingLanguageDTO.puml
-    !include .\RatingDTO.puml
-    !include .\TagDTO.puml
-    !include .\SearchForm.puml
-    !include .\Status.puml
-    !include .\ISearch.puml
-    !include .\ILanguageRepository.puml
-    !include .\ILevelRepository.puml
-    !include .\IMaterialRepository.puml
-    !include .\IMediaRepository.puml
-    !include .\IProgrammingLanguageRepository.puml
-    !include .\IRepository.puml
-    !include .\ITagRepository.puml
+    class AuthorDTO
+    class LanguageDTO
+    class LevelDTO
+    class MaterialDTO
+    class MediaDTO
+    class ProgrammingLanguageDTO
+    class RatingDTO
+    class TagDTO
+    class WeightedTagDTO
+
+    class CreateAuthorDTO
+    class CreateLanguageDTO
+    class CreateLevelDTO
+    class CreateMaterialDTO
+    class CreateMediaDTO
+    class CreateProgrammingLanguageDTO
+    class CreateRatingDTO
+    class CreateTagDTO
+    class CreateWeightedTagDTO
+
+    class SearchForm
+    class Status
+    class ISearch
+    class ILanguageRepository
+    class ILevelRepository
+    class IMaterialRepository
+    class IMediaRepository
+    class IProgrammingLanguageRepository
+    class IRepository
+    class ITagRepository
 }
 
-@endumhno mt
+AuthorDTO -u-|> CreateAuthorDTO
+LanguageDTO -u-|> CreateLanguageDTO
+LevelDTO -u-|> CreateLevelDTO
+MaterialDTO -u-|> CreateMaterialDTO
+MediaDTO -u-|> CreateMediaDTO
+ProgrammingLanguageDTO -u-|> CreateProgrammingLanguageDTO
+RatingDTO -u-|> CreateRatingDTO
+TagDTO -u-|> CreateTagDTO
+WeightedTagDTO -u-|> CreateWeightedTagDTO
+CreateWeightedTagDTO -u-|> CreateTagDTO
+
+ILanguageRepository -u-|> IRepository
+ILevelRepository -u-|> IRepository
+IMaterialRepository -u-|> IRepository
+IMediaRepository -u-|> IRepository
+IProgrammingLanguageRepository -u-|> IRepository
+ITagRepository -u-|> IRepository
+
+ILanguageRepository -u-> Status
+ILevelRepository -u-> Status
+IMaterialRepository -u-> Status
+IMediaRepository -u-> Status
+IProgrammingLanguageRepository -u-> Status
+ITagRepository -u-> Status
+
+SearchForm -u-|> ISearch
+
+@enduml

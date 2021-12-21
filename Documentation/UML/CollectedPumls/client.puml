@@ -1,18 +1,10 @@
 @startuml
 !theme plain
 left to right direction
-package WebService.Core {
-    package WebService.Core.Client {
-        class Program { }
-        package WebService.Core.Client.Pages {
-            class Authorization {}
-            class Index {}
-        }
-    }
+package WebService.Core.Client {
+    class Program { }
+    component Pages {}
 }
 
-WebService.Core.Client --> WebService.Core.Server
-WebService.Core.Client --> WebService.Core.Shared
-WebService.Core.Client -l-> WebService.Infrastructure
 
 @enduml

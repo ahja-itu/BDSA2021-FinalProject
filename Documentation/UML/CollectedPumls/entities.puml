@@ -2,16 +2,18 @@
 !theme plain
 left to right direction
 package WebService.Entities {
-    !include .\Author.puml
-    !include .\Context.puml
-    !include .\IContext.puml
-    !include .\Language.puml
-    !include .\Level.puml
-    !include .\Material.puml
-    !include .\Media.puml
-    !include .\ProgrammingLanguage.puml
-    !include .\Rating.puml
-    !include .\Tag.puml
+    class Author
+    class Context
+    class IContext
+    class Language
+    class Level
+    class Material
+    class Media
+    class ProgrammingLanguage
+    class Rating
+    class Tag
 }
+
+IContext <|-- Context
 
 @enduml

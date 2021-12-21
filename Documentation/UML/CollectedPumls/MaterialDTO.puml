@@ -31,9 +31,9 @@ class "ICollection`1"<T> {
 }
 
 CreateMaterialDTO <|-d- MaterialDTO
-"ICollection`1" <--o CreateMaterialDTO
-CreateLanguageDTO <--o CreateMaterialDTO
-DateTime <--o CreateMaterialDTO
-CreateMaterialDTO <-u-> MaterialExtensions
+DateTime <----o CreateMaterialDTO
+CreateMaterialDTO <-u---> MaterialExtensions
+
+"ICollection`1" <--o CreateMaterialDTO : <<bind CreateTagDTO>>\n<<bind CreateRatingDTO>>\n<<bind CreateLevelDTO>>\n<<bind CreateProgrammingLanguageDTO>>\n<<bind CreateMediaDTO>>\n<<bind CreateAuthorDTO>>
 @enduml
 
