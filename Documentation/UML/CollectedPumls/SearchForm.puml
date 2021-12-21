@@ -1,5 +1,6 @@
 @startuml
 !theme plain
+
 class SearchForm {
     + SearchForm(textField:string, \ntags:ICollection<TagDTO>, \nlevels:ICollection<LevelDTO>, \nprogrammingLanguages:ICollection<ProgrammingLanguageDTO>, \nlanguages:ICollection<LanguageDTO>, \nmedias:ICollection<MediaDTO>, \nrating:int)
     + TextField : string <<get>> <<set>>
@@ -13,7 +14,7 @@ class SearchForm {
 class "ICollection`1"<T> {
 }
 
-"ICollection`1" <.. SearchForm
+"ICollection`1" <--o SearchForm
 TagDTO <.. SearchForm
 LevelDTO <.. SearchForm
 ProgrammingLanguageDTO <.. SearchForm

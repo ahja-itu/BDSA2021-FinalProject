@@ -1,41 +1,24 @@
 @startuml
 !theme plain
 
-left to right direction
-package View {
-    component LoginSubsystem {
-        component Authentication
-        cloud ActiveDirectoryService
-    }
-    component FrontEnd {
-        component SearchForm
-    }
+database "Database" as DB
+component API {
+    component LoginController
 }
-
-package SearchSubsystem {
-    component SearchController
+component Search {
     component SearchAlgorithm
 }
+cloud Authentication
+component FrontEnd
 
-package MaterialSubsystem {
-    component MaterialController
-    component Material
-    component MaterialProperties
-}
+FrontEnd -u-> API
+API -d--> Search : <<with searchForm>>
 
-database "Database" as DB
+LoginController <..> Authentication
+Authentication --> FrontEnd
+
+API -d-> DB
 
 
-FrontEnd -l-> SearchController
-Authentication <.> ActiveDirectoryService
-FrontEnd <..> LoginSubsystem
-
-SearchController -d-> SearchAlgorithm
-SearchAlgorithm -d-> MaterialController
-SearchController ..> SearchForm
-
-MaterialController .d.> DB
-MaterialController ..> Material
-Material o-> MaterialProperties
 
 @enduml
