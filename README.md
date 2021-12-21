@@ -96,3 +96,13 @@ To work with the documentation, you need to change directory from the root folde
 ```pwsh
 .\convert.ps1
 ```
+
+### Produce code coverage report
+
+We've used the Rider IDE from Jetbrains in order to create customized code coverage reports that ignore test projects and classes that were provided by the Blazor framework.
+
+To produce a code coverage report in Rider:
+
+- Press Tests -> Cover Unit Tests and allow for tests to finish
+- In the window that pops up to the right, then press the "Export Coverage Report" -> Export to HTML
+- Save as "CodeCoverageReport" in the Documentation library
