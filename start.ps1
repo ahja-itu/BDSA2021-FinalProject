@@ -39,6 +39,10 @@ Start-Sleep -Seconds 30
 Write-Host "Updating the database"
 dotnet ef database update -s WebService.Core\Server --project .\WebService.Entities\
 
+
+Write-Host "Prepare to open the browser when the web server is up"
+Start-Job -Path open_delayed_browser.ps1 &
+
 Write-Host "Starting the server"
 dotnet run --project .\WebService.Core\Server
 
