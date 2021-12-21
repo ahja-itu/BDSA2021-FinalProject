@@ -1,0 +1,32 @@
+@startuml
+!theme plain
+
+database "Database" as DB
+cloud Authentication
+
+package API {
+    component LoginController
+    component SearchController
+    component MaterialController
+}
+package Search {
+    component SearchAlgorithm
+}
+
+package FrontEnd {
+    component View
+    component Authorize
+}
+
+FrontEnd -d-> API
+SearchController -d--> Search : <<with searchForm>>
+
+Search -l-> DB
+
+LoginController <..> Authentication
+
+API -d-> DB
+
+
+
+@enduml

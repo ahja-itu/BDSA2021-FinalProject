@@ -1,11 +1,13 @@
 @startuml
 !theme plain
 class CreateAuthorDTO {
-+ CreateAuthorDTO(firstName:string, surName:string)
-+ FirstName : string <<get>>
-+ SurName : string <<get>>
+    + CreateAuthorDTO(firstName:string, surName:string)
+    + FirstName : string <<get>>
+    + SurName : string <<get>>
+}
+
 class AuthorDTO {
-+ AuthorDTO(firstName:string, surName:string)
+    + AuthorDTO(firstName:string, surName:string)
 }
 
 CreateAuthorDTO <|-- AuthorDTO

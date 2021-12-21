@@ -2,217 +2,153 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Core.Server.Tests\ControllerTests\MediaControllerTests.cs</title>
+    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Core\Shared\MaterialDTO.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
 // ***********************************************************************
-// Assembly         : WebService.Core.Server.Tests
+// Assembly         : WebService.Core.Shared
 // Author           : Group BTG
-// Created          : 12-03-2021
+// Created          : 11-29-2021
 //
 // Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
-// &lt;copyright file=&quot;MediaControllerTests.cs&quot; company=&quot;BTG&quot;&gt;
+// &lt;copyright file=&quot;MaterialDTO.cs&quot; company=&quot;BTG&quot;&gt;
 //     Copyright (c) . All rights reserved.
 // &lt;/copyright&gt;
 // &lt;summary&gt;&lt;/summary&gt;
 // ***********************************************************************
 
-namespace WebService.Core.Server.Tests.ControllerTests;
+using System.Globalization;
 
-/// &lt;summary&gt;
-///     Class MediaControllerTests.
-/// &lt;/summary&gt;
-public class MediaControllerTests
+namespace WebService.Core.Shared
 {
     /// &lt;summary&gt;
-    ///     The media controller
+    ///     Class MaterialDTO.
+    ///     Implements the &lt;see cref=&quot;T:WebService.Core.Shared.CreateMaterialDTO&quot; /&gt; class with an added id field.
     /// &lt;/summary&gt;
-    private readonly MediaController _mediaController;
-
-    /// &lt;summary&gt;
-    ///     Initializes a new instance of the &lt;see cref=&quot;MediaControllerTests&quot; /&gt; class.
-    /// &lt;/summary&gt;
-    public MediaControllerTests()
+    public record MaterialDTO : CreateMaterialDTO
     {
-        var v = new TestVariables();
-        _mediaController = new MediaController(v.MediaRepository);
-    }
+        public MaterialDTO(int id, ICollection&lt;CreateWeightedTagDTO&gt; tags, ICollection&lt;CreateRatingDTO&gt; ratings,
+            ICollection&lt;CreateLevelDTO&gt; levels, ICollection&lt;CreateProgrammingLanguageDTO&gt; programmingLanguages,
+            ICollection&lt;CreateMediaDTO&gt; medias, CreateLanguageDTO language, string summary, string url, string content,
+            string title, ICollection&lt;CreateAuthorDTO&gt; authors, DateTime timeStamp) : base(tags, ratings, levels,
+            programmingLanguages, medias, language, summary, url, content, title, authors, timeStamp)
+        {
+            Id = id;
+        }
 
-    #region Post/Create
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Post_media_returns_status_created.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Post_media_returns_status_created()
-    {
-        var media = new CreateMediaDTO(&quot;Article&quot;);
-
-        var actual = await _mediaController.Post(media) as CreatedResult;
-
-        Assert.Equal((int) HttpStatusCode.Created, actual?.StatusCode);
+        public int Id { get; }
     }
 
     /// &lt;summary&gt;
-    ///     Defines the test method Post_media_returns_status_conflict.
+    ///     Class CreateMaterialDTO.
+    ///     Implements the &lt;see cref=&quot;System.IEquatable{CreateMaterialDTO}&quot; /&gt;
     /// &lt;/summary&gt;
-    [Fact]
-    public async Task Post_media_returns_status_conflict()
+    public record CreateMaterialDTO
     {
-        var media = new CreateMediaDTO(&quot;Book&quot;);
+        /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Core.Shared.CreateMaterialDTO&quot; /&gt; class.&lt;/summary&gt;
+        public CreateMaterialDTO(ICollection&lt;CreateWeightedTagDTO&gt; tags, ICollection&lt;CreateRatingDTO&gt; ratings,
+            ICollection&lt;CreateLevelDTO&gt; levels, ICollection&lt;CreateProgrammingLanguageDTO&gt; programmingLanguages,
+            ICollection&lt;CreateMediaDTO&gt; medias, CreateLanguageDTO language, string summary, string url, string content,
+            string title, ICollection&lt;CreateAuthorDTO&gt; authors, DateTime timeStamp)
+        {
+            Tags = tags;
+            Ratings = ratings;
+            Levels = levels;
+            ProgrammingLanguages = programmingLanguages;
+            Medias = medias;
+            Language = language;
+            Summary = summary;
+            Url = url;
+            Content = content;
+            Title = title;
+            Authors = authors;
+            TimeStamp = timeStamp;
+        }
 
-        var actual = await _mediaController.Post(media) as ConflictResult;
+        public ICollection&lt;CreateWeightedTagDTO&gt; Tags { get; }
+        public ICollection&lt;CreateRatingDTO&gt; Ratings { get; }
+        public ICollection&lt;CreateLevelDTO&gt; Levels { get; }
+        public ICollection&lt;CreateProgrammingLanguageDTO&gt; ProgrammingLanguages { get; }
+        public ICollection&lt;CreateMediaDTO&gt; Medias { get; }
+        public CreateLanguageDTO Language { get; }
 
-        Assert.Equal((int) HttpStatusCode.Conflict, actual?.StatusCode);
+        [StringLength(400)] public string Summary { get; }
+
+        public string Url { get; }
+        public string Content { get; }
+
+        [StringLength(50)] public string Title { get; }
+
+        public ICollection&lt;CreateAuthorDTO&gt; Authors { get; }
+        public DateTime TimeStamp { get; }
     }
+}
 
-    /// &lt;summary&gt;
-    ///     Defines the test method Post_media_returns_status_badRequest.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Post_media_returns_status_badRequest()
+namespace WebService.Core.Shared
+{
+    /// &lt;summary&gt;Class MaterialExtensions.&lt;/summary&gt;
+    public static class MaterialExtensions
     {
-        var media = new CreateMediaDTO(&quot;&quot;);
+        /// &lt;summary&gt;Calculates the average rating of a given material&lt;/summary&gt;
+        public static float AverageRating(this CreateMaterialDTO material)
+        {
+            float sum = material.Ratings.Sum(e =&gt; e.Value);
+            return sum / material.Ratings.Count;
+        }
 
-        var actual = await _mediaController.Post(media) as BadRequestResult;
+        /// &lt;summary&gt;Converts the average rating of the material to a string.&lt;/summary&gt;
+        public static string AverageRatingToString(this CreateMaterialDTO material)
+        {
+            return AverageRating(material).ToString(CultureInfo.CurrentCulture);
+        }
 
-        Assert.Equal((int) HttpStatusCode.BadRequest, actual?.StatusCode);
+        /// &lt;summary&gt;Converts the name of the material level to a string.&lt;/summary&gt;
+        public static string LevelsToString(this CreateMaterialDTO material)
+        {
+            var levels = material.Levels.Aggregate(&quot;&quot;, (current, level) =&gt; current + level.Name + &quot; &quot;);
+            return levels.Remove(levels.Length - 1);
+        }
+
+        /// &lt;summary&gt;Converts the name of authors of the material to a string.&lt;/summary&gt;
+        public static string AuthorsToString(this CreateMaterialDTO material)
+        {
+            var authors = material.Authors.Aggregate(&quot;Authors: &quot;,
+                (current, author) =&gt; current + author.FirstName + &quot; &quot; + author.SurName + &quot;, &quot;);
+            return authors.Remove(authors.Length - 2);
+        }
+
+        /// &lt;summary&gt;Converts material to a MaterialDTO object.&lt;/summary&gt;
+        public static MaterialDTO ConvertToMaterialDTO(this Material material)
+        {
+            return new MaterialDTO(
+                material.Id,
+                material.WeightedTags.Select(e =&gt; new WeightedTagDTO(e.Name, e.Weight))
+                    .Cast&lt;CreateWeightedTagDTO&gt;().ToList(),
+                material.Ratings.Select(e =&gt; new RatingDTO(e.Id, e.Value, e.Reviewer)).Cast&lt;CreateRatingDTO&gt;().ToList(),
+                material.Levels.Select(e =&gt; new LevelDTO(e.Id, e.Name)).Cast&lt;CreateLevelDTO&gt;().ToList(),
+                material.ProgrammingLanguages.Select(e =&gt; new ProgrammingLanguageDTO(e.Id, e.Name))
+                    .Cast&lt;CreateProgrammingLanguageDTO&gt;().ToList(),
+                material.Medias.Select(e =&gt; new MediaDTO(e.Id, e.Name)).Cast&lt;CreateMediaDTO&gt;().ToList(),
+                new CreateLanguageDTO(material.Language.Name), //ANNE, changes from LanguageDTO
+                material.Summary,
+                material.URL,
+                material.Content,
+                material.Title,
+                material.Authors.Select(e =&gt; new AuthorDTO(e.FirstName, e.SurName)).Cast&lt;CreateAuthorDTO&gt;()
+                    .ToList(),
+                material.TimeStamp
+            );
+        }
     }
-
-    #endregion
-
-    #region Get/Read
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Get_all_medias_returns_status_ok.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Get_all_medias_returns_status_ok()
-    {
-        var response = await _mediaController.Get();
-        var actual = response.Result as OkObjectResult;
-
-        Assert.Equal((int) HttpStatusCode.OK, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Get_media_returns_status_ok.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Get_media_returns_status_ok()
-    {
-        var response = await _mediaController.Get(1);
-        var actual = response.Result as OkObjectResult;
-
-        Assert.Equal((int) HttpStatusCode.OK, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Get_media_returns_status_notFound.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Get_media_returns_status_notFound()
-    {
-        var response = await _mediaController.Get(4);
-        var actual = response.Result as NotFoundResult;
-
-        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
-    }
-
-    #endregion
-
-    #region Delete
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Delete_media_returns_status_noContent.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Delete_media_returns_status_noContent()
-    {
-        var response = await _mediaController.Delete(3);
-        var actual = response as NoContentResult;
-
-        Assert.Equal((int) HttpStatusCode.NoContent, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Delete_media_returns_status_notFound.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Delete_media_returns_status_notFound()
-    {
-        var response = await _mediaController.Delete(4);
-        var actual = response as NotFoundResult;
-
-        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
-    }
-
-    #endregion
-
-    #region Put/Update
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Put_media_returns_status_noContent.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Put_media_returns_status_noContent()
-    {
-        var media = new MediaDTO(1, &quot;Article&quot;);
-        var response = await _mediaController.Put(media);
-        var actual = response as NoContentResult;
-
-        Assert.Equal((int) HttpStatusCode.NoContent, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Put_media_returns_status_conflict.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Put_media_returns_status_conflict()
-    {
-        var media = new MediaDTO(1, &quot;Report&quot;);
-        var response = await _mediaController.Put(media);
-        var actual = response as ConflictResult;
-
-        Assert.Equal((int) HttpStatusCode.Conflict, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Put_media_returns_status_badRequest.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Put_media_returns_status_badRequest()
-    {
-        var media = new MediaDTO(1, &quot;&quot;);
-        var response = await _mediaController.Put(media);
-        var actual = response as BadRequestResult;
-
-        Assert.Equal((int) HttpStatusCode.BadRequest, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Put_media_returns_status_notFound.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Put_media_returns_status_notFound()
-    {
-        var media = new MediaDTO(4, &quot;Article&quot;);
-        var response = await _mediaController.Put(media);
-        var actual = response as NotFoundResult;
-
-        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
-    }
-
-    #endregion
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[30,5,30,34,1],[31,5,31,6,1],[32,9,32,37,1],[33,9,33,67,1],[34,5,34,6,1],[43,5,43,6,1],[44,9,44,51,1],[46,9,46,74,1],[48,9,48,72,1],[49,5,49,6,1],[56,5,56,6,1],[57,9,57,48,1],[59,9,59,75,1],[61,9,61,73,1],[62,5,62,6,1],[69,5,69,6,1],[70,9,70,44,1],[72,9,72,77,1],[74,9,74,75,1],[75,5,75,6,1],[86,5,86,6,1],[87,9,87,53,1],[88,9,88,56,1],[90,9,90,67,1],[91,5,91,6,1],[98,5,98,6,1],[99,9,99,54,1],[100,9,100,56,1],[102,9,102,67,1],[103,5,103,6,1],[110,5,110,6,1],[111,9,111,54,1],[112,9,112,56,1],[114,9,114,73,1],[115,5,115,6,1],[126,5,126,6,1],[127,9,127,57,1],[128,9,128,50,1],[130,9,130,74,1],[131,5,131,6,1],[138,5,138,6,1],[139,9,139,57,1],[140,9,140,49,1],[142,9,142,73,1],[143,5,143,6,1],[154,5,154,6,1],[155,9,155,48,1],[156,9,156,58,1],[157,9,157,50,1],[159,9,159,74,1],[160,5,160,6,1],[167,5,167,6,1],[168,9,168,47,1],[169,9,169,58,1],[170,9,170,49,1],[172,9,172,73,1],[173,5,173,6,1],[180,5,180,6,1],[181,9,181,41,1],[182,9,182,58,1],[183,9,183,51,1],[185,9,185,75,1],[186,5,186,6,1],[193,5,193,6,1],[194,9,194,48,1],[195,9,195,58,1],[196,9,196,49,1],[198,9,198,73,1],[199,5,199,6,1]]);
+      highlightRanges([[28,87,29,102,1],[30,9,30,10,1],[31,13,31,21,1],[32,9,32,10,1],[34,25,34,29,1],[44,9,47,84,1],[48,9,48,10,1],[49,13,49,25,1],[50,13,50,31,1],[51,13,51,29,1],[52,13,52,57,1],[53,13,53,29,1],[54,13,54,33,1],[55,13,55,31,1],[56,13,56,23,1],[57,13,57,31,1],[58,13,58,27,1],[59,13,59,31,1],[60,13,60,35,1],[61,9,61,10,1],[63,57,63,61,1],[64,55,64,59,1],[65,53,65,57,1],[66,81,66,85,1],[67,53,67,57,1],[68,45,68,49,1],[70,53,70,57,1],[72,29,72,33,1],[73,33,73,37,1],[75,50,75,54,1],[77,55,77,59,1],[78,37,78,41,1],[89,9,89,10,1],[90,13,90,51,1],[90,51,90,58,1],[90,58,90,60,1],[91,13,91,49,1],[92,9,92,10,1],[96,9,96,10,0],[97,13,97,81,0],[98,9,98,10,0],[102,9,102,10,1],[103,13,103,76,1],[103,76,103,102,1],[103,102,103,104,1],[104,13,104,53,1],[105,9,105,10,1],[109,9,109,10,1],[110,13,111,38,1],[111,38,111,94,1],[111,94,111,96,1],[112,13,112,55,1],[113,9,113,10,1],[117,9,117,10,1],[118,13,120,51,1],[120,51,120,87,1],[120,87,122,46,1],[122,46,122,86,1],[122,86,123,45,1],[123,45,123,71,1],[123,71,124,59,1],[124,59,124,99,1],[124,99,126,45,1],[126,45,126,71,1],[126,71,132,46,1],[132,46,132,83,1],[132,83,135,15,1],[136,9,136,10,1]]);
     </script>
   </body>
 </html>

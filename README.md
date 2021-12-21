@@ -1,4 +1,7 @@
 # BDSA2021-FinalProject
+
+[![.NET](https://github.com/andreaswachs/BDSA2021-FinalProject/actions/workflows/unit_tests_on_push.yml/badge.svg)](https://github.com/andreaswachs/BDSA2021-FinalProject/actions/workflows/unit_tests_on_push.yml)
+
 This is the final project for the BDSA2021 course at ITU.
 
 The vertical slice of this project is to provide the ability for users to search for software engineering training material. The main feature of this project is the search functionality that matches the users search input to the material contained in the database.
@@ -14,6 +17,10 @@ In order to run this project, you need to have the following pieces of software 
 
 This project has only been tested to work completely, mostly when also considering the PowerShell scripts, on Windows and you are adviced to run this off Windows too.
 
+## Project publications
+
+- To view the latest published code coverage report click [here](https://andreaswachs.github.io/BDSA2021-FinalProject/Documentation/CodeCoverageReport.html)
+- To view the latest published code metrics analysis click [here](https://andreaswachs.github.io/BDSA2021-FinalProject/Documentation/CodeMetrics.xlsx)
 
 ## Run the project
 
@@ -71,6 +78,7 @@ To be able to work with PlantUML files, you need to install the PlantUML jar fil
 
 To work with the documentation, you need to change directory from the root folder to `.\Documentation\UML`.
 
+
 ### Create PUML files
 
 ```pwsh
@@ -88,3 +96,13 @@ To work with the documentation, you need to change directory from the root folde
 ```pwsh
 .\convert.ps1
 ```
+
+### Produce code coverage report
+
+We've used the Rider IDE from Jetbrains in order to create customized code coverage reports that ignore test projects and classes that were provided by the Blazor framework.
+
+To produce a code coverage report in Rider:
+
+- Press Tests -> Cover Unit Tests and allow for tests to finish
+- In the window that pops up to the right, then press the "Export Coverage Report" -> Export to HTML
+- Save as "CodeCoverageReport" in the Documentation library

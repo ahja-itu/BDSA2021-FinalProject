@@ -2,234 +2,91 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Core.Client.Tests\IndexTest.cs</title>
+    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Core\Shared\TagDTO.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
 // ***********************************************************************
-// Assembly         : WebService.Core.Client.Tests
-// Author           : BTG
+// Assembly         : WebService.Core.Shared
+// Author           : Group BTG
 // Created          : 11-29-2021
 //
-// Last Modified By : BTG
+// Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
-// &lt;copyright file=&quot;IndexTest.cs&quot; company=&quot;BTG&quot;&gt;
+// &lt;copyright file=&quot;TagDTO.cs&quot; company=&quot;BTG&quot;&gt;
 //     Copyright (c) . All rights reserved.
 // &lt;/copyright&gt;
 // &lt;summary&gt;&lt;/summary&gt;
 // ***********************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text.Json;
-using AngleSharp.Dom;
-using Bunit;
-using Microsoft.Extensions.DependencyInjection;
-using RichardSzalay.MockHttp;
-using WebService.Core.Shared;
-using Xunit;
-using Index = WebService.Core.Client.Pages.Index;
-
-namespace WebService.Core.Client.Tests;
-
-#region MockHttpClient
+namespace WebService.Core.Shared;
 
 /// &lt;summary&gt;
-///     Class MockHttpClientBUnitHelpers.
+///     Class CreateTagDTO.
+///     Implements the
+///     &lt;see&gt;
+///         &lt;cref&gt;System.IEquatable{WebService.Core.Shared.CreateTagDTO}&lt;/cref&gt;
+///     &lt;/see&gt;
 /// &lt;/summary&gt;
-public static class MockHttpClientBUnitHelpers
+public record CreateTagDTO
 {
-    /// &lt;summary&gt;
-    ///     Adds the mock HTTP client.
-    /// &lt;/summary&gt;
-    /// &lt;param name=&quot;services&quot;&gt;The services.&lt;/param&gt;
-    /// &lt;returns&gt;MockHttpMessageHandler.&lt;/returns&gt;
-    public static MockHttpMessageHandler AddMockHttpClient(this TestServiceProvider services)
+    /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Core.Shared.CreateTagDTO&quot; /&gt; class.&lt;/summary&gt;
+    public CreateTagDTO(string name)
     {
-        var mockHttpHandler = new MockHttpMessageHandler();
-        var httpClient = mockHttpHandler.ToHttpClient();
-        httpClient.BaseAddress = new Uri(&quot;http://localhost:44355/&quot;);
-        services.AddSingleton(httpClient);
-        return mockHttpHandler;
+        Name = name;
     }
 
-    /// &lt;summary&gt;
-    ///     Responds the json.
-    /// &lt;/summary&gt;
-    /// &lt;typeparam name=&quot;T&quot;&gt;&lt;/typeparam&gt;
-    /// &lt;param name=&quot;request&quot;&gt;The request.&lt;/param&gt;
-    /// &lt;param name=&quot;content&quot;&gt;The content.&lt;/param&gt;
-    public static void RespondJson&lt;T&gt;(this MockedRequest request, T content)
-    {
-        request.Respond(_ =&gt;
-        {
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(JsonSerializer.Serialize(content));
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue(&quot;application/json&quot;);
-            return response;
-        });
-    }
+    [StringLength(50)] public string Name { get; }
 }
 
-#endregion
+/// &lt;summary&gt;
+///     Class TagDTO.
+///     Implements the &lt;see cref=&quot;T:WebService.Core.Shared.CreateTagDTO&quot; /&gt; class with an added id field.
+/// &lt;/summary&gt;
+public record TagDTO : CreateTagDTO
+{
+    /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Core.Shared.TagDTO&quot; /&gt; class.&lt;/summary&gt;
+    public TagDTO(int id, string name) : base(name)
+    {
+        Id = id;
+    }
+
+    public int Id { get; }
+}
 
 /// &lt;summary&gt;
-///     Class IndexTest.
-///     Implements the &lt;see cref=&quot;System.IDisposable&quot; /&gt;
+///     Class CreateWeightedTagDTO.
+///     Implements the &lt;see cref=&quot;T:WebService.Core.Shared.CreateTagDTO&quot; /&gt; class with an added weight field.
 /// &lt;/summary&gt;
-/// &lt;seealso cref=&quot;System.IDisposable&quot; /&gt;
-public class IndexTest : IDisposable
+public record CreateWeightedTagDTO : CreateTagDTO
 {
-    /// &lt;summary&gt;
-    ///     The page cut
-    /// &lt;/summary&gt;
-    private readonly IRenderedComponent&lt;Index&gt; _cut;
-
-    /// &lt;summary&gt;
-    ///     Initializes a new instance of the &lt;see cref=&quot;IndexTest&quot; /&gt; class.
-    /// &lt;/summary&gt;
-    public IndexTest()
+    /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Core.Shared.CreateWeightedTagDTO&quot; /&gt; class.&lt;/summary&gt;
+    public CreateWeightedTagDTO(string name, int weight) : base(name)
     {
-        var languages = new List&lt;LanguageDTO&gt;
-        {
-            new(0, &quot;english&quot;),
-            new(1, &quot;danish&quot;)
-        };
-        var levels = new List&lt;LevelDTO&gt;
-        {
-            new(0, &quot;High School&quot;),
-            new(1, &quot;Middle School&quot;),
-            new(2, &quot;P.H.D&quot;)
-        };
-        var medias = new List&lt;MediaDTO&gt;
-        {
-            new(0, &quot;Book&quot;),
-            new(1, &quot;video&quot;),
-            new(2, &quot;quiz&quot;)
-        };
-        var programmingLanguages = new List&lt;ProgrammingLanguageDTO&gt;
-        {
-            new(0, &quot;c#&quot;),
-            new(1, &quot;java&quot;),
-            new(2, &quot;c++&quot;),
-            new(3, &quot;f#&quot;)
-        };
-        var tags = new List&lt;TagDTO&gt;
-        {
-            new(0, &quot;c#&quot;),
-            new(1, &quot;GOF&quot;),
-            new(2, &quot;Docker&quot;)
-        };
-
-        var ctx = new TestContext();
-        using var mock = ctx.Services.AddMockHttpClient();
-        mock.When(&quot;/Tag&quot;).RespondJson(tags);
-        mock.When(&quot;/Level&quot;).RespondJson(levels);
-        mock.When(&quot;/ProgrammingLanguage&quot;).RespondJson(programmingLanguages);
-        mock.When(&quot;/Language&quot;).RespondJson(languages);
-        mock.When(&quot;/Media&quot;).RespondJson(medias);
-
-        _cut = ctx.RenderComponent&lt;Index&gt;();
+        Weight = weight;
     }
 
-    /// &lt;summary&gt;
-    ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-    /// &lt;/summary&gt;
-    public void Dispose()
+    [Range(1, 10)] public int Weight { get; }
+}
+
+/// &lt;summary&gt;
+///     &lt;para&gt;
+///         Class WeightedTagDTO.
+///     &lt;para&gt;     Implements the &lt;see cref=&quot;T:WebService.Core.Shared.CreateWeightedTagDTO&quot; /&gt;&lt;/para&gt;
+/// &lt;/summary&gt;
+public record WeightedTagDTO : CreateWeightedTagDTO
+{
+    /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Core.Shared.WeightedTagDTO&quot; /&gt; class.&lt;/summary&gt;
+    public WeightedTagDTO(string name, int weight) : base(name, weight)
     {
-        _cut.Dispose();
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method IndexFilterButtonShowsFilterOptions.
-    /// &lt;/summary&gt;
-    [Fact]
-    public void IndexFilterButtonShowsFilterOptions()
-    {
-        // Arrange
-        var buttons = _cut.FindAll(&quot;button&quot;);
-        var filterButton = buttons.GetElementById(&quot;filterButton&quot;);
-
-        // Act
-        filterButton!.Click();
-        var filterOptions = new List&lt;IElement&gt;();
-        var buttonsAfterClick = _cut.FindAll(&quot;button&quot;);
-        for (var i = 0; i &lt; 1000; i++)
-        {
-            var filterOption = buttonsAfterClick.GetElementById(&quot;FilterOption &quot; + i);
-            if (filterOption != null) filterOptions.Add(filterOption);
-        }
-
-        var countOfFilterOptions = _cut.FindAll(&quot;button&quot;).Count - buttons.Count - filterOptions.Count;
-
-        // Assert
-        Assert.Equal(6, countOfFilterOptions);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method IndexFilterButtonAgainHidesFilterOptions.
-    /// &lt;/summary&gt;
-    [Fact]
-    public void IndexFilterButtonAgainHidesFilterOptions()
-    {
-        // Arrange
-
-        var buttonsBefore = _cut.FindAll(&quot;button&quot;);
-        var filterButton = buttonsBefore.GetElementById(&quot;filterButton&quot;);
-
-        // Act
-        filterButton!.Click();
-        filterButton!.Click();
-        var buttonsAfter = _cut.FindAll(&quot;button&quot;);
-
-        // Assert
-        Assert.Equal(buttonsBefore.Count, buttonsAfter.Count);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method PressOfFilterButtonShowsExpectedNumberOfFilterButtons.
-    /// &lt;/summary&gt;
-    /// &lt;param name=&quot;expectedNumberOfButtons&quot;&gt;The expected number of buttons.&lt;/param&gt;
-    /// &lt;param name=&quot;buttonId&quot;&gt;The button identifier.&lt;/param&gt;
-    [Theory]
-    [InlineData(13, &quot;tags&quot;)]
-    [InlineData(13, &quot;levels&quot;)]
-    [InlineData(12, &quot;languages&quot;)]
-    [InlineData(13, &quot;medias&quot;)]
-    [InlineData(14, &quot;programming Languages&quot;)]
-    public void PressOfFilterButtonShowsExpectedNumberOfFilterButtons(int expectedNumberOfButtons, string buttonId)
-    {
-        // Arrange
-
-        // Act
-        var filterButton = _cut.FindAll(&quot;button&quot;).GetElementById(&quot;filterButton&quot;);
-        filterButton!.Click();
-        var button = _cut.FindAll(&quot;button&quot;).GetElementById(buttonId);
-        if (button == null)
-        {
-            // a github workflow workaround to ensure checks pass
-            //only needed because these five test must be run one at a time
-            Assert.True(true);
-        }
-        else
-        {
-            button.Click();
-            var actual = _cut.FindAll(&quot;button&quot;).Count;
-
-            // Assert
-            Assert.Equal(expectedNumberOfButtons, actual);
-        }
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[44,5,44,6,1],[45,9,45,60,1],[46,9,46,57,1],[47,9,47,69,1],[48,9,48,43,1],[49,9,49,32,1],[50,5,50,6,1],[59,5,59,6,1],[60,9,61,9,1],[61,9,61,10,1],[61,10,62,13,1],[62,13,62,71,1],[62,71,63,13,1],[63,13,63,85,1],[63,85,64,13,1],[64,13,64,97,1],[64,97,65,13,1],[65,13,65,29,1],[65,29,66,9,1],[66,9,66,10,1],[66,10,66,12,1],[67,5,67,6,1],[87,5,87,23,1],[88,5,88,6,1],[89,9,93,11,1],[94,9,99,11,1],[100,9,105,11,1],[106,9,112,11,1],[113,9,118,11,1],[120,9,120,37,1],[121,9,121,59,1],[122,9,122,45,1],[123,9,123,49,1],[124,9,124,77,1],[125,9,125,55,1],[126,9,126,49,1],[128,9,128,45,1],[129,5,129,6,1],[135,5,135,6,1],[136,9,136,24,1],[137,5,137,6,1],[144,5,144,6,1],[146,9,146,46,1],[147,9,147,67,1],[150,9,150,31,1],[151,9,151,50,1],[152,9,152,56,1],[153,14,153,23,1],[153,25,153,33,1],[153,35,153,38,1],[154,9,154,10,1],[155,13,155,86,1],[156,13,156,38,1],[156,39,156,71,0],[157,9,157,10,1],[159,9,159,103,1],[162,9,162,47,1],[163,5,163,6,1],[170,5,170,6,1],[173,9,173,52,1],[174,9,174,73,1],[177,9,177,31,1],[178,9,178,31,1],[179,9,179,51,1],[182,9,182,63,1],[183,5,183,6,1],[197,5,197,6,1],[201,9,201,82,1],[202,9,202,31,1],[203,9,203,70,1],[204,9,204,28,1],[205,9,205,10,1],[208,13,208,31,1],[209,9,209,10,1],[211,9,211,10,1],[212,13,212,28,1],[213,13,213,55,1],[216,13,216,59,1],[217,9,217,10,1],[218,5,218,6,1]]);
+      highlightRanges([[27,5,27,37,1],[28,5,28,6,1],[29,9,29,21,1],[30,5,30,6,1],[32,45,32,49,1],[42,42,42,52,1],[43,5,43,6,1],[44,9,44,17,1],[45,5,45,6,1],[47,21,47,25,1],[57,60,57,70,1],[58,5,58,6,1],[59,9,59,25,1],[60,5,60,6,1],[62,40,62,44,1],[73,54,73,72,1],[74,5,74,6,1],[75,5,75,6,1]]);
     </script>
   </body>
 </html>

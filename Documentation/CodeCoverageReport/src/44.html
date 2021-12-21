@@ -43,7 +43,6 @@ public class ProgrammingLanguageController : ControllerBase
     /// &lt;summary&gt;
     ///     Initializes a new instance of the &lt;see cref=&quot;ProgrammingLanguageController&quot; /&gt; class.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;programmingLanguageRepository&quot;&gt;The programming language repository.&lt;/param&gt;
     public ProgrammingLanguageController(IProgrammingLanguageRepository programmingLanguageRepository)
     {
         _programmingLanguageRepository = programmingLanguageRepository;
@@ -52,7 +51,6 @@ public class ProgrammingLanguageController : ControllerBase
     /// &lt;summary&gt;
     ///     Gets all ProgrammingLanguageDTOs.
     /// &lt;/summary&gt;
-    /// &lt;returns&gt;ActionResult&amp;lt;ICollection&amp;lt;ProgrammingLanguageDTO&amp;gt;&amp;gt;.&lt;/returns&gt;
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task&lt;ActionResult&lt;ICollection&lt;ProgrammingLanguageDTO&gt;&gt;&gt; Get()
@@ -62,10 +60,8 @@ public class ProgrammingLanguageController : ControllerBase
     }
 
     /// &lt;summary&gt;
-    ///     Gets the specified ProgrammingLanguageDTO.
+    ///     Gets the specified ProgrammingLanguageDTO based on id.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;id&quot;&gt;The identifier.&lt;/param&gt;
-    /// &lt;returns&gt;ActionResult&amp;lt;ProgrammingLanguageDTO&amp;gt;.&lt;/returns&gt;
     [HttpGet(&quot;{id:int}&quot;)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -80,8 +76,6 @@ public class ProgrammingLanguageController : ControllerBase
     /// &lt;summary&gt;
     ///     Posts the specified programming language.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;programmingLanguage&quot;&gt;The programming language.&lt;/param&gt;
-    /// &lt;returns&gt;IActionResult.&lt;/returns&gt;
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -99,10 +93,8 @@ public class ProgrammingLanguageController : ControllerBase
     }
 
     /// &lt;summary&gt;
-    ///     Puts the specified programming language.
+    ///     Puts the specified, existing programming language.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;programmingLanguage&quot;&gt;The programming language.&lt;/param&gt;
-    /// &lt;returns&gt;IActionResult.&lt;/returns&gt;
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -122,10 +114,8 @@ public class ProgrammingLanguageController : ControllerBase
     }
 
     /// &lt;summary&gt;
-    ///     Deletes the specified ProgrammingLanguageDTO.
+    ///     Deletes the specified ProgrammingLanguageDTO based on id.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;id&quot;&gt;The identifier.&lt;/param&gt;
-    /// &lt;returns&gt;IActionResult.&lt;/returns&gt;
     [HttpDelete(&quot;{id:int}&quot;)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -139,7 +129,7 @@ public class ProgrammingLanguageController : ControllerBase
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[37,5,37,103,1],[38,5,38,6,1],[39,9,39,72,1],[40,5,40,6,1],[49,5,49,6,1],[50,9,50,71,1],[51,9,51,27,1],[52,5,52,6,1],[63,5,63,6,1],[64,9,64,101,1],[66,9,66,38,1],[66,39,66,73,1],[67,9,67,27,1],[68,5,68,6,1],[80,5,80,6,1],[81,9,81,120,1],[83,9,85,31,1],[85,31,85,75,1],[85,75,86,32,1],[86,32,86,42,1],[86,42,87,18,1],[87,18,87,30,1],[87,30,88,11,1],[89,5,89,6,1],[102,5,102,6,1],[103,9,103,94,1],[105,9,107,31,1],[107,31,107,42,1],[107,42,108,32,1],[108,32,108,42,1],[108,42,109,34,1],[109,34,109,46,1],[109,46,110,18,1],[110,18,110,28,1],[110,28,111,11,1],[112,5,112,6,1],[123,5,123,6,1],[124,9,124,77,1],[126,9,126,40,1],[126,41,126,60,1],[127,9,127,27,1],[128,5,128,6,1]]);
+      highlightRanges([[36,5,36,103,1],[37,5,37,6,1],[38,9,38,72,1],[39,5,39,6,1],[47,5,47,6,1],[48,9,48,71,1],[49,9,49,27,1],[50,5,50,6,1],[59,5,59,6,1],[60,9,60,101,1],[62,9,62,38,1],[62,39,62,73,1],[63,9,63,27,1],[64,5,64,6,1],[74,5,74,6,1],[75,9,75,120,1],[77,9,79,31,1],[79,31,79,75,1],[79,75,80,32,1],[80,32,80,42,1],[80,42,81,18,1],[81,18,81,30,1],[81,30,82,11,1],[83,5,83,6,1],[94,5,94,6,1],[95,9,95,94,1],[97,9,99,31,1],[99,31,99,42,1],[99,42,100,32,1],[100,32,100,42,1],[100,42,101,34,1],[101,34,101,46,1],[101,46,102,18,1],[102,18,102,28,1],[102,28,103,11,1],[104,5,104,6,1],[113,5,113,6,1],[114,9,114,77,1],[116,9,116,40,1],[116,41,116,60,1],[117,9,117,27,1],[118,5,118,6,1]]);
     </script>
   </body>
 </html>

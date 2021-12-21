@@ -2,217 +2,60 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Core.Server.Tests\ControllerTests\LevelControllerTests.cs</title>
+    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Core\Shared\ProgrammingLanguageDTO.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
 // ***********************************************************************
-// Assembly         : WebService.Core.Server.Tests
+// Assembly         : WebService.Core.Shared
 // Author           : Group BTG
-// Created          : 12-03-2021
+// Created          : 11-29-2021
 //
 // Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
-// &lt;copyright file=&quot;LevelControllerTests.cs&quot; company=&quot;BTG&quot;&gt;
+// &lt;copyright file=&quot;ProgrammingLanguageDTO.cs&quot; company=&quot;BTG&quot;&gt;
 //     Copyright (c) . All rights reserved.
 // &lt;/copyright&gt;
 // &lt;summary&gt;&lt;/summary&gt;
 // ***********************************************************************
 
-namespace WebService.Core.Server.Tests.ControllerTests;
+namespace WebService.Core.Shared;
 
 /// &lt;summary&gt;
-///     Class LevelControllerTests.
+///     Class CreateProgrammingLanguageDTO.
+///     Implements the &lt;see cref=&quot;System.IEquatable{CreateProgrammingLanguageDTO}&quot; /&gt;
 /// &lt;/summary&gt;
-public class LevelControllerTests
+public record CreateProgrammingLanguageDTO
 {
-    /// &lt;summary&gt;
-    ///     The level controller
-    /// &lt;/summary&gt;
-    private readonly LevelController _levelController;
-
-    /// &lt;summary&gt;
-    ///     Initializes a new instance of the &lt;see cref=&quot;LevelControllerTests&quot; /&gt; class.
-    /// &lt;/summary&gt;
-    public LevelControllerTests()
+    /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Core.Shared.CreateProgrammingLanguageDTO&quot; /&gt; class.&lt;/summary&gt;
+    public CreateProgrammingLanguageDTO(string name)
     {
-        var v = new TestVariables();
-        _levelController = new LevelController(v.LevelRepository);
+        Name = name;
     }
 
-    #region Post/Create
+    [StringLength(50)] public string Name { get; }
+}
 
-    /// &lt;summary&gt;
-    ///     Defines the test method Post_level_returns_status_created.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Post_level_returns_status_created()
+/// &lt;summary&gt;
+///     Class ProgrammingLanguageDTO.
+///     Implements the &lt;see cref=&quot;T:WebService.Core.Shared.CreateProgrammingLanguageDTO&quot; /&gt; class with an added id field.
+/// &lt;/summary&gt;
+public record ProgrammingLanguageDTO : CreateProgrammingLanguageDTO
+{
+    /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Core.Shared.ProgrammingLanguageDTO&quot; /&gt; class.&lt;/summary&gt;
+    public ProgrammingLanguageDTO(int id, string name) : base(name)
     {
-        var level = new CreateLevelDTO(&quot;High school&quot;);
-
-        var actual = await _levelController.Post(level) as CreatedResult;
-
-        Assert.Equal((int) HttpStatusCode.Created, actual?.StatusCode);
+        Id = id;
     }
 
-    /// &lt;summary&gt;
-    ///     Defines the test method Post_level_returns_status_conflict.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Post_level_returns_status_conflict()
-    {
-        var level = new CreateLevelDTO(&quot;PHD&quot;);
-
-        var actual = await _levelController.Post(level) as ConflictResult;
-
-        Assert.Equal((int) HttpStatusCode.Conflict, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Post_level_returns_status_badRequest.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Post_level_returns_status_badRequest()
-    {
-        var level = new CreateLevelDTO(&quot;&quot;);
-
-        var actual = await _levelController.Post(level) as BadRequestResult;
-
-        Assert.Equal((int) HttpStatusCode.BadRequest, actual?.StatusCode);
-    }
-
-    #endregion
-
-    #region Get/Read
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Get_all_levels_returns_status_ok.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Get_all_levels_returns_status_ok()
-    {
-        var response = await _levelController.Get();
-        var actual = response.Result as OkObjectResult;
-
-        Assert.Equal((int) HttpStatusCode.OK, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Get_level_returns_status_ok.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Get_level_returns_status_ok()
-    {
-        var response = await _levelController.Get(1);
-        var actual = response.Result as OkObjectResult;
-
-        Assert.Equal((int) HttpStatusCode.OK, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Get_level_returns_status_notFound.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Get_level_returns_status_notFound()
-    {
-        var response = await _levelController.Get(4);
-        var actual = response.Result as NotFoundResult;
-
-        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
-    }
-
-    #endregion
-
-    #region Delete
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Delete_level_returns_status_noContent.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Delete_level_returns_status_noContent()
-    {
-        var response = await _levelController.Delete(3);
-        var actual = response as NoContentResult;
-
-        Assert.Equal((int) HttpStatusCode.NoContent, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Delete_level_returns_status_notFound.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Delete_level_returns_status_notFound()
-    {
-        var response = await _levelController.Delete(4);
-        var actual = response as NotFoundResult;
-
-        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
-    }
-
-    #endregion
-
-    #region Put/Update
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Put_level_returns_status_noContent.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Put_level_returns_status_noContent()
-    {
-        var level = new LevelDTO(1, &quot;High school&quot;);
-        var response = await _levelController.Put(level);
-        var actual = response as NoContentResult;
-
-        Assert.Equal((int) HttpStatusCode.NoContent, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Put_level_returns_status_conflict.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Put_level_returns_status_conflict()
-    {
-        var level = new LevelDTO(1, &quot;PHD&quot;);
-        var response = await _levelController.Put(level);
-        var actual = response as ConflictResult;
-
-        Assert.Equal((int) HttpStatusCode.Conflict, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Put_level_returns_status_badRequest.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Put_level_returns_status_badRequest()
-    {
-        var level = new LevelDTO(1, &quot;&quot;);
-        var response = await _levelController.Put(level);
-        var actual = response as BadRequestResult;
-
-        Assert.Equal((int) HttpStatusCode.BadRequest, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Put_level_returns_status_notFound.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Put_level_returns_status_notFound()
-    {
-        var level = new LevelDTO(4, &quot;High school&quot;);
-        var response = await _levelController.Put(level);
-        var actual = response as NotFoundResult;
-
-        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
-    }
-
-    #endregion
+    public int Id { get; }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[30,5,30,34,1],[31,5,31,6,1],[32,9,32,37,1],[33,9,33,67,1],[34,5,34,6,1],[43,5,43,6,1],[44,9,44,55,1],[46,9,46,74,1],[48,9,48,72,1],[49,5,49,6,1],[56,5,56,6,1],[57,9,57,47,1],[59,9,59,75,1],[61,9,61,73,1],[62,5,62,6,1],[69,5,69,6,1],[70,9,70,44,1],[72,9,72,77,1],[74,9,74,75,1],[75,5,75,6,1],[86,5,86,6,1],[87,9,87,53,1],[88,9,88,56,1],[90,9,90,67,1],[91,5,91,6,1],[98,5,98,6,1],[99,9,99,54,1],[100,9,100,56,1],[102,9,102,67,1],[103,5,103,6,1],[110,5,110,6,1],[111,9,111,54,1],[112,9,112,56,1],[114,9,114,73,1],[115,5,115,6,1],[126,5,126,6,1],[127,9,127,57,1],[128,9,128,50,1],[130,9,130,74,1],[131,5,131,6,1],[138,5,138,6,1],[139,9,139,57,1],[140,9,140,49,1],[142,9,142,73,1],[143,5,143,6,1],[154,5,154,6,1],[155,9,155,52,1],[156,9,156,58,1],[157,9,157,50,1],[159,9,159,74,1],[160,5,160,6,1],[167,5,167,6,1],[168,9,168,44,1],[169,9,169,58,1],[170,9,170,49,1],[172,9,172,73,1],[173,5,173,6,1],[180,5,180,6,1],[181,9,181,41,1],[182,9,182,58,1],[183,9,183,51,1],[185,9,185,75,1],[186,5,186,6,1],[193,5,193,6,1],[194,9,194,52,1],[195,9,195,58,1],[196,9,196,49,1],[198,9,198,73,1],[199,5,199,6,1]]);
+      highlightRanges([[24,5,24,53,1],[25,5,25,6,1],[26,9,26,21,1],[27,5,27,6,1],[29,45,29,49,1],[39,58,39,68,1],[40,5,40,6,1],[41,9,41,17,1],[42,5,42,6,1],[44,21,44,25,1]]);
     </script>
   </body>
 </html>

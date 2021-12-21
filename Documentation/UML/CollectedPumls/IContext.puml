@@ -12,6 +12,6 @@ Tags: DbSet<Tag>
 }
 class "DbSet`1"<T> {
 }
-IDisposable <|-- IContext
-"DbSet`1" <-o IContext
+IDisposable <|-l- IContext
+"DbSet`1" <.. IContext : <<bind Language>>\n<<bind Level>>\n <<bind Material>>\n<<bind Media>>\n<<bind ProgrammingLanguage>>\n<<bind Tag>>
 @enduml

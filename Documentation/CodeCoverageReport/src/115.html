@@ -2,269 +2,59 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Core.Server.Tests\ControllerTests\MaterialControllerTests.cs</title>
+    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Core\Shared\MediaDTO.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
 // ***********************************************************************
-// Assembly         : WebService.Core.Server.Tests
+// Assembly         : WebService.Core.Shared
 // Author           : Group BTG
-// Created          : 12-03-2021
+// Created          : 11-29-2021
 //
 // Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
-// &lt;copyright file=&quot;MaterialControllerTests .cs&quot; company=&quot;BTG&quot;&gt;
+// &lt;copyright file=&quot;MediaDTO.cs&quot; company=&quot;BTG&quot;&gt;
 //     Copyright (c) . All rights reserved.
 // &lt;/copyright&gt;
 // &lt;summary&gt;&lt;/summary&gt;
 // ***********************************************************************
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-
-namespace WebService.Core.Server.Tests.ControllerTests;
+namespace WebService.Core.Shared;
 
 /// &lt;summary&gt;
-///     Class MaterialControllerTests.
+///     Class CreateMediaDTO.
+///     Implements the &lt;see cref=&quot;System.IEquatable{CreateMediaDTO}&quot; /&gt;
 /// &lt;/summary&gt;
-[SuppressMessage(&quot;ReSharper&quot;, &quot;StringLiteralTypo&quot;)]
-public class MaterialControllerTests
+public record CreateMediaDTO
 {
-    /// &lt;summary&gt;
-    ///     The material controller
-    /// &lt;/summary&gt;
-    private readonly MaterialController _materialController;
-
-    /// &lt;summary&gt;
-    ///     Initializes a new instance of the &lt;see cref=&quot;MaterialControllerTests&quot; /&gt; class.
-    /// &lt;/summary&gt;
-    public MaterialControllerTests()
+    /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Core.Shared.CreateMediaDTO&quot; /&gt; class.&lt;/summary&gt;
+    public CreateMediaDTO(string name)
     {
-        var v = new TestVariables();
-        _materialController = new MaterialController(v.MaterialRepository);
+        Name = name;
     }
 
-    #region Post/Create
+    [StringLength(50)] public string Name { get; }
+}
 
-    /// &lt;summary&gt;
-    ///     Defines the test method Post_material_returns_status_created.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Post_material_returns_status_created()
+/// &lt;summary&gt;
+///     Class MediaDTO.
+///     Implements the &lt;see cref=&quot;T:WebService.Core.Shared.CreateMediaDTO&quot; /&gt; class with an added id field.
+/// &lt;/summary&gt;
+public record MediaDTO : CreateMediaDTO
+{
+    public MediaDTO(int id, string name) : base(name)
     {
-        var material = new CreateMaterialDTO(new CreateWeightedTagDTO[] {new(&quot;API&quot;, 10)}, new CreateRatingDTO[] { },
-            new CreateLevelDTO[] {new(&quot;PHD&quot;)}, new CreateProgrammingLanguageDTO[] {new(&quot;C#&quot;)},
-            new CreateMediaDTO[] {new(&quot;Book&quot;)}, new CreateLanguageDTO(&quot;Danish&quot;), &quot;Summary&quot;, &quot;Url&quot;, &quot;Content&quot;, &quot;Title&quot;,
-            new CreateAuthorDTO[] { }, DateTime.UtcNow);
-
-        var actual = await _materialController.Post(material) as CreatedResult;
-
-        Assert.Equal((int) HttpStatusCode.Created, actual?.StatusCode);
+        Id = id;
     }
 
-    /// &lt;summary&gt;
-    ///     Defines the test method Post_material_returns_status_conflict.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Post_material_returns_status_conflict()
-    {
-        var material = new CreateMaterialDTO(new CreateWeightedTagDTO[] {new(&quot;API&quot;, 10)}, new CreateRatingDTO[] { },
-            new CreateLevelDTO[] {new(&quot;PHD&quot;)}, new CreateProgrammingLanguageDTO[] {new(&quot;C#&quot;)},
-            new CreateMediaDTO[] {new(&quot;Book&quot;)}, new CreateLanguageDTO(&quot;Danish&quot;), &quot;Summary&quot;, &quot;Url&quot;, &quot;Content&quot;,
-            &quot;Material 2&quot;, new CreateAuthorDTO[] { }, DateTime.UtcNow);
-
-        var actual = await _materialController.Post(material) as ConflictResult;
-
-        Assert.Equal((int) HttpStatusCode.Conflict, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Post_material_returns_status_badRequest.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Post_material_returns_status_badRequest()
-    {
-        var material = new CreateMaterialDTO(new CreateWeightedTagDTO[] {new(&quot;Some tag&quot;, 10)},
-            new CreateRatingDTO[] { }, new CreateLevelDTO[] { }, new CreateProgrammingLanguageDTO[] { },
-            new CreateMediaDTO[] { }, new CreateLanguageDTO(&quot;Language&quot;), &quot;Summary&quot;, &quot;Url&quot;, &quot;Content&quot;, &quot;Material 2&quot;,
-            new CreateAuthorDTO[] { }, DateTime.UtcNow);
-
-        var actual = await _materialController.Post(material) as BadRequestResult;
-
-        Assert.Equal((int) HttpStatusCode.BadRequest, actual?.StatusCode);
-    }
-
-    #endregion
-
-    #region Get/Read
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Get_all_materials_returns_status_ok.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Get_all_materials_returns_status_ok()
-    {
-        var response = await _materialController.Get();
-        var actual = response.Result as OkObjectResult;
-
-        Assert.Equal((int) HttpStatusCode.OK, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Get_material_returns_status_ok.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Get_material_returns_status_ok()
-    {
-        var response = await _materialController.Get(1);
-        var actual = response.Result as OkObjectResult;
-
-        Assert.Equal((int) HttpStatusCode.OK, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Get_material_returns_status_notFound.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Get_material_returns_status_notFound()
-    {
-        var response = await _materialController.Get(4);
-        var actual = response.Result as NotFoundObjectResult;
-
-        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Get_material_returns_from_searchForm_status_ok.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Get_material_returns_from_searchForm_status_ok()
-    {
-        var searchForm = new SearchForm(&quot;Hello&quot;, new TagDTO[] {new(1, &quot;SOLID&quot;)}, new LevelDTO[] { },
-            new ProgrammingLanguageDTO[] { }, new LanguageDTO[] { }, new MediaDTO[] { }, 5);
-        var response = await _materialController.Post(searchForm);
-        var actual = response.Result as OkObjectResult;
-
-        Assert.Equal((int) HttpStatusCode.OK, actual?.StatusCode);
-    }
-
-    [Fact]
-    public async Task Get_material_returns_from_searchForm_status_notFound()
-    {
-        var searchForm = new SearchForm(&quot;Hello&quot;, new[] {new TagDTO(4, &quot;DOTNET&quot;)},
-            new[] {new LevelDTO(1, &quot;Kindergarden&quot;)},
-            new[] {new ProgrammingLanguageDTO(1, &quot;Cow&quot;)}, new[] {new LanguageDTO(1, &quot;ASL&quot;)},
-            new[] {new MediaDTO(1, &quot;Comicbook&quot;)}, 10);
-        var response = await _materialController.Post(searchForm);
-        var actual = response.Result as NotFoundResult;
-
-        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
-    }
-
-    #endregion
-
-    #region Delete
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Delete_material_returns_status_noContent.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Delete_material_returns_status_noContent()
-    {
-        var response = await _materialController.Delete(3);
-        var actual = response as NoContentResult;
-
-        Assert.Equal((int) HttpStatusCode.NoContent, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Delete_material_returns_status_notFound.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Delete_material_returns_status_notFound()
-    {
-        var response = await _materialController.Delete(4);
-        var actual = response as NotFoundResult;
-
-        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
-    }
-
-    #endregion
-
-    #region Put/Update
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Put_material_returns_status_noContent.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Put_material_returns_status_noContent()
-    {
-        var material = new MaterialDTO(1, new CreateWeightedTagDTO[] {new(&quot;API&quot;, 10)}, new CreateRatingDTO[] { },
-            new CreateLevelDTO[] {new(&quot;PHD&quot;)}, new CreateProgrammingLanguageDTO[] {new(&quot;C#&quot;)},
-            new CreateMediaDTO[] {new(&quot;Book&quot;)}, new CreateLanguageDTO(&quot;Danish&quot;), &quot;Summary&quot;, &quot;Url&quot;, &quot;Content&quot;,
-            &quot;Title new&quot;, new CreateAuthorDTO[] { }, DateTime.UtcNow);
-        var response = await _materialController.Put(material);
-        var actual = response as NoContentResult;
-
-        Assert.Equal((int) HttpStatusCode.NoContent, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Put_material_returns_status_conflict.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Put_material_returns_status_conflict()
-    {
-        var material = new MaterialDTO(1, new CreateWeightedTagDTO[] {new(&quot;API&quot;, 10)}, new CreateRatingDTO[] { },
-            new CreateLevelDTO[] {new(&quot;PHD&quot;)}, new CreateProgrammingLanguageDTO[] {new(&quot;C#&quot;)},
-            new CreateMediaDTO[] {new(&quot;Book&quot;)}, new CreateLanguageDTO(&quot;Danish&quot;), &quot;Summary&quot;, &quot;Url&quot;, &quot;Content&quot;,
-            &quot;Material 2&quot;, new CreateAuthorDTO[] { }, DateTime.UtcNow);
-        var response = await _materialController.Put(material);
-        var actual = response as ConflictResult;
-
-        Assert.Equal((int) HttpStatusCode.Conflict, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Put_material_returns_status_badRequest.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Put_material_returns_status_badRequest()
-    {
-        var material = new MaterialDTO(1, new CreateWeightedTagDTO[] {new(&quot;Some tag&quot;, 10)}, new CreateRatingDTO[] { },
-            new CreateLevelDTO[] { }, new CreateProgrammingLanguageDTO[] { }, new CreateMediaDTO[] { },
-            new CreateLanguageDTO(&quot;Language&quot;), &quot;Summary&quot;, &quot;Url&quot;, &quot;Content&quot;, &quot;Material 2&quot;, new CreateAuthorDTO[] { },
-            DateTime.UtcNow);
-        var response = await _materialController.Put(material);
-        var actual = response as BadRequestResult;
-
-        Assert.Equal((int) HttpStatusCode.BadRequest, actual?.StatusCode);
-    }
-
-    /// &lt;summary&gt;
-    ///     Defines the test method Put_material_returns_status_notFound.
-    /// &lt;/summary&gt;
-    [Fact]
-    public async Task Put_material_returns_status_notFound()
-    {
-        var material = new MaterialDTO(4, new CreateWeightedTagDTO[] {new(&quot;API&quot;, 10)}, new CreateRatingDTO[] { },
-            new CreateLevelDTO[] {new(&quot;PHD&quot;)}, new CreateProgrammingLanguageDTO[] {new(&quot;C#&quot;)},
-            new CreateMediaDTO[] {new(&quot;Book&quot;)}, new CreateLanguageDTO(&quot;Danish&quot;), &quot;Summary&quot;, &quot;Url&quot;, &quot;Content&quot;,
-            &quot;Title new&quot;, new CreateAuthorDTO[] { }, DateTime.UtcNow);
-        var response = await _materialController.Put(material);
-        var actual = response as NotFoundResult;
-
-        Assert.Equal((int) HttpStatusCode.NotFound, actual?.StatusCode);
-    }
-
-    #endregion
+    public int Id { get; }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[34,5,34,37,1],[35,5,35,6,1],[36,9,36,37,1],[37,9,37,76,1],[38,5,38,6,1],[47,5,47,6,1],[48,9,51,57,1],[53,9,53,80,1],[55,9,55,72,1],[56,5,56,6,1],[63,5,63,6,1],[64,9,67,71,1],[69,9,69,81,1],[71,9,71,73,1],[72,5,72,6,1],[79,5,79,6,1],[80,9,83,57,1],[85,9,85,83,1],[87,9,87,75,1],[88,5,88,6,1],[99,5,99,6,1],[100,9,100,56,1],[101,9,101,56,1],[103,9,103,67,1],[104,5,104,6,1],[111,5,111,6,1],[112,9,112,57,1],[113,9,113,56,1],[115,9,115,67,1],[116,5,116,6,1],[123,5,123,6,1],[124,9,124,57,1],[125,9,125,62,1],[127,9,127,73,1],[128,5,128,6,1],[135,5,135,6,1],[136,9,137,93,1],[138,9,138,67,1],[139,9,139,56,1],[141,9,141,67,1],[142,5,142,6,1],[146,5,146,6,1],[147,9,150,55,1],[151,9,151,67,1],[152,9,152,56,1],[154,9,154,73,1],[155,5,155,6,1],[166,5,166,6,1],[167,9,167,60,1],[168,9,168,50,1],[170,9,170,74,1],[171,5,171,6,1],[178,5,178,6,1],[179,9,179,60,1],[180,9,180,49,1],[182,9,182,73,1],[183,5,183,6,1],[194,5,194,6,1],[195,9,198,70,1],[199,9,199,64,1],[200,9,200,50,1],[202,9,202,74,1],[203,5,203,6,1],[210,5,210,6,1],[211,9,214,71,1],[215,9,215,64,1],[216,9,216,49,1],[218,9,218,73,1],[219,5,219,6,1],[226,5,226,6,1],[227,9,230,30,1],[231,9,231,64,1],[232,9,232,51,1],[234,9,234,75,1],[235,5,235,6,1],[242,5,242,6,1],[243,9,246,70,1],[247,9,247,64,1],[248,9,248,49,1],[250,9,250,73,1],[251,5,251,6,1]]);
+      highlightRanges([[24,5,24,39,1],[25,5,25,6,1],[26,9,26,21,1],[27,5,27,6,1],[29,45,29,49,1],[38,44,38,54,1],[39,5,39,6,1],[40,9,40,17,1],[41,5,41,6,1],[43,21,43,25,1]]);
     </script>
   </body>
 </html>

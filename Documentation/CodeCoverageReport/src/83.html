@@ -28,22 +28,19 @@ namespace WebService.Infrastructure;
 
 /// &lt;summary&gt;
 ///     Class MaterialRepository.
-///     Implements the &lt;see cref=&quot;WebService.Core.Shared.IMaterialRepository&quot; /&gt;
+///     Implements the &lt;see cref=&quot;WebService.Core.Shared.IMaterialRepository&quot; /&gt; interface
 /// &lt;/summary&gt;
 public class MaterialRepository : IMaterialRepository
 {
     private readonly IContext _context;
 
     /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Infrastructure.MaterialRepository&quot; /&gt; class.&lt;/summary&gt;
-    /// &lt;param name=&quot;context&quot;&gt;The context.&lt;/param&gt;
     public MaterialRepository(IContext context)
     {
         _context = context;
     }
 
-    /// &lt;summary&gt;Create a material asynchronously.&lt;/summary&gt;
-    /// &lt;param name=&quot;createMaterialDTO&quot;&gt;The create material dto.&lt;/param&gt;
-    /// &lt;returns&gt;A Task&amp;lt;System.ValueTuple&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
+    /// &lt;summary&gt;Create a material asynchronously from a given material creation DTO.&lt;/summary&gt;
     public async Task&lt;(Status, MaterialDTO)&gt; CreateAsync(CreateMaterialDTO createMaterialDTO)
     {
         var materialDTO = ConvertCreateMaterialDTOToMaterialDTO(createMaterialDTO, -1);
@@ -74,9 +71,7 @@ public class MaterialRepository : IMaterialRepository
         }
     }
 
-    /// &lt;summary&gt;Delete a material asynchronously.&lt;/summary&gt;
-    /// &lt;param name=&quot;materialId&quot;&gt;The material identifier.&lt;/param&gt;
-    /// &lt;returns&gt;A Task&amp;lt;Status&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
+    /// &lt;summary&gt;Delete a material based on id asynchronously.&lt;/summary&gt;
     public async Task&lt;Status&gt; DeleteAsync(int materialId)
     {
         var material = await _context.Materials.FindAsync(materialId);
@@ -90,9 +85,7 @@ public class MaterialRepository : IMaterialRepository
         return Status.Deleted;
     }
 
-    /// &lt;summary&gt;Reads a materials asynchronously and returns a http status.&lt;/summary&gt;
-    /// &lt;param name=&quot;materialId&quot;&gt;The material identifier.&lt;/param&gt;
-    /// &lt;returns&gt;A Task&amp;lt;System.ValueTuple&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
+    /// &lt;summary&gt;Reads a materials based on id asynchronously and returns them with an http status.&lt;/summary&gt;
     public async Task&lt;(Status, MaterialDTO)&gt; ReadAsync(int materialId)
     {
         var query = from m in _context.Materials
@@ -107,20 +100,18 @@ public class MaterialRepository : IMaterialRepository
     }
 
     /// &lt;summary&gt;Reads all materials asynchronously.&lt;/summary&gt;
-    /// &lt;returns&gt;A Task&amp;lt;IReadOnlyCollection`1&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
     public async Task&lt;IReadOnlyCollection&lt;MaterialDTO&gt;&gt; ReadAsync()
     {
         var materials = await ReadAllMaterials();
         return materials.Select(ConvertMaterialToMaterialDTO).ToList();
     }
 
-    /// &lt;summary&gt;Reads all materials asynchronously and returns a http status.&lt;/summary&gt;
-    /// &lt;param name=&quot;searchInput&quot;&gt;The search input.&lt;/param&gt;
-    /// &lt;returns&gt;A Task&amp;lt;System.ValueTuple&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
+    /// &lt;summary&gt;Reads all materials based on given search form asynchronously and returns them 
+    /// with an http status.&lt;/summary&gt;
     public async Task&lt;(Status, IReadOnlyCollection&lt;MaterialDTO&gt;)&gt; ReadAsync(SearchForm searchInput)
     {
         var allMaterials = await ReadAllMaterials();
-        // We can&#39;t have the server translate our query where we do linq statements on searchInput :(
+        // We can&#39;t have the server translate our query where we do linq statements on searchInput
         var materialsWhereRatingHolds = allMaterials
             .Where(material =&gt; GetAverage(material) &gt;= searchInput.Rating)
             .ToList();
@@ -144,9 +135,7 @@ public class MaterialRepository : IMaterialRepository
             : (Status.Found, new ReadOnlyCollection&lt;MaterialDTO&gt;(materials));
     }
 
-    /// &lt;summary&gt;Update material asynchronously.&lt;/summary&gt;
-    /// &lt;param name=&quot;materialDTO&quot;&gt;The material dto.&lt;/param&gt;
-    /// &lt;returns&gt;A Task&amp;lt;Status&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
+    /// &lt;summary&gt;Update a given material asynchronously.&lt;/summary&gt;
     public async Task&lt;Status&gt; UpdateAsync(MaterialDTO materialDTO)
     {
         if (!ValidTags(materialDTO.Tags).Result || InvalidInput(materialDTO)) return Status.BadRequest;
@@ -191,11 +180,8 @@ public class MaterialRepository : IMaterialRepository
         }
     }
 
-    /// &lt;summary&gt;Converts the createMaterialDTO to materialDTO.&lt;/summary&gt;
-    /// &lt;param name=&quot;createMaterialDTO&quot;&gt;The create material dto.&lt;/param&gt;
-    /// &lt;param name=&quot;id&quot;&gt;The identifier.&lt;/param&gt;
-    /// &lt;returns&gt;MaterialDTO.&lt;/returns&gt;
-    private static MaterialDTO ConvertCreateMaterialDTOToMaterialDTO(CreateMaterialDTO createMaterialDTO, int id)
+    /// &lt;summary&gt;Converts the given createMaterialDTO to a materialDTO with given id.&lt;/summary&gt;
+        private static MaterialDTO ConvertCreateMaterialDTOToMaterialDTO(CreateMaterialDTO createMaterialDTO, int id)
     {
         return new MaterialDTO
         (
@@ -215,9 +201,7 @@ public class MaterialRepository : IMaterialRepository
         );
     }
 
-    /// &lt;summary&gt;Converts the material to materialDTO.&lt;/summary&gt;
-    /// &lt;param name=&quot;entity&quot;&gt;The entity.&lt;/param&gt;
-    /// &lt;returns&gt;MaterialDTO.&lt;/returns&gt;
+    /// &lt;summary&gt;Converts the material entity to materialDTO.&lt;/summary&gt;
     [SuppressMessage(&quot;ReSharper&quot;, &quot;ConditionIsAlwaysTrueOrFalse&quot;)]
     private static MaterialDTO ConvertMaterialToMaterialDTO(Material entity)
     {
@@ -259,9 +243,7 @@ public class MaterialRepository : IMaterialRepository
         );
     }
 
-    /// &lt;summary&gt;Converts createMaterialDTO to material.&lt;/summary&gt;
-    /// &lt;param name=&quot;createMaterialDTO&quot;&gt;The create material dto.&lt;/param&gt;
-    /// &lt;returns&gt;Material.&lt;/returns&gt;
+    /// &lt;summary&gt;Converts the given createMaterialDTO to a material.&lt;/summary&gt;
     private async Task&lt;Material&gt; ConvertCreateMaterialDTOToMaterial(CreateMaterialDTO createMaterialDTO)
     {
         return new Material(
@@ -280,9 +262,7 @@ public class MaterialRepository : IMaterialRepository
         );
     }
 
-
     /// &lt;summary&gt;Reads all materials.&lt;/summary&gt;
-    /// &lt;returns&gt;IList&amp;lt;Material&amp;gt;.&lt;/returns&gt;
     private async Task&lt;IList&lt;Material&gt;&gt; ReadAllMaterials()
     {
         return await _context.Materials
@@ -294,30 +274,23 @@ public class MaterialRepository : IMaterialRepository
     }
 
     /// &lt;summary&gt;
-    ///     &lt;para&gt;
-    ///         average rating.
-    ///     &lt;/para&gt;
+    ///         Get the average rating of a material
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;material&quot;&gt;The material.&lt;/param&gt;
-    /// &lt;returns&gt;System.Double.&lt;/returns&gt;
+
     private static double GetAverage(Material material)
     {
         return material.Ratings.Count != 0 ? material.Ratings.Average(rating =&gt; rating.Value) : 10;
     }
 
-    /// &lt;summary&gt;Check if it contains the level.&lt;/summary&gt;
-    /// &lt;param name=&quot;searchInput&quot;&gt;The search input.&lt;/param&gt;
-    /// &lt;returns&gt;Func&amp;lt;Material, System.Boolean&amp;gt;.&lt;/returns&gt;
-    public static Func&lt;Material, bool&gt; MayContainLevel(SearchForm searchInput)
+    /// &lt;summary&gt;Checks wheter a material might contain any of the levels given in the search form.&lt;/summary&gt;
+        public static Func&lt;Material, bool&gt; MayContainLevel(SearchForm searchInput)
     {
         return material =&gt; !searchInput.Levels.Any() || material.Levels.Any(level =&gt;
             searchInput.Levels.Any(searchInputLevels =&gt; searchInputLevels.Name == level.Name));
     }
 
 
-    /// &lt;summary&gt;Check if it contains the tag.&lt;/summary&gt;
-    /// &lt;param name=&quot;searchInput&quot;&gt;The search input.&lt;/param&gt;
-    /// &lt;returns&gt;Func&amp;lt;Material, System.Boolean&amp;gt;.&lt;/returns&gt;
+    /// &lt;summary&gt;Checks wheter a material might contain any of the tags given in the search form..&lt;/summary&gt;
     public static Func&lt;Material, bool&gt; MayContainTag(SearchForm searchInput)
     {
         return material =&gt; !searchInput.Tags.Any() ||
@@ -326,12 +299,8 @@ public class MaterialRepository : IMaterialRepository
 
 
     /// &lt;summary&gt;
-    ///     &lt;para&gt;
-    ///         Check if it contains the media.
-    ///     &lt;/para&gt;
+    ///     Checks wheter a material might contain any of the media types given in the search form.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;searchInput&quot;&gt;The search input.&lt;/param&gt;
-    /// &lt;returns&gt;Func&amp;lt;Material, System.Boolean&amp;gt;.&lt;/returns&gt;
     public static Func&lt;Material, bool&gt; MayContainMedia(SearchForm searchInput)
     {
         return material =&gt; !searchInput.Medias.Any() ||
@@ -340,18 +309,14 @@ public class MaterialRepository : IMaterialRepository
     }
 
 
-    /// &lt;summary&gt;Check if it contains the language.&lt;/summary&gt;
-    /// &lt;param name=&quot;searchInput&quot;&gt;The search input.&lt;/param&gt;
-    /// &lt;returns&gt;Func&amp;lt;Material, System.Boolean&amp;gt;.&lt;/returns&gt;
+    /// Checks wheter a material might contain any of the languages given in the search form.&lt;/summary&gt;
     public static Func&lt;Material, bool&gt; MayContainLanguage(SearchForm searchInput)
     {
         return material =&gt;
             !searchInput.Languages.Any() || searchInput.Languages.Any(l =&gt; l.Name == material.Language.Name);
     }
 
-    /// &lt;summary&gt;Check if it contains the programming language.&lt;/summary&gt;
-    /// &lt;param name=&quot;searchInput&quot;&gt;The search input.&lt;/param&gt;
-    /// &lt;returns&gt;Func&amp;lt;Material, System.Boolean&amp;gt;.&lt;/returns&gt;
+    /// &lt;summaryChecks wheter a material might contain any of the programming languages given in the search form.&lt;/summary&gt;
     public static Func&lt;Material, bool&gt; MayContainProgrammingLanguage(SearchForm searchInput)
     {
         return material =&gt; !searchInput.ProgrammingLanguages.Any() || material.ProgrammingLanguages
@@ -362,7 +327,6 @@ public class MaterialRepository : IMaterialRepository
     }
 
     /// &lt;summary&gt;Creates an empty material dto.&lt;/summary&gt;
-    /// &lt;returns&gt;MaterialDTO.&lt;/returns&gt;
     private static MaterialDTO CreateEmptyMaterialDTO()
     {
         var tags = new List&lt;CreateWeightedTagDTO&gt;();
@@ -383,10 +347,7 @@ public class MaterialRepository : IMaterialRepository
         return material;
     }
 
-    /// &lt;summary&gt;Reads medias.&lt;/summary&gt;
-    /// &lt;param name=&quot;mediaDTOs&quot;&gt;The media dt os.&lt;/param&gt;
-    /// &lt;returns&gt;ICollection&amp;lt;Media&amp;gt;.&lt;/returns&gt;
-    /// &lt;exception cref=&quot;System.Exception&quot;&gt;Bad request&lt;/exception&gt;
+    /// &lt;summary&gt;Reads medias from list of media DTOs.&lt;/summary&gt;
     private async Task&lt;ICollection&lt;Media&gt;&gt; ReadMedias(ICollection&lt;CreateMediaDTO&gt; mediaDTOs)
     {
         var mediaDTONames = mediaDTOs.Select(e =&gt; e.Name).ToHashSet();
@@ -395,10 +356,7 @@ public class MaterialRepository : IMaterialRepository
         return medias;
     }
 
-    /// &lt;summary&gt;Reads levels.&lt;/summary&gt;
-    /// &lt;param name=&quot;levelDTOs&quot;&gt;The level dt os.&lt;/param&gt;
-    /// &lt;returns&gt;ICollection&amp;lt;Level&amp;gt;.&lt;/returns&gt;
-    /// &lt;exception cref=&quot;System.Exception&quot;&gt;Bad request&lt;/exception&gt;
+    /// &lt;summary&gt;Reads levels from list of level DTOs.&lt;/summary&gt;
     private async Task&lt;ICollection&lt;Level&gt;&gt; ReadLevels(ICollection&lt;CreateLevelDTO&gt; levelDTOs)
     {
         var levelDTONames = levelDTOs.Select(e =&gt; e.Name).ToHashSet();
@@ -407,10 +365,7 @@ public class MaterialRepository : IMaterialRepository
         return levels;
     }
 
-    /// &lt;summary&gt;Reads programming languages.&lt;/summary&gt;
-    /// &lt;param name=&quot;programmingLanguageDTOs&quot;&gt;The programming language dt os.&lt;/param&gt;
-    /// &lt;returns&gt;ICollection&amp;lt;ProgrammingLanguage&amp;gt;.&lt;/returns&gt;
-    /// &lt;exception cref=&quot;System.Exception&quot;&gt;Bad request&lt;/exception&gt;
+    /// &lt;summary&gt;Reads programming languages from list of programming language DTOs.&lt;/summary&gt;
     private async Task&lt;ICollection&lt;ProgrammingLanguage&gt;&gt; ReadProgrammingLanguages(
         ICollection&lt;CreateProgrammingLanguageDTO&gt; programmingLanguageDTOs)
     {
@@ -421,11 +376,7 @@ public class MaterialRepository : IMaterialRepository
         return programmingLanguages;
     }
 
-    /// &lt;summary&gt;Validates the tags.&lt;/summary&gt;
-    /// &lt;param name=&quot;tags&quot;&gt;The tags.&lt;/param&gt;
-    /// &lt;returns&gt;
-    ///     &lt;c&gt;true&lt;/c&gt; if tags exist, &lt;c&gt;false&lt;/c&gt; otherwise.
-    /// &lt;/returns&gt;
+    /// &lt;summary&gt;Validates that all tags on the list tags contain valid names.&lt;/summary&gt;
     private async Task&lt;bool&gt; ValidTags(IEnumerable&lt;CreateWeightedTagDTO&gt; tags)
     {
         var existingTags = await (from t in _context.Tags
@@ -441,11 +392,7 @@ public class MaterialRepository : IMaterialRepository
         return allTagsExists;
     }
 
-    /// &lt;summary&gt;Validates the input.&lt;/summary&gt;
-    /// &lt;param name=&quot;material&quot;&gt;The material.&lt;/param&gt;
-    /// &lt;returns&gt;
-    ///     &lt;c&gt;true&lt;/c&gt; if input is valid, &lt;c&gt;false&lt;/c&gt; otherwise.
-    /// &lt;/returns&gt;
+    /// &lt;summary&gt;Validates the input material with regards to string lengths and number ranges.&lt;/summary&gt;
     private static bool InvalidInput(CreateMaterialDTO material)
     {
         var stringList = new List&lt;string&gt;
@@ -469,12 +416,12 @@ public class MaterialRepository : IMaterialRepository
             return true;
 
         return material.Ratings.Any(rating =&gt; rating.Value is &lt; 1 or &gt; 10) ||
-               material.Tags.Any(tag =&gt; tag.Weight is &lt; 1 or &gt; 100);
+               material.Tags.Any(tag =&gt; tag.Weight is &lt; 1 or &gt; 10);
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[29,5,29,48,1],[30,5,30,6,1],[31,9,31,28,1],[32,5,32,6,1],[38,5,38,6,1],[39,9,39,88,1],[41,9,41,90,1],[42,13,42,53,1],[44,9,47,36,1],[48,9,48,30,1],[48,31,48,96,1],[50,9,50,10,1],[51,13,51,86,1],[53,13,53,55,1],[55,13,55,47,1],[57,13,57,64,1],[59,13,59,46,1],[61,9,61,26,1],[62,9,62,10,1],[63,13,63,53,1],[65,5,65,6,1],[71,5,71,6,1],[72,9,72,71,1],[74,9,74,30,1],[74,31,74,54,1],[76,9,76,45,1],[78,9,78,43,1],[80,9,80,31,1],[81,5,81,6,1],[87,5,87,6,1],[88,9,90,22,1],[92,9,92,58,1],[94,9,96,70,1],[97,5,97,6,1],[102,5,102,6,1],[103,9,103,50,1],[104,9,104,72,1],[105,5,105,6,1],[111,5,111,6,1],[112,9,112,53,1],[114,9,115,32,1],[115,32,115,74,1],[115,74,116,23,1],[119,9,120,32,1],[120,32,124,80,1],[124,80,125,23,1],[128,9,130,23,1],[132,9,134,78,1],[135,5,135,6,1],[141,5,141,6,1],[142,9,142,78,1],[142,79,142,104,1],[144,9,147,34,1],[150,9,150,22,1],[150,23,150,46,1],[152,9,152,73,1],[154,9,154,28,1],[154,29,154,52,1],[157,9,157,10,1],[158,13,158,83,1],[160,13,160,48,1],[161,13,161,44,1],[162,13,162,74,1],[163,13,163,46,1],[164,13,164,48,1],[165,13,165,58,1],[166,13,166,48,1],[167,13,167,46,1],[168,13,168,52,1],[169,13,169,48,1],[170,13,170,50,1],[171,13,171,40,1],[172,13,172,48,1],[174,13,174,47,1],[176,13,176,35,1],[178,9,178,14,0],[179,9,179,10,0],[180,13,180,38,0],[182,5,182,6,1],[189,5,189,6,1],[190,9,205,11,1],[206,5,206,6,1],[213,5,213,6,1],[214,9,214,28,1],[215,9,216,13,1],[216,13,216,101,1],[216,101,216,112,1],[217,9,218,26,1],[218,26,218,107,1],[218,107,218,118,1],[219,9,219,48,1],[219,48,219,111,1],[219,111,220,23,1],[221,9,222,13,1],[222,13,222,104,1],[222,104,222,115,1],[223,9,223,48,1],[223,48,223,111,1],[223,111,224,23,1],[225,9,225,64,1],[226,9,226,38,1],[227,9,227,30,1],[228,9,228,38,1],[229,9,229,34,1],[230,9,231,26,1],[231,26,231,111,1],[231,111,232,23,1],[233,9,233,42,1],[235,9,249,11,1],[250,5,250,6,1],[256,5,256,6,1],[257,9,258,48,1],[258,48,258,81,1],[258,81,259,51,1],[259,51,259,82,1],[259,82,268,51,1],[268,51,268,85,1],[268,85,270,11,1],[271,5,271,6,1],[277,5,277,6,1],[278,9,283,28,1],[284,5,284,6,1],[294,5,294,6,1],[295,9,295,81,1],[295,81,295,93,1],[295,93,295,100,1],[296,5,296,6,1],[302,5,302,6,1],[303,9,303,28,1],[303,28,304,13,1],[304,13,304,57,1],[304,57,304,93,1],[304,93,304,94,1],[304,94,304,95,1],[304,95,304,96,1],[305,5,305,6,1],[312,5,312,6,1],[313,9,313,28,1],[313,28,314,60,1],[314,60,314,87,1],[314,87,314,105,1],[314,105,314,106,1],[314,106,314,107,1],[314,107,314,108,1],[315,5,315,6,1],[326,5,326,6,1],[327,9,327,28,1],[327,28,329,32,1],[329,32,329,67,1],[329,67,329,94,1],[329,94,329,95,1],[329,95,329,96,1],[329,96,329,97,1],[330,5,330,6,1],[337,5,337,6,1],[338,9,339,13,1],[339,13,339,76,1],[339,76,339,108,1],[339,108,339,109,1],[339,109,339,110,1],[340,5,340,6,1],[346,5,346,6,1],[347,9,347,28,1],[347,28,348,27,1],[348,27,348,34,1],[348,34,349,24,1],[349,24,350,62,1],[350,62,350,100,1],[350,100,351,59,1],[351,59,351,98,1],[351,98,351,99,1],[351,99,351,100,1],[351,100,351,101,1],[352,5,352,6,1],[357,5,357,6,1],[358,9,358,53,1],[359,9,359,51,1],[360,9,360,49,1],[361,9,361,77,1],[362,9,362,49,1],[363,9,363,50,1],[368,9,368,51,1],[369,9,369,40,1],[371,9,372,48,1],[373,9,373,25,1],[374,5,374,6,1],[381,5,381,6,1],[382,9,382,51,1],[382,51,382,57,1],[382,57,382,71,1],[383,9,383,101,1],[384,9,384,45,1],[384,46,384,81,1],[385,9,385,23,1],[386,5,386,6,1],[393,5,393,6,1],[394,9,394,51,1],[394,51,394,57,1],[394,57,394,71,1],[395,9,395,101,1],[396,9,396,45,1],[396,46,396,81,1],[397,9,397,23,1],[398,5,398,6,1],[406,5,406,6,1],[407,9,407,79,1],[407,79,407,85,1],[407,85,407,99,1],[408,9,409,85,1],[410,9,410,73,1],[410,74,410,109,1],[411,9,411,37,1],[412,5,412,6,1],[420,5,420,6,1],[421,9,422,60,1],[424,9,424,35,1],[425,9,425,16,1],[425,18,425,25,1],[425,26,425,28,1],[425,29,425,33,1],[426,9,426,10,1],[427,13,427,54,1],[427,54,427,60,1],[427,60,427,81,1],[428,13,428,32,1],[428,33,428,39,1],[429,9,429,10,1],[431,9,431,30,1],[432,5,432,6,1],[440,5,440,6,1],[441,9,445,11,1],[446,9,446,57,1],[446,57,446,63,1],[446,63,446,75,1],[447,9,447,58,1],[447,58,447,69,1],[447,69,447,81,1],[448,9,448,58,1],[448,58,448,67,1],[448,67,448,79,1],[449,9,449,57,1],[449,57,449,63,1],[449,63,449,75,1],[450,9,450,71,1],[450,71,450,77,1],[450,77,450,89,1],[451,9,451,58,1],[451,58,451,68,1],[451,68,451,80,1],[452,9,452,55,1],[452,55,452,61,1],[452,61,452,73,1],[454,9,454,36,1],[454,36,454,117,1],[454,117,454,119,1],[455,13,455,25,1],[457,9,458,57,1],[459,13,459,25,1],[461,9,461,47,1],[461,47,461,74,1],[461,74,462,41,1],[462,41,462,67,1],[462,67,462,69,1],[463,5,463,6,1]]);
+      highlightRanges([[28,5,28,48,1],[29,5,29,6,1],[30,9,30,28,1],[31,5,31,6,1],[35,5,35,6,1],[36,9,36,88,1],[38,9,38,90,1],[39,13,39,53,1],[41,9,44,36,1],[45,9,45,30,1],[45,31,45,96,1],[47,9,47,10,1],[48,13,48,86,1],[50,13,50,55,1],[52,13,52,47,1],[54,13,54,64,1],[56,13,56,46,1],[58,9,58,26,1],[59,9,59,10,1],[60,13,60,53,1],[62,5,62,6,1],[66,5,66,6,1],[67,9,67,71,1],[69,9,69,30,1],[69,31,69,54,1],[71,9,71,45,1],[73,9,73,43,1],[75,9,75,31,1],[76,5,76,6,1],[80,5,80,6,1],[81,9,83,22,1],[85,9,85,58,1],[87,9,89,70,1],[90,5,90,6,1],[94,5,94,6,1],[95,9,95,50,1],[96,9,96,72,1],[97,5,97,6,1],[102,5,102,6,1],[103,9,103,53,1],[105,9,106,32,1],[106,32,106,74,1],[106,74,107,23,1],[110,9,111,32,1],[111,32,115,80,1],[115,80,116,23,1],[119,9,121,23,1],[123,9,125,78,1],[126,5,126,6,1],[130,5,130,6,1],[131,9,131,78,1],[131,79,131,104,1],[133,9,136,34,1],[139,9,139,22,1],[139,23,139,46,1],[141,9,141,73,1],[143,9,143,28,1],[143,29,143,52,1],[146,9,146,10,1],[147,13,147,83,1],[149,13,149,48,1],[150,13,150,44,1],[151,13,151,74,1],[152,13,152,46,1],[153,13,153,48,1],[154,13,154,58,1],[155,13,155,48,1],[156,13,156,46,1],[157,13,157,52,1],[158,13,158,48,1],[159,13,159,50,1],[160,13,160,40,1],[161,13,161,48,1],[163,13,163,47,1],[165,13,165,35,1],[167,9,167,14,0],[168,9,168,10,0],[169,13,169,38,0],[171,5,171,6,1],[175,5,175,6,1],[176,9,191,11,1],[192,5,192,6,1],[197,5,197,6,1],[198,9,198,28,1],[199,9,200,13,1],[200,13,200,101,1],[200,101,200,112,1],[201,9,202,26,1],[202,26,202,107,1],[202,107,202,118,1],[203,9,203,48,1],[203,48,203,111,1],[203,111,204,23,1],[205,9,206,13,1],[206,13,206,104,1],[206,104,206,115,1],[207,9,207,48,1],[207,48,207,111,1],[207,111,208,23,1],[209,9,209,64,1],[210,9,210,38,1],[211,9,211,30,1],[212,9,212,38,1],[213,9,213,34,1],[214,9,215,26,1],[215,26,215,111,1],[215,111,216,23,1],[217,9,217,42,1],[219,9,233,11,1],[234,5,234,6,1],[238,5,238,6,1],[239,9,240,48,1],[240,48,240,81,1],[240,81,241,51,1],[241,51,241,82,1],[241,82,250,51,1],[250,51,250,85,1],[250,85,252,11,1],[253,5,253,6,1],[257,5,257,6,1],[258,9,263,28,1],[264,5,264,6,1],[271,5,271,6,1],[272,9,272,81,1],[272,81,272,93,1],[272,93,272,100,1],[273,5,273,6,1],[277,5,277,6,1],[278,9,278,28,1],[278,28,279,13,1],[279,13,279,57,1],[279,57,279,93,1],[279,93,279,94,1],[279,94,279,95,1],[279,95,279,96,1],[280,5,280,6,1],[285,5,285,6,1],[286,9,286,28,1],[286,28,287,60,1],[287,60,287,87,1],[287,87,287,105,1],[287,105,287,106,1],[287,106,287,107,1],[287,107,287,108,1],[288,5,288,6,1],[295,5,295,6,1],[296,9,296,28,1],[296,28,298,32,1],[298,32,298,67,1],[298,67,298,94,1],[298,94,298,95,1],[298,95,298,96,1],[298,96,298,97,1],[299,5,299,6,1],[304,5,304,6,1],[305,9,306,13,1],[306,13,306,76,1],[306,76,306,108,1],[306,108,306,109,1],[306,109,306,110,1],[307,5,307,6,1],[311,5,311,6,1],[312,9,312,28,1],[312,28,313,27,1],[313,27,313,34,1],[313,34,314,24,1],[314,24,315,62,1],[315,62,315,100,1],[315,100,316,59,1],[316,59,316,98,1],[316,98,316,99,1],[316,99,316,100,1],[316,100,316,101,1],[317,5,317,6,1],[321,5,321,6,1],[322,9,322,53,1],[323,9,323,51,1],[324,9,324,49,1],[325,9,325,77,1],[326,9,326,49,1],[327,9,327,50,1],[332,9,332,51,1],[333,9,333,40,1],[335,9,336,48,1],[337,9,337,25,1],[338,5,338,6,1],[342,5,342,6,1],[343,9,343,51,1],[343,51,343,57,1],[343,57,343,71,1],[344,9,344,101,1],[345,9,345,45,1],[345,46,345,81,1],[346,9,346,23,1],[347,5,347,6,1],[351,5,351,6,1],[352,9,352,51,1],[352,51,352,57,1],[352,57,352,71,1],[353,9,353,101,1],[354,9,354,45,1],[354,46,354,81,1],[355,9,355,23,1],[356,5,356,6,1],[361,5,361,6,1],[362,9,362,79,1],[362,79,362,85,1],[362,85,362,99,1],[363,9,364,85,1],[365,9,365,73,1],[365,74,365,109,1],[366,9,366,37,1],[367,5,367,6,1],[371,5,371,6,1],[372,9,373,60,1],[375,9,375,35,1],[376,9,376,16,1],[376,18,376,25,1],[376,26,376,28,1],[376,29,376,33,1],[377,9,377,10,1],[378,13,378,54,1],[378,54,378,60,1],[378,60,378,81,1],[379,13,379,32,1],[379,33,379,39,1],[380,9,380,10,1],[382,9,382,30,1],[383,5,383,6,1],[387,5,387,6,1],[388,9,392,11,1],[393,9,393,57,1],[393,57,393,63,1],[393,63,393,75,1],[394,9,394,58,1],[394,58,394,69,1],[394,69,394,81,1],[395,9,395,58,1],[395,58,395,67,1],[395,67,395,79,1],[396,9,396,57,1],[396,57,396,63,1],[396,63,396,75,1],[397,9,397,71,1],[397,71,397,77,1],[397,77,397,89,1],[398,9,398,58,1],[398,58,398,68,1],[398,68,398,80,1],[399,9,399,55,1],[399,55,399,61,1],[399,61,399,73,1],[401,9,401,36,1],[401,36,401,117,1],[401,117,401,119,1],[402,13,402,25,1],[404,9,405,57,1],[406,13,406,25,1],[408,9,408,47,1],[408,47,408,74,1],[408,74,409,41,1],[409,41,409,66,1],[409,66,409,68,1],[410,5,410,6,1]]);
     </script>
   </body>
 </html>
