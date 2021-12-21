@@ -2,156 +2,134 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Infrastructure\LanguageRepository.cs</title>
+    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Core\Server\Controllers\LanguageController.cs</title>
     <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
   </head>
   <body>
     <pre id="content" class="source-code">
 // ***********************************************************************
-// Assembly         : WebService.Infrastructure
+// Assembly         : WebService.Core.Server
 // Author           : Group BTG
-// Created          : 11-29-2021
+// Created          : 12-03-2021
 //
 // Last Modified By : Group BTG
 // Last Modified On : 12-14-2021
 // ***********************************************************************
-// &lt;copyright file=&quot;LanguageRepository.cs&quot; company=&quot;BTG&quot;&gt;
+// &lt;copyright file=&quot;LanguageController.cs&quot; company=&quot;BTG&quot;&gt;
 //     Copyright (c) . All rights reserved.
 // &lt;/copyright&gt;
 // &lt;summary&gt;&lt;/summary&gt;
 // ***********************************************************************
 
-namespace WebService.Infrastructure;
+namespace WebService.Core.Server.Controllers;
 
-public class LanguageRepository : ILanguageRepository
+/// &lt;summary&gt;
+///     Class LanguageController.
+///     Implements the &lt;see cref=&quot;Microsoft.AspNetCore.Mvc.ControllerBase&quot; /&gt;
+/// &lt;/summary&gt;
+/// &lt;seealso cref=&quot;Microsoft.AspNetCore.Mvc.ControllerBase&quot; /&gt;
+[Authorize]
+[ApiController]
+[Route(&quot;[controller]&quot;)]
+[RequiredScope(RequiredScopesConfigurationKey = &quot;AzureAd:Scopes&quot;)]
+public class LanguageController : ControllerBase
 {
-    private readonly IContext _context;
+    /// &lt;summary&gt;
+    ///     The language repository
+    /// &lt;/summary&gt;
+    private readonly ILanguageRepository _languageRepository;
 
-    public LanguageRepository(IContext context)
+    /// &lt;summary&gt;
+    ///     Initializes a new instance of the &lt;see cref=&quot;LanguageController&quot; /&gt; class.
+    /// &lt;/summary&gt;
+    public LanguageController(ILanguageRepository languageRepository)
     {
-        _context = context;
+        _languageRepository = languageRepository;
     }
 
     /// &lt;summary&gt;
-    ///     Create a Language entry in the database provided a CreateLanguageDTO
+    ///     Gets all LanguageDTOs.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;language&quot;&gt;A CreateLanguageDTO containing the name of the language to store&lt;/param&gt;
-    /// &lt;returns&gt;
-    ///     A status describing the result of the operation, and possibly a DTO representing the (maybe) saved database
-    ///     entry
-    /// &lt;/returns&gt;
-    public async Task&lt;(Status, LanguageDTO)&gt; CreateAsync(CreateLanguageDTO language)
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task&lt;ActionResult&lt;ICollection&lt;LanguageDTO&gt;&gt;&gt; Get()
     {
-        if (InvalidInput(language)) return (Status.BadRequest, new LanguageDTO(-1, language.Name));
-
-        var existing = await (from l in _context.Languages
-                where l.Name == language.Name
-                select new LanguageDTO(l.Id, l.Name))
-            .FirstOrDefaultAsync();
-
-        if (existing != null) return (Status.Conflict, existing);
-
-        var entity = new Language(language.Name);
-
-        _context.Languages.Add(entity);
-
-        await _context.SaveChangesAsync();
-
-        return (Status.Created, new LanguageDTO(entity.Id, entity.Name));
+        var result = await _languageRepository.ReadAsync();
+        return Ok(result);
     }
 
     /// &lt;summary&gt;
-    ///     Delete a language entry in the database given its id.
+    ///     Gets a specified LanguageDTO based on id.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;languageId&quot;&gt;ID of the given language.&lt;/param&gt;
-    /// &lt;returns&gt;A status object indicating how the operation went.&lt;/returns&gt;
-    public async Task&lt;Status&gt; DeleteAsync(int languageId)
+    [HttpGet(&quot;{id:int}&quot;)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task&lt;ActionResult&lt;LanguageDTO&gt;&gt; Get(int id)
     {
-        var language = await _context.Languages.FindAsync(languageId);
+        var (response, languageDTO) = await _languageRepository.ReadAsync(id);
 
-        if (language == null) return Status.NotFound;
-
-        _context.Languages.Remove(language);
-
-        await _context.SaveChangesAsync();
-
-        return Status.Deleted;
+        if (response == Status.Found) return Ok(languageDTO);
+        return NotFound();
     }
 
     /// &lt;summary&gt;
-    ///     Read an entry from the database given its ID
+    ///     Posts a new language.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;languageId&quot;&gt;The ID of the given entry in the database&lt;/param&gt;
-    /// &lt;returns&gt;
-    ///     A status showing if the entry was found or not, and maybe the language entry as a DTO if there were an entry
-    ///     with the given ID
-    /// &lt;/returns&gt;
-    public async Task&lt;(Status, LanguageDTO)&gt; ReadAsync(int languageId)
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task&lt;IActionResult&gt; Post(CreateLanguageDTO language)
     {
-        var query = from l in _context.Languages
-            where l.Id == languageId
-            select new LanguageDTO(l.Id, l.Name);
+        var (response, languageDTO) = await _languageRepository.CreateAsync(language);
 
-        var category = await query.FirstOrDefaultAsync();
-
-        return category == null ? (Status.NotFound, new LanguageDTO(-1, &quot;&quot;)) : (Status.Found, category);
+        return response switch
+        {
+            Status.Created =&gt; Created(nameof(Put), languageDTO),
+            Status.Conflict =&gt; Conflict(),
+            _ =&gt; BadRequest()
+        };
     }
 
     /// &lt;summary&gt;
-    ///     Read all of the language entries from the database
+    ///     Puts a specific, existing language.
     /// &lt;/summary&gt;
-    /// &lt;returns&gt;A list of language DTOs that were present in the database&lt;/returns&gt;
-    public async Task&lt;IReadOnlyCollection&lt;LanguageDTO&gt;&gt; ReadAsync()
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task&lt;IActionResult&gt; Put(LanguageDTO language)
     {
-        return await _context.Languages.Select(l =&gt; new LanguageDTO(l.Id, l.Name)).ToListAsync();
+        var response = await _languageRepository.UpdateAsync(language);
+
+        return response switch
+        {
+            Status.Updated =&gt; NoContent(),
+            Status.Conflict =&gt; Conflict(),
+            Status.BadRequest =&gt; BadRequest(),
+            _ =&gt; NotFound()
+        };
     }
 
     /// &lt;summary&gt;
-    ///     Updates a given language entry, in the database, with new field(s).
+    ///     Deletes a specified language based on id.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;languageDTO&quot;&gt;A DTO containing updated fields and a valid ID to find the entry in the database&lt;/param&gt;
-    /// &lt;returns&gt;A status indication of how the update went.&lt;/returns&gt;
-    public async Task&lt;Status&gt; UpdateAsync(LanguageDTO languageDTO)
+    [HttpDelete(&quot;{id:int}&quot;)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task&lt;IActionResult&gt; Delete(int id)
     {
-        if (InvalidInput(languageDTO)) return Status.BadRequest;
+        var response = await _languageRepository.DeleteAsync(id);
 
-        var existing = await (from l in _context.Languages
-                where l.Id != languageDTO.Id
-                where l.Name == languageDTO.Name
-                select new LanguageDTO(l.Id, l.Name))
-            .AnyAsync();
-
-        if (existing) return Status.Conflict;
-
-        var entity = await _context.Languages.FindAsync(languageDTO.Id);
-
-        if (entity == null) return Status.NotFound;
-
-        entity.Name = languageDTO.Name;
-
-        await _context.SaveChangesAsync();
-
-        return Status.Updated;
-    }
-
-    /// &lt;summary&gt;Validates the input.&lt;/summary&gt;
-    /// &lt;param name=&quot;language&quot;&gt;The language.&lt;/param&gt;
-    /// &lt;returns&gt;
-    ///     &lt;c&gt;true&lt;/c&gt; if input is valid, &lt;c&gt;false&lt;/c&gt; otherwise.
-    /// &lt;/returns&gt;
-    private static bool InvalidInput(CreateLanguageDTO language)
-    {
-        return language.Name.Length is &gt; 50 or &gt; 50
-               || string.IsNullOrEmpty(language.Name)
-               || string.IsNullOrEmpty(language.Name)
-               || string.IsNullOrWhiteSpace(language.Name)
-               || string.IsNullOrWhiteSpace(language.Name);
+        if (response == Status.Deleted) return NoContent();
+        return NotFound();
     }
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[21,5,21,48,1],[22,5,22,6,1],[23,9,23,28,1],[24,5,24,6,1],[35,5,35,6,1],[36,9,36,36,1],[36,37,36,100,1],[38,9,41,36,1],[43,9,43,30,1],[43,31,43,66,1],[45,9,45,50,1],[47,9,47,40,1],[49,9,49,43,1],[51,9,51,74,1],[52,5,52,6,1],[60,5,60,6,1],[61,9,61,71,1],[63,9,63,30,1],[63,31,63,54,1],[65,9,65,45,1],[67,9,67,43,1],[69,9,69,31,1],[70,5,70,6,1],[81,5,81,6,1],[82,9,84,50,1],[86,9,86,58,1],[88,9,88,105,1],[89,5,89,6,1],[96,5,96,6,1],[97,9,97,98,1],[98,5,98,6,1],[106,5,106,6,1],[107,9,107,39,1],[107,40,107,65,1],[109,9,113,25,1],[115,9,115,22,1],[115,23,115,46,1],[117,9,117,73,1],[119,9,119,28,1],[119,29,119,52,1],[121,9,121,40,1],[123,9,123,43,1],[125,9,125,31,1],[126,5,126,6,1],[134,5,134,6,1],[135,9,139,60,1],[140,5,140,6,1]]);
+      highlightRanges([[36,5,36,70,1],[37,5,37,6,1],[38,9,38,50,1],[39,5,39,6,1],[47,5,47,6,1],[48,9,48,60,1],[49,9,49,27,1],[50,5,50,6,1],[59,5,59,6,1],[60,9,60,79,1],[62,9,62,38,1],[62,39,62,62,1],[63,9,63,27,1],[64,5,64,6,1],[74,5,74,6,1],[75,9,75,87,1],[77,9,79,31,1],[79,31,79,64,1],[79,64,80,32,1],[80,32,80,42,1],[80,42,81,18,1],[81,18,81,30,1],[81,30,82,11,1],[83,5,83,6,1],[94,5,94,6,1],[95,9,95,72,1],[97,9,99,31,1],[99,31,99,42,1],[99,42,100,32,1],[100,32,100,42,1],[100,42,101,34,1],[101,34,101,46,1],[101,46,102,18,1],[102,18,102,28,1],[102,28,103,11,1],[104,5,104,6,1],[113,5,113,6,1],[114,9,114,66,1],[116,9,116,40,1],[116,41,116,60,1],[117,9,117,27,1],[118,5,118,6,1]]);
     </script>
   </body>
 </html>

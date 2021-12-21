@@ -36,7 +36,6 @@ public class Context : DbContext, IContext
     /// &lt;summary&gt;
     ///     Initializes a new instance of the &lt;see cref=&quot;Context&quot; /&gt; class.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;options&quot;&gt;The options for this context.&lt;/param&gt;
     /// &lt;remarks&gt;
     ///     See &lt;see href=&quot;https://aka.ms/efcore-docs-dbcontext&quot;&gt;DbContext lifetime, configuration, and initialization&lt;/see&gt;
     ///     and
@@ -49,58 +48,38 @@ public class Context : DbContext, IContext
     /// &lt;summary&gt;
     ///     Gets languages.
     /// &lt;/summary&gt;
-    /// &lt;value&gt;The languages.&lt;/value&gt;
     public DbSet&lt;Language&gt; Languages =&gt; Set&lt;Language&gt;();
 
     /// &lt;summary&gt;
     ///     Gets levels.
     /// &lt;/summary&gt;
-    /// &lt;value&gt;The levels.&lt;/value&gt;
     public DbSet&lt;Level&gt; Levels =&gt; Set&lt;Level&gt;();
 
     /// &lt;summary&gt;
     ///     Gets materials.
     /// &lt;/summary&gt;
-    /// &lt;value&gt;The materials.&lt;/value&gt;
     public DbSet&lt;Material&gt; Materials =&gt; Set&lt;Material&gt;();
 
     /// &lt;summary&gt;
     ///     Gets medias.
     /// &lt;/summary&gt;
-    /// &lt;value&gt;The medias.&lt;/value&gt;
     public DbSet&lt;Media&gt; Medias =&gt; Set&lt;Media&gt;();
 
     /// &lt;summary&gt;
     ///     Gets programming languages.
     /// &lt;/summary&gt;
-    /// &lt;value&gt;The programming languages.&lt;/value&gt;
     public DbSet&lt;ProgrammingLanguage&gt; ProgrammingLanguages =&gt; Set&lt;ProgrammingLanguage&gt;();
 
     /// &lt;summary&gt;
     ///     Gets tags.
     /// &lt;/summary&gt;
-    /// &lt;value&gt;The tags.&lt;/value&gt;
     public DbSet&lt;Tag&gt; Tags =&gt; Set&lt;Tag&gt;();
 
     /// &lt;summary&gt;
-    ///     Override this method to further configure the model that was discovered by convention from the entity types
-    ///     exposed in &lt;see cref=&quot;T:Microsoft.EntityFrameworkCore.DbSet`1&quot; /&gt; properties on your derived context. The resulting
-    ///     model may be cached
-    ///     and re-used for subsequent instances of your derived context.
+    ///     Overriden method using a ModelBuilder instance to construct the model for this context.. The resulting
+    ///     model may be cached and re-used for subsequent instances of your derived context.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;modelBuilder&quot;&gt;
-    ///     The builder being used to construct the model for this context. Databases (and other extensions) typically
-    ///     define extension methods on this object that allow you to configure aspects of the model that are specific
-    ///     to a given database.
-    /// &lt;/param&gt;
     /// &lt;remarks&gt;
-    ///     &lt;para&gt;
-    ///         If a model is explicitly set on the options for this context (via
-    ///         &lt;see
-    ///             cref=&quot;M:Microsoft.EntityFrameworkCore.DbContextOptionsBuilder.UseModel(Microsoft.EntityFrameworkCore.Metadata.IModel)&quot; /&gt;
-    ///         )
-    ///         then this method will not be run.
-    ///     &lt;/para&gt;
     ///     &lt;para&gt;
     ///         See &lt;see href=&quot;https://aka.ms/efcore-docs-modeling&quot;&gt;Modeling entity types and relationships&lt;/see&gt; for more
     ///         information.
@@ -163,7 +142,7 @@ public class Context : DbContext, IContext
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[35,48,35,61,1],[36,5,36,6,1],[37,5,37,6,1],[43,41,43,56,1],[49,35,49,47,1],[55,41,55,56,1],[61,35,61,47,1],[67,63,67,89,1],[73,31,73,41,1],[100,5,100,6,1],[101,9,103,25,1],[105,9,107,25,1],[109,9,111,25,1],[113,9,115,13,1],[115,13,115,14,1],[115,14,116,17,1],[116,17,116,59,1],[116,59,117,17,1],[117,17,117,47,1],[117,47,118,17,1],[118,17,118,44,1],[118,44,119,17,1],[119,17,119,48,1],[119,48,120,13,1],[120,13,120,14,1],[120,14,120,16,1],[122,9,124,13,1],[124,13,124,14,1],[124,14,125,17,1],[125,17,125,59,1],[125,59,126,17,1],[126,17,126,47,1],[126,47,127,17,1],[127,17,127,48,1],[127,48,128,17,1],[128,17,128,52,1],[128,52,129,13,1],[129,13,129,14,1],[129,14,129,16,1],[131,9,133,13,1],[133,13,133,14,1],[133,14,134,17,1],[134,17,134,59,1],[134,59,135,17,1],[135,17,135,47,1],[135,47,136,17,1],[136,17,136,49,1],[136,49,137,17,1],[137,17,137,47,1],[137,47,138,17,1],[138,17,138,64,1],[138,64,139,13,1],[139,13,139,14,1],[139,14,139,16,1],[141,9,143,25,1],[145,9,147,25,1],[149,9,151,25,1],[152,5,152,6,1]]);
+      highlightRanges([[34,48,34,61,1],[35,5,35,6,1],[36,5,36,6,1],[41,41,41,56,1],[46,35,46,47,1],[51,41,51,56,1],[56,35,56,47,1],[61,63,61,89,1],[66,31,66,41,1],[79,5,79,6,1],[80,9,82,25,1],[84,9,86,25,1],[88,9,90,25,1],[92,9,94,13,1],[94,13,94,14,1],[94,14,95,17,1],[95,17,95,59,1],[95,59,96,17,1],[96,17,96,47,1],[96,47,97,17,1],[97,17,97,44,1],[97,44,98,17,1],[98,17,98,48,1],[98,48,99,13,1],[99,13,99,14,1],[99,14,99,16,1],[101,9,103,13,1],[103,13,103,14,1],[103,14,104,17,1],[104,17,104,59,1],[104,59,105,17,1],[105,17,105,47,1],[105,47,106,17,1],[106,17,106,48,1],[106,48,107,17,1],[107,17,107,52,1],[107,52,108,13,1],[108,13,108,14,1],[108,14,108,16,1],[110,9,112,13,1],[112,13,112,14,1],[112,14,113,17,1],[113,17,113,59,1],[113,59,114,17,1],[114,17,114,47,1],[114,47,115,17,1],[115,17,115,49,1],[115,49,116,17,1],[116,17,116,47,1],[116,47,117,17,1],[117,17,117,64,1],[117,64,118,13,1],[118,13,118,14,1],[118,14,118,16,1],[120,9,122,25,1],[124,9,126,25,1],[128,9,130,25,1],[131,5,131,6,1]]);
     </script>
   </body>
 </html>

@@ -30,26 +30,19 @@ namespace WebService.Infrastructure;
 /// &lt;/summary&gt;
 /// &lt;seealso cref=&quot;WebService.Core.Shared.IMediaRepository&quot; /&gt;
 public class MediaRepository : IMediaRepository
-{
-    /// &lt;summary&gt;
-    ///     The context
-    /// &lt;/summary&gt;
-    private readonly IContext _context;
+{    private readonly IContext _context;
 
     /// &lt;summary&gt;
     ///     Initializes a new instance of the &lt;see cref=&quot;MediaRepository&quot; /&gt; class.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;context&quot;&gt;The context.&lt;/param&gt;
     public MediaRepository(IContext context)
     {
         _context = context;
     }
 
     /// &lt;summary&gt;
-    ///     Create a media asynchronously.
+    ///     Create a new media asynchronously.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;media&quot;&gt;The media.&lt;/param&gt;
-    /// &lt;returns&gt;A Task&amp;lt;System.ValueTuple&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
     public async Task&lt;(Status, MediaDTO)&gt; CreateAsync(CreateMediaDTO media)
     {
         if (InvalidInput(media)) return (Status.BadRequest, new MediaDTO(-1, media.Name));
@@ -71,10 +64,8 @@ public class MediaRepository : IMediaRepository
     }
 
     /// &lt;summary&gt;
-    ///     Delete a media asynchronously.
+    ///     Delete a media based on id asynchronously.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;mediaId&quot;&gt;The media identifier.&lt;/param&gt;
-    /// &lt;returns&gt;A Task&amp;lt;Status&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
     public async Task&lt;Status&gt; DeleteAsync(int mediaId)
     {
         var media = await _context.Medias.FindAsync(mediaId);
@@ -89,10 +80,8 @@ public class MediaRepository : IMediaRepository
     }
 
     /// &lt;summary&gt;
-    ///     Read a media asynchronously and returns a http status.
+    ///     Read a media asynchronously based on id and return it along with an http status.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;mediaId&quot;&gt;The media identifier.&lt;/param&gt;
-    /// &lt;returns&gt;A Task&amp;lt;System.ValueTuple&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
     public async Task&lt;(Status, MediaDTO)&gt; ReadAsync(int mediaId)
     {
         var query = from m in _context.Medias
@@ -107,17 +96,14 @@ public class MediaRepository : IMediaRepository
     /// &lt;summary&gt;
     ///     Reads all medias asynchronously.
     /// &lt;/summary&gt;
-    /// &lt;returns&gt;A Task&amp;lt;IReadOnlyCollection`1&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
     public async Task&lt;IReadOnlyCollection&lt;MediaDTO&gt;&gt; ReadAsync()
     {
         return await _context.Medias.Select(m =&gt; new MediaDTO(m.Id, m.Name)).ToListAsync();
     }
 
     /// &lt;summary&gt;
-    ///     Update a media asynchronously.
+    ///     Update a given media asynchronously.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;mediaDTO&quot;&gt;The media dto.&lt;/param&gt;
-    /// &lt;returns&gt;A Task&amp;lt;Status&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
     public async Task&lt;Status&gt; UpdateAsync(MediaDTO mediaDTO)
     {
         if (InvalidInput(mediaDTO)) return Status.BadRequest;
@@ -142,10 +128,8 @@ public class MediaRepository : IMediaRepository
     }
 
     /// &lt;summary&gt;
-    ///     Validates the input.
+    ///     Validates the input media with gegards to validity of its name.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;media&quot;&gt;The media.&lt;/param&gt;
-    /// &lt;returns&gt;&lt;c&gt;true&lt;/c&gt; if the input is valid, &lt;c&gt;false&lt;/c&gt; otherwise.&lt;/returns&gt;
     private static bool InvalidInput(CreateMediaDTO media)
     {
         return media.Name.Length is &gt; 50 or &gt; 50
@@ -157,7 +141,7 @@ public class MediaRepository : IMediaRepository
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[33,5,33,45,1],[34,5,34,6,1],[35,9,35,28,1],[36,5,36,6,1],[44,5,44,6,1],[45,9,45,33,1],[45,34,45,91,1],[47,9,50,36,1],[52,9,52,30,1],[52,31,52,66,1],[54,9,54,44,1],[56,9,56,37,1],[58,9,58,43,1],[60,9,60,71,1],[61,5,61,6,1],[69,5,69,6,1],[70,9,70,62,1],[72,9,72,27,1],[72,28,72,51,1],[74,9,74,39,1],[76,9,76,43,1],[78,9,78,31,1],[79,5,79,6,1],[87,5,87,6,1],[88,9,90,47,1],[92,9,92,58,1],[94,9,94,102,1],[95,5,95,6,1],[102,5,102,6,1],[103,9,103,92,1],[104,5,104,6,1],[112,5,112,6,1],[113,9,113,36,1],[113,37,113,62,1],[115,9,119,25,1],[121,9,121,22,1],[121,23,121,46,1],[123,9,123,67,1],[125,9,125,28,1],[125,29,125,52,1],[127,9,127,37,1],[129,9,129,43,1],[131,9,131,31,1],[132,5,132,6,1],[140,5,140,6,1],[141,9,145,57,1],[146,5,146,6,1]]);
+      highlightRanges([[28,5,28,45,1],[29,5,29,6,1],[30,9,30,28,1],[31,5,31,6,1],[37,5,37,6,1],[38,9,38,33,1],[38,34,38,91,1],[40,9,43,36,1],[45,9,45,30,1],[45,31,45,66,1],[47,9,47,44,1],[49,9,49,37,1],[51,9,51,43,1],[53,9,53,71,1],[54,5,54,6,1],[60,5,60,6,1],[61,9,61,62,1],[63,9,63,27,1],[63,28,63,51,1],[65,9,65,39,1],[67,9,67,43,1],[69,9,69,31,1],[70,5,70,6,1],[76,5,76,6,1],[77,9,79,47,1],[81,9,81,58,1],[83,9,83,102,1],[84,5,84,6,1],[90,5,90,6,1],[91,9,91,92,1],[92,5,92,6,1],[98,5,98,6,1],[99,9,99,36,1],[99,37,99,62,1],[101,9,105,25,1],[107,9,107,22,1],[107,23,107,46,1],[109,9,109,67,1],[111,9,111,28,1],[111,29,111,52,1],[113,9,113,37,1],[115,9,115,43,1],[117,9,117,31,1],[118,5,118,6,1],[124,5,124,6,1],[125,9,129,57,1],[130,5,130,6,1]]);
     </script>
   </body>
 </html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\andre\Source\School\BDSA2021-FinalProject\WebService.Core\Server\Controllers\SearchController.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+// ***********************************************************************
+// Assembly         : WebService.Core.Server
+// Author           : Group BTG
+// Created          : 12-03-2021
+//
+// Last Modified By : Group BTG
+// Last Modified On : 12-14-2021
+// ***********************************************************************
+// &lt;copyright file=&quot;SearchController.cs&quot; company=&quot;BTG&quot;&gt;
+//     Copyright (c) . All rights reserved.
+// &lt;/copyright&gt;
+// &lt;summary&gt;&lt;/summary&gt;
+// ***********************************************************************
+
+namespace WebService.Core.Server.Controllers;
+
+/// &lt;summary&gt;
+///     Class SearchController.
+///     Implements the &lt;see cref=&quot;Microsoft.AspNetCore.Mvc.ControllerBase&quot; /&gt;
+/// &lt;/summary&gt;
+/// &lt;seealso cref=&quot;Microsoft.AspNetCore.Mvc.ControllerBase&quot; /&gt;
+[Authorize]
+[ApiController]
+[Route(&quot;[controller]&quot;)]
+[RequiredScope(RequiredScopesConfigurationKey = &quot;AzureAd:Scopes&quot;)]
+public class SearchController : ControllerBase
+{
+    /// &lt;summary&gt;
+    ///     The search controller
+    /// &lt;/summary&gt;
+    private readonly ISearch _search;
+
+    /// &lt;summary&gt;
+    ///     Initializes a new instance of the &lt;see cref=&quot;SearchController&quot; /&gt; class.
+    /// &lt;/summary&gt;
+    public SearchController(ISearch search)
+    {
+        _search = search;
+    }
+
+    /// &lt;summary&gt;
+    ///     Posts the specified search form and gets all material matching it using the search algorithm
+    /// &lt;/summary&gt;
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task&lt;ActionResult&lt;ICollection&lt;MaterialDTO&gt;&gt;&gt; Post(SearchForm searchForm)
+    {
+        var (response, materialDTOs) = await _search.Search(searchForm);
+
+        if (response == Status.Found) return Ok(materialDTOs);
+        return NotFound();
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[36,5,36,44,1],[37,5,37,6,1],[38,9,38,26,1],[39,5,39,6,1],[48,5,48,6,1],[49,9,49,73,1],[51,9,51,38,1],[51,39,51,63,1],[52,9,52,27,1],[53,5,53,6,1]]);
+    </script>
+  </body>
+</html>

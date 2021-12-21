@@ -26,30 +26,24 @@ namespace WebService.Infrastructure;
 
 /// &lt;summary&gt;
 ///     Class ProgrammingLanguageRepository.
-///     Implements the &lt;see cref=&quot;WebService.Core.Shared.IProgrammingLanguageRepository&quot; /&gt;
+///     Implements the &lt;see cref=&quot;WebService.Core.Shared.IProgrammingLanguageRepository&quot; /&gt; interface
 /// &lt;/summary&gt;
 /// &lt;seealso cref=&quot;WebService.Core.Shared.IProgrammingLanguageRepository&quot; /&gt;
 public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
 {
-    /// &lt;summary&gt;
-    ///     The context
-    /// &lt;/summary&gt;
     private readonly IContext _context;
 
     /// &lt;summary&gt;
     ///     Initializes a new instance of the &lt;see cref=&quot;ProgrammingLanguageRepository&quot; /&gt; class.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;context&quot;&gt;The context.&lt;/param&gt;
     public ProgrammingLanguageRepository(IContext context)
     {
         _context = context;
     }
 
     /// &lt;summary&gt;
-    ///     Creates a programming language asynchronously.
+    ///     Creates a new programming language asynchronously.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;programmingLanguage&quot;&gt;The programming language.&lt;/param&gt;
-    /// &lt;returns&gt;A Task&amp;lt;System.ValueTuple&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
     public async Task&lt;(Status, ProgrammingLanguageDTO)&gt; CreateAsync(CreateProgrammingLanguageDTO programmingLanguage)
     {
         if (InvalidInput(programmingLanguage))
@@ -72,10 +66,8 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     }
 
     /// &lt;summary&gt;
-    ///     Deletes a programming language asynchronously.
+    ///     Deletes a programming language based on id asynchronously.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;programmingLanguageId&quot;&gt;The programming language identifier.&lt;/param&gt;
-    /// &lt;returns&gt;A Task&amp;lt;Status&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
     public async Task&lt;Status&gt; DeleteAsync(int programmingLanguageId)
     {
         var language = await _context.ProgrammingLanguages.FindAsync(programmingLanguageId);
@@ -90,10 +82,8 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     }
 
     /// &lt;summary&gt;
-    ///     Reads a programming language asynchronously and a http status.
+    ///     Reads a programming language based on id asynchronously and returns it with an http status.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;programmingLanguageId&quot;&gt;The programming language identifier.&lt;/param&gt;
-    /// &lt;returns&gt;A Task&amp;lt;System.ValueTuple&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
     public async Task&lt;(Status, ProgrammingLanguageDTO)&gt; ReadAsync(int programmingLanguageId)
     {
         var query = from l in _context.ProgrammingLanguages
@@ -108,17 +98,14 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     /// &lt;summary&gt;
     ///     Reads all programming languages asynchronously.
     /// &lt;/summary&gt;
-    /// &lt;returns&gt;A Task&amp;lt;IReadOnlyCollection`1&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
     public async Task&lt;IReadOnlyCollection&lt;ProgrammingLanguageDTO&gt;&gt; ReadAsync()
     {
         return await _context.ProgrammingLanguages.Select(l =&gt; new ProgrammingLanguageDTO(l.Id, l.Name)).ToListAsync();
     }
 
     /// &lt;summary&gt;
-    ///     Update a programming language asynchronously.
+    ///     Updates an existing programming language asynchronously.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;programmingProgrammingLanguageDTO&quot;&gt;The programming programming language dto.&lt;/param&gt;
-    /// &lt;returns&gt;A Task&amp;lt;Status&amp;gt; representing the asynchronous operation.&lt;/returns&gt;
     public async Task&lt;Status&gt; UpdateAsync(ProgrammingLanguageDTO programmingProgrammingLanguageDTO)
     {
         if (InvalidInput(programmingProgrammingLanguageDTO)) return Status.BadRequest;
@@ -143,10 +130,8 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
     }
 
     /// &lt;summary&gt;
-    ///     Validates the input.
+    ///     Validates the input programming language with regards to validity of its name.
     /// &lt;/summary&gt;
-    /// &lt;param name=&quot;programmingLanguage&quot;&gt;The programming language.&lt;/param&gt;
-    /// &lt;returns&gt;&lt;c&gt;true&lt;/c&gt; if the input is valid, &lt;c&gt;false&lt;/c&gt; otherwise.&lt;/returns&gt;
     private static bool InvalidInput(CreateProgrammingLanguageDTO programmingLanguage)
     {
         return programmingLanguage.Name.Length is &gt; 50 or &gt; 50
@@ -158,7 +143,7 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[33,5,33,59,1],[34,5,34,6,1],[35,9,35,28,1],[36,5,36,6,1],[44,5,44,6,1],[45,9,45,47,1],[46,13,46,98,1],[48,9,51,36,1],[53,9,53,30,1],[53,31,53,66,1],[55,9,55,72,1],[57,9,57,51,1],[59,9,59,43,1],[61,9,61,85,1],[62,5,62,6,1],[70,5,70,6,1],[71,9,71,93,1],[73,9,73,30,1],[73,31,73,54,1],[75,9,75,56,1],[77,9,77,43,1],[79,9,79,31,1],[80,5,80,6,1],[88,5,88,6,1],[89,9,91,61,1],[93,9,93,58,1],[95,9,95,116,1],[96,5,96,6,1],[103,5,103,6,1],[104,9,104,120,1],[105,5,105,6,1],[113,5,113,6,1],[114,9,114,61,1],[114,62,114,87,1],[116,9,120,25,1],[122,9,122,22,1],[122,23,122,46,1],[124,9,124,106,1],[126,9,126,28,1],[126,29,126,52,1],[128,9,128,62,1],[130,9,130,43,1],[132,9,132,31,1],[133,5,133,6,1],[141,5,141,6,1],[142,9,146,71,1],[147,5,147,6,1]]);
+      highlightRanges([[29,5,29,59,1],[30,5,30,6,1],[31,9,31,28,1],[32,5,32,6,1],[38,5,38,6,1],[39,9,39,47,1],[40,13,40,98,1],[42,9,45,36,1],[47,9,47,30,1],[47,31,47,66,1],[49,9,49,72,1],[51,9,51,51,1],[53,9,53,43,1],[55,9,55,85,1],[56,5,56,6,1],[62,5,62,6,1],[63,9,63,93,1],[65,9,65,30,1],[65,31,65,54,1],[67,9,67,56,1],[69,9,69,43,1],[71,9,71,31,1],[72,5,72,6,1],[78,5,78,6,1],[79,9,81,61,1],[83,9,83,58,1],[85,9,85,116,1],[86,5,86,6,1],[92,5,92,6,1],[93,9,93,120,1],[94,5,94,6,1],[100,5,100,6,1],[101,9,101,61,1],[101,62,101,87,1],[103,9,107,25,1],[109,9,109,22,1],[109,23,109,46,1],[111,9,111,106,1],[113,9,113,28,1],[113,29,113,52,1],[115,9,115,62,1],[117,9,117,43,1],[119,9,119,31,1],[120,5,120,6,1],[126,5,126,6,1],[127,9,131,71,1],[132,5,132,6,1]]);
     </script>
   </body>
 </html>

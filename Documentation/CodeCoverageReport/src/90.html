@@ -38,20 +38,7 @@ public class Material
     {
     }
 
-    /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Entities.Material&quot; /&gt; class.&lt;/summary&gt;
-    /// &lt;param name=&quot;id&quot;&gt;The identifier.&lt;/param&gt;
-    /// &lt;param name=&quot;weightedTags&quot;&gt;The weighted tags.&lt;/param&gt;
-    /// &lt;param name=&quot;ratings&quot;&gt;The ratings.&lt;/param&gt;
-    /// &lt;param name=&quot;levels&quot;&gt;The levels.&lt;/param&gt;
-    /// &lt;param name=&quot;programmingLanguages&quot;&gt;The programming languages.&lt;/param&gt;
-    /// &lt;param name=&quot;medias&quot;&gt;The medias.&lt;/param&gt;
-    /// &lt;param name=&quot;language&quot;&gt;The language.&lt;/param&gt;
-    /// &lt;param name=&quot;summary&quot;&gt;The summary.&lt;/param&gt;
-    /// &lt;param name=&quot;url&quot;&gt;The URL.&lt;/param&gt;
-    /// &lt;param name=&quot;content&quot;&gt;The content.&lt;/param&gt;
-    /// &lt;param name=&quot;title&quot;&gt;The title.&lt;/param&gt;
-    /// &lt;param name=&quot;authors&quot;&gt;The authors.&lt;/param&gt;
-    /// &lt;param name=&quot;timeStamp&quot;&gt;The time stamp.&lt;/param&gt;
+    /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Entities.Material&quot; /&gt; class including id.&lt;/summary&gt;
     public Material(int id, ICollection&lt;WeightedTag&gt; weightedTags, ICollection&lt;Rating&gt; ratings,
         ICollection&lt;Level&gt; levels, ICollection&lt;ProgrammingLanguage&gt; programmingLanguages, ICollection&lt;Media&gt; medias,
         Language language, string summary, string url, string content, string title, ICollection&lt;Author&gt; authors,
@@ -73,18 +60,6 @@ public class Material
     }
 
     /// &lt;summary&gt;Initializes a new instance of the &lt;see cref=&quot;T:WebService.Entities.Material&quot; /&gt; class.&lt;/summary&gt;
-    /// &lt;param name=&quot;weightedTags&quot;&gt;The weighted tags.&lt;/param&gt;
-    /// &lt;param name=&quot;ratings&quot;&gt;The ratings.&lt;/param&gt;
-    /// &lt;param name=&quot;levels&quot;&gt;The levels.&lt;/param&gt;
-    /// &lt;param name=&quot;programmingLanguages&quot;&gt;The programming languages.&lt;/param&gt;
-    /// &lt;param name=&quot;medias&quot;&gt;The medias.&lt;/param&gt;
-    /// &lt;param name=&quot;language&quot;&gt;The language.&lt;/param&gt;
-    /// &lt;param name=&quot;summary&quot;&gt;The summary.&lt;/param&gt;
-    /// &lt;param name=&quot;url&quot;&gt;The URL.&lt;/param&gt;
-    /// &lt;param name=&quot;content&quot;&gt;The content.&lt;/param&gt;
-    /// &lt;param name=&quot;title&quot;&gt;The title.&lt;/param&gt;
-    /// &lt;param name=&quot;authors&quot;&gt;The authors.&lt;/param&gt;
-    /// &lt;param name=&quot;timeStamp&quot;&gt;The time stamp.&lt;/param&gt;
     public Material(ICollection&lt;WeightedTag&gt; weightedTags, ICollection&lt;Rating&gt; ratings, ICollection&lt;Level&gt; levels,
         ICollection&lt;ProgrammingLanguage&gt; programmingLanguages, ICollection&lt;Media&gt; medias, Language language,
         string summary, string url, string content, string title, ICollection&lt;Author&gt; authors, DateTime timeStamp)
@@ -123,7 +98,7 @@ public class Material
 }
     </pre>
     <script type="text/javascript">
-      highlightRanges([[26,5,26,22,1],[28,5,28,6,1],[29,5,29,6,1],[45,5,48,28,1],[49,5,49,6,1],[50,9,50,17,1],[51,9,51,37,1],[52,9,52,27,1],[53,9,53,25,1],[54,9,54,53,1],[55,9,55,25,1],[56,9,56,29,1],[57,9,57,27,1],[58,9,58,19,1],[59,9,59,27,1],[60,9,60,23,1],[61,9,61,27,1],[62,9,62,31,1],[63,5,63,6,1],[78,5,80,115,1],[81,5,81,6,1],[82,9,82,37,1],[83,9,83,27,1],[84,9,84,25,1],[85,9,85,53,1],[86,9,86,25,1],[87,9,87,29,1],[88,9,88,27,1],[89,9,89,19,1],[90,9,90,27,1],[91,9,91,23,1],[92,9,92,27,1],[93,9,93,31,1],[94,5,94,6,1],[96,21,96,25,1],[96,26,96,30,1],[97,52,97,56,1],[97,57,97,61,1],[98,42,98,46,1],[98,47,98,51,1],[99,40,99,44,1],[99,45,99,49,1],[100,68,100,72,1],[100,73,100,77,1],[101,40,101,44,1],[101,45,101,49,1],[102,32,102,36,1],[102,37,102,41,1],[104,49,104,53,1],[104,54,104,58,1],[106,25,106,29,1],[106,30,106,34,1],[107,29,107,33,1],[107,34,107,38,1],[109,46,109,50,1],[109,51,109,55,1],[111,42,111,46,1],[111,47,111,51,1],[112,33,112,37,1],[112,38,112,42,1]]);
+      highlightRanges([[26,5,26,22,1],[28,5,28,6,1],[29,5,29,6,1],[32,5,35,28,1],[36,5,36,6,1],[37,9,37,17,1],[38,9,38,37,1],[39,9,39,27,1],[40,9,40,25,1],[41,9,41,53,1],[42,9,42,25,1],[43,9,43,29,1],[44,9,44,27,1],[45,9,45,19,1],[46,9,46,27,1],[47,9,47,23,1],[48,9,48,27,1],[49,9,49,31,1],[50,5,50,6,1],[53,5,55,115,1],[56,5,56,6,1],[57,9,57,37,1],[58,9,58,27,1],[59,9,59,25,1],[60,9,60,53,1],[61,9,61,25,1],[62,9,62,29,1],[63,9,63,27,1],[64,9,64,19,1],[65,9,65,27,1],[66,9,66,23,1],[67,9,67,27,1],[68,9,68,31,1],[69,5,69,6,1],[71,21,71,25,1],[71,26,71,30,1],[72,52,72,56,1],[72,57,72,61,1],[73,42,73,46,1],[73,47,73,51,1],[74,40,74,44,1],[74,45,74,49,1],[75,68,75,72,1],[75,73,75,77,1],[76,40,76,44,1],[76,45,76,49,1],[77,32,77,36,1],[77,37,77,41,1],[79,49,79,53,1],[79,54,79,58,1],[81,25,81,29,1],[81,30,81,34,1],[82,29,82,33,1],[82,34,82,38,1],[84,46,84,50,1],[84,51,84,55,1],[86,42,86,46,1],[86,47,86,51,1],[87,33,87,37,1],[87,38,87,42,1]]);
     </script>
   </body>
 </html>
