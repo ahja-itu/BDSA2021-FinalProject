@@ -14,6 +14,10 @@ In order to run this project, you need to have the following pieces of software 
 
 This project has only been tested to work completely, mostly when also considering the PowerShell scripts, on Windows and you are adviced to run this off Windows too.
 
+## Project publications
+
+- To view the latest published code coverage report click [here](https://andreaswachs.github.io/BDSA2021-FinalProject/Documentation/CodeCoverageReport.html).
+- To view the latest published code metrics analysis click [here](https://andreaswachs.github.io/BDSA2021-FinalProject/Documentation/CodeMetrics.xlsx)
 
 ## Run the project
 
@@ -70,6 +74,7 @@ It is currently not fully compatible with C# 8+, so some diagrams are not correc
 To be able to work with PlantUML files, you need to install the PlantUML jar file to your system and various dependencies. You can read a guide on installing PlantUML on your local system [here](https://plantuml.com/starting).
 
 To work with the documentation, you need to change directory from the root folder to `.\Documentation\UML`.
+
 
 ### Create PUML files
 
