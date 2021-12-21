@@ -1,4 +1,7 @@
 # BDSA2021-FinalProject
+
+[![.NET](https://github.com/andreaswachs/BDSA2021-FinalProject/actions/workflows/unit_tests_on_push.yml/badge.svg)](https://github.com/andreaswachs/BDSA2021-FinalProject/actions/workflows/unit_tests_on_push.yml)
+
 This is the final project for the BDSA2021 course at ITU.
 
 The vertical slice of this project is to provide the ability for users to search for software engineering training material. The main feature of this project is the search functionality that matches the users search input to the material contained in the database.
