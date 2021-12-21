@@ -15,10 +15,10 @@ function Get-UrlStatusCode([string] $Url)
 
 function PollServer()
 {
-    Get-UrlStatusCode "https://localhost:7213"
+    Get-UrlStatusCode "https://localhost:7213/material/1"
 }
 
-while (PollServer -ne 200)
+while (PollServer -ne 401)
 {
     Start-Sleep -Seconds 5
 }
