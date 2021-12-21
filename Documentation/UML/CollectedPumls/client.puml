@@ -1,10 +1,11 @@
 @startuml
 !theme plain
+allow_mixing
 left to right direction
-package WebService.Core.Client {
-    class Program { }
-    component Pages {}
-}
 
+package WebService.Core.Client {
+    class Program
+    package Pages
+}
 
 @enduml
